@@ -1,0 +1,106 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.diamond</groupId>
+	<artifactId>uk.ac.diamond.ispyb</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
+	<modules>
+		<module>uk.ac.diamond.ispyb.api</module>
+		<module>uk.ac.diamond.ispyb.jdbc</module>
+		<module>uk.ac.diamond.ispyb.test</module>
+	</modules>
+
+	<properties>
+		<tycho-version>0.24.0</tycho-version>
+	</properties>
+	
+	<dependencies>
+	    <dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <version>4.11</version>
+	      <scope>test</scope>
+	    </dependency>
+    </dependencies>
+        
+    <build>
+      <plugins>
+		<plugin>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>tycho-maven-plugin</artifactId>
+			<version>${tycho-version}</version>
+			<extensions>true</extensions>
+		</plugin>
+		
+		<plugin>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>tycho-p2-repository-plugin</artifactId>
+			<version>${tycho-version}</version>
+			<configuration>
+				<includeAllDependencies>false</includeAllDependencies>
+			</configuration>
+		</plugin>
+		
+        <!-- This configures the target platform and the supported architectures. -->
+		<plugin>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>target-platform-configuration</artifactId>
+			<version>${tycho-version}</version>
+			<configuration>
+				<environments>
+					<environment>
+						<os>linux</os>
+						<ws>gtk</ws>
+						<arch>x86_64</arch>
+					</environment>
+					<target>
+						<artifact>
+							<groupId>org.eclipse</groupId>
+							<artifactId>uk.ac.diamond.ispyb.target</artifactId>
+							<version>1.0.0-SNAPSHOT</version>
+						</artifact>
+					</target>
+				</environments>
+			</configuration>
+		</plugin>
+		   
+		<!--  Can run tests with 'mvn clean compile surefire:test -D -->       
+        <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>2.19.1</version>
+			<configuration>
+                <testSourceDirectory>${basedir}/src</testSourceDirectory>
+                <testClassesDirectory>${basedir}/bin</testClassesDirectory>
+	            <excludes>
+	              <exclude>**repository/*</exclude>
+				  <exclude>org/eclipse/richbeans/**</exclude>
+				  <exclude>org/eclipse/dawnsci/**</exclude>
+	            </excludes>
+           		<includes>
+		          <include>${test.includes}</include>
+			    </includes>
+			</configuration>
+  		  </plugin>   
+  		            
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.10.3</version>
+            <configuration>
+                <reportOutputDirectory>./</reportOutputDirectory>
+                <destDir>../javadoc</destDir>
+                <failOnError>false</failOnError>
+            </configuration>
+          </plugin>
+      </plugins>
+   </build>
+   
+    
+ </project>
