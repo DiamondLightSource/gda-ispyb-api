@@ -1,8 +1,11 @@
 Manifest-Version: 1.0
 Eclipse-BuddyPolicy: global
 Bundle-ManifestVersion: 2
-Bundle-Name: Api
+Bundle-Name: ISPyB API
 Bundle-SymbolicName: uk.ac.diamond.ispyb.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: uk.ac.diamond.ispyb.api
+Require-Bundle: org.apache.servicemix.bundles.spring-core;bundle-version="4.0.6",
+ org.apache.servicemix.bundles.spring-tx;bundle-version="4.0.6"
