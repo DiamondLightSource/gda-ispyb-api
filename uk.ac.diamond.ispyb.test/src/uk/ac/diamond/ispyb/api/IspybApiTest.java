@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -29,8 +30,9 @@ public class IspybApiTest {
 	public void shouldRetrieveContainerInfo() throws SQLException {
 		String dbInit = "INIT=CREATE SCHEMA ispyb\\; CREATE ALIAS ispyb.retrieve_container_info AS " + REVERSE;
 		IspybApi api = new IspybDaoFactory().build("jdbc:h2:mem:test;" + dbInit, Optional.empty(), Optional.empty());
-		
-		assertThat(api.retrieveContainerInfo("12345"), is(equalTo("54321")));		
+
+		Map<String, Object> map = api.retrieveContainerInfo("12345");
+		assertThat(map.get("ISPYB.RETRIEVE_CONTAINER_INFO(?1)"), is(equalTo("54321")));		
 		
 		api.closeConnection();
 	}

@@ -8,4 +8,5 @@ Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Fragment-Host: uk.ac.diamond.ispyb.jdbc
 Require-Bundle: org.junit;bundle-version="4.12.0",
- org.apache.commons.logging;bundle-version="1.1.1"
+ org.apache.commons.logging;bundle-version="1.1.1",
+ org.h2;bundle-version="1.4.192"
