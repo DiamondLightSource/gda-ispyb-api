@@ -12,7 +12,7 @@ public class ContainerInfo {
 	private String location;
 	private String imagerName;
 	private String imagerSerialNumber;
-	private String status;
+	private ContainerStatus status;
 	private long capacity;
 	private float storageTemperature;
 	
@@ -127,7 +127,7 @@ public class ContainerInfo {
 	/**
 	 * @return container staus
 	 */
-	public String getStatus() {
+	public ContainerStatus getStatus() {
 		return status;
 	}
 
@@ -136,7 +136,7 @@ public class ContainerInfo {
 	 * @param imagerName
 	 */
 	public void setStatus_v(String status) {
-		this.status = status;
+		this.status = ContainerStatus.convert(status);
 	}
 
 	/**
