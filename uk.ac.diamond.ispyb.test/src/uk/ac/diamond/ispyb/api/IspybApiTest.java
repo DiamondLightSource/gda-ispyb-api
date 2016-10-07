@@ -31,7 +31,7 @@ public class IspybApiTest {
 		}
 	}
 
-	private static final String REVERSE = "$$ String reverse(String s) { return new StringBuilder(s).reverse().toString()\\; } $$";
+	private static final String REVERSE = "$$ Long reverse(String s) { return Long.valueOf(new StringBuilder(s).reverse().toString())\\; } $$";
 
 	@Test
 	public void shouldCreateApi() throws SQLException {
@@ -44,12 +44,12 @@ public class IspybApiTest {
 	}
 
 	@Test
-	public void shouldRetrieveContainerInfo() throws SQLException {
-		String dbInit = "INIT=CREATE SCHEMA ispyb\\; CREATE ALIAS ispyb.retrieve_container_info AS " + REVERSE;
+	public void shouldRetrieveContainerLsPosition() throws SQLException {
+		String dbInit = "INIT=CREATE SCHEMA ispyb\\; CREATE ALIAS ispyb.retrieve_container_ls_position AS " + REVERSE;
 		IspybApi api = new IspybDaoFactory().build("jdbc:h2:mem:test;" + dbInit, Optional.empty(), Optional.empty());
 
-		Map<String, Object> map = api.retrieveContainerInfo("12345");
-		assertThat(map.get("ISPYB.RETRIEVE_CONTAINER_INFO(?1)"), is(equalTo("54321")));		
+		int pos = api.retrieveContainerLsPosition("12345");
+		assertThat(pos, is(equalTo(54321)));
 		
 		api.closeConnection();
 	}

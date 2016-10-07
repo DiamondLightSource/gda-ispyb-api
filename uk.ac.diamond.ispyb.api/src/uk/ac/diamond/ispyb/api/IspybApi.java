@@ -1,13 +1,12 @@
 package uk.ac.diamond.ispyb.api;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
 public interface IspybApi {
-	List<String> retrieveContainerLsPosition(String barcode) throws DataAccessException;
+	int retrieveContainerLsPosition(String barcode) throws DataAccessException;
 
 	Map<String, Object> retrieveContainerInfo(String barcode) throws DataAccessException;
 
