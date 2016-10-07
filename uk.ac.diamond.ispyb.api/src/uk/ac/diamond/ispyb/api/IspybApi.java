@@ -8,7 +8,7 @@ import org.springframework.dao.DataAccessException;
 public interface IspybApi {
 	int retrieveContainerLsPosition(String barcode) throws DataAccessException;
 
-	Map<String, Object> retrieveContainerInfo(String barcode) throws DataAccessException;
+	ContainerInfo retrieveContainerInfo(String barcode) throws DataAccessException;
 
 	// TODO do this return anything?
 	String updateContainerLsPosition(String barcode, int position) throws DataAccessException;

@@ -80,15 +80,15 @@ public class IspybApiTest {
 		IspybApi api = new IspybDaoFactory().build(properties.getProperty("url"), properties);
 		
 //		assertThat(api.retrieveContainerInfo("12345"), is(equalTo("54321")));
-		Map<String, Object> map = api.retrieveContainerInfo("test_plate2");
-		System.out.println(map);
+		ContainerInfo info = api.retrieveContainerInfo("test_plate2");
+		System.out.println(info);
 		
 		System.out.println(api.retrieveContainerLsPosition("test_plate2"));
 //		System.out.println(api.retrieveContainerLsQueue("test_plate2"));
 
 //		System.out.println(api.retrieveContainerQueueTimestamp("test_plate2"));
 
-		map = api.retrieveContainerSubsamples("test_plate2");
+		Map<String, Object> map = api.retrieveContainerSubsamples("test_plate2");
 		System.out.println(map);
 //		System.out.println(api.retrieveContainersSubmittedNonLs("test_plate2"));
 

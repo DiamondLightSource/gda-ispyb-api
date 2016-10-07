@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.StringUtils;
 
+import uk.ac.diamond.ispyb.api.ContainerInfo;
 import uk.ac.diamond.ispyb.api.IspybApi;
 
 public class IspybDAO implements IspybApi{
@@ -20,13 +22,17 @@ public class IspybDAO implements IspybApi{
 	}
 
 	@Override
-	public List<String> retrieveContainerLsPosition(String barcode) throws DataAccessException{
-		return callIspybForList("retrieve_container_ls_position", String.class, barcode);
+	public int retrieveContainerLsPosition(String barcode) throws DataAccessException {
+		List<Long> list = callIspybForList("retrieve_container_ls_position", Long.class, barcode);
+		if (list.size() > 0) {
+			return list.get(0).intValue();
+		}
+		return -1;
 	}
 
 	@Override
-	public Map<String, Object> retrieveContainerInfo(String barcode) throws DataAccessException{
-		return callIspybForMap("retrieve_container_info", barcode);
+	public ContainerInfo retrieveContainerInfo(String barcode) throws DataAccessException{
+		return callIspybForBean("retrieve_container_info", ContainerInfo.class, barcode);
 	}
 
 	@Override
@@ -85,6 +91,10 @@ public class IspybDAO implements IspybApi{
 
 	private <T> T callIspyb(String procedure, Class<T> clazz, Object... params){
 		return template.queryForObject(buildQuery(procedure, params), params, clazz);
+	}
+
+	private <T> T callIspybForBean(String procedure, Class<T> clazz, Object... params){
+		return template.queryForObject(buildQuery(procedure, params), params, new BeanPropertyRowMapper<>(clazz));
 	}
 
 	private String buildQuery(String procedure, Object... params) {
