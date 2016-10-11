@@ -8,7 +8,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -31,7 +33,7 @@ public class IspybApiTest {
 		}
 	}
 
-	private static final String REVERSE = "$$ String reverse(String s) { return new StringBuilder(s).reverse().toString()\\; } $$";
+	private static final String REVERSE = "$$ Long reverse(String s) { return Long.valueOf(new StringBuilder(s).reverse().toString())\\; } $$";
 
 	@Test
 	public void shouldCreateApi() throws SQLException {
@@ -44,18 +46,18 @@ public class IspybApiTest {
 	}
 
 	@Test
-	public void shouldRetrieveContainerInfo() throws SQLException {
-		String dbInit = "INIT=CREATE SCHEMA ispyb\\; CREATE ALIAS ispyb.retrieve_container_info AS " + REVERSE;
+	public void shouldRetrieveContainerLsPosition() throws SQLException {
+		String dbInit = "INIT=CREATE SCHEMA ispyb\\; CREATE ALIAS ispyb.retrieve_container_ls_position AS " + REVERSE;
 		IspybApi api = new IspybDaoFactory().build("jdbc:h2:mem:test;" + dbInit, Optional.empty(), Optional.empty());
 
-		Map<String, Object> map = api.retrieveContainerInfo("12345");
-		assertThat(map.get("ISPYB.RETRIEVE_CONTAINER_INFO(?1)"), is(equalTo("54321")));		
+		int pos = api.retrieveContainerLSPosition("12345");
+		assertThat(pos, is(equalTo(54321)));
 		
 		api.closeConnection();
 	}
 
 	@Test
-	public void shouldRetrieveContainerInfoForReal() throws SQLException {
+	public void shouldRetrieveForReal() throws SQLException {
 		Properties properties = new Properties();
 		try {
 			/**
@@ -78,20 +80,59 @@ public class IspybApiTest {
 		}
 
 		IspybApi api = new IspybDaoFactory().build(properties.getProperty("url"), properties);
-		
-//		assertThat(api.retrieveContainerInfo("12345"), is(equalTo("54321")));
-		Map<String, Object> map = api.retrieveContainerInfo("test_plate2");
-		System.out.println(map);
-		
-		System.out.println(api.retrieveContainerLsPosition("test_plate2"));
-//		System.out.println(api.retrieveContainerLsQueue("test_plate2"));
+		String barcode = "test_plate2";
 
-//		System.out.println(api.retrieveContainerQueueTimestamp("test_plate2"));
+		System.out.println("Container info");
+		ContainerInfo info = api.retrieveContainerInfo(barcode);
+		System.out.println(info);
 
-		map = api.retrieveContainerSubsamples("test_plate2");
-		System.out.println(map);
+		System.out.println("Container status");
+		api.updateContainerStatus(barcode, ContainerStatus.IMAGER);
+		info = api.retrieveContainerInfo(barcode);
+		System.out.println(info.getStatus());
+		api.updateContainerStatus(barcode, ContainerStatus.TRANSIT);
+		info = api.retrieveContainerInfo(barcode);
+		System.out.println(info.getStatus());
+		api.updateContainerStatus(barcode, ContainerStatus.LOCAL_STORAGE);
+		info = api.retrieveContainerInfo(barcode);
+		System.out.println(info.getStatus());
+
+		System.out.println("\nLS position");
+		System.out.println(api.retrieveContainerLSPosition(barcode));
+		api.updateContainerLSPosition(barcode, 3);
+		System.out.println(api.retrieveContainerLSPosition(barcode));
+
+		System.out.println("\nLS queue for i03");
+		List<ContainerLSQueueEntry> queue = api.retrieveContainerLSQueue("i03");
+		for (ContainerLSQueueEntry e : queue) {
+			System.out.println(e);
+		}
+
+		System.out.println("\nQueue timestamp");
+		System.out.println(api.retrieveContainerQueueTimestamp(barcode));
+
+		System.out.println("\nSubsamples");
+		List<ContainerSubsample> samples = api.retrieveContainerSubsamples(barcode);
+		for (ContainerSubsample c : samples) {
+			System.out.println(c);
+		}
+
+		System.out.println("\nTest");
+		Map<String, Object> map = api.retrieveTest();
+		print(map);
 //		System.out.println(api.retrieveContainersSubmittedNonLs("test_plate2"));
 
 		api.closeConnection();
+	}
+
+	void print(Map<String, Object> map) {
+		for (Entry<String, Object> e : map.entrySet()) {
+			if (e == null) {
+				continue;
+			}
+			String k = e.getKey();
+			Object v = e.getValue();
+			System.out.println(k + ": " + (v == null ? "null" : (v + ", " + v.getClass().getTypeName())));
+		}
 	}
 }
