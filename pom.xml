@@ -20,25 +20,24 @@
 		<tycho-version>0.24.0</tycho-version>
 	</properties>
 	
-	<dependencies>
-	    <dependency>
-	      <groupId>junit</groupId>
-	      <artifactId>junit</artifactId>
-	      <version>4.11</version>
-	      <scope>test</scope>
-	    </dependency>
-    </dependencies>
-        
+    <repositories>
+      <repository>
+        <id>diamond-orbit</id>
+         <url>https://alfred.diamond.ac.uk/p2/orbit/R201609301057/repository/</url>
+        <layout>p2</layout>
+      </repository>
+    </repositories>
+
     <build>
       <plugins>
-		<plugin>
+        <plugin>
 			<groupId>org.eclipse.tycho</groupId>
 			<artifactId>tycho-maven-plugin</artifactId>
 			<version>${tycho-version}</version>
 			<extensions>true</extensions>
 		</plugin>
-		
-		<plugin>
+	
+	    <plugin>
 			<groupId>org.eclipse.tycho</groupId>
 			<artifactId>tycho-p2-repository-plugin</artifactId>
 			<version>${tycho-version}</version>
@@ -46,7 +45,7 @@
 				<includeAllDependencies>false</includeAllDependencies>
 			</configuration>
 		</plugin>
-		
+
         <!-- This configures the target platform and the supported architectures. -->
 		<plugin>
 			<groupId>org.eclipse.tycho</groupId>
@@ -78,11 +77,6 @@
 			<configuration>
                 <testSourceDirectory>${basedir}/src</testSourceDirectory>
                 <testClassesDirectory>${basedir}/bin</testClassesDirectory>
-	            <excludes>
-	              <exclude>**repository/*</exclude>
-				  <exclude>org/eclipse/richbeans/**</exclude>
-				  <exclude>org/eclipse/dawnsci/**</exclude>
-	            </excludes>
            		<includes>
 		          <include>${test.includes}</include>
 			    </includes>
@@ -101,6 +95,5 @@
           </plugin>
       </plugins>
    </build>
-   
-    
- </project>
+</project>
+
