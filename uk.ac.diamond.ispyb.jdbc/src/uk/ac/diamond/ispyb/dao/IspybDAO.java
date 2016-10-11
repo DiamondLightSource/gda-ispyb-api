@@ -2,6 +2,7 @@ package uk.ac.diamond.ispyb.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -24,8 +25,8 @@ public class IspybDAO implements IspybApi{
 	}
 
 	@Override
-	public String retrieveContainerInfo(String barcode) throws DataAccessException{
-		return callIspyb("retrieve_container_info", String.class, barcode);
+	public Map<String, Object> retrieveContainerInfo(String barcode) throws DataAccessException{
+		return callIspybForMap("retrieve_container_info", barcode);
 	}
 
 	@Override
@@ -44,8 +45,8 @@ public class IspybDAO implements IspybApi{
 	}
 
 	@Override
-	public String retrieveContainerLsQueue(String barcode) throws DataAccessException{
-		return callIspyb("retrieve_container_ls_queue", String.class, barcode);
+	public Map<String, Object> retrieveContainerLsQueue(String barcode) throws DataAccessException{
+		return callIspybForMap("retrieve_container_ls_queue", barcode);
 	}
 
 	@Override
@@ -54,8 +55,8 @@ public class IspybDAO implements IspybApi{
 	}
 
 	@Override
-	public String retrieveContainerSubsamples(String barcode) throws DataAccessException{
-		return callIspyb("retrieve_container_subsamples", String.class, barcode);
+	public Map<String, Object> retrieveContainerSubsamples(String barcode) throws DataAccessException{
+		return callIspybForMap("retrieve_container_subsamples", barcode);
 	}
 
 	@Override
@@ -68,11 +69,16 @@ public class IspybDAO implements IspybApi{
 		return callIspyb("clear_container_error", String.class, barcode);
 	}
 
-	@Override
-	public String retrieveContainersSubmittedNonLs(String barcode) throws DataAccessException{
-		return callIspyb("retrieve_containers_submitted_non_ls", String.class, barcode);
-	}
+//	@Override
+//	public String retrieveContainersSubmittedNonLs(String barcode) throws DataAccessException{
+//		return callIspyb("retrieve_containers_submitted_non_ls", String.class, barcode);
+//	}
 	
+	private Map<String, Object> callIspybForMap(String procedure, Object... params){
+		return template.queryForMap(buildQuery(procedure, params), params);
+	}
+
+
 	private <T> List<T> callIspybForList(String procedure, Class<T> clazz, Object... params){
 		return template.queryForList(buildQuery(procedure, params), params, clazz);
 	}
