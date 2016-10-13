@@ -21,16 +21,16 @@ import uk.ac.diamond.ispyb.dao.IspybDaoFactory;
 
 public class IspybApiTest {
 	static final public String ispybProperty = "ispyb.config";
-	static String dbConfig = null;
 
-	public static void loadDbConfig() {
-		dbConfig = System.getProperty(ispybProperty);
+	public static String loadDbConfig() {
+		String dbConfig = System.getProperty(ispybProperty);
 		if (dbConfig == null) {
 			throw new AssertionError("The Java system property '" + ispybProperty + "' must be defined");
 		}
 		if (!new File(dbConfig).canRead()) {
 			throw new AssertionError("The file '" + dbConfig + "' given by Java system property '" + ispybProperty + "' must exist and be readable");
 		}
+		return dbConfig;
 	}
 
 	private static final String REVERSE = "$$ Long reverse(String s) { return Long.valueOf(new StringBuilder(s).reverse().toString())\\; } $$";
@@ -58,7 +58,7 @@ public class IspybApiTest {
 
 	@Test
 	public void shouldRetrieveForReal() throws SQLException {
-		loadDbConfig();
+		String dbConfig = loadDbConfig();
 		
 		Properties properties = new Properties();
 		try {

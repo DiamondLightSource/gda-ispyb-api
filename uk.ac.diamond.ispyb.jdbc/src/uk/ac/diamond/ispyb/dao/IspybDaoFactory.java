@@ -15,16 +15,19 @@ import uk.ac.diamond.ispyb.api.Schema;
 public class IspybDaoFactory implements IspybFactoryService {
 	@Override
 	public IspybApi build(String url, Optional<String> username, Optional<String> password, Optional<Schema> schema) throws SQLException {
-		Connection connection = connectToDatabase(url, username, password, Optional.empty());
-		return new IspybDAO(makeJdbcTemplateFromConnection(connection), schema.orElse(Schema.ISPYB));
+		return build(url, username, password, Optional.empty(), schema);
 	}
 	
 	@Override
 	public IspybApi build(String url, Properties properties, Optional<Schema> schema) throws SQLException {
-		Connection connection = connectToDatabase(url, Optional.empty(), Optional.empty(), Optional.of(properties));
-		return new IspybDAO(makeJdbcTemplateFromConnection(connection), schema.orElse(Schema.ISPYB));
+		return build(url, Optional.empty(), Optional.empty(), Optional.of(properties), schema);
 	}
 
+	private IspybApi build(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties, Optional<Schema> schema) throws SQLException{
+		Connection connection = connectToDatabase(url, username, password, properties);
+		return new IspybDAO(makeJdbcTemplateFromConnection(connection), schema.orElse(Schema.ISPYB));
+	}
+	
 	private Connection connectToDatabase(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties) throws SQLException {
 		SingleConnectionDataSource ds = new SingleConnectionDataSource(url, false);
 		properties.ifPresent(ds::setConnectionProperties);
