@@ -22,8 +22,8 @@ import uk.ac.diamond.ispyb.dao.IspybDaoFactory;
 public class IspybApiTest {
 	static final public String ispybProperty = "ispyb.config";
 	static String dbConfig = null;
-	@BeforeClass
-	public static void setUp() {
+
+	public static void loadDbConfig() {
 		dbConfig = System.getProperty(ispybProperty);
 		if (dbConfig == null) {
 			throw new AssertionError("The Java system property '" + ispybProperty + "' must be defined");
@@ -36,9 +36,9 @@ public class IspybApiTest {
 	private static final String REVERSE = "$$ Long reverse(String s) { return Long.valueOf(new StringBuilder(s).reverse().toString())\\; } $$";
 
 	@Test
-	public void shouldCreateApi() throws SQLException {
+	public void testShouldCreateApi() throws SQLException {
 		IspybFactoryService service = new IspybDaoFactory();
-		IspybApi api = service.build("jdbc:h2:mem:test", Optional.empty(), Optional.empty());
+		IspybApi api = service.build("jdbc:h2:mem:test", Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
 
 		assertThat(api, is(notNullValue()));
 		
@@ -46,9 +46,9 @@ public class IspybApiTest {
 	}
 
 	@Test
-	public void shouldRetrieveContainerLsPosition() throws SQLException {
+	public void testShouldRetrieveContainerLsPosition() throws SQLException {
 		String dbInit = "INIT=CREATE SCHEMA ispyb\\; CREATE ALIAS ispyb.retrieve_container_ls_position AS " + REVERSE;
-		IspybApi api = new IspybDaoFactory().build("jdbc:h2:mem:test;" + dbInit, Optional.empty(), Optional.empty());
+		IspybApi api = new IspybDaoFactory().build("jdbc:h2:mem:test;" + dbInit, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
 
 		int pos = api.retrieveContainerLSPosition("12345");
 		assertThat(pos, is(equalTo(54321)));
@@ -58,6 +58,8 @@ public class IspybApiTest {
 
 	@Test
 	public void shouldRetrieveForReal() throws SQLException {
+		loadDbConfig();
+		
 		Properties properties = new Properties();
 		try {
 			/**
@@ -79,7 +81,7 @@ public class IspybApiTest {
 			throw new SQLException("No password defined in " + dbConfig);
 		}
 
-		IspybApi api = new IspybDaoFactory().build(properties.getProperty("url"), properties);
+		IspybApi api = new IspybDaoFactory().build(properties.getProperty("url"), properties, Optional.of(Schema.ISPYBSTAGE));
 		String barcode = "test_plate2";
 
 		System.out.println("Container info");

@@ -18,12 +18,15 @@ import uk.ac.diamond.ispyb.api.ContainerLSQueueEntry;
 import uk.ac.diamond.ispyb.api.ContainerStatus;
 import uk.ac.diamond.ispyb.api.ContainerSubsample;
 import uk.ac.diamond.ispyb.api.IspybApi;
+import uk.ac.diamond.ispyb.api.Schema;
 
 public class IspybDAO implements IspybApi{
 	private JdbcTemplate template;
+	private Schema schema;
 
-	public IspybDAO(JdbcTemplate template) {
+	public IspybDAO(JdbcTemplate template, Schema schema) {
 		this.template = template;
+		this.schema = schema;
 	}
 
 	@Override
@@ -80,6 +83,7 @@ public class IspybDAO implements IspybApi{
 		callIspybForList("clear_container_error", String.class, barcode);
 	}
 
+//  TODO: not a store procedure yet
 //	@Override
 //	public String retrieveContainersSubmittedNonLs(String barcode) throws 	DataAccessException {
 //		return callIspyb("retrieve_containers_submitted_non_ls", String.class, barcode);
@@ -114,17 +118,12 @@ public class IspybDAO implements IspybApi{
 		return template.queryForObject(buildQuery(procedure, params), params, new BeanPropertyRowMapper<>(clazz));
 	}
 
-	static boolean useStage = true;
-
 	private String buildQuery(String procedure, Object... params) {
-		List<String> questionMarks = IntStream.rangeClosed(1, params.length).mapToObj((x) -> "?")
+		List<String> questionMarks = IntStream
+				.rangeClosed(1, params.length).mapToObj((x) -> "?")
 				.collect(Collectors.toList());
 		String args = StringUtils.collectionToCommaDelimitedString(questionMarks);
-
-		if (useStage) {
-			return String.format("CALL ispybstage.%s(%s)", procedure, args);
-		}
-		return String.format("CALL ispyb.%s(%s)", procedure, args);
+		return String.format("CALL %s.%s(%s)", schema, procedure, args);
 	}
 
 	@Override
