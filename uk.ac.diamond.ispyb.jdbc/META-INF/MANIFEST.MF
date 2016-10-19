@@ -13,3 +13,4 @@ Require-Bundle: org.apache.servicemix.bundles.spring-core;bundle-version="4.0.6"
  org.mariadb.jdbc;bundle-version="1.3.6",
  uk.ac.diamond.ispyb.api;bundle-version="1.0.0"
 Export-Package: uk.ac.diamond.ispyb.dao
+Service-Component: OSGI-INF/ispybApiService.xml
