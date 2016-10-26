@@ -7,7 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -19,7 +18,6 @@ import java.util.Optional;
 import java.util.Properties;
 
 import org.h2.tools.SimpleResultSet;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.dao.IspybDaoFactory;

@@ -1,28 +1,18 @@
 package uk.ac.diamond.ispyb.api;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.Properties;
-import java.util.function.Function;
-
-import javax.print.DocFlavor.URL;
 
 import org.h2.tools.SimpleResultSet;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.dao.IspybDaoFactory;
