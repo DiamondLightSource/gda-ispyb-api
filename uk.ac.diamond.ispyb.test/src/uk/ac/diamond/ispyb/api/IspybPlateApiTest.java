@@ -39,13 +39,11 @@ public class IspybPlateApiTest {
 		return dbConfig;
 	}
 
-	private static final String CREATE_SCHEMA = "CREATE SCHEMA IF NOT EXISTS ispyb \\;";
-
 	@Test
 	public void testShouldCreateApi() throws SQLException {
+		String url = new H2UrlBuilder().build();
 		IspybFactoryService service = new IspybDaoFactory();
-		IspybPlateApi api = service.buildIspybPlateApi("jdbc:h2:mem:test", 
-				Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
+		IspybPlateApi api = service.buildIspybPlateApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
 
 		assertThat(api, is(notNullValue()));
 
@@ -54,9 +52,8 @@ public class IspybPlateApiTest {
 	
 	@Test
 	public void testShouldRetrieveContainerLsPosition() throws Exception {
-		String dbInit = "INIT=" + CREATE_SCHEMA + "CREATE ALIAS ispyb.retrieve_container_ls_position FOR \"" + methodName("reverse", String.class) + "\"";
-		IspybPlateApi api = new IspybDaoFactory().buildIspybPlateApi("jdbc:h2:mem:test;" + dbInit, 
-				Optional.empty(), Optional.empty(),Optional.of(Schema.ISPYB));
+		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_container_ls_position", "reverse").build();
+		IspybPlateApi api = new IspybDaoFactory().buildIspybPlateApi(url, Optional.empty(), Optional.empty(),Optional.of(Schema.ISPYB));
 
 		int pos = api.retrieveContainerLSPosition("12345");
 		assertThat(pos, is(equalTo(54321)));
@@ -66,9 +63,8 @@ public class IspybPlateApiTest {
 
 	@Test
 	public void testShouldRetrieveBean() throws Exception {
-		String dbInit = "INIT=" + CREATE_SCHEMA + " CREATE ALIAS ispyb.retrieve_container_info FOR \"" + methodName("containerInfo", String.class) + "\"";
-		IspybPlateApi api = new IspybDaoFactory()
-				.buildIspybPlateApi("jdbc:h2:mem:test;" + dbInit, Optional.empty(), Optional.empty(),Optional.of(Schema.ISPYB));
+		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_container_info", "containerInfo").build();
+		IspybPlateApi api = new IspybDaoFactory().buildIspybPlateApi(url, Optional.empty(), Optional.empty(),Optional.of(Schema.ISPYB));
 
 		ContainerInfo bean = api.retrieveContainerInfo("12345");
 		ContainerInfo expectedBean = new ContainerInfo();
@@ -181,11 +177,5 @@ public class IspybPlateApiTest {
 		result.addColumn("storageTemperature", Types.FLOAT, 10, 0);
 		result.addRow("name", "type", "barcode", "beamline", "location", "imagerName", "imagerSerialNumber", ContainerStatus.LOCAL_STORAGE.getStatus(), 5, 0.5);
 		return result;
-	}
-	
-	private String methodName(String nameWithinThisClass, Class<?>... parameterTypes) throws NoSuchMethodException, SecurityException{
-		Method method = this.getClass().getMethod(nameWithinThisClass, parameterTypes);
-		Class<?> declaringClass = method.getDeclaringClass();
-		return declaringClass.getName() + "." + method.getName();
 	}
 }

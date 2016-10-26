@@ -17,6 +17,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.function.Function;
+
+import javax.print.DocFlavor.URL;
 
 import org.h2.tools.SimpleResultSet;
 import org.junit.BeforeClass;
@@ -24,14 +27,12 @@ import org.junit.Test;
 
 import uk.ac.diamond.ispyb.dao.IspybDaoFactory;
 
-public class IspybPdfApiTest {
-	private static final String CREATE_SCHEMA = "CREATE SCHEMA IF NOT EXISTS ispyb \\;";
-
+public class IspybPdfApiTest {	
 	@Test
 	public void testShouldCreateApi() throws SQLException {
+		String url = new H2UrlBuilder().build();
 		IspybFactoryService service = new IspybDaoFactory();
-		IspybPdfApi api = service.buildIspybPdfApi("jdbc:h2:mem:test", Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB));
+		IspybPdfApi api = service.buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
 
 		assertThat(api, is(notNullValue()));
 
@@ -40,10 +41,8 @@ public class IspybPdfApiTest {
 
 	@Test
 	public void testShouldRetrieveContainerLsPosition() throws Exception {
-		String dbInit = "INIT=" + CREATE_SCHEMA + "CREATE ALIAS ispyb.retrieve_dc_plan_groups FOR \""
-				+ methodName("groups", String.class) + "\"";
-		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi("jdbc:h2:mem:test;" + dbInit, Optional.empty(),
-				Optional.empty(), Optional.of(Schema.ISPYB));
+		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_plan_groups", "groups").build();
+		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
 
 		List<Integer> pos = api.retrieveDcPlanGroups("sessionid");
 		assertThat(pos, is(equalTo(Arrays.asList(1, 2, 3, 4))));
@@ -53,10 +52,9 @@ public class IspybPdfApiTest {
 
 	@Test
 	public void testShouldRetrieveBean() throws Exception {
-		String dbInit = "INIT=" + CREATE_SCHEMA + " CREATE ALIAS ispyb.retrieve_dc_plan_info FOR \""
-				+ methodName("info", String.class) + "\"";
-		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi("jdbc:h2:mem:test;" + dbInit, Optional.empty(),
-				Optional.empty(), Optional.of(Schema.ISPYB));
+		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_plan_info", "info").build();
+
+		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
 
 		List<DataCollectionPlanInfo> infos = api.retrieveDcPlanInfo(12345);
 
@@ -116,12 +114,5 @@ public class IspybPdfApiTest {
 				10);
 		
 		return result;
-	}
-
-	private String methodName(String nameWithinThisClass, Class<?>... parameterTypes)
-			throws NoSuchMethodException, SecurityException {
-		Method method = this.getClass().getMethod(nameWithinThisClass, parameterTypes);
-		Class<?> declaringClass = method.getDeclaringClass();
-		return declaringClass.getName() + "." + method.getName();
 	}
 }
