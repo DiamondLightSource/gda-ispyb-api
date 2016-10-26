@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * General information about container
  */
 public class ContainerInfo {
-	
+
 	private String name;
 	private String type;
 	private String barcode;
@@ -19,7 +19,7 @@ public class ContainerInfo {
 	private ContainerStatus status;
 	private long capacity;
 	private float storageTemperature;
-	
+
 	public ContainerInfo() {
 	}
 
@@ -32,9 +32,10 @@ public class ContainerInfo {
 
 	/**
 	 * Set name of container
+	 * 
 	 * @param name
 	 */
-	public void setName_v(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -47,9 +48,10 @@ public class ContainerInfo {
 
 	/**
 	 * Set type of container
+	 * 
 	 * @param type
 	 */
-	public void setType_v(String type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -62,9 +64,10 @@ public class ContainerInfo {
 
 	/**
 	 * Set barcode of container
+	 * 
 	 * @param barcode
 	 */
-	public void setBarcode_v(String barcode) {
+	public void setBarcode(String barcode) {
 		this.barcode = barcode;
 	}
 
@@ -77,9 +80,10 @@ public class ContainerInfo {
 
 	/**
 	 * Set beamline for container
+	 * 
 	 * @param beamline
 	 */
-	public void setBeamline_v(String beamline) {
+	public void setBeamline(String beamline) {
 		this.beamline = beamline;
 	}
 
@@ -92,9 +96,10 @@ public class ContainerInfo {
 
 	/**
 	 * Set location of container
+	 * 
 	 * @param location
 	 */
-	public void setLocation_v(String location) {
+	public void setLocation(String location) {
 		this.location = location;
 	}
 
@@ -107,9 +112,10 @@ public class ContainerInfo {
 
 	/**
 	 * Set imager name
+	 * 
 	 * @param imagerName
 	 */
-	public void setImagerName_v(String imagerName) {
+	public void setImagerName(String imagerName) {
 		this.imagerName = imagerName;
 	}
 
@@ -122,9 +128,10 @@ public class ContainerInfo {
 
 	/**
 	 * Set imager serial number
+	 * 
 	 * @param imagerSerialNumber
 	 */
-	public void setImagerSerialNumber_v(String imagerSerialNumber) {
+	public void setImagerSerialNumber(String imagerSerialNumber) {
 		this.imagerSerialNumber = imagerSerialNumber;
 	}
 
@@ -137,9 +144,10 @@ public class ContainerInfo {
 
 	/**
 	 * Set container status
+	 * 
 	 * @param imagerName
 	 */
-	public void setStatus_v(String status) {
+	public void setStatus(String status) {
 		this.status = ContainerStatus.convert(status);
 	}
 
@@ -152,9 +160,10 @@ public class ContainerInfo {
 
 	/**
 	 * Set capacity of container
+	 * 
 	 * @param capacity
 	 */
-	public void setCapacity_i(long capacity) {
+	public void setCapacity(long capacity) {
 		this.capacity = capacity;
 	}
 
@@ -167,9 +176,10 @@ public class ContainerInfo {
 
 	/**
 	 * Set storage temperature of container
+	 * 
 	 * @param storageTemperature
 	 */
-	public void setStorageTemperature_f(float storageTemperature) {
+	public void setStorageTemperature(float storageTemperature) {
 		this.storageTemperature = storageTemperature;
 	}
 
@@ -177,12 +187,13 @@ public class ContainerInfo {
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
 	}
-	
+
+	@Override
 	public boolean equals(Object that) {
 		return EqualsBuilder.reflectionEquals(this, that);
 	};

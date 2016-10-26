@@ -51,7 +51,8 @@ public class ContainerLSQueueEntry {
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
 	}
-	
+
+	@Override
 	public boolean equals(Object that) {
 		return EqualsBuilder.reflectionEquals(this, that);
 	};
