@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 public class DataCollectionPlanInfo {
-	private Double wavelength;
+	private Double energy;
 	private Double preferredBeamSizeX;
 	private Double preferredBeamSizeY;
 	private Double exposureTime;
@@ -29,12 +29,12 @@ public class DataCollectionPlanInfo {
 	
 	public DataCollectionPlanInfo() {}
 
-	public Double getWavelength() {
-		return wavelength;
+	public Double getEnergy() {
+		return energy;
 	}
 
-	public void setWavelength(Double wavelength) {
-		this.wavelength = wavelength;
+	public void setEnergy(Double energy) {
+		this.energy = energy;
 	}
 
 	public Double getPreferredBeamSizeX() {

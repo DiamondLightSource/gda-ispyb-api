@@ -69,7 +69,7 @@ public class IspybPdfApiTest {
 		expectedInfo.setScanParamModelStop(1.0);
 		expectedInfo.setScanParamServiceDesc("scanParamServiceDesc");
 		expectedInfo.setScanParamServiceName("scanParamServiceName");
-		expectedInfo.setWavelength(1.0);
+		expectedInfo.setEnergy(1.0);
 		
 		assertThat(infos, is(equalTo(Arrays.asList(expectedInfo))));
 
@@ -92,7 +92,7 @@ public class IspybPdfApiTest {
 				"detectorModel", "composition", "scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray");
 		stringFields.forEach(field -> result.addColumn(field, Types.VARCHAR, 255, 0));
 
-		List<String> doubleFields = Arrays.asList("wavelength", "preferredBeamSizeX", "preferredBeamSizeY",
+		List<String> doubleFields = Arrays.asList("energy", "preferredBeamSizeX", "preferredBeamSizeY",
 				"exposureTime", "distance", "monoBandwidth", "detectorDistanceMin", "detectorDistanceMax", "density",
 				"scanParamModelStart", "scanParamModelStop", "scanParamModelStep");
 		doubleFields.forEach(field -> result.addColumn(field, Types.DOUBLE, 15, 0));
