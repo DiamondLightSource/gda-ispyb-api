@@ -1,5 +1,9 @@
 package uk.ac.diamond.ispyb.api;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 /**
  * General information about container
  */
@@ -171,10 +175,15 @@ public class ContainerInfo {
 
 	@Override
 	public String toString() {
-		return "ContainerInfo [name=" + name + ", type=" + type + ", barcode=" + barcode + ", beamline=" + beamline
-				+ ", location=" + location + ", imagerName=" + imagerName + ", imagerSerialNumber=" + imagerSerialNumber
-				+ ", status=" + status + ", capacity=" + capacity + ", storageTemperature=" + storageTemperature + "]";
+		return ReflectionToStringBuilder.toString(this);
 	}
-
 	
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+	
+	public boolean equals(Object that) {
+		return EqualsBuilder.reflectionEquals(this, that);
+	};
 }

@@ -3,6 +3,10 @@ package uk.ac.diamond.ispyb.api;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 /**
  * Details of each entry in local storage queue
  */
@@ -40,6 +44,15 @@ public class ContainerLSQueueEntry {
 
 	@Override
 	public String toString() {
-		return "ContainerLSQueueEntry [barcode=" + barcode + ", location=" + location + ", added=" + added + "]";
+		return ReflectionToStringBuilder.toString(this);
 	}
+	
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+	
+	public boolean equals(Object that) {
+		return EqualsBuilder.reflectionEquals(this, that);
+	};
 }

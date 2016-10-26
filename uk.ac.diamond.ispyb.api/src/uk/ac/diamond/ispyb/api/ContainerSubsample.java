@@ -1,5 +1,9 @@
 package uk.ac.diamond.ispyb.api;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 /**
  * All details related to a subsample in a container
  */
@@ -192,13 +196,15 @@ public class ContainerSubsample {
 
 	@Override
 	public String toString() {
-		return "ContainerSubsample [sampleLocation=" + sampleLocation + ", ROIPos1x=" + ROIPos1x + ", ROIPos1y="
-				+ ROIPos1y + ", ROIPos1z=" + ROIPos1z + ", lastImgFullPath=" + lastImgFullPath
-				+ ", uploadedImgFilePath=" + uploadedImgFilePath + ", uploadedImgFileName=" + uploadedImgFileName
-				+ ", experimentKind=" + experimentKind + ", exposureTime=" + exposureTime + ", preferredBeamSizeX="
-				+ preferredBeamSizeX + ", preferredBeamSizeY=" + preferredBeamSizeY + ", requiredResolution="
-				+ requiredResolution + ", monochromator=" + monochromator + ", wavelength=" + wavelength + ", boxSizeX="
-				+ boxSizeX + ", boxSizeY=" + boxSizeY + ", kappaStart=" + kappaStart + ", axisStart=" + axisStart
-				+ ", axisRange=" + axisRange + ", numberOfImages=" + numberOfImages + "]";
+		return ReflectionToStringBuilder.toString(this);
 	}
+	
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+	
+	public boolean equals(Object that) {
+		return EqualsBuilder.reflectionEquals(this, that);
+	};
 }
