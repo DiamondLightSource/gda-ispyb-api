@@ -5,33 +5,23 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.util.StringUtils;
 
 import uk.ac.diamond.ispyb.api.ContainerInfo;
 import uk.ac.diamond.ispyb.api.ContainerLSQueueEntry;
 import uk.ac.diamond.ispyb.api.ContainerStatus;
 import uk.ac.diamond.ispyb.api.ContainerSubsample;
 import uk.ac.diamond.ispyb.api.IspybPlateApi;
-import uk.ac.diamond.ispyb.api.Schema;
 
 public class IspybPlateDAO implements IspybPlateApi{
-	private JdbcTemplate template;
-	private Schema schema;
+	private final TemplateWrapper templateWrapper;
 
-	public IspybPlateDAO(JdbcTemplate template, Schema schema) {
-		this.template = template;
-		this.schema = schema;
+	public IspybPlateDAO(TemplateWrapper templateWrapper) {
+		this.templateWrapper = templateWrapper;
 	}
 
 	@Override
-	public int retrieveContainerLSPosition(String barcode) throws DataAccessException {
-		List<Long> list = callIspybForList("retrieve_container_ls_position", Long.class, barcode);
+	public int retrieveContainerLSPosition(String barcode) throws SQLException {
+		List<Long> list = templateWrapper.callIspybForList("retrieve_container_ls_position", Long.class, barcode);
 		if (list.size() > 0) {
 			return list.get(0).intValue();
 		}
@@ -39,48 +29,48 @@ public class IspybPlateDAO implements IspybPlateApi{
 	}
 
 	@Override
-	public ContainerInfo retrieveContainerInfo(String barcode) throws DataAccessException {
-		return callIspybForBean("retrieve_container_info", ContainerInfo.class, barcode);
+	public ContainerInfo retrieveContainerInfo(String barcode) throws SQLException {
+		return templateWrapper.callIspybForBean("retrieve_container_info", ContainerInfo.class, barcode);
 	}
 
 	@Override
-	public void updateContainerLSPosition(String barcode, int position) throws DataAccessException {
-		updateIspyb("update_container_ls_position", barcode, position);
+	public void updateContainerLSPosition(String barcode, int position) throws SQLException {
+		templateWrapper.updateIspyb("update_container_ls_position", barcode, position);
 	}
 
 	@Override
-	public void updateContainerStatus(String barcode, ContainerStatus status) throws DataAccessException {
-		updateIspyb("update_container_status", barcode, status.getStatus());
+	public void updateContainerStatus(String barcode, ContainerStatus status) throws SQLException {
+		templateWrapper.updateIspyb("update_container_status", barcode, status.getStatus());
 	}
 
 	@Override
-	public void finishContainer(String barcode) throws DataAccessException {
-		updateIspyb("finish_container", barcode);
+	public void finishContainer(String barcode) throws SQLException {
+		templateWrapper.updateIspyb("finish_container", barcode);
 	}
 
 	@Override
-	public List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws DataAccessException {
-		return callIspybForListBeans("retrieve_container_ls_queue", ContainerLSQueueEntry.class, beamline);
+	public List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws SQLException {
+		return templateWrapper.callIspybForListBeans("retrieve_container_ls_queue", ContainerLSQueueEntry.class, beamline);
 	}
 
 	@Override
-	public Date retrieveContainerQueueTimestamp(String barcode) throws DataAccessException {
-		return callIspyb("retrieve_container_queue_timestamp", Timestamp.class, barcode);
+	public Date retrieveContainerQueueTimestamp(String barcode) throws SQLException {
+		return templateWrapper.callIspyb("retrieve_container_queue_timestamp", Timestamp.class, barcode);
 	}
 
 	@Override
-	public List<ContainerSubsample> retrieveContainerSubsamples(String barcode) throws DataAccessException {
-		return callIspybForListBeans("retrieve_container_subsamples", ContainerSubsample.class, barcode);
+	public List<ContainerSubsample> retrieveContainerSubsamples(String barcode) throws SQLException {
+		return templateWrapper.callIspybForListBeans("retrieve_container_subsamples", ContainerSubsample.class, barcode);
 	}
 
 	@Override
-	public void insertContainerError(String barcode, String error, int severity, String stackTrace) throws DataAccessException {
-		updateIspyb("insert_container_error", barcode, error, severity, stackTrace);
+	public void insertContainerError(String barcode, String error, int severity, String stackTrace) throws SQLException {
+		templateWrapper.updateIspyb("insert_container_error", barcode, error, severity, stackTrace);
 	}
 
 	@Override
-	public void clearContainerError(String barcode) throws DataAccessException {
-		callIspybForList("clear_container_error", String.class, barcode);
+	public void clearContainerError(String barcode) throws SQLException {
+		templateWrapper.callIspybForList("clear_container_error", String.class, barcode);
 	}
 
 //  TODO: not a store procedure yet
@@ -90,44 +80,12 @@ public class IspybPlateDAO implements IspybPlateApi{
 //	}
 
 	@Override
-	public Map<String, Object>  retrieveTest() throws DataAccessException {
-		return callIspybForMap("retrieve_test");
-	}
-
-	private Map<String, Object> callIspybForMap(String procedure, Object... params) {
-		return template.queryForMap(buildQuery(procedure, params), params);
-	}
-
-	private void updateIspyb(String procedure, Object... params) {
-		template.update(buildQuery(procedure, params), params);
-	}
-
-	private <T> List<T> callIspybForList(String procedure, Class<T> clazz, Object... params) {
-		return template.queryForList(buildQuery(procedure, params), params, clazz);
-	}
-
-	private <T> List<T> callIspybForListBeans(String procedure, Class<T> clazz, Object... params) {
-		return template.query(buildQuery(procedure, params), params, new BeanPropertyRowMapper<>(clazz));
-	}
-
-	private <T> T callIspyb(String procedure, Class<T> clazz, Object... params) {
-		return template.queryForObject(buildQuery(procedure, params), params, clazz);
-	}
-
-	private <T> T callIspybForBean(String procedure, Class<T> clazz, Object... params) {
-		return template.queryForObject(buildQuery(procedure, params), params, new BeanPropertyRowMapper<>(clazz));
-	}
-
-	private String buildQuery(String procedure, Object... params) {
-		List<String> questionMarks = IntStream
-				.rangeClosed(1, params.length).mapToObj((x) -> "?")
-				.collect(Collectors.toList());
-		String args = StringUtils.collectionToCommaDelimitedString(questionMarks);
-		return String.format("CALL %s.%s(%s)", schema, procedure, args);
+	public Map<String, Object>  retrieveTest() throws SQLException {
+		return templateWrapper.callIspybForMap("retrieve_test");
 	}
 
 	@Override
 	public void closeConnection() throws SQLException {
-		template.getDataSource().getConnection().close();
+		templateWrapper.closeConnection();
 	}
 }
