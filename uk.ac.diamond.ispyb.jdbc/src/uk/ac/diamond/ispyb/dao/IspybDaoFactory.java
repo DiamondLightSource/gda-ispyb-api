@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Properties;
 
+import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 import uk.ac.diamond.ispyb.api.IspybFactoryService;
 import uk.ac.diamond.ispyb.api.IspybPdfApi;
 import uk.ac.diamond.ispyb.api.IspybPlateApi;
@@ -28,6 +29,12 @@ public class IspybDaoFactory implements IspybFactoryService {
 	}
 
 	@Override
+	public IspybDataCollectionApi buildIspybDataCollectionApi(String url, Properties properties, Optional<Schema> schema) throws SQLException {
+		JdbcTemplate template = makeTemplate(url, Optional.empty(), Optional.empty(), Optional.of(properties));
+		return new IspybDataCollectionDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB)));
+	}
+
+	@Override
 	public IspybPlateApi buildIspybPlateApi(String url, Optional<String> username, Optional<String> password,
 			Optional<Schema> schema) throws SQLException {
 		JdbcTemplate template = makeTemplate(url, username, password, Optional.empty());
@@ -41,6 +48,13 @@ public class IspybDaoFactory implements IspybFactoryService {
 		return new IspybPdfDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB)));
 	}
 
+	@Override
+	public IspybDataCollectionApi buildIspybDataCollectionApi(String url, Optional<String> username, Optional<String> password,
+			Optional<Schema> schema) throws SQLException {
+		JdbcTemplate template = makeTemplate(url, username, password, Optional.empty());
+		return new IspybDataCollectionDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB)));
+	}
+	
 	private JdbcTemplate makeTemplate(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties) throws SQLException{
 		return makeJdbcTemplateFromConnection(connectToDatabase(url, username, password, properties));
 	}
