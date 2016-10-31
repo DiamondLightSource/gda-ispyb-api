@@ -31,57 +31,6 @@ public class IspybDataCollectionApiTest {
 		api.closeConnection();
 	}
 
-	@Test
-	public void testShouldUpsertDataCollection() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("upsert_dc", "upsertDataCollection").build();
-		IspybDataCollectionApi api = new IspybDaoFactory().buildIspybDataCollectionApi(url, Optional.empty(),
-				Optional.empty(), Optional.of(Schema.ISPYB));
-
-		DataCollection dataCollection = new DataCollection();
-		dataCollection.setNumberOfImages(100);
-		int id = api.upsertDataCollection(dataCollection);
-		assertThat(id, is(equalTo(5)));
-
-		api.closeConnection();
-	}
-
-	@Test
-	public void testShouldRetrieveBean() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_plan_info", "info").build();
-
-		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB));
-
-		List<DataCollectionPlanInfo> infos = api.retrieveDcPlanInfo(12345);
-
-		DataCollectionPlanInfo expectedInfo = new DataCollectionPlanInfo();
-		expectedInfo.setComposition("composition");
-		expectedInfo.setDensity(1.0);
-		expectedInfo.setDetectorDistanceMax(1.0);
-		expectedInfo.setDetectorDistanceMin(1.0);
-		expectedInfo.setDetectorManufacturer("detectorManufacturer");
-		expectedInfo.setDetectorModel("detectorModel");
-		expectedInfo.setDetectorType("detectorType");
-		expectedInfo.setDistance(1.0);
-		expectedInfo.setExposureTime(1.0);
-		expectedInfo.setMonoBandwidth(1.0);
-		expectedInfo.setOrientation("orientation");
-		expectedInfo.setPreferredBeamSizeX(1.0);
-		expectedInfo.setPreferredBeamSizeY(1.0);
-		expectedInfo.setScanParamModelArray("scanParamModelArray");
-		expectedInfo.setScanParamModelNumber(10);
-		expectedInfo.setScanParamModelStart(1.0);
-		expectedInfo.setScanParamModelStep(1.0);
-		expectedInfo.setScanParamModelStop(1.0);
-		expectedInfo.setScanParamServiceDesc("scanParamServiceDesc");
-		expectedInfo.setScanParamServiceName("scanParamServiceName");
-		expectedInfo.setEnergy(1.0);
-
-		assertThat(infos, is(equalTo(Arrays.asList(expectedInfo))));
-
-		api.closeConnection();
-	}
-
 	public static final int upsertDataCollection(int id, int groupId, int subSampleId, int detectorId, int positionId,
 			int apertureId, int dcNumber, LocalDateTime startTime, LocalDateTime endTime, String runStatus,
 			double axisStart, double axisEnd, double axisRange, double overlap, int numberOfImages,

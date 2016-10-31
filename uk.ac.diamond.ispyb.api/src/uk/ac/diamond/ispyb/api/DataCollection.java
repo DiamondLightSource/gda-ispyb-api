@@ -1,83 +1,81 @@
 package uk.ac.diamond.ispyb.api;
 
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 public class DataCollection {
-	int id;
-	int groupId;
-	int subSampleId;
-	int detectorId;
-	int positionId;
-	int apertureId;
-	int dcNumber; LocalDateTime startTime;
-	LocalDateTime endTime; String runStatus;
-	double axisStart;
-	double axisEnd;
-	double axisRange;
-	double overlap;
-	int numberOfImages;
-	int startImageNumber;
-	int numberOfPasses;
-	double exposureTime; String imageDirectory;
-	String imagePrefix; String imageSuffix;
-	String fileTemplate;
-	double wavelength;
-	double resolution;
-	double detectorDistance;
-	double xBeam;
-	double yBeam; String comments;
-	double slitgapVertical;
-	double slitgapHorizontal;
-	double transmission; String synchrotronMode;
-	String xtalSnapshotFullPath1; String xtalSnapshotFullPath2;
-	String xtalSnapshotFullPath3; String xtalSnapshotFullPath4;
-	RotationAxis rotationAxis;
-	double phistart;
-	double kappastart;
-	double omegastart;
-	double resolutionAtCorner;
-	double detector2theta;
-	double undulatorGap1;
-	double undulatorGap2;
-	double undulatorGap3;
-	double beamSizeAtSampleX;
-	double beamSizeAtSampleY;
-	double averageTemperature;
-	double actualCenteringPosition; String beamShape;
-	double focalSpotSizeAtSampleX;
-	double focalSpotSizeAtSampleY;
-	double polarisation;
-	double flux;
-	double fluxEnd; String processedDataFile;
-	String datFullPath;
-	int magnification;
-	double totalAbsorbedDose;
-	int binning;
-	double particleDiameter;
-	double boxSize_CTF;
-	double minResolution;
-	double minDefocus;
-	double maxDefocus;
-	double defocusStepSize;
-	double amountAstigmatism;
-	double extractSize;
-	double bgRadius;
-	double voltage;
-	double objAperture;
-	double c1aperture;
-	double c2aperture;
-	double c3aperture;
-	double c1lens;
-	double c2lens;
-	double c3lens;
+	private int id;
+	private int groupId;
+	private int subSampleId;
+	private int detectorId;
+	private int positionId;
+	private int apertureId;
+	private int dcNumber; 
+	private LocalDateTime startTime;
+	private LocalDateTime endTime; 
+	private String runStatus;
+	private double axisStart;
+	private double axisEnd;
+	private double axisRange;
+	private double overlap;
+	private int numberOfImages;
+	private int startImageNumber;
+	private int numberOfPasses;
+	private double exposureTime; String imageDirectory;
+	private String imagePrefix; String imageSuffix;
+	private String fileTemplate;
+	private double wavelength;
+	private double resolution;
+	private double detectorDistance;
+	private double xBeam;
+	private double yBeam; String comments;
+	private double slitgapVertical;
+	private double slitgapHorizontal;
+	private double transmission; String synchrotronMode;
+	private String xtalSnapshotFullPath1; String xtalSnapshotFullPath2;
+	private String xtalSnapshotFullPath3; String xtalSnapshotFullPath4;
+	private RotationAxis rotationAxis;
+	private double phistart;
+	private double kappastart;
+	private double omegastart;
+	private double resolutionAtCorner;
+	private double detector2theta;
+	private double undulatorGap1;
+	private double undulatorGap2;
+	private double undulatorGap3;
+	private double beamSizeAtSampleX;
+	private double beamSizeAtSampleY;
+	private double averageTemperature;
+	private double actualCenteringPosition; String beamShape;
+	private double focalSpotSizeAtSampleX;
+	private double focalSpotSizeAtSampleY;
+	private double polarisation;
+	private double flux;
+	private double fluxEnd; String processedDataFile;
+	private String datFullPath;
+	private int magnification;
+	private double totalAbsorbedDose;
+	private int binning;
+	private double particleDiameter;
+	private double boxSize_CTF;
+	private double minResolution;
+	private double minDefocus;
+	private double maxDefocus;
+	private double defocusStepSize;
+	private double amountAstigmatism;
+	private double extractSize;
+	private double bgRadius;
+	private double voltage;
+	private double objAperture;
+	private double c1aperture;
+	private double c2aperture;
+	private double c3aperture;
+	private double c1lens;
+	private double c2lens;
+	private double c3lens;
 	
 	public DataCollection(){}
 
@@ -696,17 +694,7 @@ public class DataCollection {
 	public void setC3lens(double c3lens) {
 		this.c3lens = c3lens;
 	}
-	
-	public Object[] getParameters() {
-		Field[] fields = this.getClass().getFields();
-		Stream<Object> parameters = Arrays.stream(fields).map(field -> {try {
-			return field.get(this);
-		} catch (IllegalArgumentException|IllegalAccessException e) {
-			throw new IllegalArgumentException("could not get value for field " + field, e);
-		}});
-		return parameters.toArray();
-	}
-	
+
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);

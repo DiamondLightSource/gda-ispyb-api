@@ -1,6 +1,9 @@
 package uk.ac.diamond.ispyb.dao;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+
+import org.apache.commons.beanutils.PropertyUtils;
 
 import uk.ac.diamond.ispyb.api.DataCollection;
 import uk.ac.diamond.ispyb.api.DataCollectionGroup;
@@ -16,7 +19,7 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 
 	@Override
 	public int upsertDataCollection(DataCollection dataCollection) {
-		return templateWrapper.callIspyb("upsert_dc", Integer.class, dataCollection.getParameters());
+		return templateWrapper.callIspyb("upsert_dc", Integer.class, getParameters(dataCollection));
 	}
 
 	@Override
@@ -36,5 +39,15 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 		templateWrapper.closeConnection();
 	}
 
-	
+	public Object[] getParameters(Object bean) {
+		return Arrays.stream(PropertyUtils.getPropertyDescriptors(bean.getClass()))
+			.map(property -> {
+				try {
+					return property.getReadMethod().invoke(bean);
+				} catch (Exception e) {
+					throw new IllegalStateException(e);
+				}
+			}).toArray();
+	}
+
 }
