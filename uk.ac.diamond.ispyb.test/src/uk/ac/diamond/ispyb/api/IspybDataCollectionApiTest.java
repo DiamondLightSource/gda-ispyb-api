@@ -32,8 +32,6 @@ public class IspybDataCollectionApiTest {
 
 	@Test
 	public void testShouldUpsertDataCollection() throws Exception {
-		Arrays.stream(this.getClass().getMethods())
-				.forEach(action -> System.out.println(action.getParameterTypes().length));
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("upsert_dc", "upsertDataCollection").build();
 		IspybDataCollectionApi api = new IspybDaoFactory().buildIspybDataCollectionApi(url, Optional.empty(),
 				Optional.empty(), Optional.of(Schema.ISPYB));
@@ -48,8 +46,6 @@ public class IspybDataCollectionApiTest {
 
 	@Test
 	public void testShouldUpsertDataCollectionGroup() throws Exception {
-		Arrays.stream(this.getClass().getMethods())
-				.forEach(action -> System.out.println(action.getParameterTypes().length));
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("upsert_dc_group", "upsertDataCollectionGroup")
 				.build();
 		IspybDataCollectionApi api = new IspybDaoFactory().buildIspybDataCollectionApi(url, Optional.empty(),

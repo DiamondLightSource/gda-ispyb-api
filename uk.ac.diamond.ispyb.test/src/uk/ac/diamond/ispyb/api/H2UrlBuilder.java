@@ -5,6 +5,7 @@ import java.util.List;
 
 public class H2UrlBuilder {
 	private static final String H2 = "jdbc:h2:mem:test;";
+	private static final String MYSQL_MODE = "MODE=MySQL;";
 	private static final String INIT = "INIT=";
 	private static final String SCHEMA = "CREATE SCHEMA IF NOT EXISTS %s \\;";
 	private static final String ALIAS = "CREATE ALIAS ispyb.%s FOR \"%s\" \\;";
@@ -30,6 +31,7 @@ public class H2UrlBuilder {
 	public String build(){
 		StringBuilder url = new StringBuilder(H2);
 		if (!initCommands.isEmpty()){
+			url.append(MYSQL_MODE);
 			url.append(INIT);
 			for (String command : initCommands) {
 				url.append(command);
