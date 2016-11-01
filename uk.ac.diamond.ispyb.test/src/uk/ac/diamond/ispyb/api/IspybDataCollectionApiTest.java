@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import org.h2.tools.SimpleResultSet;
@@ -27,6 +26,56 @@ public class IspybDataCollectionApiTest {
 				Optional.of(Schema.ISPYB));
 
 		assertThat(api, is(notNullValue()));
+
+		api.closeConnection();
+	}
+
+	@Test
+	public void testShouldUpsertDataCollection() throws Exception {
+		Arrays.stream(this.getClass().getMethods())
+				.forEach(action -> System.out.println(action.getParameterTypes().length));
+		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("upsert_dc", "upsertDataCollection").build();
+		IspybDataCollectionApi api = new IspybDaoFactory().buildIspybDataCollectionApi(url, Optional.empty(),
+				Optional.empty(), Optional.of(Schema.ISPYB));
+
+		DataCollection dataCollection = new DataCollection();
+		dataCollection.setNumberOfImages(100);
+		int id = api.upsertDataCollection(dataCollection);
+		assertThat(id, is(equalTo(5)));
+
+		api.closeConnection();
+	}
+
+	@Test
+	public void testShouldUpsertDataCollectionGroup() throws Exception {
+		Arrays.stream(this.getClass().getMethods())
+				.forEach(action -> System.out.println(action.getParameterTypes().length));
+		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("upsert_dc_group", "upsertDataCollectionGroup")
+				.build();
+		IspybDataCollectionApi api = new IspybDaoFactory().buildIspybDataCollectionApi(url, Optional.empty(),
+				Optional.empty(), Optional.of(Schema.ISPYB));
+
+		DataCollectionGroup group = new DataCollectionGroup();
+		group.setActualSampleSlotInContainer(6);
+		int id = api.upsertDataCollectionGroup(group);
+		assertThat(id, is(equalTo(100)));
+
+		api.closeConnection();
+	}
+
+	@Test
+	public void testShouldRetrieveBean() throws Exception {
+		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dcs_for_subsample", "retrieve").build();
+
+		IspybDataCollectionApi api = new IspybDaoFactory().buildIspybDataCollectionApi(url, Optional.empty(),
+				Optional.empty(), Optional.of(Schema.ISPYB));
+
+		DataCollection dataCollection = api.retrieveDataCollectionForSubsample(12345);
+
+		DataCollection expected = new DataCollection();
+		expected.setId(12345);
+
+		assertThat(dataCollection, is(equalTo(expected)));
 
 		api.closeConnection();
 	}
@@ -48,30 +97,26 @@ public class IspybDataCollectionApiTest {
 			double maxDefocus, double defocusStepSize, double amountAstigmatism, double extractSize, double bgRadius,
 			double voltage, double objAperture, double c1aperture, double c2aperture, double c3aperture, double c1lens,
 			double c2lens, double c3lens) {
-		
-		if (numberOfImages == 100){
+		if (numberOfImages == 100) {
 			return 5;
 		}
-
 		return -1;
 	}
 
-	public static final ResultSet info(String s) {
+	public static final int upsertDataCollectionGroup(int id, String session, int sampleId, String experimentType,
+			LocalDateTime starttime, LocalDateTime endtime, String crystalClass, String detectorMode,
+			String actualSampleBarcode, int actualSampleSlotInContainer, String actualContainerBarcode,
+			int actualContainerSlotInSC, String comments) {
+		if (actualSampleSlotInContainer == 6){
+			return 100;
+		}
+		return -1;
+	}
+
+	public static final ResultSet retrieve(int id) {
 		SimpleResultSet result = new SimpleResultSet();
-		List<String> stringFields = Arrays.asList("orientation", "detectorType", "detectorManufacturer",
-				"detectorModel", "composition", "scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray");
-		stringFields.forEach(field -> result.addColumn(field, Types.VARCHAR, 255, 0));
-
-		List<String> doubleFields = Arrays.asList("energy", "preferredBeamSizeX", "preferredBeamSizeY", "exposureTime",
-				"distance", "monoBandwidth", "detectorDistanceMin", "detectorDistanceMax", "density",
-				"scanParamModelStart", "scanParamModelStop", "scanParamModelStep");
-		doubleFields.forEach(field -> result.addColumn(field, Types.DOUBLE, 15, 0));
-		result.addColumn("scanParamModelNumber", Types.INTEGER, 15, 0);
-
-		result.addRow("orientation", "detectorType", "detectorManufacturer", "detectorModel", "composition",
-				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-				1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 10);
-
+		result.addColumn("id", Types.INTEGER, 15, 0);
+		result.addRow(id);
 		return result;
 	}
 }
