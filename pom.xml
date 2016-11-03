@@ -101,7 +101,6 @@
 					<failOnError>false</failOnError>
 				</configuration>
 			</plugin>
-			
 		</plugins>
 	</build>
 </project>
