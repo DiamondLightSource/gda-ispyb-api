@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Optional;
 
 import org.h2.tools.SimpleResultSet;
