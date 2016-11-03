@@ -3,3 +3,4 @@
 .settings/
 **/bin
 **/target
+uk.ac.diamond.ispyb.test/sql/*.sql~

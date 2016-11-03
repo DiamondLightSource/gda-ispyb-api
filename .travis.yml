@@ -1,0 +1,22 @@
+sudo: false # use containers
+
+language: java
+
+cache:
+  directories:
+    - $HOME/.m2 # Maven dependencies
+
+# whitelist
+branches:
+ only:
+  - master
+ 
+jdk:
+ - oraclejdk8
+
+# Run maven. This happens automatically and adding it again makes the build longer.
+script: 
+ - mvn -Dispyb.url=jdbc:mariadb://localhost:3306 clean compile surefire:test
+ 
+addons:
+  mariadb: '10.0'
