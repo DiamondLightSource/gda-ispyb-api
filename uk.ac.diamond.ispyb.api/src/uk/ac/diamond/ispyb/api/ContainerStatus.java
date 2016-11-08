@@ -2,12 +2,11 @@ package uk.ac.diamond.ispyb.api;
 
 public enum ContainerStatus {
 
-	LOCAL_STORAGE("In local storage"),
+	LOCAL_STORAGE("in_localstorage"),
 	TRANSIT("In transit"),
-	IMAGER("In imager"),
-	INVALID("Invalid");
+	IMAGER("in_storage");
 
-	String status;
+	private final String status;
 	ContainerStatus(String status) {
 		this.status = status;
 	}
@@ -22,7 +21,7 @@ public enum ContainerStatus {
 				return e;
 			}
 		}
-		return INVALID;
+		throw new IllegalArgumentException("no container status for " + status);
 	}
 
 }

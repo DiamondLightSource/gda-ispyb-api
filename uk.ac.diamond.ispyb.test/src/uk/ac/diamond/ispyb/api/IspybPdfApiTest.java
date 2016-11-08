@@ -22,7 +22,7 @@ public class IspybPdfApiTest {
 	public void testShouldCreateApi() throws SQLException {
 		String url = new H2UrlBuilder().build();
 		IspybFactoryService service = new IspybDaoFactory();
-		IspybPdfApi api = service.buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
+		IspybPdfApi api = service.buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB.toString()));
 
 		assertThat(api, is(notNullValue()));
 
@@ -32,7 +32,7 @@ public class IspybPdfApiTest {
 	@Test
 	public void testShouldRetrieveContainerLsPosition() throws Exception {
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_plan_groups", "groups").build();
-		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
+		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB.toString()));
 
 		List<Integer> pos = api.retrieveDcPlanGroups("sessionid");
 		assertThat(pos, is(equalTo(Arrays.asList(1, 2, 3, 4))));
@@ -44,7 +44,7 @@ public class IspybPdfApiTest {
 	public void testShouldRetrieveBean() throws Exception {
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_plan_info", "info").build();
 
-		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
+		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB.toString()));
 
 		List<DataCollectionPlanInfo> infos = api.retrieveDcPlanInfo(12345);
 

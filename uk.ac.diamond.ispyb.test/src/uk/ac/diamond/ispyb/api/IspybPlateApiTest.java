@@ -23,7 +23,7 @@ public class IspybPlateApiTest {
 	public void testShouldCreateApi() throws SQLException {
 		String url = new H2UrlBuilder().build();
 		IspybFactoryService service = new IspybDaoFactory();
-		IspybPlateApi api = service.buildIspybPlateApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB));
+		IspybPlateApi api = service.buildIspybPlateApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB.toString()));
 
 		assertThat(api, is(notNullValue()));
 
@@ -33,7 +33,7 @@ public class IspybPlateApiTest {
 	@Test
 	public void testShouldRetrieveContainerLsPosition() throws Exception {
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_container_ls_position", "reverse").build();
-		IspybPlateApi api = new IspybDaoFactory().buildIspybPlateApi(url, Optional.empty(), Optional.empty(),Optional.of(Schema.ISPYB));
+		IspybPlateApi api = new IspybDaoFactory().buildIspybPlateApi(url, Optional.empty(), Optional.empty(),Optional.of(Schema.ISPYB.toString()));
 
 		int pos = api.retrieveContainerLSPosition("12345");
 		assertThat(pos, is(equalTo(54321)));
@@ -44,7 +44,7 @@ public class IspybPlateApiTest {
 	@Test
 	public void testShouldRetrieveBean() throws Exception {
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_container_info", "containerInfo").build();
-		IspybPlateApi api = new IspybDaoFactory().buildIspybPlateApi(url, Optional.empty(), Optional.empty(),Optional.of(Schema.ISPYB));
+		IspybPlateApi api = new IspybDaoFactory().buildIspybPlateApi(url, Optional.empty(), Optional.empty(),Optional.of(Schema.ISPYB.toString()));
 
 		ContainerInfo bean = api.retrieveContainerInfo("12345");
 		ContainerInfo expectedBean = new ContainerInfo();

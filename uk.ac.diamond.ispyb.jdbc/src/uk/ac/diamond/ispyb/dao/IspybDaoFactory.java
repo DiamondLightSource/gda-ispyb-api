@@ -23,15 +23,15 @@ public class IspybDaoFactory implements IspybFactoryService {
 	}
 
 	@Override
-	public IspybPdfApi buildIspybPdfApi(String url, Properties properties, Optional<Schema> schema) throws SQLException {
+	public IspybPdfApi buildIspybPdfApi(String url, Properties properties, Optional<String> schema) throws SQLException {
 		JdbcTemplate template = makeTemplate(url, Optional.empty(), Optional.empty(), Optional.of(properties));
-		return new IspybPdfDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB).toString()));
+		return new IspybPdfDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString())));
 	}
 
 	@Override
-	public IspybDataCollectionApi buildIspybDataCollectionApi(String url, Properties properties, Optional<Schema> schema) throws SQLException {
+	public IspybDataCollectionApi buildIspybDataCollectionApi(String url, Properties properties, Optional<String> schema) throws SQLException {
 		JdbcTemplate template = makeTemplate(url, Optional.empty(), Optional.empty(), Optional.of(properties));
-		return new IspybDataCollectionDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB).toString()));
+		return new IspybDataCollectionDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString())));
 	}
 
 	@Override
@@ -43,16 +43,16 @@ public class IspybDaoFactory implements IspybFactoryService {
 
 	@Override
 	public IspybPdfApi buildIspybPdfApi(String url, Optional<String> username, Optional<String> password,
-			Optional<Schema> schema) throws SQLException {
+			Optional<String> schema) throws SQLException {
 		JdbcTemplate template = makeTemplate(url, username, password, Optional.empty());
-		return new IspybPdfDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB).toString()));
+		return new IspybPdfDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString())));
 	}
 
 	@Override
 	public IspybDataCollectionApi buildIspybDataCollectionApi(String url, Optional<String> username, Optional<String> password,
-			Optional<Schema> schema) throws SQLException {
+			Optional<String> schema) throws SQLException {
 		JdbcTemplate template = makeTemplate(url, username, password, Optional.empty());
-		return new IspybDataCollectionDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB).toString()));
+		return new IspybDataCollectionDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString())));
 	}
 	
 	private JdbcTemplate makeTemplate(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties) throws SQLException{
