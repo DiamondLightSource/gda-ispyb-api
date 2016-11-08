@@ -16,7 +16,7 @@ jdk:
 
 # Run maven. This happens automatically and adding it again makes the build longer.
 script: 
- - mvn -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=travis clean compile surefire:test
+ - mvn -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=travis -Dispyb.host=localhost clean compile surefire:test
 
 addons:
   mariadb: '10.0'

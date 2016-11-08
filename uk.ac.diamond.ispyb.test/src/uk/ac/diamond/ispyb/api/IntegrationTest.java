@@ -22,8 +22,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 import uk.ac.diamond.ispyb.dao.IspybDaoFactory;
+import junit.framework.TestCase;
 
-public class IntegrationTest {
+public class IntegrationTest extends TestCase{
 	private final String host = System.getProperty("ispyb.host");
 	private final String url = System.getProperty("ispyb.url");
 	private final Optional<String> user = Optional.ofNullable(System.getProperty("ispyb.user"));
@@ -52,6 +53,7 @@ public class IntegrationTest {
 	}
 	
 	@Before
+	@Override
 	public void setUp() throws FileNotFoundException, IOException, SQLException, InterruptedException{
 		Connection connection = connectToDatabase(url, user, password, Optional.empty());
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
@@ -63,6 +65,7 @@ public class IntegrationTest {
 	}
 
 	@After
+	@Override
 	public void tearDown() throws FileNotFoundException, IOException, SQLException, InterruptedException{
 		Connection connection = connectToDatabase(url, user, password, Optional.empty());
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
@@ -74,7 +77,9 @@ public class IntegrationTest {
 		Resource resource = new DefaultResourceLoader().getResource(filename);
 		String absolutePath = resource.getFile().getAbsolutePath();
 
-		String command = String.format("./rundbscript.sh %s %s %s %s %s", host, user.get(), password.get(), database, absolutePath);
+		String command = String.format("./rundbscript.sh %s %s %s %s %s", host, user.get(), password.orElse(""), database, absolutePath);
+
+		System.out.println(command);
 		
 		CommandLine commandLine = CommandLine.parse(command);
 		DefaultExecutor executor = new DefaultExecutor();
