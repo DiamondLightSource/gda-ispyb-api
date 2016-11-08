@@ -1,1 +1,1 @@
-drop database if exists maven_${user.name}
+drop database if exists maven_nnp95151

@@ -1,8 +1,3 @@
-drop database if exists maven_${user.name};
-create database maven_${user.name};
-use maven_${user.name};
+drop database if exists maven_nnp95151;
+create database maven_nnp95151;
 
-create table test ( 
-	id int(1) unsigned auto_increment primary key,
-	subject varchar(255)
-);

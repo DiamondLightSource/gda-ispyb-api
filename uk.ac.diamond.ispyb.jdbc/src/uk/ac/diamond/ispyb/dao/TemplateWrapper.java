@@ -6,17 +6,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import uk.ac.diamond.ispyb.api.Schema;
-
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.StringUtils;
 
 class TemplateWrapper {
 	private JdbcTemplate template;
-	private Schema schema;
+	private String schema;
 
-	public TemplateWrapper(JdbcTemplate template, Schema schema) {
+	public TemplateWrapper(JdbcTemplate template, String schema) {
 		this.template = template;
 		this.schema = schema;
 	}
