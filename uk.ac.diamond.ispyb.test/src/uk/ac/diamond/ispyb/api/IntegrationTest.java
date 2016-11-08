@@ -21,8 +21,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
-import uk.ac.diamond.ispyb.dao.IspybDaoFactory;
 import junit.framework.TestCase;
+import uk.ac.diamond.ispyb.dao.IspybDaoFactory;
 
 public class IntegrationTest extends TestCase{
 	private final String host = System.getProperty("ispyb.host");
@@ -59,6 +59,11 @@ public class IntegrationTest extends TestCase{
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
 		jdbcTemplate.execute(String.format("drop database if exists %s;", schema));
 		jdbcTemplate.execute(String.format("create database %s;", schema));
+		try{
+			jdbcTemplate.execute("SET GLOBAL log_bin_trust_function_creators = 1;");
+		} catch (Exception e){
+			// this happens internally, but should work on travis
+		}
 		connection.close();
 		
 		executeScript("schema.sql", schema);
