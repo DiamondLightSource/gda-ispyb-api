@@ -4,57 +4,40 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Properties;
-
-import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
-import uk.ac.diamond.ispyb.api.IspybFactoryService;
-import uk.ac.diamond.ispyb.api.IspybPdfApi;
-import uk.ac.diamond.ispyb.api.IspybPlateApi;
-import uk.ac.diamond.ispyb.api.Schema;
+import java.util.function.Function;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
+import uk.ac.diamond.ispyb.api.IspybFactoryService;
+import uk.ac.diamond.ispyb.api.Schema;
 
-public class IspybDaoFactory implements IspybFactoryService {
-	@Override
-	public IspybPlateApi buildIspybPlateApi(String url, Properties properties, Optional<String> schema) throws SQLException {
-		JdbcTemplate template = makeTemplate(url, Optional.empty(), Optional.empty(), Optional.of(properties));
-		return new IspybPlateDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString())));
-	}
 
-	@Override
-	public IspybPdfApi buildIspybPdfApi(String url, Properties properties, Optional<String> schema) throws SQLException {
-		JdbcTemplate template = makeTemplate(url, Optional.empty(), Optional.empty(), Optional.of(properties));
-		return new IspybPdfDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString())));
-	}
-
-	@Override
-	public IspybDataCollectionApi buildIspybDataCollectionApi(String url, Properties properties, Optional<String> schema) throws SQLException {
-		JdbcTemplate template = makeTemplate(url, Optional.empty(), Optional.empty(), Optional.of(properties));
-		return new IspybDataCollectionDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString())));
-	}
-
-	@Override
-	public IspybPlateApi buildIspybPlateApi(String url, Optional<String> username, Optional<String> password,
-			Optional<String> schema) throws SQLException {
-		JdbcTemplate template = makeTemplate(url, username, password, Optional.empty());
-		return new IspybPlateDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString())));
-	}
-
-	@Override
-	public IspybPdfApi buildIspybPdfApi(String url, Optional<String> username, Optional<String> password,
-			Optional<String> schema) throws SQLException {
-		JdbcTemplate template = makeTemplate(url, username, password, Optional.empty());
-		return new IspybPdfDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString())));
-	}
-
-	@Override
-	public IspybDataCollectionApi buildIspybDataCollectionApi(String url, Optional<String> username, Optional<String> password,
-			Optional<String> schema) throws SQLException {
-		JdbcTemplate template = makeTemplate(url, username, password, Optional.empty());
-		return new IspybDataCollectionDAO(new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString())));
+public class IspybDaoFactory<T> implements IspybFactoryService<T>{
+	private final Function<TemplateWrapper, T> daoFactory;  
+	
+	public IspybDaoFactory(Function<TemplateWrapper, T> daofactory) {
+		this.daoFactory = daofactory;
 	}
 	
+	@Override
+	public T buildIspybApi(String url, Optional<String> username, Optional<String> password, Optional<String> schema) throws SQLException {
+		TemplateWrapper templateWrapper = buildTemplateWrapper(url, username, password, Optional.empty(), schema);
+		return daoFactory.apply(templateWrapper);
+	}
+
+	@Override
+	public T buildIspybApi(String url, Properties properties, Optional<String> schema) throws SQLException {
+		TemplateWrapper templateWrapper = buildTemplateWrapper(url, Optional.empty(), Optional.empty(), Optional.of(properties), schema);
+		return daoFactory.apply(templateWrapper);
+	}
+
+	private TemplateWrapper buildTemplateWrapper(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties, Optional<String> schema) throws SQLException {
+		JdbcTemplate template = makeTemplate(url, username, password, properties);
+		TemplateWrapper templateWrapper = new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString()));
+		return templateWrapper;
+	}
+
 	private JdbcTemplate makeTemplate(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties) throws SQLException{
 		return makeJdbcTemplateFromConnection(connectToDatabase(url, username, password, properties));
 	}
@@ -70,4 +53,5 @@ public class IspybDaoFactory implements IspybFactoryService {
 	private static JdbcTemplate makeJdbcTemplateFromConnection(Connection connection) {
 		return new JdbcTemplate(new SingleConnectionDataSource(connection, true));
 	}
+
 }

@@ -4,12 +4,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Properties;
 
-public interface IspybFactoryService {
-	IspybPlateApi buildIspybPlateApi(String url, Optional<String> username, Optional<String> password, Optional<String> schema) throws SQLException;
-	IspybPdfApi buildIspybPdfApi(String url, Optional<String> username, Optional<String> password, Optional<String> schema) throws SQLException;
-	IspybDataCollectionApi buildIspybDataCollectionApi(String url, Optional<String> username, Optional<String> password, Optional<String> schema) throws SQLException;
-
-	IspybPlateApi buildIspybPlateApi(String url, Properties properties, Optional<String> schema) throws SQLException;
-	IspybPdfApi buildIspybPdfApi(String url, Properties properties, Optional<String> schema) throws SQLException;
-	IspybDataCollectionApi buildIspybDataCollectionApi(String url, Properties properties, Optional<String> schema) throws SQLException;
+public interface IspybFactoryService<T>{
+	public T buildIspybApi(String url, Optional<String> username, Optional<String> password, Optional<String> schema) throws SQLException;
+	public T buildIspybApi(String url, Properties properties, Optional<String> schema) throws SQLException;
 }

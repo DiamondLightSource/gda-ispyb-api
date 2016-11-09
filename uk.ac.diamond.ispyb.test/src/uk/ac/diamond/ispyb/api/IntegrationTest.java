@@ -22,7 +22,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 import junit.framework.TestCase;
-import uk.ac.diamond.ispyb.dao.IspybDaoFactory;
+import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
 
 public class IntegrationTest extends TestCase{
 	private final String host = System.getProperty("ispyb.host");
@@ -32,9 +32,11 @@ public class IntegrationTest extends TestCase{
 	private final String systemUser = System.getProperty("user.name");
 	private final String schema = "maven_" + systemUser;
 	
+	private final IspybFactoryService<IspybPlateApi> factory = new IspybPlateDaoFactory();
+	
 	@Test
 	public void testRetrieve() throws SQLException, FileNotFoundException, IOException, InterruptedException {
-		IspybPlateApi api = new IspybDaoFactory().buildIspybPlateApi(url, user,  password, Optional.of(schema));
+		IspybPlateApi api = factory.buildIspybApi(url, user,  password, Optional.of(schema));
 		ContainerInfo containerInfo = api.retrieveContainerInfo("test_plate3");
 		
 		ContainerInfo expected = new ContainerInfo();
@@ -62,7 +64,7 @@ public class IntegrationTest extends TestCase{
 		try{
 			jdbcTemplate.execute("SET GLOBAL log_bin_trust_function_creators = 1;");
 		} catch (Exception e){
-			// this happens internally, but should work on travis
+			// internally we use row logging, but this should work on travis
 		}
 		connection.close();
 		

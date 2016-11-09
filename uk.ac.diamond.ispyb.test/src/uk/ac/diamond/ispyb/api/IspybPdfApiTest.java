@@ -15,14 +15,16 @@ import java.util.Optional;
 import org.h2.tools.SimpleResultSet;
 import org.junit.Test;
 
-import uk.ac.diamond.ispyb.dao.IspybDaoFactory;
+import uk.ac.diamond.ispyb.dao.IspybPdfDaoFactory;
 
-public class IspybPdfApiTest {	
+public class IspybPdfApiTest {
+	private final IspybFactoryService<IspybPdfApi> factory = new IspybPdfDaoFactory();
+
 	@Test
 	public void testShouldCreateApi() throws SQLException {
 		String url = new H2UrlBuilder().build();
-		IspybFactoryService service = new IspybDaoFactory();
-		IspybPdfApi api = service.buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB.toString()));
+		IspybPdfApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
+				Optional.of(Schema.ISPYB.toString()));
 
 		assertThat(api, is(notNullValue()));
 
@@ -32,7 +34,8 @@ public class IspybPdfApiTest {
 	@Test
 	public void testShouldRetrieveContainerLsPosition() throws Exception {
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_plan_groups", "groups").build();
-		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB.toString()));
+		IspybPdfApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
+				Optional.of(Schema.ISPYB.toString()));
 
 		List<Integer> pos = api.retrieveDcPlanGroups("sessionid");
 		assertThat(pos, is(equalTo(Arrays.asList(1, 2, 3, 4))));
@@ -44,7 +47,8 @@ public class IspybPdfApiTest {
 	public void testShouldRetrieveBean() throws Exception {
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_plan_info", "info").build();
 
-		IspybPdfApi api = new IspybDaoFactory().buildIspybPdfApi(url, Optional.empty(), Optional.empty(), Optional.of(Schema.ISPYB.toString()));
+		IspybPdfApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
+				Optional.of(Schema.ISPYB.toString()));
 
 		List<DataCollectionPlanInfo> infos = api.retrieveDcPlanInfo(12345);
 
@@ -70,7 +74,7 @@ public class IspybPdfApiTest {
 		expectedInfo.setScanParamServiceDesc("scanParamServiceDesc");
 		expectedInfo.setScanParamServiceName("scanParamServiceName");
 		expectedInfo.setEnergy(1.0);
-		
+
 		assertThat(infos, is(equalTo(Arrays.asList(expectedInfo))));
 
 		api.closeConnection();
@@ -92,17 +96,16 @@ public class IspybPdfApiTest {
 				"detectorModel", "composition", "scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray");
 		stringFields.forEach(field -> result.addColumn(field, Types.VARCHAR, 255, 0));
 
-		List<String> doubleFields = Arrays.asList("energy", "preferredBeamSizeX", "preferredBeamSizeY",
-				"exposureTime", "distance", "monoBandwidth", "detectorDistanceMin", "detectorDistanceMax", "density",
+		List<String> doubleFields = Arrays.asList("energy", "preferredBeamSizeX", "preferredBeamSizeY", "exposureTime",
+				"distance", "monoBandwidth", "detectorDistanceMin", "detectorDistanceMax", "density",
 				"scanParamModelStart", "scanParamModelStop", "scanParamModelStep");
 		doubleFields.forEach(field -> result.addColumn(field, Types.DOUBLE, 15, 0));
 		result.addColumn("scanParamModelNumber", Types.INTEGER, 15, 0);
 
-		result.addRow("orientation", "detectorType", "detectorManufacturer", 
-				"detectorModel", "composition", "scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 
-				1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,
-				10);
-		
+		result.addRow("orientation", "detectorType", "detectorManufacturer", "detectorModel", "composition",
+				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+				1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 10);
+
 		return result;
 	}
 }

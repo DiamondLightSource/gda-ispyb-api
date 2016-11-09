@@ -14,14 +14,15 @@ import java.util.Optional;
 import org.h2.tools.SimpleResultSet;
 import org.junit.Test;
 
-import uk.ac.diamond.ispyb.dao.IspybDaoFactory;
+import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
 
 public class IspybDataCollectionApiTest {
+	private final IspybFactoryService<IspybDataCollectionApi> factory = new IspybDataCollectionDaoFactory();
+
 	@Test
 	public void testShouldCreateApi() throws SQLException {
 		String url = new H2UrlBuilder().build();
-		IspybFactoryService service = new IspybDaoFactory();
-		IspybDataCollectionApi api = service.buildIspybDataCollectionApi(url, Optional.empty(), Optional.empty(),
+		IspybDataCollectionApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
 				Optional.of(Schema.ISPYB.toString()));
 
 		assertThat(api, is(notNullValue()));
@@ -32,8 +33,8 @@ public class IspybDataCollectionApiTest {
 	@Test
 	public void testShouldUpsertDataCollection() throws Exception {
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("upsert_dc", "upsertDataCollection").build();
-		IspybDataCollectionApi api = new IspybDaoFactory().buildIspybDataCollectionApi(url, Optional.empty(),
-				Optional.empty(), Optional.of(Schema.ISPYB.toString()));
+		IspybDataCollectionApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
+				Optional.of(Schema.ISPYB.toString()));
 
 		DataCollection dataCollection = new DataCollection();
 		dataCollection.setNumberOfImages(100);
@@ -47,8 +48,8 @@ public class IspybDataCollectionApiTest {
 	public void testShouldUpsertDataCollectionGroup() throws Exception {
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("upsert_dc_group", "upsertDataCollectionGroup")
 				.build();
-		IspybDataCollectionApi api = new IspybDaoFactory().buildIspybDataCollectionApi(url, Optional.empty(),
-				Optional.empty(), Optional.of(Schema.ISPYB.toString()));
+		IspybDataCollectionApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
+				Optional.of(Schema.ISPYB.toString()));
 
 		DataCollectionGroup group = new DataCollectionGroup();
 		group.setActualSampleSlotInContainer(6);
@@ -62,8 +63,8 @@ public class IspybDataCollectionApiTest {
 	public void testShouldRetrieveBean() throws Exception {
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dcs_for_subsample", "retrieve").build();
 
-		IspybDataCollectionApi api = new IspybDaoFactory().buildIspybDataCollectionApi(url, Optional.empty(),
-				Optional.empty(), Optional.of(Schema.ISPYB.toString()));
+		IspybDataCollectionApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
+				Optional.of(Schema.ISPYB.toString()));
 
 		DataCollection dataCollection = api.retrieveDataCollectionForSubsample(12345);
 
@@ -102,7 +103,7 @@ public class IspybDataCollectionApiTest {
 			LocalDateTime starttime, LocalDateTime endtime, String crystalClass, String detectorMode,
 			String actualSampleBarcode, int actualSampleSlotInContainer, String actualContainerBarcode,
 			int actualContainerSlotInSC, String comments) {
-		if (actualSampleSlotInContainer == 6){
+		if (actualSampleSlotInContainer == 6) {
 			return 100;
 		}
 		return -1;
