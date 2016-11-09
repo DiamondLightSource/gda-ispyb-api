@@ -17,7 +17,6 @@ public interface IspybPlateApi {
 	void updateContainerStatus(String barcode, ContainerStatus status) throws SQLException;
 
 	void finishContainer(String barcode) throws SQLException;
-	
 
 	List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws SQLException;
 

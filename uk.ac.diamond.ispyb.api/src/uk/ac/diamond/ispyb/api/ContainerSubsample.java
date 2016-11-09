@@ -13,6 +13,9 @@ public class ContainerSubsample {
 	private double ROIPos1x;
 	private double ROIPos1y;
 	private double ROIPos1z;
+	private double ROIPos2x;
+	private double ROIPos2y;
+	private double ROIPos2z;
 	private String lastImgFullPath;
 	private String uploadedImgFilePath;
 	private String uploadedImgFileName;
@@ -66,6 +69,30 @@ public class ContainerSubsample {
 		ROIPos1z = rOIPos1z;
 	}
 
+	public double getROIPos2x() {
+		return ROIPos2x;
+	}
+	
+	public void setROIPos2x(double rOIPos2x) {
+		ROIPos2x = rOIPos2x;
+	}
+	
+	public double getROIPos2y() {
+		return ROIPos2y;
+	}
+	
+	public void setROIPos2y(double rOIPos2y) {
+		ROIPos2y = rOIPos2y;
+	}
+	
+	public double getROIPos2z() {
+		return ROIPos2z;
+	}
+	
+	public void setROIPos2z(double rOIPos2z) {
+		ROIPos2z = rOIPos2z;
+	}
+	
 	public String getLastImgFullPath() {
 		return lastImgFullPath;
 	}
