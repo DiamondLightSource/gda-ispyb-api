@@ -60,7 +60,7 @@ public class IspybPlateApiTest {
 		expectedBean.setLocation("location");
 		expectedBean.setImagerName("imagerName");
 		expectedBean.setImagerSerialNumber("imagerSerialNumber");
-		expectedBean.setStatus(ContainerStatus.LOCAL_STORAGE.getStatus());
+		expectedBean.setStatus(ContainerStatus.IN_LOCALSTORAGE.getStatus());
 		expectedBean.setCapacity(5);
 		expectedBean.setStorageTemperature(0.5f);
 
@@ -81,7 +81,7 @@ public class IspybPlateApiTest {
 		result.addColumn("capacity", Types.INTEGER, 10, 0);
 		result.addColumn("storageTemperature", Types.FLOAT, 10, 0);
 		result.addRow("name", "type", "barcode", "beamline", "location", "imagerName", "imagerSerialNumber",
-				ContainerStatus.LOCAL_STORAGE.getStatus(), 5, 0.5);
+				ContainerStatus.IN_LOCALSTORAGE.getStatus(), 5, 0.5);
 		return result;
 	}
 }

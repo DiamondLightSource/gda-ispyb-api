@@ -26,9 +26,6 @@ public interface IspybPlateApi {
 
 	void clearContainerError(String barcode) throws SQLException;
 
-	// TODO not a stored procedure yet
-//	String retrieveContainersSubmittedNonLs(String barcode) throws DataAccessException;
-
 	public Map<String, Object> retrieveTest() throws SQLException;
 
 	void closeConnection() throws SQLException;

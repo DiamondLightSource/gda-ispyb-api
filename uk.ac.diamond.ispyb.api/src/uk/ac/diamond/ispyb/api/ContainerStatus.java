@@ -1,10 +1,15 @@
 package uk.ac.diamond.ispyb.api;
 
 public enum ContainerStatus {
-
-	LOCAL_STORAGE("in_localstorage"),
-	TRANSIT("In transit"),
-	IMAGER("in_storage");
+	IN_STORAGE("in_storage"),
+	IN_LOCALSTORAGE("in_localstorage"),
+	PROCESSING("processing"),
+	DISPOSED("disposed"),
+	IN_TRANSIT_TO_LOCAL_STORAGE("in_transit_to_localstorage"),
+	IN_TRANSIT_TO_STORAGE("in_transit_to_storage"),
+	IN_TRANSIT_LOADING("in_transit_loading"),
+	IN_TRANSIT_UNLOADING("in_transit_unloading"),
+	INVALID("invalid");
 
 	private final String status;
 	ContainerStatus(String status) {

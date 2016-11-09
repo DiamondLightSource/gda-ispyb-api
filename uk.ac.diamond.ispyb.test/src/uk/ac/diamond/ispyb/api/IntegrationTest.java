@@ -47,7 +47,7 @@ public class IntegrationTest extends TestCase{
 		expected.setLocation("3");
 		expected.setImagerName("Imager1 20c");
 		expected.setImagerSerialNumber("Z125434");
-		expected.setStatus(ContainerStatus.IMAGER.getStatus());
+		expected.setStatus(ContainerStatus.IN_STORAGE.getStatus());
 		expected.setCapacity(192L);
 		expected.setStorageTemperature(20.0f);
 		
