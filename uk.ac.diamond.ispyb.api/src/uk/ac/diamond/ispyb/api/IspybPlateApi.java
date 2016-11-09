@@ -10,11 +10,14 @@ public interface IspybPlateApi {
 
 	ContainerInfo retrieveContainerInfo(String barcode) throws SQLException;
 
+	List<ContainerInfo> retrieveContainerOnGonio(String beamline) throws SQLException;
+
 	void updateContainerLSPosition(String barcode, int position) throws SQLException;
 
 	void updateContainerStatus(String barcode, ContainerStatus status) throws SQLException;
 
 	void finishContainer(String barcode) throws SQLException;
+	
 
 	List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws SQLException;
 

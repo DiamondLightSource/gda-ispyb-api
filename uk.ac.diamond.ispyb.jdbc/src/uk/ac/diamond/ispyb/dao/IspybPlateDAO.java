@@ -34,6 +34,11 @@ public class IspybPlateDAO implements IspybPlateApi{
 	}
 
 	@Override
+	public List<ContainerInfo> retrieveContainerOnGonio(String beamline) throws SQLException{
+		return templateWrapper.callIspybForListBeans("retrieve_container_on_gonio", ContainerInfo.class, beamline);
+	}
+
+	@Override
 	public void updateContainerLSPosition(String barcode, int position) throws SQLException {
 		templateWrapper.updateIspyb("update_container_ls_position", barcode, position);
 	}
@@ -72,12 +77,6 @@ public class IspybPlateDAO implements IspybPlateApi{
 	public void clearContainerError(String barcode) throws SQLException {
 		templateWrapper.callIspybForList("clear_container_error", String.class, barcode);
 	}
-
-//  TODO: not a store procedure yet
-//	@Override
-//	public String retrieveContainersSubmittedNonLs(String barcode) throws 	DataAccessException {
-//		return callIspyb("retrieve_containers_submitted_non_ls", String.class, barcode);
-//	}
 
 	@Override
 	public Map<String, Object>  retrieveTest() throws SQLException {
