@@ -32,6 +32,4 @@ deploy:
     - "uk.ac.diamond.ispyb.jdbc/target/uk.ac.diamond.ispyb.jdbc-*.jar"
   skip_cleanup: true
   on:
-    repo: DiamondLightSource/gda-ispyb-api
     tags: true
-
