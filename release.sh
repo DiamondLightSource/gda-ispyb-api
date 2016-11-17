@@ -5,7 +5,7 @@ NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+\.)(\d+)$/$1.$2.($3+1)/e')
 
 echo "releasing version $VERSION" 
 git tag VERSION
-git push --tag
+git push origin --tag
 
 echo "setting up next version $NEW_VERSION"
 
