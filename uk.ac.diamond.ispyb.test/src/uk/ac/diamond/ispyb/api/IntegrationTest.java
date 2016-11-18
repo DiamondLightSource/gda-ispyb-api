@@ -111,8 +111,6 @@ public class IntegrationTest extends TestCase{
 		String absolutePath = resource.getFile().getAbsolutePath();
 
 		String command = String.format("./rundbscript.sh %s %s %s %s %s", host, user.get(), password.orElse(""), database, absolutePath);
-
-		System.out.println(command);
 		
 		CommandLine commandLine = CommandLine.parse(command);
 		DefaultExecutor executor = new DefaultExecutor();
