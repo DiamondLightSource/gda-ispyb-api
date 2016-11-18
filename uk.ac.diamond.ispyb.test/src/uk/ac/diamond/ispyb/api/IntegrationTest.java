@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -57,8 +58,18 @@ public class IntegrationTest extends TestCase{
 
 	@Test
 	public void testRetrieveLsPosition() throws SQLException{
-		Integer position = execute(api-> api.retrieveContainerLSPosition("test_plate3"));
-		assertThat(position, is(equalTo(-1)));
+		int position = execute(api-> api.retrieveContainerLSPosition("test_plate2"));
+		assertThat(position, is(equalTo(3)));
+	}
+
+	@Test
+	public void testRetrieveTest() throws SQLException{
+		Map<String, Object> result = execute(api-> api.retrieveTest());
+
+		assertThat(result.get("2_1"), is(equalTo("2")));
+		assertThat(result.get("2_2"), is(equalTo(2L)));
+		assertThat(result.get("20_1"), is(equalTo("2.0")));
+		assertThat(result.get("20_2"), is(equalTo(2.0f)));
 	}
 	
 	private <T> T execute(CheckedFunction<T, IspybPlateApi> f) throws SQLException {
