@@ -69,7 +69,6 @@ public class IntegrationTest extends TestCase{
 		assertThat(result.get("2_1"), is(equalTo("2")));
 		assertThat(result.get("2_2"), is(equalTo(2L)));
 		assertThat(result.get("20_1"), is(equalTo("2.0")));
-		assertThat(result.get("20_2"), is(equalTo(2.0f)));
 	}
 	
 	private <T> T execute(CheckedFunction<T, IspybPlateApi> f) throws SQLException {
