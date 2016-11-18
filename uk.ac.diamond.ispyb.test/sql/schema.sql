@@ -2,7 +2,7 @@
 --
 -- Host: cs04r-sc-vserv-88    Database: ispybstage
 -- ------------------------------------------------------
--- Server version	10.1.18-MariaDB-enterprise
+-- Server version	10.1.19-MariaDB-enterprise
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -1499,6 +1499,7 @@ CREATE TABLE `ContainerHistory` (
   `containerId` int(10) unsigned DEFAULT NULL,
   `location` varchar(45) DEFAULT NULL,
   `blTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`containerHistoryId`),
   KEY `ContainerHistory_ibfk1` (`containerId`),
   CONSTRAINT `ContainerHistory_ibfk1` FOREIGN KEY (`containerId`) REFERENCES `Container` (`containerId`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2616,10 +2617,10 @@ CREATE TABLE `GridInfo` (
   `workflowMeshId` int(11) unsigned DEFAULT NULL,
   `orientation` enum('vertical','horizontal') DEFAULT 'horizontal',
   `dataCollectionGroupId` int(11) DEFAULT NULL,
-  `pixelspermicronX` float DEFAULT NULL,
-  `pixelspermicronY` float DEFAULT NULL,
-  `snapshot_offsetxpixel` float DEFAULT NULL,
-  `snapshot_offsetypixel` float DEFAULT NULL,
+  `pixelsPerMicronX` float DEFAULT NULL,
+  `pixelsPerMicronY` float DEFAULT NULL,
+  `snapshot_offsetXPixel` float DEFAULT NULL,
+  `snapshot_offsetYPixel` float DEFAULT NULL,
   `snaked` tinyint(1) DEFAULT '0' COMMENT 'True: The images associated with the DCG were collected in a snaked pattern',
   PRIMARY KEY (`gridInfoId`),
   KEY `workflowMeshId` (`workflowMeshId`),
@@ -4289,6 +4290,7 @@ CREATE TABLE `Protein` (
   `global` tinyint(1) DEFAULT '0',
   `externalId` binary(16) DEFAULT NULL,
   `theoreticalDensity` float DEFAULT NULL,
+  `abundance` float DEFAULT NULL,
   PRIMARY KEY (`proteinId`),
   KEY `ProteinAcronym_Index` (`proposalId`,`acronym`),
   KEY `Protein_FKIndex1` (`proposalId`),
@@ -4308,7 +4310,7 @@ CREATE TABLE `Protein` (
 
 LOCK TABLES `Protein` WRITE;
 /*!40000 ALTER TABLE `Protein` DISABLE KEYS */;
-INSERT INTO `Protein` VALUES (4380,141666,'Protein 01','PRT-01',NULL,NULL,NULL,'2016-03-17 15:57:52',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4383,141666,'Protein 02','PRT-02',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4386,141666,'Protein 03','PRT-03',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4389,141666,'Protein 04','PRT-04',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4392,141666,'Protein 05','PRT-05',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4395,141666,'Protein 06','PRT-06',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4398,141666,'Protein 07','PRT-07',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4401,141666,'Protein 08','PRT-08',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4404,141666,'Protein 09','PRT-09',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4407,141666,'Protein 10','PRT-10',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4410,141666,'Protein 11','PRT-11',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(4413,141666,'Protein 12','PRT-12',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(121393,37027,'therm','therm',NULL,NULL,NULL,'2016-01-13 13:50:20',0,NULL,NULL,NULL,NULL,0,NULL,NULL),(123491,37027,NULL,'thau',NULL,NULL,NULL,'2016-02-24 12:12:16',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `Protein` VALUES (4380,141666,'Protein 01','PRT-01',NULL,NULL,NULL,'2016-03-17 15:57:52',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4383,141666,'Protein 02','PRT-02',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4386,141666,'Protein 03','PRT-03',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4389,141666,'Protein 04','PRT-04',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4392,141666,'Protein 05','PRT-05',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4395,141666,'Protein 06','PRT-06',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4398,141666,'Protein 07','PRT-07',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4401,141666,'Protein 08','PRT-08',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4404,141666,'Protein 09','PRT-09',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4407,141666,'Protein 10','PRT-10',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4410,141666,'Protein 11','PRT-11',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4413,141666,'Protein 12','PRT-12',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(121393,37027,'therm','therm',NULL,NULL,NULL,'2016-01-13 13:50:20',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(123491,37027,NULL,'thau',NULL,NULL,NULL,'2016-02-24 12:12:16',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Protein` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7581,6 +7583,8 @@ BEGIN
 	  UPDATE Container
       SET sampleChangerLocation = p_position
       WHERE barcode = p_barcode;
+
+	  CALL update_container_status(p_barcode, 'in_localstorage');
     END IF;
 END ;;
 DELIMITER ;
@@ -7601,21 +7605,30 @@ DELIMITER ;;
 CREATE PROCEDURE `update_container_status`(IN p_barcode varchar(45), IN p_status varchar(45))
     MODIFIES SQL DATA
 BEGIN
-  DECLARE new_imagerId int(11) unsigned DEFAULT NULL;
+  DECLARE row_containerId int(11) unsigned DEFAULT NULL;
+  DECLARE row_scLoc varchar(20) DEFAULT NULL;
    
   IF NOT (p_barcode IS NULL) AND p_status IN ('in_storage', 'in_localstorage', 'processing', 'disposed', 
 	'in_transit_to_localstorage', 'in_transit_to_storage', 'in_transit_loading', 'in_transit_unloading') THEN
 
-	IF p_status = 'in_storage' THEN
-      UPDATE Container
-      SET containerStatus = p_status, imagerId = requestedImagerId
-      WHERE barcode = p_barcode;
-	ELSE 
-      UPDATE Container
-      SET containerStatus = p_status, imagerId = NULL
-      WHERE barcode = p_barcode;
-    END IF;
+	SELECT containerId, sampleChangerLocation INTO row_containerId, row_scLoc 
+    FROM Container 
+    WHERE barcode = p_barcode;
 
+	IF row_containerId is not NULL THEN
+		IF p_status = 'in_storage' THEN
+			UPDATE Container
+			SET containerStatus = p_status, imagerId = requestedImagerId
+			WHERE containerId = row_containerId;
+		ELSE 
+			UPDATE Container
+			SET containerStatus = p_status, imagerId = NULL
+			WHERE containerId = row_containerId;
+		END IF;
+
+		INSERT INTO ContainerHistory (containerId, location, status) VALUES (row_containerId, row_scLoc, p_status);
+
+	END IF;
   END IF;
 END ;;
 DELIMITER ;
@@ -8089,4 +8102,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-10 15:03:09
+-- Dump completed on 2016-11-17 17:51:36
