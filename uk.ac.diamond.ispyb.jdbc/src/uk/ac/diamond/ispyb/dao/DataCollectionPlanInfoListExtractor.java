@@ -20,24 +20,25 @@ import uk.ac.diamond.ispyb.api.ScanParameters;
 public class DataCollectionPlanInfoListExtractor implements ResultSetExtractor<Collection<DataCollectionPlanInfo>> {
 	@Override
 	public Collection<DataCollectionPlanInfo> extractData(ResultSet resultSet) throws SQLException, DataAccessException {
-		ResultSetMetaData metadata = resultSet.getMetaData();
-		int columnCount = metadata.getColumnCount();
-		
 		Map<Integer, DataCollectionPlanInfo> plans = new HashMap<>();
-		
 		while (resultSet.next()){
-			DataCollectionPlanInfo dataCollectionPlanInfo = getPlanForRow(resultSet, plans);
-			populateBean(resultSet, metadata, columnCount, dataCollectionPlanInfo);
-			
-			ScanParameters scan = new ScanParameters();
-			populateBean(resultSet, metadata, columnCount, scan);
-			dataCollectionPlanInfo.addScanParameter(scan);
+			extractRow(resultSet, plans);
 		}
-		
 		return plans.values();
 	}
 
-	private <T> void populateBean(ResultSet resultSet, ResultSetMetaData metadata, int columnCount, T bean) throws SQLException {
+	private void extractRow(ResultSet resultSet, Map<Integer, DataCollectionPlanInfo> plans) throws SQLException {
+		DataCollectionPlanInfo dataCollectionPlanInfo = getPlanForRow(resultSet, plans);
+		populateBean(resultSet, dataCollectionPlanInfo);
+		
+		ScanParameters scan = new ScanParameters();
+		populateBean(resultSet, scan);
+		dataCollectionPlanInfo.addScanParameter(scan);
+	}
+
+	private <T> void populateBean(ResultSet resultSet, T bean) throws SQLException {
+		ResultSetMetaData metadata = resultSet.getMetaData();
+		int columnCount = metadata.getColumnCount();
 		BeanWrapper planWrapper = PropertyAccessorFactory.forBeanPropertyAccess(bean);
 		for (int index = 1; index <= columnCount; index++) {
 			String column = JdbcUtils.lookupColumnName(metadata, index);
