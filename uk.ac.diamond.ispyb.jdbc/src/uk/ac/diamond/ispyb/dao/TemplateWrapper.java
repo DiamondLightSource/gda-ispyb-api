@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.util.StringUtils;
 
 class TemplateWrapper {
@@ -35,6 +36,10 @@ class TemplateWrapper {
 		return template.query(buildQuery(procedure, params), params, new BeanPropertyRowMapper<>(clazz));
 	}
 
+	<T> T callIspybForAllRows(String procedure, ResultSetExtractor<T> extractor, Object... params) {
+		return template.query(buildQuery(procedure, params), params, extractor);
+	}
+	
 	<T> T callIspyb(String procedure, Class<T> clazz, Object... params) {
 		return template.queryForObject(buildQuery(procedure, params), params, clazz);
 	}

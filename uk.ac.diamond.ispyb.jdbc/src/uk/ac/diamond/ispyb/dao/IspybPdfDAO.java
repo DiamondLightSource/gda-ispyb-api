@@ -1,6 +1,7 @@
 package uk.ac.diamond.ispyb.dao;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import uk.ac.diamond.ispyb.api.DataCollectionPlanInfo;
@@ -19,8 +20,8 @@ public class IspybPdfDAO implements IspybPdfApi {
 	}
 
 	@Override
-	public List<DataCollectionPlanInfo> retrieveDcPlanInfo(int id) throws SQLException {
-		return templateWrapper.callIspybForListBeans("retrieve_dc_plan_info", DataCollectionPlanInfo.class, id);
+	public Collection<DataCollectionPlanInfo> retrieveDcPlanInfo(int id) throws SQLException {
+		return templateWrapper.callIspybForAllRows("retrieve_dc_plan_info", new DataCollectionPlanInfoListExtractor(), id);
 	}
 	
 	@Override
