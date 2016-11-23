@@ -9,7 +9,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Service-Component: OSGI-INF/ispybPdfApiService.xml, 
  OSGI-INF/ispybPlateApiService.xml,
  OSGI-INF/ispybDataCollectionApiService.xml
-Require-Bundle: uk.ac.diamond.ispyb.api;bundle-version="1.0.6"
+Require-Bundle: uk.ac.diamond.ispyb.api;bundle-version="1.0.6",
+ org.mariadb.jdbc;bundle-version="1.4.6"
 Import-Package: org.springframework.beans;version="4.0.6.RELEASE",
  org.springframework.beans.factory;version="4.0.6.RELEASE", 
  org.springframework.core;version="4.0.6.RELEASE",
