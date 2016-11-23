@@ -6,15 +6,15 @@
 	<parent>
 		<artifactId>uk.ac.diamond.ispyb</artifactId>
 		<groupId>uk.ac.diamond</groupId>
-		<version>1.0.5</version>
+		<version>1.0.6</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<artifactId>uk.ac.diamond.ispyb.jdbc</artifactId>
- 	<packaging>eclipse-plugin</packaging>
-	
-    <build>
-        <outputDirectory>bin</outputDirectory>
-    </build>
+	<packaging>eclipse-plugin</packaging>
+
+	<build>
+		<outputDirectory>bin</outputDirectory>
+	</build>
 
 </project>
 

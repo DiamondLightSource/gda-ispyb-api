@@ -3,7 +3,7 @@ Eclipse-BuddyPolicy: global
 Bundle-ManifestVersion: 2
 Bundle-Name: ISPyB test
 Bundle-SymbolicName: uk.ac.diamond.ispyb.test;singleton:=true
-Bundle-Version: 1.0.5
+Bundle-Version: 1.0.6
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Fragment-Host: uk.ac.diamond.ispyb.jdbc
@@ -13,4 +13,14 @@ Require-Bundle: org.junit;bundle-version="4.12.0",
  org.mariadb.jdbc,
  org.apache.commons.lang3,
  org.apache.commons.exec;bundle-version="1.1.0"
+Import-Package: org.springframework.beans;version="4.0.6.RELEASE",
+ org.springframework.beans.factory;version="4.0.6.RELEASE",
+ org.springframework.core;version="4.0.6.RELEASE",
+ org.springframework.core.io;version="4.0.6.RELEASE",
+ org.springframework.dao;version="4.0.6.RELEASE",
+ org.springframework.jdbc;version="4.0.6.RELEASE",
+ org.springframework.jdbc.core;version="4.0.6.RELEASE",
+ org.springframework.jdbc.datasource;version="4.0.6.RELEASE",
+ org.springframework.jdbc.support;version="4.0.6.RELEASE",
+ org.springframework.util;version="4.0.6.RELEASE"
 

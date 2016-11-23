@@ -1,9 +1,11 @@
 package uk.ac.diamond.ispyb.dao;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.stream.Stream;
 
-import org.apache.commons.beanutils.PropertyUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.PropertyAccessorFactory;
 
 import uk.ac.diamond.ispyb.api.DataCollection;
 import uk.ac.diamond.ispyb.api.DataCollectionGroup;
@@ -35,8 +37,12 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	}
 
 	@Override
-	public void closeConnection() throws SQLException {
-		templateWrapper.closeConnection();
+	public void close() throws IOException {
+		try {
+			templateWrapper.closeConnection();
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
 	}
 
 	public Object[] getParameters(DataCollection bean) {
@@ -67,10 +73,11 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	}
 
 	private Object[] getParameters(Object bean, String... order) {
+		BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(bean);
 		return Stream.of(order)
 			.map(property -> {
 				try {
-					return PropertyUtils.getProperty(bean, property);
+					return wrapper.getPropertyValue(property);
 				} catch (Exception e) {
 					throw new IllegalStateException(e);
 				}

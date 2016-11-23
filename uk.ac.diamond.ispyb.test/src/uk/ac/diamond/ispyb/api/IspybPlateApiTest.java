@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -22,14 +23,14 @@ public class IspybPlateApiTest {
 	private final IspybFactoryService<IspybPlateApi> factory = new IspybPlateDaoFactory();
 
 	@Test
-	public void testShouldCreateApi() throws SQLException {
+	public void testShouldCreateApi() throws SQLException, IOException {
 		String url = new H2UrlBuilder().build();
 		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
 				Optional.of(Schema.ISPYB.toString()));
 
 		assertThat(api, is(notNullValue()));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	@Test
@@ -42,7 +43,7 @@ public class IspybPlateApiTest {
 		int pos = api.retrieveContainerLSPosition("12345");
 		assertThat(pos, is(equalTo(54321)));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	@Test
@@ -67,7 +68,7 @@ public class IspybPlateApiTest {
 
 		assertThat(bean, is(equalTo(expectedBean)));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	@Test
@@ -92,7 +93,7 @@ public class IspybPlateApiTest {
 
 		assertThat(beans, is(equalTo(Collections.nCopies(10, expectedBean))));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	public static final Long reverse(String s) {

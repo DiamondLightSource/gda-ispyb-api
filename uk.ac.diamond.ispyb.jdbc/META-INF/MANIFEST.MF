@@ -3,15 +3,20 @@ Eclipse-BuddyPolicy: global
 Bundle-ManifestVersion: 2
 Bundle-Name: ISPyB JDBC
 Bundle-SymbolicName: uk.ac.diamond.ispyb.jdbc;singleton:=true
-Bundle-Version: 1.0.5
+Bundle-Version: 1.0.6
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Service-Component: OSGI-INF/ispybPdfApiService.xml, 
  OSGI-INF/ispybPlateApiService.xml,
  OSGI-INF/ispybDataCollectionApiService.xml
-Require-Bundle: uk.ac.diamond.ispyb.api;bundle-version="1.0.0",
- org.apache.servicemix.bundles.spring-core;bundle-version="4.0.6",
- org.apache.servicemix.bundles.spring-tx;bundle-version="4.0.6",
- org.apache.servicemix.bundles.spring-beans;bundle-version="4.0.6",
- org.apache.servicemix.bundles.spring-jdbc;bundle-version="4.0.6",
- org.apache.commons.beanutils
+Require-Bundle: uk.ac.diamond.ispyb.api;bundle-version="1.0.6",
+ org.mariadb.jdbc;bundle-version="1.4.6"
+Import-Package: org.springframework.beans;version="4.0.6.RELEASE",
+ org.springframework.beans.factory;version="4.0.6.RELEASE", 
+ org.springframework.core;version="4.0.6.RELEASE",
+ org.springframework.dao;version="4.0.6.RELEASE",
+ org.springframework.jdbc;version="4.0.6.RELEASE",
+ org.springframework.jdbc.core;version="4.0.6.RELEASE",
+ org.springframework.jdbc.datasource;version="4.0.6.RELEASE",
+ org.springframework.jdbc.support;version="4.0.6.RELEASE",
+ org.springframework.util;version="4.0.6.RELEASE"
