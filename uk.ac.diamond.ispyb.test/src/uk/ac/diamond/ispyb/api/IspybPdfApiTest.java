@@ -8,6 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -50,8 +51,17 @@ public class IspybPdfApiTest {
 		IspybPdfApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
 				Optional.of(Schema.ISPYB.toString()));
 
-		List<DataCollectionPlanInfo> infos = api.retrieveDcPlanInfo(12345);
+			List<DataCollectionPlanInfo> infos = new ArrayList<>(api.retrieveDcPlanInfo(12345));
 
+		DataCollectionPlanInfo expectedInfo1 = createDataCollectionPlanInfo(createScanParams(1.0, 10), createScanParams(2.0, 20));
+		DataCollectionPlanInfo expectedInfo2 = createDataCollectionPlanInfo(createScanParams(3.0, 30));
+
+		assertThat(infos, is(equalTo(Arrays.asList(expectedInfo1, expectedInfo2))));
+
+		api.closeConnection();
+	}
+
+	private DataCollectionPlanInfo createDataCollectionPlanInfo(ScanParameters... scanParameters) {
 		DataCollectionPlanInfo expectedInfo = new DataCollectionPlanInfo();
 		expectedInfo.setComposition("composition");
 		expectedInfo.setDensity(1.0);
@@ -66,18 +76,21 @@ public class IspybPdfApiTest {
 		expectedInfo.setOrientation("orientation");
 		expectedInfo.setPreferredBeamSizeX(1.0);
 		expectedInfo.setPreferredBeamSizeY(1.0);
+		expectedInfo.addScanParameter(scanParameters);
+		expectedInfo.setEnergy(1.0);
+		return expectedInfo;
+	}
+	
+	private ScanParameters createScanParams(double doubleParam, int intParam){
+		ScanParameters expectedInfo = new ScanParameters();
 		expectedInfo.setScanParamModelArray("scanParamModelArray");
-		expectedInfo.setScanParamModelNumber(10);
-		expectedInfo.setScanParamModelStart(1.0);
-		expectedInfo.setScanParamModelStep(1.0);
-		expectedInfo.setScanParamModelStop(1.0);
+		expectedInfo.setScanParamModelNumber(intParam);
+		expectedInfo.setScanParamModelStart(doubleParam);
+		expectedInfo.setScanParamModelStep(doubleParam);
+		expectedInfo.setScanParamModelStop(doubleParam);
 		expectedInfo.setScanParamServiceDesc("scanParamServiceDesc");
 		expectedInfo.setScanParamServiceName("scanParamServiceName");
-		expectedInfo.setEnergy(1.0);
-
-		assertThat(infos, is(equalTo(Arrays.asList(expectedInfo))));
-
-		api.closeConnection();
+		return expectedInfo;
 	}
 
 	public static final ResultSet groups(String s) {
@@ -92,6 +105,8 @@ public class IspybPdfApiTest {
 
 	public static final ResultSet info(String s) {
 		SimpleResultSet result = new SimpleResultSet();
+		result.addColumn("id", Types.INTEGER, 15, 0);
+
 		List<String> stringFields = Arrays.asList("orientation", "detectorType", "detectorManufacturer",
 				"detectorModel", "composition", "scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray");
 		stringFields.forEach(field -> result.addColumn(field, Types.VARCHAR, 255, 0));
@@ -100,11 +115,20 @@ public class IspybPdfApiTest {
 				"distance", "monoBandwidth", "detectorDistanceMin", "detectorDistanceMax", "density",
 				"scanParamModelStart", "scanParamModelStop", "scanParamModelStep");
 		doubleFields.forEach(field -> result.addColumn(field, Types.DOUBLE, 15, 0));
+		
 		result.addColumn("scanParamModelNumber", Types.INTEGER, 15, 0);
 
-		result.addRow("orientation", "detectorType", "detectorManufacturer", "detectorModel", "composition",
+		result.addRow(1, "orientation", "detectorType", "detectorManufacturer", "detectorModel", "composition",
 				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 				1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 10);
+
+		result.addRow(1, "orientation", "detectorType", "detectorManufacturer", "detectorModel", "composition",
+				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+				1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 20);
+
+		result.addRow(2, "orientation", "detectorType", "detectorManufacturer", "detectorModel", "composition",
+				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+				1.0, 1.0, 1.0, 3.0, 3.0, 3.0, 30);
 
 		return result;
 	}

@@ -2,12 +2,15 @@ package uk.ac.diamond.ispyb.api;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -36,8 +39,7 @@ public class IntegrationTest extends TestCase{
 	
 	@Test
 	public void testRetrieve() throws SQLException, FileNotFoundException, IOException, InterruptedException {
-		IspybPlateApi api = factory.buildIspybApi(url, user,  password, Optional.of(schema));
-		ContainerInfo containerInfo = api.retrieveContainerInfo("test_plate3");
+		ContainerInfo containerInfo = execute(api -> api.retrieveContainerInfo("test_plate3"));
 		
 		ContainerInfo expected = new ContainerInfo();
 		expected.setName("test_plate3");
@@ -52,6 +54,29 @@ public class IntegrationTest extends TestCase{
 		expected.setStorageTemperature(20.0f);
 		
 		assertThat(containerInfo, is(equalTo(expected)));
+	}
+
+	@Test
+	public void testRetrieveLsPosition() throws SQLException{
+		int position = execute(api-> api.retrieveContainerLSPosition("test_plate2"));
+		assertThat(position, is(equalTo(3)));
+	}
+
+	@Test
+	public void testRetrieveTest() throws SQLException{
+		Map<String, Object> result = execute(api-> api.retrieveTest());
+
+		assertThat(result.get("2_1"), is(equalTo("2")));
+		assertThat(result.get("2_2"), is(equalTo(2L)));
+		assertThat(result.get("20_1"), is(equalTo("2.0")));
+	}
+	
+	private <T> T execute(CheckedFunction<T, IspybPlateApi> f) throws SQLException {
+		IspybPlateApi api = factory.buildIspybApi(url, user,  password, Optional.of(schema));
+		T result = f.apply(api);
+		assertThat(result, is(notNullValue()));
+		api.closeConnection();
+		return result;
 	}
 	
 	@Before
@@ -85,8 +110,6 @@ public class IntegrationTest extends TestCase{
 		String absolutePath = resource.getFile().getAbsolutePath();
 
 		String command = String.format("./rundbscript.sh %s %s %s %s %s", host, user.get(), password.orElse(""), database, absolutePath);
-
-		System.out.println(command);
 		
 		CommandLine commandLine = CommandLine.parse(command);
 		DefaultExecutor executor = new DefaultExecutor();
@@ -99,5 +122,9 @@ public class IntegrationTest extends TestCase{
 		username.ifPresent(ds::setUsername);
 		password.ifPresent(ds::setPassword);
 		return ds.getConnection();
+	}
+	
+	interface CheckedFunction<S,T>{
+		public S apply(T t) throws SQLException;
 	}
 }
