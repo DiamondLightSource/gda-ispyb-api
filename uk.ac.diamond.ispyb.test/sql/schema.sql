@@ -7464,7 +7464,7 @@ BEGIN
 	  blsi.imageFullPath "lastImgFullPath", blss.imgFilePath "uploadedImgFilePath", blss.imgFileName "uploadedImgFileName", 
       dp.experimentKind "experimentKind", dp.exposureTime "exposureTime", 
       dp.preferredBeamSizeX "preferredBeamSizeX", dp.preferredBeamSizeY "preferredBeamSizeY", dp.requiredResolution "requiredResolution", 
-      dp.monochromator "monochromator", dp.wavelength "wavelength", dp.transmission "transmission", 
+      dp.monochromator "monochromator", 12398.42 / dp.energy "wavelength", dp.transmission "transmission", 
       dp.boxSizeX "boxSizeX", dp.boxSizeY "boxSizeY", 
       dp.kappaStart "kappaStart", dp.axisStart "axisStart", dp.axisRange "axisRange", dp.numberOfImages "numberOfImages",
       count(dc.dataCollectionId) "numDCs"
@@ -7557,7 +7557,6 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_test`()
-    READS SQL DATA
 BEGIN
   SELECT now() as "curr_ts", '2016-10-07 14:02:58' as "curr_ts2", '2' as "2_1", 2 as "2_2", '2.0' as "20_1", 2.0 as "20_2";
 END ;;
@@ -8102,4 +8101,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-23  9:41:26
+-- Dump completed on 2016-11-23 16:29:20
