@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -22,14 +23,14 @@ public class IspybPdfApiTest {
 	private final IspybFactoryService<IspybPdfApi> factory = new IspybPdfDaoFactory();
 
 	@Test
-	public void testShouldCreateApi() throws SQLException {
+	public void testShouldCreateApi() throws SQLException, IOException {
 		String url = new H2UrlBuilder().build();
 		IspybPdfApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
 				Optional.of(Schema.ISPYB.toString()));
 
 		assertThat(api, is(notNullValue()));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	@Test
@@ -41,7 +42,7 @@ public class IspybPdfApiTest {
 		List<Integer> pos = api.retrieveDcPlanGroups("sessionid");
 		assertThat(pos, is(equalTo(Arrays.asList(1, 2, 3, 4))));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	@Test
@@ -58,7 +59,7 @@ public class IspybPdfApiTest {
 
 		assertThat(infos, is(equalTo(Arrays.asList(expectedInfo1, expectedInfo2))));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	private DataCollectionPlanInfo createDataCollectionPlanInfo(ScanParameters... scanParameters) {
@@ -73,7 +74,7 @@ public class IspybPdfApiTest {
 		expectedInfo.setDistance(1.0);
 		expectedInfo.setExposureTime(1.0);
 		expectedInfo.setMonoBandwidth(1.0);
-		expectedInfo.setOrientation("orientation");
+		expectedInfo.setOrientation(1.0);
 		expectedInfo.setPreferredBeamSizeX(1.0);
 		expectedInfo.setPreferredBeamSizeY(1.0);
 		expectedInfo.addScanParameter(scanParameters);
@@ -107,27 +108,27 @@ public class IspybPdfApiTest {
 		SimpleResultSet result = new SimpleResultSet();
 		result.addColumn("id", Types.INTEGER, 15, 0);
 
-		List<String> stringFields = Arrays.asList("orientation", "detectorType", "detectorManufacturer",
+		List<String> stringFields = Arrays.asList("detectorType", "detectorManufacturer",
 				"detectorModel", "composition", "scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray");
 		stringFields.forEach(field -> result.addColumn(field, Types.VARCHAR, 255, 0));
 
-		List<String> doubleFields = Arrays.asList("energy", "preferredBeamSizeX", "preferredBeamSizeY", "exposureTime",
+		List<String> doubleFields = Arrays.asList("orientation", "energy", "preferredBeamSizeX", "preferredBeamSizeY", "exposureTime",
 				"distance", "monoBandwidth", "detectorDistanceMin", "detectorDistanceMax", "density",
 				"scanParamModelStart", "scanParamModelStop", "scanParamModelStep");
 		doubleFields.forEach(field -> result.addColumn(field, Types.DOUBLE, 15, 0));
 		
 		result.addColumn("scanParamModelNumber", Types.INTEGER, 15, 0);
 
-		result.addRow(1, "orientation", "detectorType", "detectorManufacturer", "detectorModel", "composition",
-				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+		result.addRow(1, "detectorType", "detectorManufacturer", "detectorModel", "composition",
+				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 				1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 10);
 
-		result.addRow(1, "orientation", "detectorType", "detectorManufacturer", "detectorModel", "composition",
-				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+		result.addRow(1, "detectorType", "detectorManufacturer", "detectorModel", "composition",
+				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 				1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 20);
 
-		result.addRow(2, "orientation", "detectorType", "detectorManufacturer", "detectorModel", "composition",
-				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+		result.addRow(2, "detectorType", "detectorManufacturer", "detectorModel", "composition",
+				"scanParamServiceName", "scanParamServiceDesc", "scanParamModelArray", 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 				1.0, 1.0, 1.0, 3.0, 3.0, 3.0, 30);
 
 		return result;

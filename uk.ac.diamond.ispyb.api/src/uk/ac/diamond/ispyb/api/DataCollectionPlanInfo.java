@@ -15,7 +15,7 @@ public class DataCollectionPlanInfo {
 	private Double preferredBeamSizeY;
 	private Double exposureTime;
 	private Double distance;
-	private String orientation;
+	private Double orientation;
 	private Double monoBandwidth;
 	private String detectorType;
 	private String detectorManufacturer;
@@ -69,11 +69,11 @@ public class DataCollectionPlanInfo {
 		this.distance = distance;
 	}
 
-	public String getOrientation() {
+	public Double getOrientation() {
 		return orientation;
 	}
 
-	public void setOrientation(String orientation) {
+	public void setOrientation(Double orientation) {
 		this.orientation = orientation;
 	}
 
@@ -141,6 +141,14 @@ public class DataCollectionPlanInfo {
 		this.composition = composition;
 	}
 
+	public List<ScanParameters> getScanParameters() {
+		return scanParameters;
+	}
+
+	public void addScanParameter(ScanParameters... scan) {
+		scanParameters.addAll(Arrays.asList(scan));
+	};
+
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);
@@ -155,12 +163,4 @@ public class DataCollectionPlanInfo {
 	public boolean equals(Object that) {
 		return EqualsBuilder.reflectionEquals(this, that);
 	}
-
-	public List<ScanParameters> getScanParameters() {
-		return scanParameters;
-	}
-
-	public void addScanParameter(ScanParameters... scan) {
-		scanParameters.addAll(Arrays.asList(scan));
-	};
 }

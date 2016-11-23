@@ -1,5 +1,6 @@
 package uk.ac.diamond.ispyb.dao;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -84,7 +85,11 @@ public class IspybPlateDAO implements IspybPlateApi{
 	}
 
 	@Override
-	public void closeConnection() throws SQLException {
-		templateWrapper.closeConnection();
+	public void close() throws IOException {
+		try {
+			templateWrapper.closeConnection();
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
 	}
 }

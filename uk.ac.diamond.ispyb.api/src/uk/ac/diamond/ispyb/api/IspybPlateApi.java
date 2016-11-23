@@ -1,11 +1,12 @@
 package uk.ac.diamond.ispyb.api;
 
+import java.io.Closeable;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public interface IspybPlateApi {
+public interface IspybPlateApi extends Closeable {
 	int retrieveContainerLSPosition(String barcode) throws SQLException;
 
 	ContainerInfo retrieveContainerInfo(String barcode) throws SQLException;
@@ -29,6 +30,4 @@ public interface IspybPlateApi {
 	void clearContainerError(String barcode) throws SQLException;
 
 	public Map<String, Object> retrieveTest() throws SQLException;
-
-	void closeConnection() throws SQLException;
 }

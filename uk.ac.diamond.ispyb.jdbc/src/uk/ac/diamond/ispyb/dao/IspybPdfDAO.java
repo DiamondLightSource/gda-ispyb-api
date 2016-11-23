@@ -1,5 +1,6 @@
 package uk.ac.diamond.ispyb.dao;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
@@ -25,7 +26,11 @@ public class IspybPdfDAO implements IspybPdfApi {
 	}
 	
 	@Override
-	public void closeConnection() throws SQLException {
-		templateWrapper.closeConnection();
+	public void close() throws IOException {
+		try {
+			templateWrapper.closeConnection();
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
 	}
 }

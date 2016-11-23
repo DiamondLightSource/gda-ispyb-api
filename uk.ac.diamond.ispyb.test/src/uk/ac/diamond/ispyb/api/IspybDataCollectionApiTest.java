@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -20,14 +21,14 @@ public class IspybDataCollectionApiTest {
 	private final IspybFactoryService<IspybDataCollectionApi> factory = new IspybDataCollectionDaoFactory();
 
 	@Test
-	public void testShouldCreateApi() throws SQLException {
+	public void testShouldCreateApi() throws SQLException, IOException {
 		String url = new H2UrlBuilder().build();
 		IspybDataCollectionApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
 				Optional.of(Schema.ISPYB.toString()));
 
 		assertThat(api, is(notNullValue()));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	@Test
@@ -41,7 +42,7 @@ public class IspybDataCollectionApiTest {
 		int id = api.upsertDataCollection(dataCollection);
 		assertThat(id, is(equalTo(5)));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	@Test
@@ -56,7 +57,7 @@ public class IspybDataCollectionApiTest {
 		int id = api.upsertDataCollectionGroup(group);
 		assertThat(id, is(equalTo(100)));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	@Test
@@ -73,7 +74,7 @@ public class IspybDataCollectionApiTest {
 
 		assertThat(dataCollection, is(equalTo(expected)));
 
-		api.closeConnection();
+		api.close();
 	}
 
 	public static final int upsertDataCollection(int id, int groupId, int subSampleId, int detectorId, int positionId,
