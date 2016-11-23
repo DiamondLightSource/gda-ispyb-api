@@ -4695,7 +4695,7 @@ CREATE TABLE `ScanParametersModel` (
   KEY `PDF_Model_ibfk2` (`dataCollectionPlanId`),
   CONSTRAINT `PDF_Model_ibfk1` FOREIGN KEY (`scanParametersServiceId`) REFERENCES `ScanParametersService` (`scanParametersServiceId`) ON UPDATE CASCADE,
   CONSTRAINT `PDF_Model_ibfk2` FOREIGN KEY (`dataCollectionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4704,7 +4704,7 @@ CREATE TABLE `ScanParametersModel` (
 
 LOCK TABLES `ScanParametersModel` WRITE;
 /*!40000 ALTER TABLE `ScanParametersModel` DISABLE KEYS */;
-INSERT INTO `ScanParametersModel` VALUES (4,4,197788,1,0,90,10,NULL),(7,4,197788,2,90,180,5,NULL),(10,4,197788,3,180,270,1,NULL),(13,4,197788,3,270,360,0.5,NULL);
+INSERT INTO `ScanParametersModel` VALUES (4,4,197788,1,0,90,10,NULL),(7,4,197788,2,90,180,5,NULL),(10,4,197788,3,180,270,1,NULL),(13,4,197788,3,270,360,0.5,NULL),(16,7,197788,4,20,120,10,NULL);
 /*!40000 ALTER TABLE `ScanParametersModel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7526,7 +7526,7 @@ CREATE PROCEDURE `retrieve_dc_plan_info`(IN p_id int)
     READS SQL DATA
 BEGIN
     IF NOT (p_id IS NULL) THEN
-		SELECT dp.energy "energy", dp.preferredBeamSizeX "preferredBeamSizeX", dp.preferredBeamSizeY "preferredBeamSizeY", 
+		SELECT dp.diffractionPlanId "id", dp.energy "energy", dp.preferredBeamSizeX "preferredBeamSizeX", dp.preferredBeamSizeY "preferredBeamSizeY", 
           dp.exposureTime "exposureTime", dp.distance "distance", dp.orientation "orientation", dp.monoBandwidth "monoBandwidth",
           d.detectorType "detectorType", d.detectorManufacturer "detectorManufacturer", d.detectorModel "detectorModel", 
           d.detectorDistanceMin "detectorDistanceMin", d.detectorDistanceMax "detectorDistanceMax", d.density "density", d.composition "composition",  
@@ -8102,4 +8102,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-17 17:51:36
+-- Dump completed on 2016-11-23  9:41:26
