@@ -1,6 +1,5 @@
 package uk.ac.diamond.ispyb.api;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -10,8 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +16,6 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 import uk.ac.diamond.ispyb.dao.IspybPdfDaoFactory;
-import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
 
 public class PdfIntegrationTest extends TestCase{
 	private final IntegrationTestHelper<IspybPdfApi> helper = new IntegrationTestHelper<>(new IspybPdfDaoFactory());

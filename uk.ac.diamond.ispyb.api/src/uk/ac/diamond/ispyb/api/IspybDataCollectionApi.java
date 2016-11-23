@@ -1,7 +1,6 @@
 package uk.ac.diamond.ispyb.api;
 
 import java.io.Closeable;
-import java.sql.SQLException;
 
 public interface IspybDataCollectionApi extends Closeable {
 	public int upsertDataCollection(DataCollection dataCollection);

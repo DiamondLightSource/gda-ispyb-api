@@ -10,11 +10,11 @@
 		<relativePath>../</relativePath>
 	</parent>
 	<artifactId>uk.ac.diamond.ispyb.jdbc</artifactId>
- 	<packaging>eclipse-plugin</packaging>
-	
-    <build>
-        <outputDirectory>bin</outputDirectory>
-    </build>
+	<packaging>eclipse-plugin</packaging>
+
+	<build>
+		<outputDirectory>bin</outputDirectory>
+	</build>
 
 </project>
 

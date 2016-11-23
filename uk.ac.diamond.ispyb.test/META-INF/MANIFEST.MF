@@ -13,4 +13,14 @@ Require-Bundle: org.junit;bundle-version="4.12.0",
  org.mariadb.jdbc,
  org.apache.commons.lang3,
  org.apache.commons.exec;bundle-version="1.1.0"
+Import-Package: org.springframework.beans;version="4.0.6.RELEASE",
+ org.springframework.beans.factory;version="4.0.6.RELEASE",
+ org.springframework.core;version="4.0.6.RELEASE",
+ org.springframework.core.io;version="4.0.6.RELEASE",
+ org.springframework.dao;version="4.0.6.RELEASE",
+ org.springframework.jdbc;version="4.0.6.RELEASE",
+ org.springframework.jdbc.core;version="4.0.6.RELEASE",
+ org.springframework.jdbc.datasource;version="4.0.6.RELEASE",
+ org.springframework.jdbc.support;version="4.0.6.RELEASE",
+ org.springframework.util;version="4.0.6.RELEASE"
 
