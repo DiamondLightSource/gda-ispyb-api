@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>uk.ac.diamond</groupId>
 	<artifactId>uk.ac.diamond.ispyb</artifactId>
-	<version>1.0.6</version>
+	<version>1.0.7</version>
 	<packaging>pom</packaging>
 
 	<prerequisites>
@@ -71,7 +71,7 @@
 							<artifact>
 								<groupId>org.eclipse</groupId>
 								<artifactId>uk.ac.diamond.ispyb.target</artifactId>
-								<version>1.0.6</version>
+								<version>1.0.7</version>
 							</artifact>
 						</target>
 					</environments>
