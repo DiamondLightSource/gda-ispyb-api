@@ -2,11 +2,7 @@
 <?pde version="3.8"?><target name="uk.ac.diamond.ispyb" sequenceNumber="6">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.apache.servicemix.bundles.spring-core" version="4.0.6.RELEASE_3"/>
-<unit id="org.apache.servicemix.bundles.spring-tx" version="4.0.6.RELEASE_4"/>
-<unit id="org.apache.servicemix.bundles.spring-jdbc" version="4.0.6.RELEASE_4"/>
-<unit id="org.apache.servicemix.bundles.spring-beans" version="4.0.6.RELEASE_3"/>
-<unit id="org.apache.servicemix.bundles.spring-test" version="4.0.6.RELEASE_3"/>
+<unit id="uk.ac.diamond.org.springframework" version="4.0.6.RELEASE"/>
 <unit id="org.mariadb.jdbc" version="1.4.6.0"/>
 <repository location="https://alfred.diamond.ac.uk/p2/orbit/R201610100925/repository/"/>
 </location>

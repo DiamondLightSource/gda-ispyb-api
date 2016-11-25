@@ -27,7 +27,7 @@
 	<repositories>
 		<repository>
 			<id>diamond-orbit</id>
-			<url>https://alfred.diamond.ac.uk/p2/orbit/R201611171129/repository/</url>
+			<url>https://alfred.diamond.ac.uk/p2/orbit/continuous/repository</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
