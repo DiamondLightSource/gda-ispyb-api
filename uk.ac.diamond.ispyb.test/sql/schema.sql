@@ -1489,6 +1489,20 @@ LOCK TABLES `Container` WRITE;
 INSERT INTO `Container` VALUES (1326,573,'Container-1-cm0001-1','Puck-16',16,'3','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000001',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1329,573,'Container-2-cm0001-1','Puck-16',16,'4','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000002',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1332,576,'Container-3-cm0001-1','Puck-16',16,'5','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000003',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1335,579,'Container-4-cm0001-2','Puck-16',16,'6','processing',NULL,'i03',NULL,NULL,'container-cm0001-2-0001335',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1338,582,'Container-5-cm0001-3','Puck-16',16,'7','processing',NULL,'i03',NULL,NULL,'container-cm0001-3-0001338',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1341,573,'Manual',NULL,NULL,'9',NULL,NULL,'i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(33049,8287,'cm14451-1_i03r-002','Puck',16,NULL,'at DLS',NULL,'i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(34864,8572,'I03R-001','Puck',16,'29','processing','2016-02-24 12:13:05','i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(34874,8572,'test_plate2','CrystalQuickX',192,'3','in_localstorage','2016-02-12 09:20:44','i03',NULL,2,'test_plate2',2,NULL,NULL,2,0,NULL,NULL,NULL),(34877,8572,'test_plate3','CrystalQuickX',192,'3','in_storage','2016-10-04 10:50:05','i03',NULL,2,'test_plate3',2,NULL,NULL,2,0,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Container` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `ContainerHistory`
@@ -7698,6 +7712,24 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_dc_experiment` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `update_dc_experiment`(      p_id int(11) unsigned,      p_slitGapVertical float,      p_slitGapHorizontal float,      p_transmission float,      p_exposureTime float,      p_xBeam float,      p_yBeam float,      p_axisStart float,      p_axisEnd float,      p_axisRange float,      p_overlap float,      p_flux double,      p_fluxEnd double,      p_rotationAxis varchar(10),      p_phiStart float,      p_kappaStart float,      p_omegaStart float,      p_wavelength float,      p_resolution float,      p_detectorDistance float,      p_bestWilsonPlotPath varchar(255),      p_beamSizeAtSampleX float,      p_beamSizeAtSampleY float,      p_focalSpotSizeAtSampleX float,      p_focalSpotSizeAtSampleY float,      p_apertureSizeX float )
+    MODIFIES SQL DATA
+BEGIN         DECLARE row_apertureId int(11) unsigned;          UPDATE DataCollection SET                 slitGapVertical=IFNULL(p_slitGapVertical, imagedirectory),                 slitGapHorizontal=IFNULL(p_slitGapHorizontal, imagedirectory),                 transmission=IFNULL(p_transmission, imagedirectory),                 exposureTime=IFNULL(p_exposureTime, imagedirectory),                 xBeam=IFNULL(p_xBeam, xBeam),                 yBeam=IFNULL(p_yBeam, yBeam),                 axisStart=IFNULL(p_axisStart, axisStart),                 axisEnd=IFNULL(p_axisEnd, axisEnd),                 axisRange=IFNULL(p_axisRange, axisRange),                 overlap=IFNULL(p_overlap, overlap),                 flux=IFNULL(p_flux, flux),                 flux_end=IFNULL(p_flux_end, flux_end),                 rotationAxis=IFNULL(p_rotationAxis, rotationAxis),                 phiStart=IFNULL(p_phiStart, phiStart),                 kappaStart=IFNULL(p_kappaStart, kappaStart),                 omegaStart=IFNULL(p_omegaStart, omegaStart),                 wavelength=IFNULL(p_wavelength, wavelength),                 resolution=IFNULL(p_resolution, resolution),                 detectorDistance=IFNULL(p_detectorDistance, detectorDistance),                 bestWilsonPlotPath=IFNULL(p_bestWilsonPlotPath, bestWilsonPlotPath),                 beamSizeAtSampleX=IFNULL(p_beamSizeAtSampleX, beamSizeAtSampleX),                 beamSizeAtSampleY=IFNULL(p_beamSizeAtSampleY, beamSizeAtSampleY),                 focalSpotSizeAtSampleX=IFNULL(p_focalSpotSizeAtSampleX, focalSpotSizeAtSampleX),                 focalSpotSizeAtSampleY=IFNULL(p_focalSpotSizeAtSampleY, focalSpotSizeAtSampleY)         WHERE dataCollectionId = p_id;          SELECT apertureId INTO row_apertureId     FROM DataCollection     WHERE dataCollectionId = p_id;          IF row_apertureId IS NOT NULL THEN                 UPDATE Aperture SET                         sizeX = IFNULL(p_apertureSizeX, sizeX)                 WHERE apertureId = row_apertureId;         END IF; END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `update_dc_machine` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -7725,90 +7757,6 @@ BEGIN
 			undulatorGap3=IFNULL(p_undulatorGap3, undulatorGap3)
 		WHERE 
 			dataCollectionId = p_id;
-	END IF;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `upsert_dc_experiment` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
-DELIMITER ;;
-CREATE PROCEDURE `upsert_dc_experiment`(
-     p_id int(11) unsigned,
-     p_slitGapVertical float,
-     p_slitGapHorizontal float,
-     p_transmission float,
-     p_exposureTime float,
-     p_xBeam float,
-     p_yBeam float,
-     p_axisStart float,
-     p_axisEnd float,
-     p_axisRange float,
-     p_overlap float,
-     p_flux double,
-     p_fluxEnd double,
-     p_rotationAxis varchar(10),
-     p_phiStart float,
-     p_kappaStart float,
-     p_omegaStart float,
-     p_wavelength float,                                                
-     p_resolution float,
-     p_detectorDistance float,
-     p_bestWilsonPlotPath varchar(255),
-     p_beamSizeAtSampleX float,
-     p_beamSizeAtSampleY float,
-     p_focalSpotSizeAtSampleX float,
-     p_focalSpotSizeAtSampleY float,
-     p_apertureSizeX float
-)
-    MODIFIES SQL DATA
-BEGIN
-	DECLARE row_apertureId int(11) unsigned;
-    
-	UPDATE DataCollection SET 
-		slitGapVertical=IFNULL(p_slitGapVertical, imagedirectory),
-		slitGapHorizontal=IFNULL(p_slitGapHorizontal, imagedirectory),
-		transmission=IFNULL(p_transmission, imagedirectory),
-		exposureTime=IFNULL(p_exposureTime, imagedirectory),
-		xBeam=IFNULL(p_xBeam, xBeam),
-		yBeam=IFNULL(p_yBeam, yBeam),
-		axisStart=IFNULL(p_axisStart, axisStart),
-		axisEnd=IFNULL(p_axisEnd, axisEnd),
-		axisRange=IFNULL(p_axisRange, axisRange),
-		overlap=IFNULL(p_overlap, overlap),
-		flux=IFNULL(p_flux, flux),
-		flux_end=IFNULL(p_flux_end, flux_end),
-		rotationAxis=IFNULL(p_rotationAxis, rotationAxis),
-		phiStart=IFNULL(p_phiStart, phiStart),
-		kappaStart=IFNULL(p_kappaStart, kappaStart),
-		omegaStart=IFNULL(p_omegaStart, omegaStart),
-		wavelength=IFNULL(p_wavelength, wavelength),
-		resolution=IFNULL(p_resolution, resolution),
-		detectorDistance=IFNULL(p_detectorDistance, detectorDistance),
-		bestWilsonPlotPath=IFNULL(p_bestWilsonPlotPath, bestWilsonPlotPath),
-		beamSizeAtSampleX=IFNULL(p_beamSizeAtSampleX, beamSizeAtSampleX),
-		beamSizeAtSampleY=IFNULL(p_beamSizeAtSampleY, beamSizeAtSampleY),
-		focalSpotSizeAtSampleX=IFNULL(p_focalSpotSizeAtSampleX, focalSpotSizeAtSampleX),
-		focalSpotSizeAtSampleY=IFNULL(p_focalSpotSizeAtSampleY, focalSpotSizeAtSampleY)
-	WHERE dataCollectionId = p_id;
-
-	SELECT apertureId INTO row_apertureId 
-    FROM DataCollection 
-    WHERE dataCollectionId = p_id;
-
-	IF row_apertureId IS NOT NULL THEN
-		UPDATE Aperture SET 
-			sizeX = IFNULL(p_apertureSizeX, sizeX) 
-		WHERE apertureId = row_apertureId;
 	END IF;
 END ;;
 DELIMITER ;
@@ -8403,4 +8351,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-25 18:14:54
+-- Dump completed on 2016-11-25 22:55:04
