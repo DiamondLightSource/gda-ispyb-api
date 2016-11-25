@@ -754,6 +754,7 @@ CREATE TABLE `BLSample` (
   `blSubSampleId` int(11) unsigned DEFAULT NULL,
   `lastImageURL` varchar(255) DEFAULT NULL,
   `screenComponentGroupId` int(11) unsigned DEFAULT NULL,
+  `volume` float DEFAULT NULL,
   PRIMARY KEY (`blSampleId`),
   KEY `BLSample_FKIndex1` (`containerId`),
   KEY `BLSample_FKIndex2` (`crystalId`),
@@ -777,7 +778,7 @@ CREATE TABLE `BLSample` (
 
 LOCK TABLES `BLSample` WRITE;
 /*!40000 ALTER TABLE `BLSample` DISABLE KEYS */;
-INSERT INTO `BLSample` VALUES (11550,NULL,3918,1326,'Sample-001','SAM-011550','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:16:11',NULL,NULL,NULL,NULL),(11553,NULL,3921,1326,'Sample-002','SAM-011553','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:21:43',NULL,NULL,NULL,NULL),(11556,NULL,3924,1326,'Sample-003','SAM-011556','3',NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11559,NULL,3927,1329,'Sample-004','SAM-011559','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11562,NULL,3930,1329,'Sample-005','SAM-011562','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11565,NULL,3933,1329,'Sample-006','SAM-011565','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11568,NULL,3936,1332,'Sample-007','SAM-011568','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11571,NULL,3939,1332,'Sample-008','SAM-011571','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11574,NULL,3942,1332,'Sample-009','SAM-011574','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11577,NULL,3942,1335,'Sample-010','SAM-011577','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11580,NULL,3942,1335,'Sample-011','SAM-011580','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11583,NULL,3951,1335,'Sample-012','SAM-011583','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11586,NULL,3954,NULL,'Sample-013','SAM-011586',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11589,NULL,3957,NULL,'Sample-014','SAM-011589',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(11592,NULL,3960,NULL,'Sample-015','SAM-011592',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL),(374695,NULL,310037,33049,'tlys_jan_4','HA00AU3712','4',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:04',NULL,NULL,NULL,NULL),(398810,197784,333301,34864,'thau8','HA00AK8934','8',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:05',NULL,NULL,NULL,NULL),(398816,197784,310037,34874,'thau88','HH00AU3788','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-09-30 14:21:28',NULL,NULL,NULL,NULL),(398819,197784,310037,34877,'thau99','HH00AU3799','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-05 10:15:47',NULL,NULL,NULL,NULL),(398824,NULL,NULL,NULL,'XPDF-1','XPDF-0001',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:47:58',NULL,NULL,NULL,NULL),(398827,NULL,NULL,NULL,'XPDF-2','XPDF-0002',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:51:23',NULL,NULL,NULL,NULL);
+INSERT INTO `BLSample` VALUES (11550,NULL,3918,1326,'Sample-001','SAM-011550','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:16:11',NULL,NULL,NULL,NULL,NULL),(11553,NULL,3921,1326,'Sample-002','SAM-011553','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:21:43',NULL,NULL,NULL,NULL,NULL),(11556,NULL,3924,1326,'Sample-003','SAM-011556','3',NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11559,NULL,3927,1329,'Sample-004','SAM-011559','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11562,NULL,3930,1329,'Sample-005','SAM-011562','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11565,NULL,3933,1329,'Sample-006','SAM-011565','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11568,NULL,3936,1332,'Sample-007','SAM-011568','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11571,NULL,3939,1332,'Sample-008','SAM-011571','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11574,NULL,3942,1332,'Sample-009','SAM-011574','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11577,NULL,3942,1335,'Sample-010','SAM-011577','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11580,NULL,3942,1335,'Sample-011','SAM-011580','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11583,NULL,3951,1335,'Sample-012','SAM-011583','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11586,NULL,3954,NULL,'Sample-013','SAM-011586',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11589,NULL,3957,NULL,'Sample-014','SAM-011589',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(11592,NULL,3960,NULL,'Sample-015','SAM-011592',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL),(374695,NULL,310037,33049,'tlys_jan_4','HA00AU3712','4',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:04',NULL,NULL,NULL,NULL,NULL),(398810,197784,333301,34864,'thau8','HA00AK8934','8',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:05',NULL,NULL,NULL,NULL,NULL),(398816,197784,310037,34874,'thau88','HH00AU3788','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-09-30 14:21:28',NULL,NULL,NULL,NULL,NULL),(398819,197784,310037,34877,'thau99','HH00AU3799','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-05 10:15:47',NULL,NULL,NULL,NULL,NULL),(398824,NULL,NULL,NULL,'XPDF-1','XPDF-0001',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:47:58',NULL,NULL,NULL,NULL,NULL),(398827,NULL,NULL,NULL,'XPDF-2','XPDF-0002',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:51:23',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `BLSample` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1456,6 +1457,8 @@ CREATE TABLE `Container` (
   `requestedImagerId` int(11) unsigned DEFAULT NULL,
   `requestedReturn` tinyint(1) DEFAULT '0' COMMENT 'True for requesting return, False means container will be disposed',
   `comments` varchar(255) DEFAULT NULL,
+  `experimentType` varchar(20) DEFAULT NULL,
+  `storageTemperature` float DEFAULT NULL,
   PRIMARY KEY (`containerId`),
   UNIQUE KEY `Container_UNIndex1` (`barcode`),
   KEY `Container_FKIndex` (`beamlineLocation`),
@@ -1483,7 +1486,7 @@ CREATE TABLE `Container` (
 
 LOCK TABLES `Container` WRITE;
 /*!40000 ALTER TABLE `Container` DISABLE KEYS */;
-INSERT INTO `Container` VALUES (1326,573,'Container-1-cm0001-1','Puck-16',16,'3','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000001',NULL,NULL,NULL,NULL,0,NULL),(1329,573,'Container-2-cm0001-1','Puck-16',16,'4','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000002',NULL,NULL,NULL,NULL,0,NULL),(1332,576,'Container-3-cm0001-1','Puck-16',16,'5','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000003',NULL,NULL,NULL,NULL,0,NULL),(1335,579,'Container-4-cm0001-2','Puck-16',16,'6','processing',NULL,'i03',NULL,NULL,'container-cm0001-2-0001335',NULL,NULL,NULL,NULL,0,NULL),(1338,582,'Container-5-cm0001-3','Puck-16',16,'7','processing',NULL,'i03',NULL,NULL,'container-cm0001-3-0001338',NULL,NULL,NULL,NULL,0,NULL),(1341,573,'Manual',NULL,NULL,'9',NULL,NULL,'i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL),(33049,8287,'cm14451-1_i03r-002','Puck',16,NULL,'at DLS',NULL,'i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL),(34864,8572,'I03R-001','Puck',16,'29','processing','2016-02-24 12:13:05','i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL),(34874,8572,'test_plate2','CrystalQuickX',192,'3','in_localstorage','2016-02-12 09:20:44','i03',NULL,2,'test_plate2',2,NULL,NULL,2,0,NULL),(34877,8572,'test_plate3','CrystalQuickX',192,'3','in_storage','2016-10-04 10:50:05','i03',NULL,2,'test_plate3',2,NULL,NULL,2,0,NULL);
+INSERT INTO `Container` VALUES (1326,573,'Container-1-cm0001-1','Puck-16',16,'3','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000001',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1329,573,'Container-2-cm0001-1','Puck-16',16,'4','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000002',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1332,576,'Container-3-cm0001-1','Puck-16',16,'5','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000003',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1335,579,'Container-4-cm0001-2','Puck-16',16,'6','processing',NULL,'i03',NULL,NULL,'container-cm0001-2-0001335',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1338,582,'Container-5-cm0001-3','Puck-16',16,'7','processing',NULL,'i03',NULL,NULL,'container-cm0001-3-0001338',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1341,573,'Manual',NULL,NULL,'9',NULL,NULL,'i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(33049,8287,'cm14451-1_i03r-002','Puck',16,NULL,'at DLS',NULL,'i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(34864,8572,'I03R-001','Puck',16,'29','processing','2016-02-24 12:13:05','i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(34874,8572,'test_plate2','CrystalQuickX',192,'3','in_localstorage','2016-02-12 09:20:44','i03',NULL,2,'test_plate2',2,NULL,NULL,2,0,NULL,NULL,NULL),(34877,8572,'test_plate3','CrystalQuickX',192,'3','in_storage','2016-10-04 10:50:05','i03',NULL,2,'test_plate3',2,NULL,NULL,2,0,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Container` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7323,7 +7326,7 @@ BEGIN
         p.proposalCode "proposalCode", p.proposalNumber "proposalNumber", bs.visit_number "sessionNumber", 
         i.name "imagerName", i.serial "imagerSerialNumber", i.temperature "storageTemperature"
       FROM Container c
-        INNER JOIN Imager i on c.requestedImagerId = i.imagerId
+        INNER JOIN Imager i on c.imagerId = i.imagerId
         LEFT OUTER JOIN BLSession bs on bs.sessionId = c.sessionId 
         LEFT OUTER JOIN Proposal p on p.proposalId = bs.proposalId
       WHERE c.barcode = p_barcode
@@ -7407,7 +7410,7 @@ BEGIN
         p.proposalCode "proposalCode", p.proposalNumber "proposalNumber", bs.visit_number "sessionNumber", 
         i.name "imagerName", i.serial "imagerSerialNumber", i.temperature "storageTemperature"
       FROM Container c
-        INNER JOIN Imager i on c.requestedImagerId = i.imagerId
+        INNER JOIN Imager i on c.imagerId = i.imagerId
         LEFT OUTER JOIN BLSession bs on bs.sessionId = c.sessionId 
         LEFT OUTER JOIN Proposal p on p.proposalId = bs.proposalId
       WHERE c.containerStatus = 'processing'
@@ -7476,10 +7479,48 @@ BEGIN
       INNER JOIN Position pos1 ON pos1.positionId = blss.positionId
       LEFT OUTER JOIN Position pos2 ON pos2.positionId = blss.position2Id
       INNER JOIN DiffractionPlan dp ON dp.diffractionPlanId = blss.diffractionPlanId
-      LEFT OUTER JOIN BLSampleImage blsi ON blsi.blSampleId = bls.blSampleId 
+      LEFT OUTER JOIN BLSampleImage blsi ON blsi.blSampleId = bls.blSampleId AND blsi.blSampleImageId = (SELECT max(blsi2.blSampleImageId) FROM BLSampleImage blsi2 WHERE blsi2.blSampleId = bls.blSampleId)
       LEFT OUTER JOIN DataCollection dc on dc.blSubSampleId = blss.blSubSampleId
 	WHERE c.barcode = p_barcode;
   END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_dc_infos_for_subsample` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_dc_infos_for_subsample`(p_id int)
+    READS SQL DATA
+BEGIN
+    SELECT dc.datacollectionId "id", dc.dataCollectionNumber "dcNumber", dc.startTime "startTime", dc.endTime "endTime", 
+        dc.runStatus "status", dc.axisStart "axisStart", dc.axisEnd "axisEnd", dc.axisRange "axisRange", dc.overlap "overlap", 
+        dc.numberOfImages "numberOfImages", dc.startImageNumber "startImageNumber", dc.numberOfPasses "numberOfPasses", 
+        dc.exposureTime, dc.imageDirectory, dc.imagePrefix, dc.imageSuffix, dc.fileTemplate, 
+        dc.wavelength "wavelength", dc.resolution "resolution", dc.detectorDistance "detectorDistance", dc.xBeam "xBeam", dc.yBeam "yBeam", 
+        dc.comments "comments", dc.slitgapVertical "slitgapVertical", dc.slitgapHorizontal "slitgapHorizontal", 
+        dc.transmission "transmission", dc.synchrotronMode "synchrotronMode", 
+        dc.xtalSnapshotFullPath1 "snapshot1", dc.xtalSnapshotFullPath2 "snapshot2", 
+        dc.xtalSnapshotFullPath3 "snapshot3", dc.xtalSnapshotFullPath4 "snapshot4", 
+        dc.rotationAxis "rotationAxis", dc.phiStart "phiStart", dc.kappaStart "kappaStart", dc.omegaStart "omegaStart", 
+        dc.undulatorGap1 "undulatorGap1", dc.undulatorGap2 "undulatorGap2", dc.undulatorGap3 "undulatorGap3", 
+        dc.beamSizeAtSampleX "beamSizeAtSampleX", dc.beamSizeAtSampleY "beamSizeAtSampleY", 
+        dc.focalSpotSizeAtSampleX "focalSpotSizeAtSampleX", dc.focalSpotSizeAtSampleY "focalSpotSizeAtSampleY", 
+        dc.polarisation "polarisation", dc.flux "flux", dc.flux_end "flux_end", a.sizeX "apertureSizeX"
+        -- processedDataFile, datFullPath, magnification, totalAbsorbedDose, binning, particleDiameter, boxSize_CTF, minResolution, minDefocus, maxDefocus, defocusStepSize, 
+        -- amountAstigmatism, extractSize, bgRadius, voltage, objAperture, c1aperture, c2aperture, c3aperture, c1lens, c2lens, c3lens
+    FROM DataCollection dc
+		LEFT OUTER JOIN Aperture a on dc.apertureId = a.apertureId
+    WHERE blSubSampleId = p_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -7540,6 +7581,28 @@ BEGIN
         WHERE dp.dataCollectionPlanGroupId = p_id
         ORDER BY spm.modelNumber ASC;
     END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_session_id` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_session_id`(p_session varchar(15), OUT p_id int)
+    READS SQL DATA
+BEGIN
+    SELECT max(bs.sessionid) into p_id 
+    FROM Proposal p INNER JOIN BLSession bs ON p.proposalid = bs.proposalid 
+    WHERE concat(p.proposalcode, p.proposalnumber, '-', bs.visit_number) = p_session;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -7630,6 +7693,245 @@ BEGIN
 	END IF;
   END IF;
 END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_dc_machine` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `update_dc_machine`(
+     p_id int(11) unsigned,
+	 synchrotronMode varchar(20),
+     undulatorGap1 float,
+     undulatorGap2 float,
+     undulatorGap3 float
+)
+    MODIFIES SQL DATA
+BEGIN
+	IF p_id IS NOT NULL THEN
+		UPDATE DataCollection SET 
+			synchrotronMode=IFNULL(p_synchrotronMode, synchrotronMode),
+			undulatorGap1=IFNULL(p_undulatorGap1, undulatorGap1),
+			undulatorGap2=IFNULL(p_undulatorGap2, undulatorGap2),
+			undulatorGap3=IFNULL(p_undulatorGap3, undulatorGap3)
+		WHERE 
+			dataCollectionId = p_id;
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_dc_experiment` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_dc_experiment`(
+     p_id int(11) unsigned,
+     p_slitGapVertical float,
+     p_slitGapHorizontal float,
+     p_transmission float,
+     p_exposureTime float,
+     p_xBeam float,
+     p_yBeam float,
+     p_axisStart float,
+     p_axisEnd float,
+     p_axisRange float,
+     p_overlap float,
+     p_flux double,
+     p_fluxEnd double,
+     p_rotationAxis varchar(10),
+     p_phiStart float,
+     p_kappaStart float,
+     p_omegaStart float,
+     p_wavelength float,                                                
+     p_resolution float,
+     p_detectorDistance float,
+     p_bestWilsonPlotPath varchar(255),
+     p_beamSizeAtSampleX float,
+     p_beamSizeAtSampleY float,
+     p_focalSpotSizeAtSampleX float,
+     p_focalSpotSizeAtSampleY float,
+     p_apertureSizeX float
+)
+    MODIFIES SQL DATA
+BEGIN
+	DECLARE row_apertureId int(11) unsigned;
+    
+	UPDATE DataCollection SET 
+		slitGapVertical=IFNULL(p_slitGapVertical, imagedirectory),
+		slitGapHorizontal=IFNULL(p_slitGapHorizontal, imagedirectory),
+		transmission=IFNULL(p_transmission, imagedirectory),
+		exposureTime=IFNULL(p_exposureTime, imagedirectory),
+		xBeam=IFNULL(p_xBeam, xBeam),
+		yBeam=IFNULL(p_yBeam, yBeam),
+		axisStart=IFNULL(p_axisStart, axisStart),
+		axisEnd=IFNULL(p_axisEnd, axisEnd),
+		axisRange=IFNULL(p_axisRange, axisRange),
+		overlap=IFNULL(p_overlap, overlap),
+		flux=IFNULL(p_flux, flux),
+		flux_end=IFNULL(p_flux_end, flux_end),
+		rotationAxis=IFNULL(p_rotationAxis, rotationAxis),
+		phiStart=IFNULL(p_phiStart, phiStart),
+		kappaStart=IFNULL(p_kappaStart, kappaStart),
+		omegaStart=IFNULL(p_omegaStart, omegaStart),
+		wavelength=IFNULL(p_wavelength, wavelength),
+		resolution=IFNULL(p_resolution, resolution),
+		detectorDistance=IFNULL(p_detectorDistance, detectorDistance),
+		bestWilsonPlotPath=IFNULL(p_bestWilsonPlotPath, bestWilsonPlotPath),
+		beamSizeAtSampleX=IFNULL(p_beamSizeAtSampleX, beamSizeAtSampleX),
+		beamSizeAtSampleY=IFNULL(p_beamSizeAtSampleY, beamSizeAtSampleY),
+		focalSpotSizeAtSampleX=IFNULL(p_focalSpotSizeAtSampleX, focalSpotSizeAtSampleX),
+		focalSpotSizeAtSampleY=IFNULL(p_focalSpotSizeAtSampleY, focalSpotSizeAtSampleY)
+	WHERE dataCollectionId = p_id;
+
+	SELECT apertureId INTO row_apertureId 
+    FROM DataCollection 
+    WHERE dataCollectionId = p_id;
+
+	IF row_apertureId IS NOT NULL THEN
+		UPDATE Aperture SET 
+			sizeX = IFNULL(p_apertureSizeX, sizeX) 
+		WHERE apertureId = row_apertureId;
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_dc_group` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_dc_group`(
+	 INOUT p_id int(11) unsigned,
+     p_sessionId int(10) unsigned,
+     p_sampleId int(10) unsigned, 
+     p_experimenttype varchar(45), -- values controlled by enum on the table
+     p_starttime datetime,
+     p_endtime datetime,
+     p_crystalClass varchar(20),
+     p_detectorMode varchar(255),
+     p_actualSampleBarcode varchar(45),
+     p_actualSampleSlotInContainer integer(10),
+     p_actualContainerBarcode varchar(45),
+     p_actualContainerSlotInSC integer(10),
+     p_comments varchar(1024)
+     )
+    MODIFIES SQL DATA
+BEGIN
+    INSERT INTO DataCollectionGroup (datacollectionGroupId, sessionId, blsampleId, experimenttype, starttime, endtime, crystalClass, detectorMode, 
+      actualSampleBarcode, actualSampleSlotInContainer, actualContainerBarcode, actualContainerSlotInSC, comments) 
+      VALUES (p_id, p_sessionId, p_sampleId, p_experimenttype, p_starttime, p_endtime, p_crystalClass, p_detectorMode, 
+      p_actualSampleBarcode, p_actualSampleSlotInContainer, p_actualContainerBarcode, p_actualContainerSlotInSC, p_comments)
+	  ON DUPLICATE KEY UPDATE
+		sessionId = IFNULL(p_sessionId, sessionId),
+        blsampleId = IFNULL(p_sampleId, blsampleId),
+        experimenttype = IFNULL(p_experimenttype, experimenttype),
+        starttime = IFNULL(p_starttime, starttime),
+        endtime = IFNULL(p_endtime, endtime),
+        crystalClass = IFNULL(p_crystalClass, crystalClass),
+        detectorMode = IFNULL(p_detectorMode, detectorMode),
+        actualSampleBarcode = IFNULL(p_actualSampleBarcode, actualSampleBarcode),
+        actualSampleSlotInContainer = IFNULL(p_actualSampleSlotInContainer, actualSampleSlotInContainer),
+        actualContainerBarcode = IFNULL(p_actualContainerBarcode, actualContainerBarcode),
+        actualContainerSlotInSC = IFNULL(p_actualContainerSlotInSC, actualContainerSlotInSC),
+        comments = IFNULL(p_comments, comments);
+
+	IF LAST_INSERT_ID() <> 0 THEN 
+		SET p_id = LAST_INSERT_ID();
+    END IF;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_dc_main` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_dc_main`(
+     INOUT p_id int(11) unsigned,
+     p_groupId int(11) unsigned,
+     p_detectorId int(11),
+     p_dcNumber int(10) unsigned,
+     p_startTime datetime,                                          
+     p_endTime datetime,                                             
+     p_status varchar(45),                                          
+     p_noImages int(10) unsigned,                                     
+	 p_startImgNumber int(10) unsigned,                                     
+	 p_noPasses int(10) unsigned,                                     
+     p_imgDir varchar(255),                                      
+	 p_imgPrefix varchar(45),                                       
+     p_imgSuffix varchar(45),
+     p_fileTemplate varchar(255),
+     p_snapshot1 varchar(255),                                         
+     p_snapshot2 varchar(255),                                         
+     p_snapshot3 varchar(255),                                         
+     p_snapshot4 varchar(255),
+     p_comments varchar(1024)                                        
+)
+    MODIFIES SQL DATA
+BEGIN
+    INSERT INTO DataCollection (dataCollectionId, dataCollectionGroupId, detectorId, datacollectionNumber, startTime, endTime, 
+        runStatus, numberOfImages, startImageNumber, numberOfPasses, imageDirectory, imagePrefix, imageSuffix, fileTemplate, 
+        xtalSnapshotFullPath1, xtalSnapshotFullPath2, xtalSnapshotFullPath3, xtalSnapshotFullPath4, comments) 
+      VALUES (p_id, p_groupId, p_detectorId, p_dcNumber, p_startTime, p_endTime, 
+      p_status, p_noImages, p_startImgNumber, p_noPasses, p_imgDir, p_imgPrefix, p_imgSuffix, p_fileTemplate, 
+      p_snapshot1, p_snapshot2, p_snapshot3, p_snapshot4, comments)
+      ON DUPLICATE KEY UPDATE
+		datacollectiongroupid = IFNULL(p_groupId, datacollectiongroupid),
+        detectorId = IFNULL(p_detectorId, detectorId),
+        datacollectionNumber = IFNULL(p_dcNumber, datacollectionNumber),
+        starttime = IFNULL(p_starttime, starttime),
+        endtime = IFNULL(p_endtime, endtime),
+        runStatus = IFNULL(p_status, runStatus),
+        numberOfImages = IFNULL(p_noImages, numberOfImages),
+        startImageNumber = IFNULL(p_noImages, startImageNumber),
+        numberOfPasses = IFNULL(p_noPasses, numberOfPasses),
+        imagedirectory = IFNULL(p_imgDir, imagedirectory),
+        imageprefix = IFNULL(p_imgPrefix, imageprefix),
+        imagesuffix = IFNULL(p_imgSuffix, imagesuffix),
+        fileTemplate = IFNULL(p_fileTemplate, fileTemplate),
+        xtalSnapshotFullPath1 = IFNULL(p_snapshot1, xtalSnapshotFullPath1),
+        xtalSnapshotFullPath2 = IFNULL(p_snapshot2, xtalSnapshotFullPath2),
+        xtalSnapshotFullPath3 = IFNULL(p_snapshot3, xtalSnapshotFullPath3),
+        xtalSnapshotFullPath4 = IFNULL(p_snapshot4, xtalSnapshotFullPath4),
+        comments = IFNULL(p_comments, comments);
+	IF LAST_INSERT_ID() <> 0 THEN 
+		SET p_id = LAST_INSERT_ID();
+    END IF;
+  END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -8101,4 +8403,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-24 14:10:51
+-- Dump completed on 2016-11-25 18:14:54
