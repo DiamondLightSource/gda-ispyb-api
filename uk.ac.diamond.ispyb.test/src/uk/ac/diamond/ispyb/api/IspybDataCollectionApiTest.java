@@ -18,7 +18,7 @@ import org.junit.Test;
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
 
 public class IspybDataCollectionApiTest {
-	private final IspybFactoryService<IspybDataCollectionApi> factory = new IspybDataCollectionDaoFactory();
+	private final IspybDataCollectionFactoryService factory = new IspybDataCollectionDaoFactory();
 
 	@Test
 	public void testShouldCreateApi() throws SQLException, IOException {

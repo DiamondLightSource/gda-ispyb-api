@@ -20,7 +20,7 @@ import org.junit.Test;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
 
 public class IspybPlateApiTest {
-	private final IspybFactoryService<IspybPlateApi> factory = new IspybPlateDaoFactory();
+	private final IspybPlateFactoryService factory = new IspybPlateDaoFactory();
 
 	@Test
 	public void testShouldCreateApi() throws SQLException, IOException {
