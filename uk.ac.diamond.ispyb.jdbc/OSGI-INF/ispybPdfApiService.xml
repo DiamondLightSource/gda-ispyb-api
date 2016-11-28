@@ -2,6 +2,6 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="IspybPdfApiService">
    <implementation class="uk.ac.diamond.ispyb.dao.IspybPdfDaoFactory"/>
    <service>
-      <provide interface="uk.ac.diamond.ispyb.api.IspybFactoryService"/>
+      <provide interface="uk.ac.diamond.ispyb.api.IspybPdfFactoryService"/>
    </service>
 </scr:component>
