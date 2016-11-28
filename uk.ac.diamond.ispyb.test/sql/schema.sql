@@ -7692,15 +7692,9 @@ BEGIN
     WHERE barcode = p_barcode;
 
 	IF row_containerId is not NULL THEN
-		IF p_status = 'in_storage' THEN
-			UPDATE Container
-			SET containerStatus = p_status, imagerId = requestedImagerId
-			WHERE containerId = row_containerId;
-		ELSE 
-			UPDATE Container
-			SET containerStatus = p_status, imagerId = NULL
-			WHERE containerId = row_containerId;
-		END IF;
+		UPDATE Container
+		SET containerStatus = p_status 
+		WHERE containerId = row_containerId;
 
 		INSERT INTO ContainerHistory (containerId, location, status) VALUES (row_containerId, row_scLoc, p_status);
 
@@ -8351,4 +8345,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-25 22:55:04
+-- Dump completed on 2016-11-28 11:57:08
