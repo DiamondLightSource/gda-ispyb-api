@@ -24,7 +24,7 @@ public class BeanGenerator {
     private static final String password = System.getProperty("ispyb.pw");
 
     public static void main(String[] args) throws SQLException, IOException, JClassAlreadyExistsException {
-        readStructure(url, user, password, sourceDir, "update_dc_machine", "DataCollectionMachine");
+        readStructure(url, user, password, sourceDir, "retrieve_dc_infos_for_subsample", "DataCollectionInfo");
     }
 
     private static void readStructure(String url, String user, String password, String sourceDir, String storeProcedure, String className) throws JClassAlreadyExistsException, SQLException, IOException {
@@ -35,19 +35,37 @@ public class BeanGenerator {
         annotation.param("value", BeanGenerator.class.getTypeName());
 
         try (Connection connection = createConnection(url, user, password)) {
-            ResultSet columns = connection.getMetaData().getProcedureColumns(null, null, storeProcedure, null);
-
-            while (columns.next()) {
-                String columnName = columns.getString(4);
-                String columnReturnTypeName = columns.getString(7);
-
-                createFieldsForColumn(codeModel, definedClass, columnName, columnReturnTypeName);
-            }
+            generateInputParams(storeProcedure, codeModel, definedClass, connection);
+            generateOutputParams(storeProcedure, codeModel, definedClass, connection);
         }
 
         addGeneralBeanMethods(codeModel, definedClass);
 
         codeModel.build(new File(sourceDir));
+    }
+
+    private static void generateOutputParams(String storeProcedure, JCodeModel codeModel, JDefinedClass definedClass, Connection connection) throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.execute("CALL ispyb." + storeProcedure + "(5)");
+        ResultSetMetaData metaData = statement.getResultSet().getMetaData();
+
+        for (int i = 1; i < metaData.getColumnCount(); i++){
+            String columnName = metaData.getColumnName(i);
+            String columnTypeName = metaData.getColumnTypeName(i);
+
+            createFieldsForColumn(codeModel, definedClass, columnName, columnTypeName);
+        }
+    }
+
+    private static void generateInputParams(String storeProcedure, JCodeModel codeModel, JDefinedClass definedClass, Connection connection) throws SQLException {
+        ResultSet columns = connection.getMetaData().getProcedureColumns(null, null, storeProcedure, "%");
+
+        while (columns.next()) {
+            String columnName = columns.getString(4);
+            String columnReturnTypeName = columns.getString(7);
+
+            createFieldsForColumn(codeModel, definedClass, columnName, columnReturnTypeName);
+        }
     }
 
     private static void addGeneralBeanMethods(JCodeModel codeModel, JDefinedClass definedClass) {
@@ -65,7 +83,12 @@ public class BeanGenerator {
             String javaColumnName = StringUtils.removeStart(columnName, "p_");
 
             Map<String, JType> typeMap = generateTypeMap(codeModel);
-            JType type = typeMap.get(columnReturnTypeName);
+            JType type = typeMap.get(columnReturnTypeName.toLowerCase());
+
+            if (type == null){
+                System.out.println("could not map " + columnReturnTypeName);
+            }
+
             JPrimitiveType voidType = codeModel.VOID;
 
             // sometimes the same fields are defined on way in and out of a sql procedure
@@ -90,6 +113,8 @@ public class BeanGenerator {
         typeMap.put("float", codeModel.FLOAT);
         typeMap.put("double", codeModel.DOUBLE);
         typeMap.put("int", codeModel.INT);
+        typeMap.put("char", codeModel.CHAR);
+        typeMap.put("integer unsigned", codeModel.INT);
         typeMap.put("tinyint", codeModel.INT);
         typeMap.put("varchar", codeModel.ref(String.class));
         typeMap.put("enum", codeModel.ref(String.class));

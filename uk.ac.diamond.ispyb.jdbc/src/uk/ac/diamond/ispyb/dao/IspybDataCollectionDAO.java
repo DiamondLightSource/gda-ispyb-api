@@ -2,6 +2,7 @@ package uk.ac.diamond.ispyb.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -11,6 +12,7 @@ import org.springframework.beans.PropertyAccessorFactory;
 import uk.ac.diamond.ispyb.api.DataCollection;
 import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
 import uk.ac.diamond.ispyb.api.DataCollectionGroup;
+import uk.ac.diamond.ispyb.api.DataCollectionInfo;
 import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
@@ -22,7 +24,7 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	public IspybDataCollectionDAO(TemplateWrapper templateWrapper) {
 		this.templateWrapper = templateWrapper;
 	}
-
+	
 	@Override
 	public int upsertDataCollection(DataCollection dataCollection) {
 		Object[] parameters = getParameters(dataCollection);
@@ -56,6 +58,11 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	public int upsertDataCollectionMachine(DataCollectionMachine dataCollectionMachine) {
 		Object[] parameters = getParameters(dataCollectionMachine);
 		return templateWrapper.callIspyb("upsert_dc_main", Integer.class, parameters).get();
+	}
+	
+	@Override
+	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(int id) {
+		return templateWrapper.callIspybForListBeans("retrieve_dc_infos_for_subsample", DataCollectionInfo.class, id);
 	}
 	
 	@Override
