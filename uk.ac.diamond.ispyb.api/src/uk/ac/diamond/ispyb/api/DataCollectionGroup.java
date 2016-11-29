@@ -1,125 +1,145 @@
+
 package uk.ac.diamond.ispyb.api;
 
 import java.time.LocalDateTime;
 
+import javax.annotation.Generated;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
+@Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionGroup {
-	int id;
-	String session;
-	int sampleId;
-	String experimentType;
-	LocalDateTime starttime;
-	LocalDateTime endtime;
-	String crystalClass;
-	String detectorMode;
-	String actualSampleBarcode;
-	int actualSampleSlotInContainer;
-	String actualContainerBarcode;
-	int actualContainerSlotInSC;
-	String comments;
-	
-	public DataCollectionGroup(){}
 
-	public int getId() {
-		return id;
-	}
+    private int id;
+    private int sessionId;
+    private int sampleId;
+    private String experimenttype;
+    private LocalDateTime starttime;
+    private LocalDateTime endtime;
+    private String crystalClass;
+    private String detectorMode;
+    private String actualSampleBarcode;
+    private int actualSampleSlotInContainer;
+    private String actualContainerBarcode;
+    private int actualContainerSlotInSC;
+    private String comments;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return this.id;
+    }
 
-	public String getSession() {
-		return session;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setSession(String session) {
-		this.session = session;
-	}
+    public int getSessionId() {
+        return this.sessionId;
+    }
 
-	public int getSampleId() {
-		return sampleId;
-	}
+    public void setSessionId(int sessionId) {
+        this.sessionId = sessionId;
+    }
 
-	public void setSampleId(int sampleId) {
-		this.sampleId = sampleId;
-	}
+    public int getSampleId() {
+        return this.sampleId;
+    }
 
-	public String getExperimentType() {
-		return experimentType;
-	}
+    public void setSampleId(int sampleId) {
+        this.sampleId = sampleId;
+    }
 
-	public void setExperimentType(String experimentType) {
-		this.experimentType = experimentType;
-	}
+    public String getExperimenttype() {
+        return this.experimenttype;
+    }
 
-	public LocalDateTime getStarttime() {
-		return starttime;
-	}
+    public void setExperimenttype(String experimenttype) {
+        this.experimenttype = experimenttype;
+    }
 
-	public void setStarttime(LocalDateTime starttime) {
-		this.starttime = starttime;
-	}
+    public LocalDateTime getStarttime() {
+        return this.starttime;
+    }
 
-	public LocalDateTime getEndtime() {
-		return endtime;
-	}
+    public void setStarttime(LocalDateTime starttime) {
+        this.starttime = starttime;
+    }
 
-	public void setEndtime(LocalDateTime endtime) {
-		this.endtime = endtime;
-	}
+    public LocalDateTime getEndtime() {
+        return this.endtime;
+    }
 
-	public String getCrystalClass() {
-		return crystalClass;
-	}
+    public void setEndtime(LocalDateTime endtime) {
+        this.endtime = endtime;
+    }
 
-	public void setCrystalClass(String crystalClass) {
-		this.crystalClass = crystalClass;
-	}
+    public String getCrystalClass() {
+        return this.crystalClass;
+    }
 
-	public String getDetectorMode() {
-		return detectorMode;
-	}
+    public void setCrystalClass(String crystalClass) {
+        this.crystalClass = crystalClass;
+    }
 
-	public void setDetectorMode(String detectorMode) {
-		this.detectorMode = detectorMode;
-	}
+    public String getDetectorMode() {
+        return this.detectorMode;
+    }
 
-	public String getActualSampleBarcode() {
-		return actualSampleBarcode;
-	}
+    public void setDetectorMode(String detectorMode) {
+        this.detectorMode = detectorMode;
+    }
 
-	public void setActualSampleBarcode(String actualSampleBarcode) {
-		this.actualSampleBarcode = actualSampleBarcode;
-	}
+    public String getActualSampleBarcode() {
+        return this.actualSampleBarcode;
+    }
 
-	public int getActualSampleSlotInContainer() {
-		return actualSampleSlotInContainer;
-	}
+    public void setActualSampleBarcode(String actualSampleBarcode) {
+        this.actualSampleBarcode = actualSampleBarcode;
+    }
 
-	public void setActualSampleSlotInContainer(int actualSampleSlotInContainer) {
-		this.actualSampleSlotInContainer = actualSampleSlotInContainer;
-	}
+    public int getActualSampleSlotInContainer() {
+        return this.actualSampleSlotInContainer;
+    }
 
-	public String getActualContainerBarcode() {
-		return actualContainerBarcode;
-	}
+    public void setActualSampleSlotInContainer(int actualSampleSlotInContainer) {
+        this.actualSampleSlotInContainer = actualSampleSlotInContainer;
+    }
 
-	public void setActualContainerBarcode(String actualContainerBarcode) {
-		this.actualContainerBarcode = actualContainerBarcode;
-	}
+    public String getActualContainerBarcode() {
+        return this.actualContainerBarcode;
+    }
 
-	public int getActualContainerSlotInSC() {
-		return actualContainerSlotInSC;
-	}
+    public void setActualContainerBarcode(String actualContainerBarcode) {
+        this.actualContainerBarcode = actualContainerBarcode;
+    }
 
-	public void setActualContainerSlotInSC(int actualContainerSlotInSC) {
-		this.actualContainerSlotInSC = actualContainerSlotInSC;
-	}
+    public int getActualContainerSlotInSC() {
+        return this.actualContainerSlotInSC;
+    }
 
-	public String getComments() {
-		return comments;
-	}
+    public void setActualContainerSlotInSC(int actualContainerSlotInSC) {
+        this.actualContainerSlotInSC = actualContainerSlotInSC;
+    }
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    public String getComments() {
+        return this.comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
+
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    public boolean equals(Object that) {
+        return EqualsBuilder.reflectionEquals(this, that);
+    }
+
 }
