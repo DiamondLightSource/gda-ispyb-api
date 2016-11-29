@@ -2,6 +2,7 @@ package uk.ac.diamond.ispyb.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.beans.BeanWrapper;
@@ -22,17 +23,17 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	@Override
 	public int upsertDataCollection(DataCollection dataCollection) {
 		Object[] parameters = getParameters(dataCollection);
-		return templateWrapper.callIspyb("upsert_dc", Integer.class, parameters);
+		return templateWrapper.callIspyb("upsert_dc", Integer.class, parameters).get();
 	}
 
 	@Override
 	public int upsertDataCollectionGroup(DataCollectionGroup dataCollectionGroup) {
 		Object[] parameters = getParameters(dataCollectionGroup);
-		return templateWrapper.callIspyb("upsert_dc_group", Integer.class, parameters);
+		return templateWrapper.callIspyb("upsert_dc_group", Integer.class, parameters).get();
 	}
 
 	@Override
-	public DataCollection retrieveDataCollectionForSubsample(int id) {
+	public Optional<DataCollection> retrieveDataCollectionForSubsample(int id) {
 		return templateWrapper.callIspybForBean("retrieve_dcs_for_subsample", DataCollection.class, id);
 	}
 

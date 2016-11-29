@@ -40,7 +40,7 @@ public class IspybPlateApiTest {
 		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
 				Optional.of(Schema.ISPYB.toString()));
 
-		int pos = api.retrieveContainerLSPosition("12345");
+		int pos = api.retrieveContainerLSPosition("12345").get();
 		assertThat(pos, is(equalTo(54321)));
 
 		api.close();
@@ -53,7 +53,7 @@ public class IspybPlateApiTest {
 		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
 				Optional.of(Schema.ISPYB.toString()));
 
-		ContainerInfo bean = api.retrieveContainerInfo("12345");
+		ContainerInfo bean = api.retrieveContainerInfo("12345").get();
 		ContainerInfo expectedBean = new ContainerInfo();
 		expectedBean.setName("name");
 		expectedBean.setType("type");
