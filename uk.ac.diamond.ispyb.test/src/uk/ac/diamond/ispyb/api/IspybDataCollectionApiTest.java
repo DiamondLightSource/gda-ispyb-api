@@ -29,20 +29,6 @@ public class IspybDataCollectionApiTest {
 	}
 
 	@Test
-	public void testShouldUpsertDataCollection() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("upsert_dc", "upsertDataCollection").build();
-		IspybDataCollectionApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB.toString()));
-
-		DataCollection dataCollection = new DataCollection();
-		dataCollection.setNumberOfImages(100);
-		int id = api.upsertDataCollection(dataCollection);
-		assertThat(id, is(equalTo(5)));
-
-		api.close();
-	}
-
-	@Test
 	public void testShouldUpsertDataCollectionGroup() throws Exception {
 		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("upsert_dc_group", "upsertDataCollectionGroup")
 				.build();
