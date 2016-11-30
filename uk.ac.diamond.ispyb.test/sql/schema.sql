@@ -7478,7 +7478,7 @@ CREATE PROCEDURE `retrieve_container_subsamples`(IN p_barcode varchar(45))
     READS SQL DATA
 BEGIN
   IF NOT (p_barcode IS NULL) THEN
-    SELECT bls.location "sampleLocation", pos1.posX "ROIPos1x", pos1.posY "ROIPos1y", pos1.posZ "ROIPos1z", pos2.posX "ROIPos2x", pos2.posY "ROIPos2y", pos2.posZ "ROIPos2z", 
+    SELECT blss.blSubSampleId "id", bls.location "sampleLocation", pos1.posX "ROIPos1x", pos1.posY "ROIPos1y", pos1.posZ "ROIPos1z", pos2.posX "ROIPos2x", pos2.posY "ROIPos2y", pos2.posZ "ROIPos2z", 
 	  blsi.imageFullPath "lastImgFullPath", blss.imgFilePath "uploadedImgFilePath", blss.imgFileName "uploadedImgFileName", 
       dp.experimentKind "experimentKind", dp.exposureTime "exposureTime", 
       dp.preferredBeamSizeX "preferredBeamSizeX", dp.preferredBeamSizeY "preferredBeamSizeY", dp.requiredResolution "requiredResolution", 
@@ -7496,7 +7496,14 @@ BEGIN
       INNER JOIN DiffractionPlan dp ON dp.diffractionPlanId = blss.diffractionPlanId
       LEFT OUTER JOIN BLSampleImage blsi ON blsi.blSampleId = bls.blSampleId AND blsi.blSampleImageId = (SELECT max(blsi2.blSampleImageId) FROM BLSampleImage blsi2 WHERE blsi2.blSampleId = bls.blSampleId)
       LEFT OUTER JOIN DataCollection dc on dc.blSubSampleId = blss.blSubSampleId
-	WHERE c.barcode = p_barcode;
+	WHERE c.barcode = p_barcode
+    GROUP BY blss.blSubSampleId, location, pos1.posX, pos1.posY, pos1.posZ, pos2.posX, pos2.posY, pos2.posZ, 
+	  blsi.imageFullPath, blss.imgFilePath, blss.imgFileName, 
+      dp.experimentKind, dp.exposureTime, 
+      dp.preferredBeamSizeX, dp.preferredBeamSizeY, dp.requiredResolution, 
+      dp.monochromator, 12398.42 / dp.energy, dp.transmission, 
+      dp.boxSizeX, dp.boxSizeY, 
+      dp.kappaStart, dp.axisStart, dp.axisRange, dp.numberOfImages;
   END IF;
 END ;;
 DELIMITER ;
@@ -7530,7 +7537,7 @@ BEGIN
         dc.undulatorGap1 "undulatorGap1", dc.undulatorGap2 "undulatorGap2", dc.undulatorGap3 "undulatorGap3", 
         dc.beamSizeAtSampleX "beamSizeAtSampleX", dc.beamSizeAtSampleY "beamSizeAtSampleY", 
         dc.focalSpotSizeAtSampleX "focalSpotSizeAtSampleX", dc.focalSpotSizeAtSampleY "focalSpotSizeAtSampleY", 
-        dc.polarisation "polarisation", dc.flux "flux", dc.flux_end "flux_end", a.sizeX "apertureSizeX"
+        dc.polarisation "polarisation", dc.flux "flux", dc.flux_end "fluxEnd", a.sizeX "apertureSizeX"
         -- processedDataFile, datFullPath, magnification, totalAbsorbedDose, binning, particleDiameter, boxSize_CTF, minResolution, minDefocus, maxDefocus, defocusStepSize, 
         -- amountAstigmatism, extractSize, bgRadius, voltage, objAperture, c1aperture, c2aperture, c3aperture, c1lens, c2lens, c3lens
     FROM DataCollection dc
@@ -8374,4 +8381,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-30 13:25:46
+-- Dump completed on 2016-11-30 16:59:03
