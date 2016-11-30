@@ -1,9 +1,5 @@
 package uk.ac.diamond.ispyb.api;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -44,7 +40,6 @@ public class IntegrationTestHelper<S extends Closeable>{
 	public <T> T execute(CheckedFunction<T, S> f) throws SQLException, IOException {
 		S api = factory.buildIspybApi(url, user,  password, Optional.of(schema));
 		T result = f.apply(api);
-		assertThat(result, is(notNullValue()));
 		api.close();
 		return result;
 	}
