@@ -4,7 +4,7 @@ import java.io.Closeable;
 
 public interface IspybDataCollectionApi extends Closeable {
 	public int upsertDataCollectionMain(DataCollectionMain dataCollectionMain);
-	public int upsertDataCollectionExperiment(DataCollectionExperiment dataCollectionExperiment);
-	public int upsertDataCollectionMachine(DataCollectionMachine dataCollectionMachine);
+	public void updateDataCollectionExperiment(DataCollectionExperiment dataCollectionExperiment);
+	public void updateDataCollectionMachine(DataCollectionMachine dataCollectionMachine);
 	public int upsertDataCollectionGroup(DataCollectionGroup dataCollectionGroup);
 }

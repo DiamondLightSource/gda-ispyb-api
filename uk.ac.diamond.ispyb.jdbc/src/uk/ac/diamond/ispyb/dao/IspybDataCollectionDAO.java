@@ -34,15 +34,15 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	}
 
 	@Override
-	public int upsertDataCollectionExperiment(DataCollectionExperiment dataCollectionExperiment) {
+	public void updateDataCollectionExperiment(DataCollectionExperiment dataCollectionExperiment) {
 		Object[] parameters = getParameters(dataCollectionExperiment);
-		return templateWrapper.callIspyb("upsert_dc_main", Integer.class, parameters).get();
+		templateWrapper.callIspyb("update_dc_experiment", Void.class, parameters);
 	}
 
 	@Override
-	public int upsertDataCollectionMachine(DataCollectionMachine dataCollectionMachine) {
+	public void updateDataCollectionMachine(DataCollectionMachine dataCollectionMachine) {
 		Object[] parameters = getParameters(dataCollectionMachine);
-		return templateWrapper.callIspyb("upsert_dc_main", Integer.class, parameters).get();
+		templateWrapper.callIspyb("update_dc_machine", Void.class, parameters);
 	}
 	
 	@Override

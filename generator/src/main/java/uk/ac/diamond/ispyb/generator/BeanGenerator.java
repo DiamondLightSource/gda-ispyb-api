@@ -24,7 +24,7 @@ public class BeanGenerator {
     private static final String password = System.getProperty("ispyb.pw");
 
     public static void main(String[] args) throws SQLException, IOException, JClassAlreadyExistsException {
-        readStructure(url, user, password, sourceDir, "retrieve_dc_infos_for_subsample", "DataCollectionInfo");
+        readStructure(url, user, password, sourceDir, "retrieve_container_subsamples", "ContainerSubsample");
     }
 
     private static void readStructure(String url, String user, String password, String sourceDir, String storeProcedure, String className) throws JClassAlreadyExistsException, SQLException, IOException {
@@ -114,6 +114,7 @@ public class BeanGenerator {
         typeMap.put("float", codeModel.FLOAT);
         typeMap.put("double", codeModel.DOUBLE);
         typeMap.put("int", codeModel.INT);
+        typeMap.put("mediumint", codeModel.INT);
         typeMap.put("char", codeModel.CHAR);
         typeMap.put("integer unsigned", codeModel.INT);
         typeMap.put("tinyint", codeModel.INT);

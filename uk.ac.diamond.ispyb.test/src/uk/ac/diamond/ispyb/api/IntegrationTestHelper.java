@@ -33,6 +33,13 @@ public class IntegrationTestHelper<S extends Closeable>{
 	public IntegrationTestHelper(IspybFactoryService<S> factory) {
 		this.factory = factory;
 	}
+
+	public void run(CheckedSupplier<S> f) throws SQLException, IOException {
+		execute(api -> {
+			f.apply(api);
+			return null;
+		});
+	}
 	
 	public <T> T execute(CheckedFunction<T, S> f) throws SQLException, IOException {
 		S api = factory.buildIspybApi(url, user,  password, Optional.of(schema));
@@ -85,5 +92,8 @@ public class IntegrationTestHelper<S extends Closeable>{
 	
 	interface CheckedFunction<S,T>{
 		public S apply(T t) throws SQLException;
+	}
+	interface CheckedSupplier<T>{
+		public void apply(T t) throws SQLException;
 	}
 }
