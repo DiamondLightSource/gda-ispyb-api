@@ -6,13 +6,10 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.h2.tools.SimpleResultSet;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
@@ -60,36 +57,6 @@ public class IspybDataCollectionApiTest {
 		api.close();
 	}
 
-	@Test
-	public void testShouldRetrieveBean() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dcs_for_subsample", "retrieve").build();
-
-		IspybDataCollectionApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB.toString()));
-
-		DataCollection dataCollection = api.retrieveDataCollectionForSubsample(12345).get();
-
-		DataCollection expected = new DataCollection();
-		expected.setId(12345);
-
-		assertThat(dataCollection, is(equalTo(expected)));
-
-		api.close();
-	}
-	
-	@Test
-	public void testShouldRetrieveNoBean() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dcs_for_subsample", "retrieveNoData").build();
-
-		IspybDataCollectionApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB.toString()));
-
-		Optional<DataCollection> dataCollection = api.retrieveDataCollectionForSubsample(12345);
-
-		assertThat(dataCollection, is(equalTo(Optional.empty())));
-
-		api.close();
-	}
 	
 	public static final int upsertDataCollection(int id, int groupId, int subSampleId, int detectorId, int positionId,
 			int apertureId, int dcNumber, LocalDateTime startTime, LocalDateTime endTime, String runStatus,
@@ -124,16 +91,4 @@ public class IspybDataCollectionApiTest {
 		return -1;
 	}
 
-	public static final ResultSet retrieve(int id) {
-		SimpleResultSet result = new SimpleResultSet();
-		result.addColumn("id", Types.INTEGER, 15, 0);
-		result.addRow(id);
-		return result;
-	}
-
-	public static final ResultSet retrieveNoData(int id) {
-		SimpleResultSet result = new SimpleResultSet();
-		result.addColumn("id", Types.INTEGER, 15, 0);
-		return result;
-	}	
 }

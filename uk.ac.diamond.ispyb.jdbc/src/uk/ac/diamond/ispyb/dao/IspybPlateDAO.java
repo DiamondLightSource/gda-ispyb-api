@@ -12,6 +12,7 @@ import uk.ac.diamond.ispyb.api.ContainerInfo;
 import uk.ac.diamond.ispyb.api.ContainerLSQueueEntry;
 import uk.ac.diamond.ispyb.api.ContainerStatus;
 import uk.ac.diamond.ispyb.api.ContainerSubsample;
+import uk.ac.diamond.ispyb.api.DataCollectionInfo;
 import uk.ac.diamond.ispyb.api.IspybPlateApi;
 
 public class IspybPlateDAO implements IspybPlateApi{
@@ -70,6 +71,11 @@ public class IspybPlateDAO implements IspybPlateApi{
 	@Override
 	public void insertContainerError(String barcode, String error, int severity, String stackTrace) throws SQLException {
 		templateWrapper.updateIspyb("insert_container_error", barcode, error, severity, stackTrace);
+	}
+	
+	@Override
+	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(int id) {
+		return templateWrapper.callIspybForListBeans("retrieve_dc_infos_for_subsample", DataCollectionInfo.class, id);
 	}
 
 	@Override

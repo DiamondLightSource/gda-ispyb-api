@@ -28,6 +28,8 @@ public interface IspybPlateApi extends Closeable {
 
 	void insertContainerError(String barcode, String error, int severity, String stackTrace) throws SQLException;
 
+	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(int id);
+	
 	void clearContainerError(String barcode) throws SQLException;
 
 	public Map<String, Object> retrieveTest() throws SQLException;
