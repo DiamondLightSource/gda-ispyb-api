@@ -1692,6 +1692,7 @@ CREATE TABLE `Crystal` (
   `pdbFileName` varchar(255) DEFAULT NULL COMMENT 'pdb file name',
   `pdbFilePath` varchar(1024) DEFAULT NULL COMMENT 'pdb file path',
   `recordTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation or last update date/time',
+  `abundance` float DEFAULT NULL,
   PRIMARY KEY (`crystalId`),
   KEY `Crystal_FKIndex1` (`proteinId`),
   KEY `Crystal_FKIndex2` (`diffractionPlanId`),
@@ -1706,7 +1707,7 @@ CREATE TABLE `Crystal` (
 
 LOCK TABLES `Crystal` WRITE;
 /*!40000 ALTER TABLE `Crystal` DISABLE KEYS */;
-INSERT INTO `Crystal` VALUES (3918,NULL,4380,NULL,'Crystal 01',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3921,NULL,4383,NULL,'Crystal 02',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3924,NULL,4386,NULL,'Crystal 03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3927,NULL,4389,NULL,'Crystal 04',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3930,NULL,4392,NULL,'Crystal 05',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3933,NULL,4395,NULL,'Crystal 06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3936,NULL,4398,NULL,'Crystal 07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3939,NULL,4401,NULL,'Crystal 08',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3942,NULL,4404,NULL,'Crystal 09',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3945,NULL,4407,NULL,'Crystal 10',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3948,NULL,4407,NULL,'Crystal 11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3951,NULL,4410,NULL,'Crystal 12',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3954,NULL,4410,NULL,'Crystal 13',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3957,NULL,4413,NULL,'Crystal 14',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3960,NULL,4413,NULL,'Crystal 15',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(310037,NULL,121393,NULL,'crystal-4-cm14451-1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:58:00'),(333301,NULL,123491,NULL,NULL,'P41212',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:58:00');
+INSERT INTO `Crystal` VALUES (3918,NULL,4380,NULL,'Crystal 01',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3921,NULL,4383,NULL,'Crystal 02',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3924,NULL,4386,NULL,'Crystal 03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3927,NULL,4389,NULL,'Crystal 04',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3930,NULL,4392,NULL,'Crystal 05',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3933,NULL,4395,NULL,'Crystal 06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3936,NULL,4398,NULL,'Crystal 07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3939,NULL,4401,NULL,'Crystal 08',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3942,NULL,4404,NULL,'Crystal 09',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3945,NULL,4407,NULL,'Crystal 10',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3948,NULL,4407,NULL,'Crystal 11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3951,NULL,4410,NULL,'Crystal 12',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3954,NULL,4410,NULL,'Crystal 13',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3957,NULL,4413,NULL,'Crystal 14',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3960,NULL,4413,NULL,'Crystal 15',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(310037,NULL,121393,NULL,'crystal-4-cm14451-1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:58:00',NULL),(333301,NULL,123491,NULL,NULL,'P41212',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:58:00',NULL);
 /*!40000 ALTER TABLE `Crystal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4307,7 +4308,7 @@ CREATE TABLE `Protein` (
   `global` tinyint(1) DEFAULT '0',
   `externalId` binary(16) DEFAULT NULL,
   `theoreticalDensity` float DEFAULT NULL,
-  `abundance` float DEFAULT NULL,
+  `abundance` float DEFAULT NULL COMMENT 'Deprecated',
   PRIMARY KEY (`proteinId`),
   KEY `ProteinAcronym_Index` (`proposalId`,`acronym`),
   KEY `Protein_FKIndex1` (`proposalId`),
@@ -7770,8 +7771,11 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `upsert_dc_group`(
 	 INOUT p_id int(11) unsigned,
-     p_sessionId int(10) unsigned,
+     p_proposalCode varchar(3),
+     p_proposalNumber int(10),
+     p_sessionNumber int(10),
      p_sampleId int(10) unsigned, 
+     p_sampleBarcode varchar(45),
      p_experimenttype varchar(45), -- values controlled by enum on the table
      p_starttime datetime,
      p_endtime datetime,
@@ -7785,26 +7789,51 @@ CREATE PROCEDURE `upsert_dc_group`(
      )
     MODIFIES SQL DATA
 BEGIN
-    INSERT INTO DataCollectionGroup (datacollectionGroupId, sessionId, blsampleId, experimenttype, starttime, endtime, crystalClass, detectorMode, 
-      actualSampleBarcode, actualSampleSlotInContainer, actualContainerBarcode, actualContainerSlotInSC, comments) 
-      VALUES (p_id, p_sessionId, p_sampleId, p_experimenttype, p_starttime, p_endtime, p_crystalClass, p_detectorMode, 
-      p_actualSampleBarcode, p_actualSampleSlotInContainer, p_actualContainerBarcode, p_actualContainerSlotInSC, p_comments)
-	  ON DUPLICATE KEY UPDATE
-		sessionId = IFNULL(p_sessionId, sessionId),
-        blsampleId = IFNULL(p_sampleId, blsampleId),
-        experimenttype = IFNULL(p_experimenttype, experimenttype),
-        starttime = IFNULL(p_starttime, starttime),
-        endtime = IFNULL(p_endtime, endtime),
-        crystalClass = IFNULL(p_crystalClass, crystalClass),
-        detectorMode = IFNULL(p_detectorMode, detectorMode),
-        actualSampleBarcode = IFNULL(p_actualSampleBarcode, actualSampleBarcode),
-        actualSampleSlotInContainer = IFNULL(p_actualSampleSlotInContainer, actualSampleSlotInContainer),
-        actualContainerBarcode = IFNULL(p_actualContainerBarcode, actualContainerBarcode),
-        actualContainerSlotInSC = IFNULL(p_actualContainerSlotInSC, actualContainerSlotInSC),
-        comments = IFNULL(p_comments, comments);
 
-	IF LAST_INSERT_ID() <> 0 THEN 
-		SET p_id = LAST_INSERT_ID();
+	DECLARE row_session_id int(10) unsigned DEFAULT NULL;
+	DECLARE row_proposal_id int(10) unsigned DEFAULT NULL;
+	DECLARE row_sample_id int(10) unsigned DEFAULT NULL;
+        
+	IF p_proposalCode IS NOT NULL AND p_proposalNumber IS NOT NULL AND p_sessionNumber IS NOT NULL THEN
+      SELECT max(bs.sessionid), p.proposalId INTO row_session_id, row_proposal_id 
+      FROM Proposal p INNER JOIN BLSession bs ON p.proposalid = bs.proposalid 
+      WHERE p.proposalCode = p_proposalCode AND p.proposalNumber = p_proposalNumber AND bs.visit_number = p_sessionNumber;
+      
+      IF p_sampleId IS NULL THEN
+        SELECT max(bls.blSampleId) INTO p_sampleId
+        FROM BLSample bls
+          INNER JOIN Container c on c.containerId = bls.containerId
+          INNER JOIN Dewar d on d.dewarId = c.dewarId
+          INNER JOIN Shipping s on s.shippingId = d.shippingId
+        WHERE bls.code = p_sampleBarcode AND s.proposalId = row_proposal_id;
+        
+      END IF;
+      
+	END IF;
+
+	IF p_id IS NOT NULL OR row_session_id IS NOT NULL THEN
+
+      INSERT INTO DataCollectionGroup (datacollectionGroupId, sessionId, blsampleId, experimenttype, starttime, endtime, crystalClass, detectorMode, 
+        actualSampleBarcode, actualSampleSlotInContainer, actualContainerBarcode, actualContainerSlotInSC, comments) 
+        VALUES (p_id, row_session_id, p_sampleId, p_experimenttype, p_starttime, p_endtime, p_crystalClass, p_detectorMode, 
+        p_actualSampleBarcode, p_actualSampleSlotInContainer, p_actualContainerBarcode, p_actualContainerSlotInSC, p_comments)
+	    ON DUPLICATE KEY UPDATE
+		  sessionId = IFNULL(row_session_id, sessionId),
+          blsampleId = IFNULL(p_sampleId, blsampleId),
+          experimenttype = IFNULL(p_experimenttype, experimenttype),
+          starttime = IFNULL(p_starttime, starttime),
+          endtime = IFNULL(p_endtime, endtime),
+          crystalClass = IFNULL(p_crystalClass, crystalClass),
+          detectorMode = IFNULL(p_detectorMode, detectorMode),
+          actualSampleBarcode = IFNULL(p_actualSampleBarcode, actualSampleBarcode),
+          actualSampleSlotInContainer = IFNULL(p_actualSampleSlotInContainer, actualSampleSlotInContainer),
+          actualContainerBarcode = IFNULL(p_actualContainerBarcode, actualContainerBarcode),
+          actualContainerSlotInSC = IFNULL(p_actualContainerSlotInSC, actualContainerSlotInSC),
+          comments = IFNULL(p_comments, comments);
+
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
     END IF;
   END ;;
 DELIMITER ;
@@ -8345,4 +8374,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-28 11:57:08
+-- Dump completed on 2016-11-30 13:25:46
