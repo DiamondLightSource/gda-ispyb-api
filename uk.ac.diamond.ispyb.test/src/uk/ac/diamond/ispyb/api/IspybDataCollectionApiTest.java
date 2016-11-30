@@ -43,7 +43,6 @@ public class IspybDataCollectionApiTest {
 		api.close();
 	}
 
-	
 	public static final int upsertDataCollection(int id, int groupId, int subSampleId, int detectorId, int positionId,
 			int apertureId, int dcNumber, LocalDateTime startTime, LocalDateTime endTime, String runStatus,
 			double axisStart, double axisEnd, double axisRange, double overlap, int numberOfImages,
@@ -67,10 +66,11 @@ public class IspybDataCollectionApiTest {
 		return -1;
 	}
 
-	public static final int upsertDataCollectionGroup(int id, String session, int sampleId, String experimentType,
-			LocalDateTime starttime, LocalDateTime endtime, String crystalClass, String detectorMode,
-			String actualSampleBarcode, int actualSampleSlotInContainer, String actualContainerBarcode,
-			int actualContainerSlotInSC, String comments) {
+	public static final int upsertDataCollectionGroup(int id, String proposalCode, int proposalNumber,
+			int sessionNumber, int sampleId, String sampleBarcode, String experimenttype, LocalDateTime starttime,
+			LocalDateTime endtime, String crystalClass, String detectorMode, String actualSampleBarcode,
+			int actualSampleSlotInContainer, String actualContainerBarcode, int actualContainerSlotInSC,
+			String comments) {
 		if (actualSampleSlotInContainer == 6) {
 			return 100;
 		}

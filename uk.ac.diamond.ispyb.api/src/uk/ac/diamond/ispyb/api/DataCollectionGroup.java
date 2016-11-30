@@ -2,9 +2,7 @@
 package uk.ac.diamond.ispyb.api;
 
 import java.time.LocalDateTime;
-
 import javax.annotation.Generated;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -13,8 +11,11 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 public class DataCollectionGroup {
 
     private int id;
-    private int sessionId;
+    private String proposalCode;
+    private int proposalNumber;
+    private int sessionNumber;
     private int sampleId;
+    private String sampleBarcode;
     private String experimenttype;
     private LocalDateTime starttime;
     private LocalDateTime endtime;
@@ -34,12 +35,28 @@ public class DataCollectionGroup {
         this.id = id;
     }
 
-    public int getSessionId() {
-        return this.sessionId;
+    public String getProposalCode() {
+        return this.proposalCode;
     }
 
-    public void setSessionId(int sessionId) {
-        this.sessionId = sessionId;
+    public void setProposalCode(String proposalCode) {
+        this.proposalCode = proposalCode;
+    }
+
+    public int getProposalNumber() {
+        return this.proposalNumber;
+    }
+
+    public void setProposalNumber(int proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
+
+    public int getSessionNumber() {
+        return this.sessionNumber;
+    }
+
+    public void setSessionNumber(int sessionNumber) {
+        this.sessionNumber = sessionNumber;
     }
 
     public int getSampleId() {
@@ -48,6 +65,14 @@ public class DataCollectionGroup {
 
     public void setSampleId(int sampleId) {
         this.sampleId = sampleId;
+    }
+
+    public String getSampleBarcode() {
+        return this.sampleBarcode;
+    }
+
+    public void setSampleBarcode(String sampleBarcode) {
+        this.sampleBarcode = sampleBarcode;
     }
 
     public String getExperimenttype() {
