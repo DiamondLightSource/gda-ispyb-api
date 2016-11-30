@@ -9,11 +9,12 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionInfo {
-    private int dataCollectionId;
-    private int dataCollectionNumber;
+
+    private int id;
+    private int dcNumber;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private String runStatus;
+    private String status;
     private float axisStart;
     private float axisEnd;
     private float axisRange;
@@ -32,14 +33,14 @@ public class DataCollectionInfo {
     private float xBeam;
     private float yBeam;
     private String comments;
-    private float slitGapVertical;
-    private float slitGapHorizontal;
+    private float slitgapVertical;
+    private float slitgapHorizontal;
     private float transmission;
     private String synchrotronMode;
-    private String xtalSnapshotFullPath1;
-    private String xtalSnapshotFullPath2;
-    private String xtalSnapshotFullPath3;
-    private String xtalSnapshotFullPath4;
+    private String snapshot1;
+    private String snapshot2;
+    private String snapshot3;
+    private String snapshot4;
     private char rotationAxis;
     private float phiStart;
     private float kappaStart;
@@ -49,26 +50,26 @@ public class DataCollectionInfo {
     private float undulatorGap3;
     private float beamSizeAtSampleX;
     private float beamSizeAtSampleY;
-    private float FOCALSPOTSIZEATSAMPLEX;
-    private float FOCALSPOTSIZEATSAMPLEY;
-    private float POLARISATION;
+    private float focalSpotSizeAtSampleX;
+    private float focalSpotSizeAtSampleY;
+    private float polarisation;
     private double flux;
-    private double flux_end;
+    private double fluxEnd;
 
-    public int getDataCollectionId() {
-        return this.dataCollectionId;
+    public int getId() {
+        return this.id;
     }
 
-    public void setDataCollectionId(int dataCollectionId) {
-        this.dataCollectionId = dataCollectionId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getDataCollectionNumber() {
-        return this.dataCollectionNumber;
+    public int getDcNumber() {
+        return this.dcNumber;
     }
 
-    public void setDataCollectionNumber(int dataCollectionNumber) {
-        this.dataCollectionNumber = dataCollectionNumber;
+    public void setDcNumber(int dcNumber) {
+        this.dcNumber = dcNumber;
     }
 
     public LocalDateTime getStartTime() {
@@ -87,12 +88,12 @@ public class DataCollectionInfo {
         this.endTime = endTime;
     }
 
-    public String getRunStatus() {
-        return this.runStatus;
+    public String getStatus() {
+        return this.status;
     }
 
-    public void setRunStatus(String runStatus) {
-        this.runStatus = runStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public float getAxisStart() {
@@ -239,20 +240,20 @@ public class DataCollectionInfo {
         this.comments = comments;
     }
 
-    public float getSlitGapVertical() {
-        return this.slitGapVertical;
+    public float getSlitgapVertical() {
+        return this.slitgapVertical;
     }
 
-    public void setSlitGapVertical(float slitGapVertical) {
-        this.slitGapVertical = slitGapVertical;
+    public void setSlitgapVertical(float slitgapVertical) {
+        this.slitgapVertical = slitgapVertical;
     }
 
-    public float getSlitGapHorizontal() {
-        return this.slitGapHorizontal;
+    public float getSlitgapHorizontal() {
+        return this.slitgapHorizontal;
     }
 
-    public void setSlitGapHorizontal(float slitGapHorizontal) {
-        this.slitGapHorizontal = slitGapHorizontal;
+    public void setSlitgapHorizontal(float slitgapHorizontal) {
+        this.slitgapHorizontal = slitgapHorizontal;
     }
 
     public float getTransmission() {
@@ -271,36 +272,36 @@ public class DataCollectionInfo {
         this.synchrotronMode = synchrotronMode;
     }
 
-    public String getXtalSnapshotFullPath1() {
-        return this.xtalSnapshotFullPath1;
+    public String getSnapshot1() {
+        return this.snapshot1;
     }
 
-    public void setXtalSnapshotFullPath1(String xtalSnapshotFullPath1) {
-        this.xtalSnapshotFullPath1 = xtalSnapshotFullPath1;
+    public void setSnapshot1(String snapshot1) {
+        this.snapshot1 = snapshot1;
     }
 
-    public String getXtalSnapshotFullPath2() {
-        return this.xtalSnapshotFullPath2;
+    public String getSnapshot2() {
+        return this.snapshot2;
     }
 
-    public void setXtalSnapshotFullPath2(String xtalSnapshotFullPath2) {
-        this.xtalSnapshotFullPath2 = xtalSnapshotFullPath2;
+    public void setSnapshot2(String snapshot2) {
+        this.snapshot2 = snapshot2;
     }
 
-    public String getXtalSnapshotFullPath3() {
-        return this.xtalSnapshotFullPath3;
+    public String getSnapshot3() {
+        return this.snapshot3;
     }
 
-    public void setXtalSnapshotFullPath3(String xtalSnapshotFullPath3) {
-        this.xtalSnapshotFullPath3 = xtalSnapshotFullPath3;
+    public void setSnapshot3(String snapshot3) {
+        this.snapshot3 = snapshot3;
     }
 
-    public String getXtalSnapshotFullPath4() {
-        return this.xtalSnapshotFullPath4;
+    public String getSnapshot4() {
+        return this.snapshot4;
     }
 
-    public void setXtalSnapshotFullPath4(String xtalSnapshotFullPath4) {
-        this.xtalSnapshotFullPath4 = xtalSnapshotFullPath4;
+    public void setSnapshot4(String snapshot4) {
+        this.snapshot4 = snapshot4;
     }
 
     public char getRotationAxis() {
@@ -375,28 +376,28 @@ public class DataCollectionInfo {
         this.beamSizeAtSampleY = beamSizeAtSampleY;
     }
 
-    public float getFOCALSPOTSIZEATSAMPLEX() {
-        return this.FOCALSPOTSIZEATSAMPLEX;
+    public float getFocalSpotSizeAtSampleX() {
+        return this.focalSpotSizeAtSampleX;
     }
 
-    public void setFOCALSPOTSIZEATSAMPLEX(float FOCALSPOTSIZEATSAMPLEX) {
-        this.FOCALSPOTSIZEATSAMPLEX = FOCALSPOTSIZEATSAMPLEX;
+    public void setFocalSpotSizeAtSampleX(float focalSpotSizeAtSampleX) {
+        this.focalSpotSizeAtSampleX = focalSpotSizeAtSampleX;
     }
 
-    public float getFOCALSPOTSIZEATSAMPLEY() {
-        return this.FOCALSPOTSIZEATSAMPLEY;
+    public float getFocalSpotSizeAtSampleY() {
+        return this.focalSpotSizeAtSampleY;
     }
 
-    public void setFOCALSPOTSIZEATSAMPLEY(float FOCALSPOTSIZEATSAMPLEY) {
-        this.FOCALSPOTSIZEATSAMPLEY = FOCALSPOTSIZEATSAMPLEY;
+    public void setFocalSpotSizeAtSampleY(float focalSpotSizeAtSampleY) {
+        this.focalSpotSizeAtSampleY = focalSpotSizeAtSampleY;
     }
 
-    public float getPOLARISATION() {
-        return this.POLARISATION;
+    public float getPolarisation() {
+        return this.polarisation;
     }
 
-    public void setPOLARISATION(float POLARISATION) {
-        this.POLARISATION = POLARISATION;
+    public void setPolarisation(float polarisation) {
+        this.polarisation = polarisation;
     }
 
     public double getFlux() {
@@ -407,12 +408,12 @@ public class DataCollectionInfo {
         this.flux = flux;
     }
 
-    public double getFlux_end() {
-        return this.flux_end;
+    public double getFluxEnd() {
+        return this.fluxEnd;
     }
 
-    public void setFlux_end(double flux_end) {
-        this.flux_end = flux_end;
+    public void setFluxEnd(double fluxEnd) {
+        this.fluxEnd = fluxEnd;
     }
 
     public String toString() {

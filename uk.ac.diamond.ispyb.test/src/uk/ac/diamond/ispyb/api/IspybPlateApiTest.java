@@ -106,7 +106,7 @@ public class IspybPlateApiTest {
 		DataCollectionInfo dataCollection = api.retrieveDataCollectionInfosForSubsample(12345).get(0);
 		
 		DataCollectionInfo expected = new DataCollectionInfo();
-		expected.setDataCollectionId(12345);
+		expected.setId(12345);
 
 		assertThat(dataCollection, is(equalTo(expected)));
 
@@ -142,14 +142,14 @@ public class IspybPlateApiTest {
 	
 	public static final ResultSet retrieve(int id) {
 		SimpleResultSet result = new SimpleResultSet();
-		result.addColumn("dataCollectionId", Types.INTEGER, 15, 0);
+		result.addColumn("id", Types.INTEGER, 15, 0);
 		result.addRow(id);
 		return result;
 	}
 
 	public static final ResultSet retrieveNoData(int id) {
 		SimpleResultSet result = new SimpleResultSet();
-		result.addColumn("dataCollectionId", Types.INTEGER, 15, 0);
+		result.addColumn("id", Types.INTEGER, 15, 0);
 		return result;
 	}	
 

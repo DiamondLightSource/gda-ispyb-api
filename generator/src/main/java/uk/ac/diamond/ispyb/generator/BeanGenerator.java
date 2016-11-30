@@ -46,11 +46,12 @@ public class BeanGenerator {
 
     private static void generateOutputParams(String storeProcedure, JCodeModel codeModel, JDefinedClass definedClass, Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
-        statement.execute("CALL ispyb." + storeProcedure + "(5)");
-        ResultSetMetaData metaData = statement.getResultSet().getMetaData();
+        statement.execute("CALL ispybstage." + storeProcedure + "(5)");
+        ResultSet resultSet = statement.getResultSet();
+        ResultSetMetaData metaData = resultSet.getMetaData();
 
         for (int i = 1; i < metaData.getColumnCount(); i++){
-            String columnName = metaData.getColumnName(i);
+            String columnName = metaData.getColumnLabel(i);
             String columnTypeName = metaData.getColumnTypeName(i);
 
             createFieldsForColumn(codeModel, definedClass, columnName, columnTypeName);
@@ -58,7 +59,7 @@ public class BeanGenerator {
     }
 
     private static void generateInputParams(String storeProcedure, JCodeModel codeModel, JDefinedClass definedClass, Connection connection) throws SQLException {
-        ResultSet columns = connection.getMetaData().getProcedureColumns(null, null, storeProcedure, "%");
+        ResultSet columns = connection.getMetaData().getProcedureColumns("ispybstage", null, storeProcedure, "%");
 
         while (columns.next()) {
             String columnName = columns.getString(4);
