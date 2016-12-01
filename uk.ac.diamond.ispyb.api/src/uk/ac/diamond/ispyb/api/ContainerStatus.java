@@ -25,6 +25,7 @@ public enum ContainerStatus {
 			if (e.status.equals(status)) {
 				return e;
 			}
+			return ContainerStatus.INVALID;
 		}
 		throw new IllegalArgumentException("no container status for " + status);
 	}
