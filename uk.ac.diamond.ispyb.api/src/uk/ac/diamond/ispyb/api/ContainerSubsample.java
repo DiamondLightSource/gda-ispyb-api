@@ -1,237 +1,259 @@
+
 package uk.ac.diamond.ispyb.api;
 
+import javax.annotation.Generated;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-/**
- * All details related to a subsample in a container
- */
+@Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class ContainerSubsample {
 
-	private String sampleLocation;
-	private double ROIPos1x;
-	private double ROIPos1y;
-	private double ROIPos1z;
-	private double ROIPos2x;
-	private double ROIPos2y;
-	private double ROIPos2z;
-	private String lastImgFullPath;
-	private String uploadedImgFilePath;
-	private String uploadedImgFileName;
-	private String experimentKind;
-	private float exposureTime;
-	private float preferredBeamSizeX;
-	private float preferredBeamSizeY;
-	private double requiredResolution;
-	private String monochromator;
-	private float wavelength;
-	private float boxSizeX;
-	private float boxSizeY;
-	private float kappaStart;
-	private float axisStart;
-	private float axisRange;
-	private int numberOfImages;
+    private String barcode;
+    private int id;
+    private String sampleLocation;
+    private double ROIPos1x;
+    private double ROIPos1y;
+    private double ROIPos1z;
+    private double ROIPos2x;
+    private double ROIPos2y;
+    private double ROIPos2z;
+    private String lastImgFullPath;
+    private String uploadedImgFilePath;
+    private String uploadedImgFileName;
+    private char experimentKind;
+    private float exposureTime;
+    private float preferredBeamSizeX;
+    private float preferredBeamSizeY;
+    private double requiredResolution;
+    private String monochromator;
+    private double wavelength;
+    private float transmission;
+    private float boxSizeX;
+    private float boxSizeY;
+    private float kappaStart;
+    private float axisStart;
+    private float axisRange;
+    private int numberOfImages;
 
-	public ContainerSubsample() {
-		System.err.println("help");
-	}
+    public String getBarcode() {
+        return this.barcode;
+    }
 
-	public String getSampleLocation() {
-		return sampleLocation;
-	}
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
 
-	public void setSampleLocation(String sampleLocation) {
-		this.sampleLocation = sampleLocation;
-	}
+    public int getId() {
+        return this.id;
+    }
 
-	public double getROIPos1x() {
-		return ROIPos1x;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setROIPos1x(double rOIPos1x) {
-		ROIPos1x = rOIPos1x;
-	}
+    public String getSampleLocation() {
+        return this.sampleLocation;
+    }
 
-	public double getROIPos1y() {
-		return ROIPos1y;
-	}
+    public void setSampleLocation(String sampleLocation) {
+        this.sampleLocation = sampleLocation;
+    }
 
-	public void setROIPos1y(double rOIPos1y) {
-		ROIPos1y = rOIPos1y;
-	}
+    public double getROIPos1x() {
+        return this.ROIPos1x;
+    }
 
-	public double getROIPos1z() {
-		return ROIPos1z;
-	}
+    public void setROIPos1x(double ROIPos1x) {
+        this.ROIPos1x = ROIPos1x;
+    }
 
-	public void setROIPos1z(double rOIPos1z) {
-		ROIPos1z = rOIPos1z;
-	}
+    public double getROIPos1y() {
+        return this.ROIPos1y;
+    }
 
-	public double getROIPos2x() {
-		return ROIPos2x;
-	}
-	
-	public void setROIPos2x(double rOIPos2x) {
-		ROIPos2x = rOIPos2x;
-	}
-	
-	public double getROIPos2y() {
-		return ROIPos2y;
-	}
-	
-	public void setROIPos2y(double rOIPos2y) {
-		ROIPos2y = rOIPos2y;
-	}
-	
-	public double getROIPos2z() {
-		return ROIPos2z;
-	}
-	
-	public void setROIPos2z(double rOIPos2z) {
-		ROIPos2z = rOIPos2z;
-	}
-	
-	public String getLastImgFullPath() {
-		return lastImgFullPath;
-	}
+    public void setROIPos1y(double ROIPos1y) {
+        this.ROIPos1y = ROIPos1y;
+    }
 
-	public void setLastImgFullPath(String lastImgFullPath) {
-		this.lastImgFullPath = lastImgFullPath;
-	}
+    public double getROIPos1z() {
+        return this.ROIPos1z;
+    }
 
-	public String getUploadedImgFilePath() {
-		return uploadedImgFilePath;
-	}
+    public void setROIPos1z(double ROIPos1z) {
+        this.ROIPos1z = ROIPos1z;
+    }
 
-	public void setUploadedImgFilePath(String uploadedImgFilePath) {
-		this.uploadedImgFilePath = uploadedImgFilePath;
-	}
+    public double getROIPos2x() {
+        return this.ROIPos2x;
+    }
 
-	public String getUploadedImgFileName() {
-		return uploadedImgFileName;
-	}
+    public void setROIPos2x(double ROIPos2x) {
+        this.ROIPos2x = ROIPos2x;
+    }
 
-	public void setUploadedImgFileName(String uploadedImgFileName) {
-		this.uploadedImgFileName = uploadedImgFileName;
-	}
+    public double getROIPos2y() {
+        return this.ROIPos2y;
+    }
 
-	public String getExperimentKind() {
-		return experimentKind;
-	}
+    public void setROIPos2y(double ROIPos2y) {
+        this.ROIPos2y = ROIPos2y;
+    }
 
-	public void setExperimentKind(String experimentKind) {
-		this.experimentKind = experimentKind;
-	}
+    public double getROIPos2z() {
+        return this.ROIPos2z;
+    }
 
-	public float getExposureTime() {
-		return exposureTime;
-	}
+    public void setROIPos2z(double ROIPos2z) {
+        this.ROIPos2z = ROIPos2z;
+    }
 
-	public void setExposureTime(float exposureTime) {
-		this.exposureTime = exposureTime;
-	}
+    public String getLastImgFullPath() {
+        return this.lastImgFullPath;
+    }
 
-	public float getPreferredBeamSizeX() {
-		return preferredBeamSizeX;
-	}
+    public void setLastImgFullPath(String lastImgFullPath) {
+        this.lastImgFullPath = lastImgFullPath;
+    }
 
-	public void setPreferredBeamSizeX(float preferredBeamSizeX) {
-		this.preferredBeamSizeX = preferredBeamSizeX;
-	}
+    public String getUploadedImgFilePath() {
+        return this.uploadedImgFilePath;
+    }
 
-	public float getPreferredBeamSizeY() {
-		return preferredBeamSizeY;
-	}
+    public void setUploadedImgFilePath(String uploadedImgFilePath) {
+        this.uploadedImgFilePath = uploadedImgFilePath;
+    }
 
-	public void setPreferredBeamSizeY(float preferredBeamSizeY) {
-		this.preferredBeamSizeY = preferredBeamSizeY;
-	}
+    public String getUploadedImgFileName() {
+        return this.uploadedImgFileName;
+    }
 
-	public double getRequiredResolution() {
-		return requiredResolution;
-	}
+    public void setUploadedImgFileName(String uploadedImgFileName) {
+        this.uploadedImgFileName = uploadedImgFileName;
+    }
 
-	public void setRequiredResolution(double requiredResolution) {
-		this.requiredResolution = requiredResolution;
-	}
+    public char getExperimentKind() {
+        return this.experimentKind;
+    }
 
-	public String getMonochromator() {
-		return monochromator;
-	}
+    public void setExperimentKind(char experimentKind) {
+        this.experimentKind = experimentKind;
+    }
 
-	public void setMonochromator(String monochromator) {
-		this.monochromator = monochromator;
-	}
+    public float getExposureTime() {
+        return this.exposureTime;
+    }
 
-	public float getWavelength() {
-		return wavelength;
-	}
+    public void setExposureTime(float exposureTime) {
+        this.exposureTime = exposureTime;
+    }
 
-	public void setWavelength(float wavelength) {
-		this.wavelength = wavelength;
-	}
+    public float getPreferredBeamSizeX() {
+        return this.preferredBeamSizeX;
+    }
 
-	public float getBoxSizeX() {
-		return boxSizeX;
-	}
+    public void setPreferredBeamSizeX(float preferredBeamSizeX) {
+        this.preferredBeamSizeX = preferredBeamSizeX;
+    }
 
-	public void setBoxSizeX(float boxSizeX) {
-		this.boxSizeX = boxSizeX;
-	}
+    public float getPreferredBeamSizeY() {
+        return this.preferredBeamSizeY;
+    }
 
-	public float getBoxSizeY() {
-		return boxSizeY;
-	}
+    public void setPreferredBeamSizeY(float preferredBeamSizeY) {
+        this.preferredBeamSizeY = preferredBeamSizeY;
+    }
 
-	public void setBoxSizeY(float boxSizeY) {
-		this.boxSizeY = boxSizeY;
-	}
+    public double getRequiredResolution() {
+        return this.requiredResolution;
+    }
 
-	public float getKappaStart() {
-		return kappaStart;
-	}
+    public void setRequiredResolution(double requiredResolution) {
+        this.requiredResolution = requiredResolution;
+    }
 
-	public void setKappaStart(float kappaStart) {
-		this.kappaStart = kappaStart;
-	}
+    public String getMonochromator() {
+        return this.monochromator;
+    }
 
-	public float getAxisStart() {
-		return axisStart;
-	}
+    public void setMonochromator(String monochromator) {
+        this.monochromator = monochromator;
+    }
 
-	public void setAxisStart(float axisStart) {
-		this.axisStart = axisStart;
-	}
+    public double getWavelength() {
+        return this.wavelength;
+    }
 
-	public float getAxisRange() {
-		return axisRange;
-	}
+    public void setWavelength(double wavelength) {
+        this.wavelength = wavelength;
+    }
 
-	public void setAxisRange(float axisRange) {
-		this.axisRange = axisRange;
-	}
+    public float getTransmission() {
+        return this.transmission;
+    }
 
-	public int getNumberOfImages() {
-		return numberOfImages;
-	}
+    public void setTransmission(float transmission) {
+        this.transmission = transmission;
+    }
 
-	public void setNumberOfImages(int numberOfImages) {
-		this.numberOfImages = numberOfImages;
-	}
+    public float getBoxSizeX() {
+        return this.boxSizeX;
+    }
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this);
-	}
-	
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
-	
-	public boolean equals(Object that) {
-		return EqualsBuilder.reflectionEquals(this, that);
-	};
+    public void setBoxSizeX(float boxSizeX) {
+        this.boxSizeX = boxSizeX;
+    }
+
+    public float getBoxSizeY() {
+        return this.boxSizeY;
+    }
+
+    public void setBoxSizeY(float boxSizeY) {
+        this.boxSizeY = boxSizeY;
+    }
+
+    public float getKappaStart() {
+        return this.kappaStart;
+    }
+
+    public void setKappaStart(float kappaStart) {
+        this.kappaStart = kappaStart;
+    }
+
+    public float getAxisStart() {
+        return this.axisStart;
+    }
+
+    public void setAxisStart(float axisStart) {
+        this.axisStart = axisStart;
+    }
+
+    public float getAxisRange() {
+        return this.axisRange;
+    }
+
+    public void setAxisRange(float axisRange) {
+        this.axisRange = axisRange;
+    }
+
+    public int getNumberOfImages() {
+        return this.numberOfImages;
+    }
+
+    public void setNumberOfImages(int numberOfImages) {
+        this.numberOfImages = numberOfImages;
+    }
+
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
+
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    public boolean equals(Object that) {
+        return EqualsBuilder.reflectionEquals(this, that);
+    }
+
 }

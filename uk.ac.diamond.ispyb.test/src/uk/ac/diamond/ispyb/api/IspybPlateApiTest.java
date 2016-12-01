@@ -20,7 +20,7 @@ import org.junit.Test;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
 
 public class IspybPlateApiTest {
-	private final IspybFactoryService<IspybPlateApi> factory = new IspybPlateDaoFactory();
+	private final IspybPlateFactoryService factory = new IspybPlateDaoFactory();
 
 	@Test
 	public void testShouldCreateApi() throws SQLException, IOException {
@@ -40,7 +40,7 @@ public class IspybPlateApiTest {
 		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
 				Optional.of(Schema.ISPYB.toString()));
 
-		int pos = api.retrieveContainerLSPosition("12345");
+		int pos = api.retrieveContainerLSPosition("12345").get();
 		assertThat(pos, is(equalTo(54321)));
 
 		api.close();
@@ -53,7 +53,7 @@ public class IspybPlateApiTest {
 		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
 				Optional.of(Schema.ISPYB.toString()));
 
-		ContainerInfo bean = api.retrieveContainerInfo("12345");
+		ContainerInfo bean = api.retrieveContainerInfo("12345").get();
 		ContainerInfo expectedBean = new ContainerInfo();
 		expectedBean.setName("name");
 		expectedBean.setType("type");
@@ -95,6 +95,38 @@ public class IspybPlateApiTest {
 
 		api.close();
 	}
+	
+	@Test
+	public void testShouldRetrieveDataCollection() throws Exception {
+		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_infos_for_subsample", "retrieve").build();
+
+		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
+				Optional.of(Schema.ISPYB.toString()));
+
+		DataCollectionInfo dataCollection = api.retrieveDataCollectionInfosForSubsample(12345).get(0);
+		
+		DataCollectionInfo expected = new DataCollectionInfo();
+		expected.setId(12345);
+
+		assertThat(dataCollection, is(equalTo(expected)));
+
+		api.close();
+	}
+	
+	@Test
+	public void testShouldRetrieveNoBean() throws Exception {
+		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_infos_for_subsample", "retrieveNoData").build();
+
+		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
+				Optional.of(Schema.ISPYB.toString()));
+
+		List<DataCollectionInfo> dataCollection = api.retrieveDataCollectionInfosForSubsample(12345);
+
+		assertThat(dataCollection, is(equalTo(Collections.emptyList())));
+
+		api.close();
+	}
+
 
 	public static final Long reverse(String s) {
 		return Long.valueOf(new StringBuilder(s).reverse().toString());
@@ -107,6 +139,19 @@ public class IspybPlateApiTest {
 	public static final ResultSet listOfContainerInfo(String s) {
 		return containerInfos(s, 10);
 	}
+	
+	public static final ResultSet retrieve(int id) {
+		SimpleResultSet result = new SimpleResultSet();
+		result.addColumn("id", Types.INTEGER, 15, 0);
+		result.addRow(id);
+		return result;
+	}
+
+	public static final ResultSet retrieveNoData(int id) {
+		SimpleResultSet result = new SimpleResultSet();
+		result.addColumn("id", Types.INTEGER, 15, 0);
+		return result;
+	}	
 
 	public static final ResultSet containerInfos(String s, int rowCount) {
 		SimpleResultSet result = new SimpleResultSet();

@@ -4,7 +4,7 @@
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="uk.ac.diamond.org.springframework" version="4.0.6.RELEASE"/>
 <unit id="org.mariadb.jdbc" version="1.4.6.0"/>
-<repository location="https://alfred.diamond.ac.uk/p2/orbit/R201610100925/repository/"/>
+<repository location="https://alfred.diamond.ac.uk/p2/orbit/continuous/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>

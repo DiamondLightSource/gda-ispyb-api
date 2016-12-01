@@ -5,11 +5,12 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface IspybPlateApi extends Closeable {
-	int retrieveContainerLSPosition(String barcode) throws SQLException;
+	Optional<Integer> retrieveContainerLSPosition(String barcode) throws SQLException;
 
-	ContainerInfo retrieveContainerInfo(String barcode) throws SQLException;
+	Optional<ContainerInfo> retrieveContainerInfo(String barcode) throws SQLException;
 
 	List<ContainerInfo> retrieveContainerOnGonio(String beamline) throws SQLException;
 
@@ -21,12 +22,14 @@ public interface IspybPlateApi extends Closeable {
 
 	List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws SQLException;
 
-	Date retrieveContainerQueueTimestamp(String barcode) throws SQLException;
+	Optional<Date> retrieveContainerQueueTimestamp(String barcode) throws SQLException;
 
 	List<ContainerSubsample> retrieveContainerSubsamples(String barcode) throws SQLException;
 
 	void insertContainerError(String barcode, String error, int severity, String stackTrace) throws SQLException;
 
+	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(int id);
+	
 	void clearContainerError(String barcode) throws SQLException;
 
 	public Map<String, Object> retrieveTest() throws SQLException;

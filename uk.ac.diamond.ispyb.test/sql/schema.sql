@@ -1692,6 +1692,7 @@ CREATE TABLE `Crystal` (
   `pdbFileName` varchar(255) DEFAULT NULL COMMENT 'pdb file name',
   `pdbFilePath` varchar(1024) DEFAULT NULL COMMENT 'pdb file path',
   `recordTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation or last update date/time',
+  `abundance` float DEFAULT NULL,
   PRIMARY KEY (`crystalId`),
   KEY `Crystal_FKIndex1` (`proteinId`),
   KEY `Crystal_FKIndex2` (`diffractionPlanId`),
@@ -1706,7 +1707,7 @@ CREATE TABLE `Crystal` (
 
 LOCK TABLES `Crystal` WRITE;
 /*!40000 ALTER TABLE `Crystal` DISABLE KEYS */;
-INSERT INTO `Crystal` VALUES (3918,NULL,4380,NULL,'Crystal 01',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3921,NULL,4383,NULL,'Crystal 02',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3924,NULL,4386,NULL,'Crystal 03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3927,NULL,4389,NULL,'Crystal 04',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3930,NULL,4392,NULL,'Crystal 05',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3933,NULL,4395,NULL,'Crystal 06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3936,NULL,4398,NULL,'Crystal 07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3939,NULL,4401,NULL,'Crystal 08',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3942,NULL,4404,NULL,'Crystal 09',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3945,NULL,4407,NULL,'Crystal 10',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3948,NULL,4407,NULL,'Crystal 11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3951,NULL,4410,NULL,'Crystal 12',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3954,NULL,4410,NULL,'Crystal 13',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3957,NULL,4413,NULL,'Crystal 14',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(3960,NULL,4413,NULL,'Crystal 15',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19'),(310037,NULL,121393,NULL,'crystal-4-cm14451-1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:58:00'),(333301,NULL,123491,NULL,NULL,'P41212',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:58:00');
+INSERT INTO `Crystal` VALUES (3918,NULL,4380,NULL,'Crystal 01',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3921,NULL,4383,NULL,'Crystal 02',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3924,NULL,4386,NULL,'Crystal 03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3927,NULL,4389,NULL,'Crystal 04',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3930,NULL,4392,NULL,'Crystal 05',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3933,NULL,4395,NULL,'Crystal 06',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3936,NULL,4398,NULL,'Crystal 07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3939,NULL,4401,NULL,'Crystal 08',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3942,NULL,4404,NULL,'Crystal 09',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3945,NULL,4407,NULL,'Crystal 10',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3948,NULL,4407,NULL,'Crystal 11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3951,NULL,4410,NULL,'Crystal 12',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3954,NULL,4410,NULL,'Crystal 13',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3957,NULL,4413,NULL,'Crystal 14',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(3960,NULL,4413,NULL,'Crystal 15',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:11:19',NULL),(310037,NULL,121393,NULL,'crystal-4-cm14451-1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:58:00',NULL),(333301,NULL,123491,NULL,NULL,'P41212',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:58:00',NULL);
 /*!40000 ALTER TABLE `Crystal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4307,7 +4308,7 @@ CREATE TABLE `Protein` (
   `global` tinyint(1) DEFAULT '0',
   `externalId` binary(16) DEFAULT NULL,
   `theoreticalDensity` float DEFAULT NULL,
-  `abundance` float DEFAULT NULL,
+  `abundance` float DEFAULT NULL COMMENT 'Deprecated',
   PRIMARY KEY (`proteinId`),
   KEY `ProteinAcronym_Index` (`proposalId`,`acronym`),
   KEY `Protein_FKIndex1` (`proposalId`),
@@ -7477,7 +7478,7 @@ CREATE PROCEDURE `retrieve_container_subsamples`(IN p_barcode varchar(45))
     READS SQL DATA
 BEGIN
   IF NOT (p_barcode IS NULL) THEN
-    SELECT bls.location "sampleLocation", pos1.posX "ROIPos1x", pos1.posY "ROIPos1y", pos1.posZ "ROIPos1z", pos2.posX "ROIPos2x", pos2.posY "ROIPos2y", pos2.posZ "ROIPos2z", 
+    SELECT blss.blSubSampleId "id", bls.location "sampleLocation", pos1.posX "ROIPos1x", pos1.posY "ROIPos1y", pos1.posZ "ROIPos1z", pos2.posX "ROIPos2x", pos2.posY "ROIPos2y", pos2.posZ "ROIPos2z", 
 	  blsi.imageFullPath "lastImgFullPath", blss.imgFilePath "uploadedImgFilePath", blss.imgFileName "uploadedImgFileName", 
       dp.experimentKind "experimentKind", dp.exposureTime "exposureTime", 
       dp.preferredBeamSizeX "preferredBeamSizeX", dp.preferredBeamSizeY "preferredBeamSizeY", dp.requiredResolution "requiredResolution", 
@@ -7495,7 +7496,14 @@ BEGIN
       INNER JOIN DiffractionPlan dp ON dp.diffractionPlanId = blss.diffractionPlanId
       LEFT OUTER JOIN BLSampleImage blsi ON blsi.blSampleId = bls.blSampleId AND blsi.blSampleImageId = (SELECT max(blsi2.blSampleImageId) FROM BLSampleImage blsi2 WHERE blsi2.blSampleId = bls.blSampleId)
       LEFT OUTER JOIN DataCollection dc on dc.blSubSampleId = blss.blSubSampleId
-	WHERE c.barcode = p_barcode;
+	WHERE c.barcode = p_barcode
+    GROUP BY blss.blSubSampleId, location, pos1.posX, pos1.posY, pos1.posZ, pos2.posX, pos2.posY, pos2.posZ, 
+	  blsi.imageFullPath, blss.imgFilePath, blss.imgFileName, 
+      dp.experimentKind, dp.exposureTime, 
+      dp.preferredBeamSizeX, dp.preferredBeamSizeY, dp.requiredResolution, 
+      dp.monochromator, 12398.42 / dp.energy, dp.transmission, 
+      dp.boxSizeX, dp.boxSizeY, 
+      dp.kappaStart, dp.axisStart, dp.axisRange, dp.numberOfImages;
   END IF;
 END ;;
 DELIMITER ;
@@ -7529,7 +7537,7 @@ BEGIN
         dc.undulatorGap1 "undulatorGap1", dc.undulatorGap2 "undulatorGap2", dc.undulatorGap3 "undulatorGap3", 
         dc.beamSizeAtSampleX "beamSizeAtSampleX", dc.beamSizeAtSampleY "beamSizeAtSampleY", 
         dc.focalSpotSizeAtSampleX "focalSpotSizeAtSampleX", dc.focalSpotSizeAtSampleY "focalSpotSizeAtSampleY", 
-        dc.polarisation "polarisation", dc.flux "flux", dc.flux_end "flux_end", a.sizeX "apertureSizeX"
+        dc.polarisation "polarisation", dc.flux "flux", dc.flux_end "fluxEnd", a.sizeX "apertureSizeX"
         -- processedDataFile, datFullPath, magnification, totalAbsorbedDose, binning, particleDiameter, boxSize_CTF, minResolution, minDefocus, maxDefocus, defocusStepSize, 
         -- amountAstigmatism, extractSize, bgRadius, voltage, objAperture, c1aperture, c2aperture, c3aperture, c1lens, c2lens, c3lens
     FROM DataCollection dc
@@ -7692,15 +7700,9 @@ BEGIN
     WHERE barcode = p_barcode;
 
 	IF row_containerId is not NULL THEN
-		IF p_status = 'in_storage' THEN
-			UPDATE Container
-			SET containerStatus = p_status, imagerId = requestedImagerId
-			WHERE containerId = row_containerId;
-		ELSE 
-			UPDATE Container
-			SET containerStatus = p_status, imagerId = NULL
-			WHERE containerId = row_containerId;
-		END IF;
+		UPDATE Container
+		SET containerStatus = p_status 
+		WHERE containerId = row_containerId;
 
 		INSERT INTO ContainerHistory (containerId, location, status) VALUES (row_containerId, row_scLoc, p_status);
 
@@ -7722,9 +7724,75 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `update_dc_experiment`(      p_id int(11) unsigned,      p_slitGapVertical float,      p_slitGapHorizontal float,      p_transmission float,      p_exposureTime float,      p_xBeam float,      p_yBeam float,      p_axisStart float,      p_axisEnd float,      p_axisRange float,      p_overlap float,      p_flux double,      p_fluxEnd double,      p_rotationAxis varchar(10),      p_phiStart float,      p_kappaStart float,      p_omegaStart float,      p_wavelength float,      p_resolution float,      p_detectorDistance float,      p_bestWilsonPlotPath varchar(255),      p_beamSizeAtSampleX float,      p_beamSizeAtSampleY float,      p_focalSpotSizeAtSampleX float,      p_focalSpotSizeAtSampleY float,      p_apertureSizeX float )
+CREATE PROCEDURE `update_dc_experiment`(
+     p_id int(11) unsigned,
+     p_slitGapVertical float,
+     p_slitGapHorizontal float,
+     p_transmission float,
+     p_exposureTime float,
+     p_xBeam float,
+     p_yBeam float,
+     p_axisStart float,
+     p_axisEnd float,
+     p_axisRange float,
+     p_overlap float,
+     p_flux double,
+     p_fluxEnd double,
+     p_rotationAxis varchar(10),
+     p_phiStart float,
+     p_kappaStart float,
+     p_omegaStart float,
+     p_wavelength float,                                                
+     p_resolution float,
+     p_detectorDistance float,
+     p_bestWilsonPlotPath varchar(255),
+     p_beamSizeAtSampleX float,
+     p_beamSizeAtSampleY float,
+     p_focalSpotSizeAtSampleX float,
+     p_focalSpotSizeAtSampleY float,
+     p_apertureSizeX float
+)
     MODIFIES SQL DATA
-BEGIN         DECLARE row_apertureId int(11) unsigned;          UPDATE DataCollection SET                 slitGapVertical=IFNULL(p_slitGapVertical, imagedirectory),                 slitGapHorizontal=IFNULL(p_slitGapHorizontal, imagedirectory),                 transmission=IFNULL(p_transmission, imagedirectory),                 exposureTime=IFNULL(p_exposureTime, imagedirectory),                 xBeam=IFNULL(p_xBeam, xBeam),                 yBeam=IFNULL(p_yBeam, yBeam),                 axisStart=IFNULL(p_axisStart, axisStart),                 axisEnd=IFNULL(p_axisEnd, axisEnd),                 axisRange=IFNULL(p_axisRange, axisRange),                 overlap=IFNULL(p_overlap, overlap),                 flux=IFNULL(p_flux, flux),                 flux_end=IFNULL(p_flux_end, flux_end),                 rotationAxis=IFNULL(p_rotationAxis, rotationAxis),                 phiStart=IFNULL(p_phiStart, phiStart),                 kappaStart=IFNULL(p_kappaStart, kappaStart),                 omegaStart=IFNULL(p_omegaStart, omegaStart),                 wavelength=IFNULL(p_wavelength, wavelength),                 resolution=IFNULL(p_resolution, resolution),                 detectorDistance=IFNULL(p_detectorDistance, detectorDistance),                 bestWilsonPlotPath=IFNULL(p_bestWilsonPlotPath, bestWilsonPlotPath),                 beamSizeAtSampleX=IFNULL(p_beamSizeAtSampleX, beamSizeAtSampleX),                 beamSizeAtSampleY=IFNULL(p_beamSizeAtSampleY, beamSizeAtSampleY),                 focalSpotSizeAtSampleX=IFNULL(p_focalSpotSizeAtSampleX, focalSpotSizeAtSampleX),                 focalSpotSizeAtSampleY=IFNULL(p_focalSpotSizeAtSampleY, focalSpotSizeAtSampleY)         WHERE dataCollectionId = p_id;          SELECT apertureId INTO row_apertureId     FROM DataCollection     WHERE dataCollectionId = p_id;          IF row_apertureId IS NOT NULL THEN                 UPDATE Aperture SET                         sizeX = IFNULL(p_apertureSizeX, sizeX)                 WHERE apertureId = row_apertureId;         END IF; END ;;
+BEGIN
+	DECLARE row_apertureId int(11) unsigned;
+    
+	UPDATE DataCollection SET 
+		slitGapVertical=IFNULL(p_slitGapVertical, imagedirectory),
+		slitGapHorizontal=IFNULL(p_slitGapHorizontal, imagedirectory),
+		transmission=IFNULL(p_transmission, imagedirectory),
+		exposureTime=IFNULL(p_exposureTime, imagedirectory),
+		xBeam=IFNULL(p_xBeam, xBeam),
+		yBeam=IFNULL(p_yBeam, yBeam),
+		axisStart=IFNULL(p_axisStart, axisStart),
+		axisEnd=IFNULL(p_axisEnd, axisEnd),
+		axisRange=IFNULL(p_axisRange, axisRange),
+		overlap=IFNULL(p_overlap, overlap),
+		flux=IFNULL(p_flux, flux),
+		flux_end=IFNULL(p_fluxEnd, flux_end),
+		rotationAxis=IFNULL(p_rotationAxis, rotationAxis),
+		phiStart=IFNULL(p_phiStart, phiStart),
+		kappaStart=IFNULL(p_kappaStart, kappaStart),
+		omegaStart=IFNULL(p_omegaStart, omegaStart),
+		wavelength=IFNULL(p_wavelength, wavelength),
+		resolution=IFNULL(p_resolution, resolution),
+		detectorDistance=IFNULL(p_detectorDistance, detectorDistance),
+		bestWilsonPlotPath=IFNULL(p_bestWilsonPlotPath, bestWilsonPlotPath),
+		beamSizeAtSampleX=IFNULL(p_beamSizeAtSampleX, beamSizeAtSampleX),
+		beamSizeAtSampleY=IFNULL(p_beamSizeAtSampleY, beamSizeAtSampleY),
+		focalSpotSizeAtSampleX=IFNULL(p_focalSpotSizeAtSampleX, focalSpotSizeAtSampleX),
+		focalSpotSizeAtSampleY=IFNULL(p_focalSpotSizeAtSampleY, focalSpotSizeAtSampleY)
+	WHERE dataCollectionId = p_id;
+
+	SELECT apertureId INTO row_apertureId 
+    FROM DataCollection 
+    WHERE dataCollectionId = p_id;
+
+	IF row_apertureId IS NOT NULL THEN
+		UPDATE Aperture SET 
+			sizeX = IFNULL(p_apertureSizeX, sizeX) 
+		WHERE apertureId = row_apertureId;
+	END IF;
+END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -7742,10 +7810,10 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `update_dc_machine`(
      p_id int(11) unsigned,
-	 synchrotronMode varchar(20),
-     undulatorGap1 float,
-     undulatorGap2 float,
-     undulatorGap3 float
+	 p_synchrotronMode varchar(20),
+     p_undulatorGap1 float,
+     p_undulatorGap2 float,
+     p_undulatorGap3 float
 )
     MODIFIES SQL DATA
 BEGIN
@@ -7776,8 +7844,11 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `upsert_dc_group`(
 	 INOUT p_id int(11) unsigned,
-     p_sessionId int(10) unsigned,
+     p_proposalCode varchar(3),
+     p_proposalNumber int(10),
+     p_sessionNumber int(10),
      p_sampleId int(10) unsigned, 
+     p_sampleBarcode varchar(45),
      p_experimenttype varchar(45), -- values controlled by enum on the table
      p_starttime datetime,
      p_endtime datetime,
@@ -7791,26 +7862,51 @@ CREATE PROCEDURE `upsert_dc_group`(
      )
     MODIFIES SQL DATA
 BEGIN
-    INSERT INTO DataCollectionGroup (datacollectionGroupId, sessionId, blsampleId, experimenttype, starttime, endtime, crystalClass, detectorMode, 
-      actualSampleBarcode, actualSampleSlotInContainer, actualContainerBarcode, actualContainerSlotInSC, comments) 
-      VALUES (p_id, p_sessionId, p_sampleId, p_experimenttype, p_starttime, p_endtime, p_crystalClass, p_detectorMode, 
-      p_actualSampleBarcode, p_actualSampleSlotInContainer, p_actualContainerBarcode, p_actualContainerSlotInSC, p_comments)
-	  ON DUPLICATE KEY UPDATE
-		sessionId = IFNULL(p_sessionId, sessionId),
-        blsampleId = IFNULL(p_sampleId, blsampleId),
-        experimenttype = IFNULL(p_experimenttype, experimenttype),
-        starttime = IFNULL(p_starttime, starttime),
-        endtime = IFNULL(p_endtime, endtime),
-        crystalClass = IFNULL(p_crystalClass, crystalClass),
-        detectorMode = IFNULL(p_detectorMode, detectorMode),
-        actualSampleBarcode = IFNULL(p_actualSampleBarcode, actualSampleBarcode),
-        actualSampleSlotInContainer = IFNULL(p_actualSampleSlotInContainer, actualSampleSlotInContainer),
-        actualContainerBarcode = IFNULL(p_actualContainerBarcode, actualContainerBarcode),
-        actualContainerSlotInSC = IFNULL(p_actualContainerSlotInSC, actualContainerSlotInSC),
-        comments = IFNULL(p_comments, comments);
 
-	IF LAST_INSERT_ID() <> 0 THEN 
-		SET p_id = LAST_INSERT_ID();
+	DECLARE row_session_id int(10) unsigned DEFAULT NULL;
+	DECLARE row_proposal_id int(10) unsigned DEFAULT NULL;
+	DECLARE row_sample_id int(10) unsigned DEFAULT NULL;
+        
+	IF p_proposalCode IS NOT NULL AND p_proposalNumber IS NOT NULL AND p_sessionNumber IS NOT NULL THEN
+      SELECT max(bs.sessionid), p.proposalId INTO row_session_id, row_proposal_id 
+      FROM Proposal p INNER JOIN BLSession bs ON p.proposalid = bs.proposalid 
+      WHERE p.proposalCode = p_proposalCode AND p.proposalNumber = p_proposalNumber AND bs.visit_number = p_sessionNumber;
+      
+      IF p_sampleId IS NULL THEN
+        SELECT max(bls.blSampleId) INTO p_sampleId
+        FROM BLSample bls
+          INNER JOIN Container c on c.containerId = bls.containerId
+          INNER JOIN Dewar d on d.dewarId = c.dewarId
+          INNER JOIN Shipping s on s.shippingId = d.shippingId
+        WHERE bls.code = p_sampleBarcode AND s.proposalId = row_proposal_id;
+        
+      END IF;
+      
+	END IF;
+
+	IF p_id IS NOT NULL OR row_session_id IS NOT NULL THEN
+
+      INSERT INTO DataCollectionGroup (datacollectionGroupId, sessionId, blsampleId, experimenttype, starttime, endtime, crystalClass, detectorMode, 
+        actualSampleBarcode, actualSampleSlotInContainer, actualContainerBarcode, actualContainerSlotInSC, comments) 
+        VALUES (p_id, row_session_id, p_sampleId, p_experimenttype, p_starttime, p_endtime, p_crystalClass, p_detectorMode, 
+        p_actualSampleBarcode, p_actualSampleSlotInContainer, p_actualContainerBarcode, p_actualContainerSlotInSC, p_comments)
+	    ON DUPLICATE KEY UPDATE
+		  sessionId = IFNULL(row_session_id, sessionId),
+          blsampleId = IFNULL(p_sampleId, blsampleId),
+          experimenttype = IFNULL(p_experimenttype, experimenttype),
+          starttime = IFNULL(p_starttime, starttime),
+          endtime = IFNULL(p_endtime, endtime),
+          crystalClass = IFNULL(p_crystalClass, crystalClass),
+          detectorMode = IFNULL(p_detectorMode, detectorMode),
+          actualSampleBarcode = IFNULL(p_actualSampleBarcode, actualSampleBarcode),
+          actualSampleSlotInContainer = IFNULL(p_actualSampleSlotInContainer, actualSampleSlotInContainer),
+          actualContainerBarcode = IFNULL(p_actualContainerBarcode, actualContainerBarcode),
+          actualContainerSlotInSC = IFNULL(p_actualContainerSlotInSC, actualContainerSlotInSC),
+          comments = IFNULL(p_comments, comments);
+
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
     END IF;
   END ;;
 DELIMITER ;
@@ -8351,4 +8447,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-25 22:55:04
+-- Dump completed on 2016-11-30 18:09:55

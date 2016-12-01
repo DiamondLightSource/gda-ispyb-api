@@ -1,6 +1,8 @@
 .metadata/
 .project
 .settings/
+**/.idea/
 **/bin
 **/target
 uk.ac.diamond.ispyb.test/sql/*.sql~
+**/*.iml

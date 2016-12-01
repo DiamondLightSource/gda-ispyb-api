@@ -21,7 +21,7 @@ public class PlateIntegrationTest extends TestCase{
 	
 	@Test
 	public void testRetrieve() throws SQLException, FileNotFoundException, IOException, InterruptedException {
-		ContainerInfo containerInfo = helper.execute(api -> api.retrieveContainerInfo("test_plate3"));
+		ContainerInfo containerInfo = helper.execute(api -> api.retrieveContainerInfo("test_plate3")).get();
 		
 		ContainerInfo expected = new ContainerInfo();
 		expected.setName("test_plate3");
@@ -40,7 +40,7 @@ public class PlateIntegrationTest extends TestCase{
 
 	@Test
 	public void testRetrieveLsPosition() throws SQLException, IOException{
-		int position = helper.execute(api-> api.retrieveContainerLSPosition("test_plate2"));
+		int position = helper.execute(api-> api.retrieveContainerLSPosition("test_plate2")).get();
 		assertThat(position, is(equalTo(3)));
 	}
 

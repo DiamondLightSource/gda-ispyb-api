@@ -6,19 +6,16 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.h2.tools.SimpleResultSet;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
 
 public class IspybDataCollectionApiTest {
-	private final IspybFactoryService<IspybDataCollectionApi> factory = new IspybDataCollectionDaoFactory();
+	private final IspybDataCollectionFactoryService factory = new IspybDataCollectionDaoFactory();
 
 	@Test
 	public void testShouldCreateApi() throws SQLException, IOException {
@@ -27,20 +24,6 @@ public class IspybDataCollectionApiTest {
 				Optional.of(Schema.ISPYB.toString()));
 
 		assertThat(api, is(notNullValue()));
-
-		api.close();
-	}
-
-	@Test
-	public void testShouldUpsertDataCollection() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("upsert_dc", "upsertDataCollection").build();
-		IspybDataCollectionApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB.toString()));
-
-		DataCollection dataCollection = new DataCollection();
-		dataCollection.setNumberOfImages(100);
-		int id = api.upsertDataCollection(dataCollection);
-		assertThat(id, is(equalTo(5)));
 
 		api.close();
 	}
@@ -56,23 +39,6 @@ public class IspybDataCollectionApiTest {
 		group.setActualSampleSlotInContainer(6);
 		int id = api.upsertDataCollectionGroup(group);
 		assertThat(id, is(equalTo(100)));
-
-		api.close();
-	}
-
-	@Test
-	public void testShouldRetrieveBean() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dcs_for_subsample", "retrieve").build();
-
-		IspybDataCollectionApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB.toString()));
-
-		DataCollection dataCollection = api.retrieveDataCollectionForSubsample(12345);
-
-		DataCollection expected = new DataCollection();
-		expected.setId(12345);
-
-		assertThat(dataCollection, is(equalTo(expected)));
 
 		api.close();
 	}
@@ -100,20 +66,15 @@ public class IspybDataCollectionApiTest {
 		return -1;
 	}
 
-	public static final int upsertDataCollectionGroup(int id, String session, int sampleId, String experimentType,
-			LocalDateTime starttime, LocalDateTime endtime, String crystalClass, String detectorMode,
-			String actualSampleBarcode, int actualSampleSlotInContainer, String actualContainerBarcode,
-			int actualContainerSlotInSC, String comments) {
+	public static final int upsertDataCollectionGroup(int id, String proposalCode, int proposalNumber,
+			int sessionNumber, int sampleId, String sampleBarcode, String experimenttype, LocalDateTime starttime,
+			LocalDateTime endtime, String crystalClass, String detectorMode, String actualSampleBarcode,
+			int actualSampleSlotInContainer, String actualContainerBarcode, int actualContainerSlotInSC,
+			String comments) {
 		if (actualSampleSlotInContainer == 6) {
 			return 100;
 		}
 		return -1;
 	}
 
-	public static final ResultSet retrieve(int id) {
-		SimpleResultSet result = new SimpleResultSet();
-		result.addColumn("id", Types.INTEGER, 15, 0);
-		result.addRow(id);
-		return result;
-	}
 }
