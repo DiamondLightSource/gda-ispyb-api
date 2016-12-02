@@ -28,12 +28,20 @@ public class DataCollectionIntegrationTest extends TestCase{
 
 	@Test
 	public void testUpsertDataCollectionMain() throws SQLException, FileNotFoundException, IOException, InterruptedException {
-		helper.run(api -> api.upsertDataCollectionMain(new DataCollectionMain()));
+		DataCollectionMain main = new DataCollectionMain();
+		main.setDetectorId(4);
+		main.setGroupId(988855);
+		helper.run(api -> api.upsertDataCollectionMain(main));
 	}
 	
 	@Test
 	public void testUpsertDataCollectionGroup() throws SQLException, FileNotFoundException, IOException, InterruptedException {
-		helper.run(api -> api.upsertDataCollectionGroup(new DataCollectionGroup()));
+		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
+		dataCollectionGroup.setProposalCode("cm");
+		dataCollectionGroup.setProposalNumber(14451);
+		dataCollectionGroup.setSessionNumber(1);
+		dataCollectionGroup.setSampleId(11550);
+		helper.run(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
 	}
 	
 	@Before

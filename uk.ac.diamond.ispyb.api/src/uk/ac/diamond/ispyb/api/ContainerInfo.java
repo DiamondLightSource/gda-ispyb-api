@@ -138,8 +138,8 @@ public class ContainerInfo {
 	/**
 	 * @return container staus
 	 */
-	public ContainerStatus getStatus() {
-		return status;
+	public String getStatus() {
+		return status.getStatus();
 	}
 
 	/**

@@ -37,7 +37,7 @@ public class IspybDataCollectionApiTest {
 
 		DataCollectionGroup group = new DataCollectionGroup();
 		group.setActualSampleSlotInContainer(6);
-		int id = api.upsertDataCollectionGroup(group);
+		long id = api.upsertDataCollectionGroup(group);
 		assertThat(id, is(equalTo(100)));
 
 		api.close();

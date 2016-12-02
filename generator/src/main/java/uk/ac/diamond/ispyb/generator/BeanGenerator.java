@@ -113,10 +113,10 @@ public class BeanGenerator {
         Map<String, JType> typeMap = new HashMap<>();
         typeMap.put("float", codeModel.FLOAT);
         typeMap.put("double", codeModel.DOUBLE);
-        typeMap.put("int", codeModel.INT);
+        typeMap.put("int", codeModel.LONG);
         typeMap.put("mediumint", codeModel.INT);
         typeMap.put("char", codeModel.CHAR);
-        typeMap.put("integer unsigned", codeModel.INT);
+        typeMap.put("integer unsigned", codeModel.LONG);
         typeMap.put("tinyint", codeModel.INT);
         typeMap.put("varchar", codeModel.ref(String.class));
         typeMap.put("enum", codeModel.ref(String.class));

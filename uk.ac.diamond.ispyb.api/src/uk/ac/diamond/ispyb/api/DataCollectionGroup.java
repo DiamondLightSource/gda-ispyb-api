@@ -2,14 +2,15 @@
 package uk.ac.diamond.ispyb.api;
 
 import java.time.LocalDateTime;
+
 import javax.annotation.Generated;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionGroup {
-
     private int id;
     private String proposalCode;
     private int proposalNumber;

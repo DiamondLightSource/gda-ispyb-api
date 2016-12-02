@@ -24,12 +24,12 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public Optional<Integer> retrieveContainerLSPosition(String barcode) throws SQLException {
-		return templateWrapper.callIspyb("retrieve_container_ls_position", Integer.class, barcode);
+		return templateWrapper.callIspyb("retrieve_container_ls_position", Integer::valueOf, new PlateQueryBean(barcode));
 	}
 
 	@Override
 	public Optional<ContainerInfo> retrieveContainerInfo(String barcode) throws SQLException {
-		return templateWrapper.callIspybForBean("retrieve_container_info", ContainerInfo.class, barcode);
+		return templateWrapper.callIspybForBean("retrieve_container_info", ContainerInfo.class, new PlateQueryBean(barcode));
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public void finishContainer(String barcode) throws SQLException {
-		templateWrapper.updateIspyb("finish_container", barcode);
+		templateWrapper.updateIspyb("finish_container", new PlateQueryBean(barcode));
 	}
 
 	@Override
@@ -59,13 +59,13 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public Optional<Date> retrieveContainerQueueTimestamp(String barcode) throws SQLException {
-		return templateWrapper.callIspyb("retrieve_container_queue_timestamp", Timestamp.class, barcode)
+		return templateWrapper.callIspyb("retrieve_container_queue_timestamp", Timestamp.class, new PlateQueryBean(barcode))
 				.map(ts -> (Date)ts);
 	}
 
 	@Override
 	public List<ContainerSubsample> retrieveContainerSubsamples(String barcode) throws SQLException {
-		return templateWrapper.callIspybForListBeans("retrieve_container_subsamples", ContainerSubsample.class, barcode);
+		return templateWrapper.callIspybForListBeans("retrieve_container_subsamples", ContainerSubsample.class, new PlateQueryBean(barcode));
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public void clearContainerError(String barcode) throws SQLException {
-		templateWrapper.callIspybForList("clear_container_error", String.class, barcode);
+		templateWrapper.callIspybForList("clear_container_error", String.class, new PlateQueryBean(barcode));
 	}
 
 	@Override
