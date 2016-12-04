@@ -7,6 +7,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
@@ -51,6 +54,42 @@ public class PlateIntegrationTest extends TestCase{
 		assertThat(result.get("2_1"), is(equalTo("2")));
 		assertThat(result.get("2_2"), is(equalTo(2L)));
 		assertThat(result.get("20_1"), is(equalTo("2.0")));
+	}
+
+	@Test
+	public void testShouldRetrieveList() throws Exception {
+		List<ContainerInfo> beans = helper.execute(api -> api.retrieveContainerOnGonio("notusedinthestoredprocedure!!!"));
+
+		ContainerInfo expectedBean = new ContainerInfo();
+		expectedBean.setName("name");
+		expectedBean.setType("type");
+		expectedBean.setBarcode("barcode");
+		expectedBean.setBeamline("beamline");
+		expectedBean.setLocation("location");
+		expectedBean.setImagerName("imagerName");
+		expectedBean.setImagerSerialNumber("imagerSerialNumber");
+		expectedBean.setStatus(ContainerStatus.IN_LOCALSTORAGE.getStatus());
+		expectedBean.setCapacity(5);
+		expectedBean.setStorageTemperature(0.5f);
+
+		assertThat(beans, is(equalTo(Collections.nCopies(10, expectedBean))));
+	}
+	
+	@Test
+	public void testShouldRetrieveDataCollection() throws Exception {
+		List<DataCollectionInfo> info = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(2));
+		
+		DataCollectionInfo expected = new DataCollectionInfo();
+		expected.setId(12345);
+
+		assertThat(info, is(equalTo(Arrays.asList(expected))));
+	}
+	
+	@Test
+	public void testShouldRetrieveNoBean() throws Exception {
+		List<DataCollectionInfo> dataCollection = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(12345));
+
+		assertThat(dataCollection, is(equalTo(Collections.emptyList())));
 	}
 	
 	@Before

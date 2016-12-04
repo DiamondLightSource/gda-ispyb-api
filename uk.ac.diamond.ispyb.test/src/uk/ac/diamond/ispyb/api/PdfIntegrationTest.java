@@ -1,5 +1,6 @@
 package uk.ac.diamond.ispyb.api;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +23,7 @@ public class PdfIntegrationTest extends TestCase{
 	private final IntegrationTestHelper<IspybPdfApi> helper = new IntegrationTestHelper<>(new IspybPdfDaoFactory());
 	
 	@Test
-	public void testDataCollectionPlanInfo() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testRetrieveDataCollectionPlanInfo() throws SQLException, FileNotFoundException, IOException, InterruptedException {
 		Collection<DataCollectionPlanInfo> plans = new ArrayList<>(helper.execute(api -> api.retrieveDcPlanInfo(4)));
 		
 		DataCollectionPlanInfo plan = new DataCollectionPlanInfo();
@@ -51,6 +53,12 @@ public class PdfIntegrationTest extends TestCase{
 		assertThat(plans, is(Arrays.asList(plan)));
 	}
 	
+	@Test
+	public void testShouldRetrieveDataCollectionPlanGroups() throws Exception {
+		List<Integer> pos = helper.execute(api -> api.retrieveDcPlanGroups("cm14451-1"));
+		assertThat(pos, is(equalTo(Arrays.asList(1, 2, 3, 4))));
+	}
+
 	public ScanParameters createPressureScan(int number, double start, double stop, double step){
 		return createScan("Pressure","Pressure in pascal (Pa)", number, start, stop, step);
 	}

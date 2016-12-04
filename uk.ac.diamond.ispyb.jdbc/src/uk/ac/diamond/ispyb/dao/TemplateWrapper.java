@@ -1,7 +1,11 @@
 package uk.ac.diamond.ispyb.dao;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,7 +41,7 @@ class TemplateWrapper {
 		return template.queryForMap(buildQuery(procedure, params), params);
 	}
 
-	void updateIspyb(String procedure, Object... params) {
+	void updateIspyb(String procedure, Object params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		
@@ -48,24 +52,93 @@ class TemplateWrapper {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		
-		SqlReturnResultSet resultSet = new SqlReturnResultSet("output", new SingleColumnRowMapper<T>(clazz));
-		simpleJdbcCall.addDeclaredParameter(resultSet);
-        Object object = simpleJdbcCall.execute(in).get("output");
-        
-		return (List<T>) object;
+		return getListFrom(simpleJdbcCall.execute(in), this::firstValue);
 	}
 
+	<T> List<T> callIspybForList(String procedure, Class<T> clazz, Map<String, Object> params) {
+		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
+		MapSqlParameterSource in = createInParameters(params);
+		
+		return getListFrom(simpleJdbcCall.execute(in), this::firstValue);
+	}
+	
 	<T> List<T> callIspybForListBeans(String procedure, Class<T> clazz, Object params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		
-		SqlReturnResultSet resultSet = new SqlReturnResultSet("output", new BeanPropertyRowMapper<>(clazz));
+		return getListFrom(simpleJdbcCall.execute(in), beanFromMap(clazz));
+	}
+
+	<T> List<T> callIspybForListBeans(String procedure, Class<T> clazz, Map<String, Object> params) {
+		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
+		MapSqlParameterSource in = createInParameters(params);
+		
+		return getListFrom(simpleJdbcCall.execute(in), beanFromMap(clazz));
+	}
+	
+	<T> T callIspybForAllRows(String procedure, ResultSetExtractor<T> extractor, Map<String, Object> params) {
+		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
+		MapSqlParameterSource in = createInParameters(params);
+		
+		SqlReturnResultSet resultSet = new SqlReturnResultSet("output", extractor);
 		simpleJdbcCall.addDeclaredParameter(resultSet);
         Object object = simpleJdbcCall.execute(in).get("output");
         
-		return (List<T>) object;
+		return (T) object;
+	}
+	
+	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Object params) {
+		Map<String, Object> map = execute(procedure, params);
+		List<T> list = getListFrom(map, this::firstValue);
+		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 
+	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Map<String, Object> params) {
+		Map<String, Object> map = execute(procedure, params);
+		List<T> list = getListFrom(map, this::firstValue);
+		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
+	}
+	
+	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Object params) {
+		Map<String, Object> map = execute(procedure, params);
+		List<T> list = getListFrom(map, beanFromMap(clazz));
+		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
+	}
+
+	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Map<String, Object> params) {
+		Map<String, Object> map = execute(procedure, params);
+		List<T> list = getListFrom(map, beanFromMap(clazz));
+		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
+	}
+	
+	void callIspyb(String procedure, Object params) {
+		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
+		MapSqlParameterSource in = createInParameters(params);
+		simpleJdbcCall.executeObject(Void.class, in);
+	}
+
+	private Map<String, Object> execute(String procedure, Object params) {
+		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
+		MapSqlParameterSource in = createInParameters(params);
+		Map<String, Object> map = simpleJdbcCall.execute(in);
+		return map;
+	}
+
+	private Map<String, Object> execute(String procedure, Map<String, Object> params) {
+		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
+		MapSqlParameterSource in = createInParameters(params);
+		Map<String, Object> map = simpleJdbcCall.execute(in);
+		return map;
+	}
+	
+	private MapSqlParameterSource createInParameters(Map<String, Object> params) {
+		MapSqlParameterSource in = new MapSqlParameterSource();
+		for (String key: params.keySet()){
+       		in.addValue("p_" + key, params.get(key));        		
+		}
+		return in;
+	}
+	
 	private MapSqlParameterSource createInParameters(Object params) {
 		MapSqlParameterSource in = new MapSqlParameterSource();
 		BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(params);
@@ -83,84 +156,17 @@ class TemplateWrapper {
 			.withSchemaName(schema);
 		return simpleJdbcCall;
 	}
-
-	<T> T callIspybForAllRows(String procedure, ResultSetExtractor<T> extractor, Object... params) {
-		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
-		MapSqlParameterSource in = createInParameters(params);
-		
-		SqlReturnResultSet resultSet = new SqlReturnResultSet("output", extractor);
-		simpleJdbcCall.addDeclaredParameter(resultSet);
-        Object object = simpleJdbcCall.execute(in).get("output");
-        
-		return (T) object;
-	}
-
-	<T> Optional<T> callIspyb(String procedure, Function<String, T> converter, Object... params) {
-		return convertEmptyToOption(() -> {
-			SimpleJdbcCall simpleJdbcCall = createCall(procedure);
-			MapSqlParameterSource in = createInParameters(params[0]);
-			Map<String, Object> map = simpleJdbcCall.execute(in);
-			
-			Set<Entry<String,Object>> entrySet = map.entrySet();
-			for (Entry<String,Object> entry : entrySet) {
-				if (entry.getKey().contains("result")){
-					List<Map<String,Object>> results = (List<Map<String, Object>>) entry.getValue();
-					return converter.apply((String)results.get(0).values().iterator().next());
-				}
-			}
-			
-			return null;
-		});
-	}
-
 	
-	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Object... params) {
-		return convertEmptyToOption(() -> {
-			SimpleJdbcCall simpleJdbcCall = createCall(procedure);
-			MapSqlParameterSource in = createInParameters(params[0]);
-			Map<String, Object> map = simpleJdbcCall.execute(in);
-			
-			Set<Entry<String,Object>> entrySet = map.entrySet();
-			for (Entry<String,Object> entry : entrySet) {
-				if (entry.getKey().contains("result")){
-					List<Map<String,Object>> results = (List<Map<String, Object>>) entry.getValue();
-					return (T)results.get(0).values().iterator().next();
-				}
+	@SuppressWarnings("unchecked")
+	private <T> List<T> getListFrom(Map<String, Object> resultMap, Function<Map<String,Object>, T> converter){
+		Set<Entry<String,Object>> entrySet = resultMap.entrySet();
+		for (Entry<String,Object> entry : entrySet) {
+			if (entry.getKey().contains("result")){
+				List<Map<String,Object>> results = (List<Map<String, Object>>) entry.getValue();
+				return results.stream().map(converter).collect(Collectors.toList());
 			}
-			for (Entry<String,Object> entry : entrySet) {
-				if (!entry.getKey().contains("update")){
-					return (T) entry.getValue();
-				}
-			}
-			
-			return null;
-		});
-	}
-
-	void callIspyb(String procedure, Object... params) {
-		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
-		MapSqlParameterSource in = createInParameters(params[0]);
-		simpleJdbcCall.executeObject(Void.class, in);
-	}
-
-	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Object... params) {
-		return convertEmptyToOption(() -> {
-			SimpleJdbcCall simpleJdbcCall = createCall(procedure);
-			MapSqlParameterSource in = createInParameters(params[0]);
-			Map<String, Object> map = simpleJdbcCall.execute(in);
-			Set<Entry<String,Object>> entrySet = map.entrySet();
-			for (Entry<String,Object> entry : entrySet) {
-				if (entry.getKey().contains("result")){
-					try{
-						T instance = clazz.newInstance();
-						BeanUtils.populate(instance, ((List<Map<String,Object>>)entry.getValue()).get(0));
-						return instance;
-					} catch (Exception e) {
-					}
-				}
-			}
-			return null;
-		});
+		}
+		return Arrays.asList(converter.apply(resultMap));
 	}
 	
 	private <T> Optional<T> convertEmptyToOption(ErroringSupplier<T> supplier){
@@ -171,11 +177,28 @@ class TemplateWrapper {
 		}
 	}
 
-	String buildQuery(String procedure, Object... params) {
+	private String buildQuery(String procedure, Object... params) {
 		List<String> questionMarks = IntStream.rangeClosed(1, params.length).mapToObj((x) -> "?")
 				.collect(Collectors.toList());
 		String args = StringUtils.collectionToCommaDelimitedString(questionMarks);
 		return String.format("CALL %s.%s(%s)", schema, procedure, args);
+	}
+	
+	private <T> Function<Map<String,Object>, T> beanFromMap(Class<T> beanClass){
+		return map -> {
+			try{
+				T bean = beanClass.newInstance();
+				BeanUtils.populate(bean, map);
+				return bean;
+			} catch (InstantiationException | IllegalAccessException | InvocationTargetException ex){
+				return null;
+			}
+		};
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <T> T firstValue(Map<String, Object> map){
+		return (T) map.values().iterator().next();
 	}
 
 	void closeConnection() throws SQLException {

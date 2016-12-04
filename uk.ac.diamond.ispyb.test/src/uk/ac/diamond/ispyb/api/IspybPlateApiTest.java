@@ -1,6 +1,5 @@
 package uk.ac.diamond.ispyb.api;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,100 +27,6 @@ public class IspybPlateApiTest {
 				Optional.of(Schema.ISPYB.toString()));
 
 		assertThat(api, is(notNullValue()));
-
-		api.close();
-	}
-
-	@Test
-	public void testShouldRetrieveContainerLsPosition() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_container_ls_position", "reverse")
-				.build();
-		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB.toString()));
-
-		int pos = api.retrieveContainerLSPosition("12345").get();
-		assertThat(pos, is(equalTo(54321)));
-
-		api.close();
-	}
-
-	@Test
-	public void testShouldRetrieveBean() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_container_info", "containerInfo")
-				.build();
-		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB.toString()));
-
-		ContainerInfo bean = api.retrieveContainerInfo("12345").get();
-		ContainerInfo expectedBean = new ContainerInfo();
-		expectedBean.setName("name");
-		expectedBean.setType("type");
-		expectedBean.setBarcode("barcode");
-		expectedBean.setBeamline("beamline");
-		expectedBean.setLocation("location");
-		expectedBean.setImagerName("imagerName");
-		expectedBean.setImagerSerialNumber("imagerSerialNumber");
-		expectedBean.setStatus(ContainerStatus.IN_LOCALSTORAGE.getStatus());
-		expectedBean.setCapacity(5);
-		expectedBean.setStorageTemperature(0.5f);
-
-		assertThat(bean, is(equalTo(expectedBean)));
-
-		api.close();
-	}
-
-	@Test
-	public void testShouldRetrieveList() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb")
-				.withAlias("retrieve_container_on_gonio", "listOfContainerInfo").build();
-		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB.toString()));
-
-		List<ContainerInfo> beans = api.retrieveContainerOnGonio("12345");
-		ContainerInfo expectedBean = new ContainerInfo();
-		expectedBean.setName("name");
-		expectedBean.setType("type");
-		expectedBean.setBarcode("barcode");
-		expectedBean.setBeamline("beamline");
-		expectedBean.setLocation("location");
-		expectedBean.setImagerName("imagerName");
-		expectedBean.setImagerSerialNumber("imagerSerialNumber");
-		expectedBean.setStatus(ContainerStatus.IN_LOCALSTORAGE.getStatus());
-		expectedBean.setCapacity(5);
-		expectedBean.setStorageTemperature(0.5f);
-
-		assertThat(beans, is(equalTo(Collections.nCopies(10, expectedBean))));
-
-		api.close();
-	}
-	
-	@Test
-	public void testShouldRetrieveDataCollection() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_infos_for_subsample", "retrieve").build();
-
-		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB.toString()));
-
-		DataCollectionInfo dataCollection = api.retrieveDataCollectionInfosForSubsample(12345).get(0);
-		
-		DataCollectionInfo expected = new DataCollectionInfo();
-		expected.setId(12345);
-
-		assertThat(dataCollection, is(equalTo(expected)));
-
-		api.close();
-	}
-	
-	@Test
-	public void testShouldRetrieveNoBean() throws Exception {
-		String url = new H2UrlBuilder().withSchema("ispyb").withAlias("retrieve_dc_infos_for_subsample", "retrieveNoData").build();
-
-		IspybPlateApi api = factory.buildIspybApi(url, Optional.empty(), Optional.empty(),
-				Optional.of(Schema.ISPYB.toString()));
-
-		List<DataCollectionInfo> dataCollection = api.retrieveDataCollectionInfosForSubsample(12345);
-
-		assertThat(dataCollection, is(equalTo(Collections.emptyList())));
 
 		api.close();
 	}
