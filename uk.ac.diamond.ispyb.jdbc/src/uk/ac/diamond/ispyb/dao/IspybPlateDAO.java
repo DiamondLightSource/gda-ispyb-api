@@ -24,8 +24,8 @@ public class IspybPlateDAO implements IspybPlateApi{
 	}
 
 	@Override
-	public Optional<Integer> retrieveContainerLSPosition(String barcode) throws SQLException {
-		return templateWrapper.callIspyb("retrieve_container_ls_position", Integer.class, map("barcode", barcode));
+	public Optional<String> retrieveContainerLSPosition(String barcode) throws SQLException {
+		return templateWrapper.callIspyb("retrieve_container_ls_position", String.class, map("barcode", barcode));
 	}
 
 	@Override
@@ -82,11 +82,6 @@ public class IspybPlateDAO implements IspybPlateApi{
 	@Override
 	public void clearContainerError(String barcode) throws SQLException {
 		templateWrapper.callIspybForList("clear_container_error", String.class, map("barcode", barcode));
-	}
-
-	@Override
-	public Map<String, Object>  retrieveTest() throws SQLException {
-		return templateWrapper.callIspybForMap("retrieve_test");
 	}
 
 	@Override

@@ -37,10 +37,6 @@ class TemplateWrapper {
 		this.schema = schema;
 	}
 
-	Map<String, Object> callIspybForMap(String procedure, Object... params) {
-		return template.queryForMap(buildQuery(procedure, params), params);
-	}
-
 	void updateIspyb(String procedure, Object params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
@@ -175,13 +171,6 @@ class TemplateWrapper {
 		} catch (EmptyResultDataAccessException ex) {
 			return Optional.empty();
 		}
-	}
-
-	private String buildQuery(String procedure, Object... params) {
-		List<String> questionMarks = IntStream.rangeClosed(1, params.length).mapToObj((x) -> "?")
-				.collect(Collectors.toList());
-		String args = StringUtils.collectionToCommaDelimitedString(questionMarks);
-		return String.format("CALL %s.%s(%s)", schema, procedure, args);
 	}
 	
 	private <T> Function<Map<String,Object>, T> beanFromMap(Class<T> beanClass){

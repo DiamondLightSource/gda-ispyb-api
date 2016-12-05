@@ -43,8 +43,8 @@ public class PlateIntegrationTest extends TestCase{
 
 	@Test
 	public void testRetrieveLsPosition() throws SQLException, IOException{
-		int position = helper.execute(api-> api.retrieveContainerLSPosition("test_plate2")).get();
-		assertThat(position, is(equalTo(3)));
+		String position = helper.execute(api-> api.retrieveContainerLSPosition("test_plate2")).get();
+		assertThat(position, is(equalTo("3")));
 	}
 
 	@Test
@@ -57,27 +57,15 @@ public class PlateIntegrationTest extends TestCase{
 	}
 
 	@Test
-	public void testShouldRetrieveList() throws Exception {
+	public void testShouldRetrieveContainerOnGonio() throws Exception {
 		List<ContainerInfo> beans = helper.execute(api -> api.retrieveContainerOnGonio("notusedinthestoredprocedure!!!"));
 
-		ContainerInfo expectedBean = new ContainerInfo();
-		expectedBean.setName("name");
-		expectedBean.setType("type");
-		expectedBean.setBarcode("barcode");
-		expectedBean.setBeamline("beamline");
-		expectedBean.setLocation("location");
-		expectedBean.setImagerName("imagerName");
-		expectedBean.setImagerSerialNumber("imagerSerialNumber");
-		expectedBean.setStatus(ContainerStatus.IN_LOCALSTORAGE.getStatus());
-		expectedBean.setCapacity(5);
-		expectedBean.setStorageTemperature(0.5f);
-
-		assertThat(beans, is(equalTo(Collections.nCopies(10, expectedBean))));
+		assertThat(beans, is(equalTo(Collections.emptyList())));
 	}
 	
 	@Test
 	public void testShouldRetrieveDataCollection() throws Exception {
-		List<DataCollectionInfo> info = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(2));
+		List<DataCollectionInfo> info = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(5));
 		
 		DataCollectionInfo expected = new DataCollectionInfo();
 		expected.setId(12345);

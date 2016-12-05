@@ -4,11 +4,10 @@ import java.io.Closeable;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface IspybPlateApi extends Closeable {
-	Optional<Integer> retrieveContainerLSPosition(String barcode) throws SQLException;
+	Optional<String> retrieveContainerLSPosition(String barcode) throws SQLException;
 
 	Optional<ContainerInfo> retrieveContainerInfo(String barcode) throws SQLException;
 
@@ -31,6 +30,4 @@ public interface IspybPlateApi extends Closeable {
 	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(int id);
 	
 	void clearContainerError(String barcode) throws SQLException;
-
-	public Map<String, Object> retrieveTest() throws SQLException;
 }
