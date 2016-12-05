@@ -1,8 +1,10 @@
 
 package uk.ac.diamond.ispyb.api;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+
 import javax.annotation.Generated;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -12,8 +14,8 @@ public class DataCollectionInfo {
 
     private int id;
     private int dcNumber;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Timestamp startTime;
+    private Timestamp endTime;
     private String status;
     private float axisStart;
     private float axisEnd;
@@ -41,7 +43,7 @@ public class DataCollectionInfo {
     private String snapshot2;
     private String snapshot3;
     private String snapshot4;
-    private char rotationAxis;
+    private String rotationAxis;
     private float phiStart;
     private float kappaStart;
     private float omegaStart;
@@ -72,19 +74,19 @@ public class DataCollectionInfo {
         this.dcNumber = dcNumber;
     }
 
-    public LocalDateTime getStartTime() {
+    public Timestamp getStartTime() {
         return this.startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public Timestamp getEndTime() {
         return this.endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 
@@ -304,11 +306,11 @@ public class DataCollectionInfo {
         this.snapshot4 = snapshot4;
     }
 
-    public char getRotationAxis() {
+    public String getRotationAxis() {
         return this.rotationAxis;
     }
 
-    public void setRotationAxis(char rotationAxis) {
+    public void setRotationAxis(String rotationAxis) {
         this.rotationAxis = rotationAxis;
     }
 

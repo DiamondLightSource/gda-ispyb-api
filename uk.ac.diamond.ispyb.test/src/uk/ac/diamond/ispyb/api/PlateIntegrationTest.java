@@ -7,10 +7,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -48,27 +48,72 @@ public class PlateIntegrationTest extends TestCase{
 	}
 
 	@Test
-	public void testRetrieveTest() throws SQLException, IOException{
-		Map<String, Object> result = helper.execute(api-> api.retrieveTest());
-
-		assertThat(result.get("2_1"), is(equalTo("2")));
-		assertThat(result.get("2_2"), is(equalTo(2L)));
-		assertThat(result.get("20_1"), is(equalTo("2.0")));
-	}
-
-	@Test
 	public void testShouldRetrieveContainerOnGonio() throws Exception {
 		List<ContainerInfo> beans = helper.execute(api -> api.retrieveContainerOnGonio("notusedinthestoredprocedure!!!"));
 
-		assertThat(beans, is(equalTo(Collections.emptyList())));
+		ContainerInfo container = new ContainerInfo();
+		container.setName("test_plate4");
+		container.setType("CrystalQuickX");
+		container.setBarcode("test_plate4");
+		container.setBeamline("i02-2");
+		container.setLocation("4");
+		container.setImagerName("Imager1 20c");
+		container.setImagerSerialNumber("Z125434");
+		container.setStatus(ContainerStatus.INVALID.getStatus());
+		container.setCapacity(192);
+		container.setStorageTemperature(20.0f);
+		
+		assertThat(beans, is(equalTo(Arrays.asList(container))));
 	}
 	
 	@Test
 	public void testShouldRetrieveDataCollection() throws Exception {
-		List<DataCollectionInfo> info = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(5));
+		List<DataCollectionInfo> info = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(2));
 		
 		DataCollectionInfo expected = new DataCollectionInfo();
-		expected.setId(12345);
+		expected.setId(1066786);
+		expected.setDcNumber(2);
+		expected.setStartTime(new Timestamp(2016-1900,4-1,18,11,04,44,0));
+		expected.setEndTime(new Timestamp(2016-1900,4-1,18,11,04,57,0));
+		expected.setStatus("DataCollection Successful");
+		expected.setAxisStart(0.0f);
+		expected.setAxisEnd(0.5f);
+		expected.setAxisRange(0.5f);
+		expected.setOverlap(-44.5f);
+		expected.setNumberOfImages(3);
+		expected.setStartImageNumber(1);
+		expected.setNumberOfPasses(1);
+		expected.setExposureTime(0.1f);
+		expected.setImageDirectory("/dls/i03/data/2016/cm14451-2/gw/20160418/thau/edna_test/");
+		expected.setImagePrefix("thau");
+		expected.setImageSuffix("cbf");
+		expected.setFileTemplate("thau_2_####.cbf");
+		expected.setWavelength(0.976253f);
+		expected.setResolution(1.5f);
+		expected.setDetectorDistance(266.693f);
+		expected.setXBeam(0.0f);
+		expected.setYBeam(0.0f);
+		expected.setComments("(-345,-241,-185) Aperture: Large");
+		expected.setSlitgapVertical(0.059918f);
+		expected.setSlitgapHorizontal(0.099937f);
+		expected.setTransmission(5.00016f);
+		expected.setSynchrotronMode("User");
+		expected.setSnapshot1("/dls/i03/data/2016/cm14451-2/jpegs/gw/20160418/thau/edna_test/thau_2_1_90.0.png");
+		expected.setSnapshot2("/dls/i03/data/2016/cm14451-2/jpegs/gw/20160418/thau/edna_test/thau_2_1_0.0.png");
+		expected.setPhiStart(0.0f);
+		expected.setKappaStart(0.0f);
+		expected.setOmegaStart(0.0f);
+		expected.setRotationAxis("Omega");
+		expected.setUndulatorGap1(5.301f);
+		expected.setUndulatorGap2(0.0f);
+		expected.setUndulatorGap3(0.0f);
+		expected.setBeamSizeAtSampleX(0.08f);
+		expected.setBeamSizeAtSampleY(0.02f);
+		expected.setFocalSpotSizeAtSampleX(80.0f);
+		expected.setFocalSpotSizeAtSampleY(20.0f);
+		expected.setPolarisation(0.0f);
+		expected.setFlux(5.7087013071909134E10);
+		expected.setFluxEnd(0.0);
 
 		assertThat(info, is(equalTo(Arrays.asList(expected))));
 	}
