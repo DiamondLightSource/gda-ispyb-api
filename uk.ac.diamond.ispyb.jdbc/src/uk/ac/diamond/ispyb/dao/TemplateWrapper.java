@@ -31,10 +31,12 @@ import org.springframework.util.StringUtils;
 class TemplateWrapper {
 	private JdbcTemplate template;
 	private String schema;
+	private ResultMapParser parser;
 
-	public TemplateWrapper(JdbcTemplate template, String schema) {
+	public TemplateWrapper(JdbcTemplate template, String schema, ResultMapParser parser) {
 		this.template = template;
 		this.schema = schema;
+		this.parser = parser;
 	}
 
 	void updateIspyb(String procedure, Object params) {
@@ -48,28 +50,28 @@ class TemplateWrapper {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		
-		return getListFrom(simpleJdbcCall.execute(in), this::firstValue);
+		return parser.parse(simpleJdbcCall.execute(in), this::firstValue);
 	}
 
 	<T> List<T> callIspybForList(String procedure, Class<T> clazz, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		
-		return getListFrom(simpleJdbcCall.execute(in), this::firstValue);
+		return parser.parse(simpleJdbcCall.execute(in), this::firstValue);
 	}
 	
 	<T> List<T> callIspybForListBeans(String procedure, Class<T> clazz, Object params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		
-		return getListFrom(simpleJdbcCall.execute(in), beanFromMap(clazz));
+		return parser.parse(simpleJdbcCall.execute(in), beanFromMap(clazz));
 	}
 
 	<T> List<T> callIspybForListBeans(String procedure, Class<T> clazz, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		
-		return getListFrom(simpleJdbcCall.execute(in), beanFromMap(clazz));
+		return parser.parse(simpleJdbcCall.execute(in), beanFromMap(clazz));
 	}
 	
 	<T> T callIspybForAllRows(String procedure, ResultSetExtractor<T> extractor, Map<String, Object> params) {
@@ -85,25 +87,25 @@ class TemplateWrapper {
 	
 	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Object params) {
 		Map<String, Object> map = execute(procedure, params);
-		List<T> list = getListFrom(map, this::firstValue);
+		List<T> list = parser.parse(map, this::firstValue);
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 
 	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Map<String, Object> params) {
 		Map<String, Object> map = execute(procedure, params);
-		List<T> list = getListFrom(map, this::firstValue);
+		List<T> list = parser.parse(map, this::firstValue);
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 	
 	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Object params) {
 		Map<String, Object> map = execute(procedure, params);
-		List<T> list = getListFrom(map, beanFromMap(clazz));
+		List<T> list = parser.parse(map, beanFromMap(clazz));
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 
 	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Map<String, Object> params) {
 		Map<String, Object> map = execute(procedure, params);
-		List<T> list = getListFrom(map, beanFromMap(clazz));
+		List<T> list = parser.parse(map, beanFromMap(clazz));
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 	
@@ -151,18 +153,6 @@ class TemplateWrapper {
 			.withProcedureName(procedure)
 			.withSchemaName(schema);
 		return simpleJdbcCall;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private <T> List<T> getListFrom(Map<String, Object> resultMap, Function<Map<String,Object>, T> converter){
-		Set<Entry<String,Object>> entrySet = resultMap.entrySet();
-		for (Entry<String,Object> entry : entrySet) {
-			if (entry.getKey().contains("result")){
-				List<Map<String,Object>> results = (List<Map<String, Object>>) entry.getValue();
-				return results.stream().map(converter).collect(Collectors.toList());
-			}
-		}
-		return Arrays.asList(converter.apply(resultMap));
 	}
 	
 	private <T> Optional<T> convertEmptyToOption(ErroringSupplier<T> supplier){

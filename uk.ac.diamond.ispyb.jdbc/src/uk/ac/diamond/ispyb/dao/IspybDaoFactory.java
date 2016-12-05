@@ -35,8 +35,7 @@ public class IspybDaoFactory<T> implements IspybFactoryService<T>{
 
 	private TemplateWrapper buildTemplateWrapper(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties, Optional<String> schema) throws SQLException {
 		JdbcTemplate template = makeTemplate(url, username, password, properties);
-		TemplateWrapper templateWrapper = new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString()));
-		return templateWrapper;
+		return new TemplateWrapper(template, schema.orElse(Schema.ISPYB.toString()), new ResultMapParser());
 	}
 
 	private JdbcTemplate makeTemplate(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties) throws SQLException{
