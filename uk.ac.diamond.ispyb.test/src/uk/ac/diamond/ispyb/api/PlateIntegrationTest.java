@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.junit.After;
 import org.junit.Before;
@@ -56,7 +59,12 @@ public class PlateIntegrationTest extends TestCase{
 		ContainerLSQueueEntry expected = new ContainerLSQueueEntry();
 		expected.setBarcode("test_plate2");
 		expected.setLocation("3");
-		expected.setAdded(new Date(2016 - 1900, 9 - 1, 30, 13, 56, 21));
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		c.set(2016, 8, 30, 12, 56, 21);
+		c.clear(Calendar.MILLISECOND);
+		Date date = c.getTime();
+		expected.setAdded(date);
+		
 		assertThat(entries, is(equalTo(Arrays.asList(expected))));
 	}
 	
