@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
@@ -18,6 +19,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
+import uk.ac.diamond.ispyb.api.ContainerLSQueueEntry;
 
 public class PlateIntegrationTest extends TestCase{
 	private final IntegrationTestHelper<IspybPlateApi> helper = new IntegrationTestHelper<>(new IspybPlateDaoFactory());
@@ -47,6 +49,17 @@ public class PlateIntegrationTest extends TestCase{
 		assertThat(position, is(equalTo("3")));
 	}
 
+	@Test
+	public void testRetrieveLsQueue() throws SQLException, IOException{
+		List<ContainerLSQueueEntry> entries = helper.execute(api-> api.retrieveContainerLSQueue("i03"));
+		
+		ContainerLSQueueEntry expected = new ContainerLSQueueEntry();
+		expected.setBarcode("test_plate2");
+		expected.setLocation("3");
+		expected.setAdded(new Date(2016 - 1900, 9 - 1, 30, 13, 56, 21));
+		assertThat(entries, is(equalTo(Arrays.asList(expected))));
+	}
+	
 	@Test
 	public void testShouldRetrieveContainerOnGonio() throws Exception {
 		List<ContainerInfo> beans = helper.execute(api -> api.retrieveContainerOnGonio("notusedinthestoredprocedure!!!"));

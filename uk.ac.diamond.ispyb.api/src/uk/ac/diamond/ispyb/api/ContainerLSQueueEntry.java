@@ -1,6 +1,5 @@
 package uk.ac.diamond.ispyb.api;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -13,7 +12,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 public class ContainerLSQueueEntry {
 	private String barcode;
 	private String location;
-	private Timestamp added;
+	private Date added;
 
 	public ContainerLSQueueEntry() {
 	}
@@ -38,7 +37,7 @@ public class ContainerLSQueueEntry {
 		return added;
 	}
 
-	public void setAdded(Timestamp added) {
+	public void setAdded(Date added) {
 		this.added = added;
 	}
 
