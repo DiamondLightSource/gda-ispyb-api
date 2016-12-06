@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,22 +16,24 @@ import uk.ac.diamond.ispyb.api.Schema;
 import org.mariadb.jdbc.MariaDbDataSource;
 
 public class IspybDaoFactory<T> implements IspybFactoryService<T>{
-	private final Function<TemplateWrapper, T> daoFactory;  
+	private final BiFunction<TemplateWrapper, BeanTemplateWrapper, T> daoFactory;  
 	
-	public IspybDaoFactory(Function<TemplateWrapper, T> daofactory) {
+	public IspybDaoFactory(BiFunction<TemplateWrapper, BeanTemplateWrapper, T> daofactory) {
 		this.daoFactory = daofactory;
 	}
 	
 	@Override
 	public T buildIspybApi(String url, Optional<String> username, Optional<String> password, Optional<String> schema) throws SQLException {
 		TemplateWrapper templateWrapper = buildTemplateWrapper(url, username, password, Optional.empty(), schema);
-		return daoFactory.apply(templateWrapper);
+		BeanTemplateWrapper beanTemplateWrapper = new BeanTemplateWrapper(templateWrapper);
+		return daoFactory.apply(templateWrapper, beanTemplateWrapper);
 	}
 
 	@Override
 	public T buildIspybApi(String url, Properties properties, Optional<String> schema) throws SQLException {
 		TemplateWrapper templateWrapper = buildTemplateWrapper(url, Optional.empty(), Optional.empty(), Optional.of(properties), schema);
-		return daoFactory.apply(templateWrapper);
+		BeanTemplateWrapper beanTemplateWrapper = new BeanTemplateWrapper(templateWrapper);
+		return daoFactory.apply(templateWrapper, beanTemplateWrapper);
 	}
 
 	private TemplateWrapper buildTemplateWrapper(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties, Optional<String> schema) throws SQLException {

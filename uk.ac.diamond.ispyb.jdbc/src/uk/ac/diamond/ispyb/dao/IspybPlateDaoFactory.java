@@ -5,6 +5,6 @@ import uk.ac.diamond.ispyb.api.IspybPlateFactoryService;
 
 public class IspybPlateDaoFactory extends IspybDaoFactory<IspybPlateApi> implements IspybPlateFactoryService{
 	public IspybPlateDaoFactory() {
-		super(templateWrapper -> new IspybPlateDAO(templateWrapper));
+		super((templateWrapper, beanTemplateWrapper) -> new IspybPlateDAO(templateWrapper, beanTemplateWrapper));
 	}
 }

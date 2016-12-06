@@ -6,3 +6,5 @@
 **/target
 uk.ac.diamond.ispyb.test/sql/*.sql~
 **/*.iml
+*.iml
+.idea

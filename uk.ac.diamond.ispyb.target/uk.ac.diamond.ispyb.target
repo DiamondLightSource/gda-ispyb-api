@@ -4,6 +4,7 @@
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="uk.ac.diamond.org.springframework" version="4.0.6.RELEASE"/>
 <unit id="org.mariadb.jdbc" version="1.4.6.0"/>
+<unit id="org.mockito.mockito-core" version="1.10.19"/>
 <repository location="https://alfred.diamond.ac.uk/p2/orbit/continuous/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">

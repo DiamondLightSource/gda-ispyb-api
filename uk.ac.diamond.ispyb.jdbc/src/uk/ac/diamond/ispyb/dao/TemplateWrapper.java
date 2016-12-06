@@ -28,7 +28,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.util.StringUtils;
 
-class TemplateWrapper {
+public class TemplateWrapper {
 	private JdbcTemplate template;
 	private String schema;
 	private ResultMapParser parser;
@@ -39,18 +39,11 @@ class TemplateWrapper {
 		this.parser = parser;
 	}
 
-	void updateIspyb(String procedure, Object params) {
+	public void updateIspyb(String procedure, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		
         simpleJdbcCall.execute(in);
-	}
-
-	<T> List<T> callIspybForList(String procedure, Class<T> clazz, Object params) {
-		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
-		MapSqlParameterSource in = createInParameters(params);
-		
-		return parser.parse(simpleJdbcCall.execute(in), this::firstValue);
 	}
 
 	<T> List<T> callIspybForList(String procedure, Class<T> clazz, Map<String, Object> params) {
@@ -109,7 +102,7 @@ class TemplateWrapper {
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 	
-	void callIspyb(String procedure, Object params) {
+	void callIspyb(String procedure, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		simpleJdbcCall.executeObject(Void.class, in);

@@ -18,9 +18,11 @@ import uk.ac.diamond.ispyb.api.IspybPlateApi;
 
 public class IspybPlateDAO implements IspybPlateApi{
 	private final TemplateWrapper templateWrapper;
+	private final BeanTemplateWrapper beanTemplateWrapper;
 
-	public IspybPlateDAO(TemplateWrapper templateWrapper) {
+	public IspybPlateDAO(TemplateWrapper templateWrapper, BeanTemplateWrapper beanTemplateWrapper) {
 		this.templateWrapper = templateWrapper;
+		this.beanTemplateWrapper = beanTemplateWrapper;
 	}
 
 	@Override
@@ -40,12 +42,12 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public void updateContainerLSPosition(String barcode, int position) throws SQLException {
-		templateWrapper.updateIspyb("update_container_ls_position", new BarcodeQuery(barcode, position));
+		beanTemplateWrapper.updateIspyb("update_container_ls_position", new BarcodeQuery(barcode, position));
 	}
 
 	@Override
 	public void updateContainerStatus(String barcode, ContainerStatus status) throws SQLException {
-		templateWrapper.updateIspyb("update_container_status", new BarcodeQuery(barcode, status.getStatus()));
+		beanTemplateWrapper.updateIspyb("update_container_status", new BarcodeQuery(barcode, status.getStatus()));
 	}
 
 	@Override
@@ -71,7 +73,7 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public void insertContainerError(String barcode, String error, int severity, String stackTrace) throws SQLException {
-		templateWrapper.updateIspyb("insert_container_error", new BarcodeQuery(barcode, error, severity, stackTrace));
+		beanTemplateWrapper.updateIspyb("insert_container_error", new BarcodeQuery(barcode, error, severity, stackTrace));
 	}
 	
 	@Override

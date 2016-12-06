@@ -12,9 +12,11 @@ import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 
 	private TemplateWrapper templateWrapper;
+	private BeanTemplateWrapper beanTemplateWrapper;
 
-	public IspybDataCollectionDAO(TemplateWrapper templateWrapper) {
+	public IspybDataCollectionDAO(TemplateWrapper templateWrapper, BeanTemplateWrapper beanTemplateWrapper) {
 		this.templateWrapper = templateWrapper;
+		this.beanTemplateWrapper = beanTemplateWrapper;
 	}
 
 	@Override
@@ -29,12 +31,12 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 
 	@Override
 	public void updateDataCollectionExperiment(DataCollectionExperiment dataCollectionExperiment) {
-		templateWrapper.callIspyb("update_dc_experiment", dataCollectionExperiment);
+		beanTemplateWrapper.callIspyb("update_dc_experiment", dataCollectionExperiment);
 	}
 
 	@Override
 	public void updateDataCollectionMachine(DataCollectionMachine dataCollectionMachine) {
-		templateWrapper.callIspyb("update_dc_machine", dataCollectionMachine);
+		beanTemplateWrapper.callIspyb("update_dc_machine", dataCollectionMachine);
 	}
 
 	@Override
