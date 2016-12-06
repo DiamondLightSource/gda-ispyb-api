@@ -176,4 +176,12 @@ public class TemplateWrapper {
 	void closeConnection() throws SQLException {
 		template.getDataSource().getConnection().close();
 	}
+	
+	boolean connected(){
+		try{
+			return template.getDataSource().getConnection().isValid(1);
+		} catch (SQLException e){
+			return false;
+		}
+	}
 }

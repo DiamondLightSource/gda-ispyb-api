@@ -19,6 +19,9 @@ public class ContainerInfo {
 	private ContainerStatus status;
 	private long capacity;
 	private float storageTemperature;
+	private String proposalCode;
+	private int proposalNumber;
+	private int sessionNumber;
 
 	public ContainerInfo() {
 	}
@@ -181,6 +184,30 @@ public class ContainerInfo {
 	 */
 	public void setStorageTemperature(float storageTemperature) {
 		this.storageTemperature = storageTemperature;
+	}
+	
+	public String getProposalCode() {
+		return proposalCode;
+	}
+
+	public void setProposalCode(String proposalCode) {
+		this.proposalCode = proposalCode;
+	}
+
+	public int getProposalNumber() {
+		return proposalNumber;
+	}
+
+	public void setProposalNumber(int proposalNumber) {
+		this.proposalNumber = proposalNumber;
+	}
+
+	public int getSessionNumber() {
+		return sessionNumber;
+	}
+
+	public void setSessionNumber(int sessionNumber) {
+		this.sessionNumber = sessionNumber;
 	}
 
 	@Override

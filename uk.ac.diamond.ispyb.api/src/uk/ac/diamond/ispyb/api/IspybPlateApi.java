@@ -30,4 +30,6 @@ public interface IspybPlateApi extends Closeable {
 	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(int id);
 	
 	void clearContainerError(String barcode) throws SQLException;
+	
+	boolean isConnected();
 }

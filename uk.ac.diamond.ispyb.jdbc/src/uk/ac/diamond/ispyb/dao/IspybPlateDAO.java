@@ -95,6 +95,11 @@ public class IspybPlateDAO implements IspybPlateApi{
 		}
 	}
 	
+	@Override
+	public boolean isConnected() {
+		return templateWrapper.connected();
+	}
+	
 	private Map<String, Object> map(String key, Object value) {
 		Map<String, Object> map = new HashMap<>();
 		map.put(key, value);
