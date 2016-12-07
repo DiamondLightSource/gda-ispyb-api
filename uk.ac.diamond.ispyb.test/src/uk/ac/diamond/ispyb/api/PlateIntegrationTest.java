@@ -80,7 +80,7 @@ public class PlateIntegrationTest extends TestCase{
 		container.setLocation("4");
 		container.setImagerName("Imager1 20c");
 		container.setImagerSerialNumber("Z125434");
-		container.setStatus(ContainerStatus.INVALID.getStatus());
+		container.setStatus(ContainerStatus.PROCESSING.getStatus());
 		container.setCapacity(192);
 		container.setStorageTemperature(20.0f);
 		
