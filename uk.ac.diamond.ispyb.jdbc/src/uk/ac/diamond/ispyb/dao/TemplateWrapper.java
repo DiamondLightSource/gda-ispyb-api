@@ -22,6 +22,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowCountCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.jdbc.core.SqlReturnResultSet;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -142,7 +144,7 @@ public class TemplateWrapper {
 	}
 
 	private SimpleJdbcCall createCall(String procedure) {
-		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(template.getDataSource())
+		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(template)
 			.withProcedureName(procedure)
 			.withSchemaName(schema);
 		return simpleJdbcCall;
@@ -179,8 +181,10 @@ public class TemplateWrapper {
 	
 	boolean connected(){
 		try{
-			return template.getDataSource().getConnection().isValid(1);
-		} catch (SQLException e){
+			RowMapper<Integer> mapper = new SingleColumnRowMapper<>(Integer.class);
+			List<Integer> listOfOne = template.query("select 1", mapper);
+			return listOfOne.stream().reduce(0, (x,y) -> x+y).equals(1);
+		} catch (Exception e){
 			return false;
 		}
 	}

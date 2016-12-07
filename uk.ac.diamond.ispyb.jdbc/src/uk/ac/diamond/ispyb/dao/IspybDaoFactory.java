@@ -14,6 +14,9 @@ import uk.ac.diamond.ispyb.api.IspybFactoryService;
 import uk.ac.diamond.ispyb.api.Schema;
 
 import org.mariadb.jdbc.MariaDbDataSource;
+import org.apache.commons.dbcp.BasicDataSource;
+
+import javax.sql.DataSource;
 
 public class IspybDaoFactory<T> implements IspybFactoryService<T>{
 	private final BiFunction<TemplateWrapper, BeanTemplateWrapper, T> daoFactory;  
@@ -45,26 +48,20 @@ public class IspybDaoFactory<T> implements IspybFactoryService<T>{
 		return makeJdbcTemplateFromConnection(connectToDatabase(url, username, password, properties));
 	}
 	
-	private Connection connectToDatabase(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties) throws SQLException {
-		Connection connection = null;
-		if (url.contains("mariadb")) {
-			MariaDbDataSource source = new MariaDbDataSource();
-			source.setUrl(url);
-			username.ifPresent(source::setUserName);
-			password.ifPresent(source::setPassword);
-			connection = source.getConnection();
-		} else {
-			SingleConnectionDataSource ds = new SingleConnectionDataSource(url, false);
-			properties.ifPresent(ds::setConnectionProperties);
-			username.ifPresent(ds::setUsername);
-			password.ifPresent(ds::setPassword);
-			connection = ds.getConnection();
-		}
-		return connection;
+	private DataSource connectToDatabase(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties) throws SQLException {
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
+		dataSource.setUrl(url);
+ 		username.ifPresent(dataSource::setUsername);
+ 		password.ifPresent(dataSource::setPassword);
+        dataSource.setValidationQuery("SELECT 1");
+        dataSource.setTestOnBorrow(true);
+        dataSource.setTestWhileIdle(true);
+		return dataSource;
 	}
 
-	private static JdbcTemplate makeJdbcTemplateFromConnection(Connection connection) {
-		return new JdbcTemplate(new SingleConnectionDataSource(connection, true));
+	private static JdbcTemplate makeJdbcTemplateFromConnection(DataSource dataSource) {
+		return new JdbcTemplate(dataSource);
 	}
 
 }
