@@ -828,19 +828,19 @@ DROP TABLE IF EXISTS `BLSampleImageAnalysis`;
 CREATE TABLE `BLSampleImageAnalysis` (
   `blSampleImageAnalysisId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `blSampleImageId` int(11) unsigned DEFAULT NULL,
-  `blSubSampleId` int(11) unsigned DEFAULT NULL,
-  `oavSnapshotFullPath` varchar(255) DEFAULT NULL,
+  `oavSnapshotBefore` varchar(255) DEFAULT NULL,
+  `oavSnapshotAfter` varchar(255) DEFAULT NULL,
   `deltaX` int(11) DEFAULT NULL,
   `deltaY` int(11) DEFAULT NULL,
   `goodnessOfFit` float DEFAULT NULL,
+  `scaleFactor` float DEFAULT NULL,
+  `resultCode` varchar(15) DEFAULT NULL,
   `matchStartTimeStamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `matchEndTimeStamp` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`blSampleImageAnalysisId`),
   KEY `BLSampleImageAnalysis_ibfk1` (`blSampleImageId`),
-  KEY `BLSampleImageAnalysis_ibfk2` (`blSubSampleId`),
-  CONSTRAINT `BLSampleImageAnalysis_ibfk1` FOREIGN KEY (`blSampleImageId`) REFERENCES `BLSampleImage` (`blSampleImageId`),
-  CONSTRAINT `BLSampleImageAnalysis_ibfk2` FOREIGN KEY (`blSubSampleId`) REFERENCES `BLSubSample` (`blSubSampleId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `BLSampleImageAnalysis_ibfk1` FOREIGN KEY (`blSampleImageId`) REFERENCES `BLSampleImage` (`blSampleImageId`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -849,6 +849,7 @@ CREATE TABLE `BLSampleImageAnalysis` (
 
 LOCK TABLES `BLSampleImageAnalysis` WRITE;
 /*!40000 ALTER TABLE `BLSampleImageAnalysis` DISABLE KEYS */;
+INSERT INTO `BLSampleImageAnalysis` VALUES (4,5,'/dls/i02-2/data/2016/cm14559-5/.ispyb/something.jpg',NULL,10,11,0.94,0.5,'OK','2016-12-09 12:32:24','2016-12-09 12:32:25');
 /*!40000 ALTER TABLE `BLSampleImageAnalysis` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7968,6 +7969,75 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_sample_image_analysis` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_sample_image_analysis`(
+	 INOUT p_id int(11) unsigned,
+     p_containerBarcode varchar(45),
+     p_sampleLocation varchar(45),
+     p_oavSnapshotBefore varchar(255),
+     p_oavSnapshotAfter varchar(255),
+     p_deltaX int,
+     p_deltaY int,
+     p_goodnessOfFit float,
+     p_scaleFactor float,
+     p_resultCode varchar(15),
+     p_matchStartTS timestamp,
+     p_matchEndTS timestamp
+     )
+    MODIFIES SQL DATA
+BEGIN
+      DECLARE row_sampleImageId int(11) unsigned;
+      
+      IF (p_containerBarcode IS NOT NULL) AND (p_sampleLocation IS NOT NULL) THEN
+
+        SELECT max(blsi.blsampleImageId) INTO row_sampleImageId
+        FROM BLSampleImage blsi 
+          INNER JOIN BLSample bls ON bls.blsampleId = blsi.blSampleId 
+          INNER JOIN Container c ON c.containerId = bls.containerId 
+        WHERE c.barcode = p_containerBarcode AND bls.location = p_sampleLocation;
+
+	-- SELECT max(blSampleImageId) INTO row_sampleImageId 
+        -- FROM BLSampleImage
+        -- WHERE imageFullPath = p_imagerImage;
+      
+        IF row_sampleImageId is NOT NULL THEN
+  
+          INSERT INTO BLSampleImageAnalysis (blSampleImageAnalysisId, blSampleImageId, oavSnapshotBefore, oavSnapshotAfter, deltaX, deltaY, 
+	        goodnessOfFit, scaleFactor, resultCode, matchStartTimeStamp, matchEndTimeStamp) 
+	        VALUES (p_id, row_sampleImageId, p_oavSnapshotBefore, p_oavSnapshotAfter, p_deltaX, p_deltaY, 
+              p_goodnessOfFit, p_scaleFactor, p_resultCode, p_matchStartTS, p_matchEndTS)
+	        ON DUPLICATE KEY UPDATE
+		      blSampleImageId = IFNULL(row_sampleImageId, blSampleImageId),
+              oavSnapshotBefore = IFNULL(p_oavSnapshotBefore, oavSnapshotBefore),
+              oavSnapshotAfter = IFNULL(p_oavSnapshotAfter, oavSnapshotAfter),
+              deltaX = IFNULL(p_deltaX, deltaX),
+              deltaY = IFNULL(p_deltaY, deltaY),
+              goodnessOfFit = IFNULL(p_goodnessOfFit, goodnessOfFit),
+              scaleFactor = IFNULL(p_scaleFactor, scaleFactor),
+              resultCode = IFNULL(p_resultCode, resultCode),
+              matchStartTimeStamp = IFNULL(p_matchStartTS, matchStartTimeStamp),
+              matchEndTimeStamp = IFNULL(p_matchEndTS, matchEndTimeStamp);
+
+	      IF p_id is NULL THEN 
+		    SET p_id = LAST_INSERT_ID();
+          END IF;      
+        END IF;
+      END IF;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Final view structure for view `v_Log4Stat`
@@ -8434,4 +8504,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-05 11:03:58
+-- Dump completed on 2016-12-09 14:27:29
