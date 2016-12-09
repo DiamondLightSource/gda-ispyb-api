@@ -7860,7 +7860,7 @@ BEGIN
       FROM Proposal p INNER JOIN BLSession bs ON p.proposalid = bs.proposalid 
       WHERE p.proposalCode = p_proposalCode AND p.proposalNumber = p_proposalNumber AND bs.visit_number = p_sessionNumber;
       
-      IF p_sampleId IS NULL THEN
+      IF p_sampleId IS NULL AND p_sampleBarcode IS NOT NULL THEN
         SELECT max(bls.blSampleId) INTO p_sampleId
         FROM BLSample bls
           INNER JOIN Container c on c.containerId = bls.containerId
@@ -7870,6 +7870,12 @@ BEGIN
         
       END IF;
       
+      IF p_sampleId IS NULL AND (p_actualContainerBarcode IS NOT NULL) AND (p_actualSampleSlotInContainer IS NOT NULL) THEN
+	    SELECT max(bls.blSampleId) INTO p_sampleId
+        FROM BLSample bls
+          INNER JOIN Container c on c.containerId = bls.containerId
+		WHERE c.barcode = p_actualContainerBarcode AND bls.location = p_actualSampleSlotInContainer;
+      END IF;
 	END IF;
 
 	IF p_id IS NOT NULL OR row_session_id IS NOT NULL THEN
@@ -8504,4 +8510,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-09 14:27:29
+-- Dump completed on 2016-12-09 15:15:03
