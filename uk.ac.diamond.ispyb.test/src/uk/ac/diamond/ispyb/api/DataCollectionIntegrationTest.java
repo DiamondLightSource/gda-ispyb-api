@@ -44,12 +44,6 @@ public class DataCollectionIntegrationTest extends TestCase{
 		helper.run(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
 	}
 
-	@Test
-	public void testUpsertSampleImageAnalysis() throws SQLException, FileNotFoundException, IOException, InterruptedException {
-		SampleImageAnalysis sampleImageAnalysis = new SampleImageAnalysis();
-		helper.run(api -> api.upsertSampleImageAnalysis(sampleImageAnalysis));
-	}
-
 
 	@Before
 	@Override

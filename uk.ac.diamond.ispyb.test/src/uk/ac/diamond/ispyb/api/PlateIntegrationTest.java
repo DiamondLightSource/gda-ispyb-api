@@ -146,6 +146,12 @@ public class PlateIntegrationTest extends TestCase{
 		assertThat(dataCollection, is(equalTo(Collections.emptyList())));
 	}
 	
+	@Test
+	public void testUpsertSampleImageAnalysis() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+		SampleImageAnalysis sampleImageAnalysis = new SampleImageAnalysis();
+		helper.run(api -> api.upsertSampleImageAnalysis(sampleImageAnalysis));
+	}
+	
 	@Before
 	@Override
 	protected void setUp() throws Exception {

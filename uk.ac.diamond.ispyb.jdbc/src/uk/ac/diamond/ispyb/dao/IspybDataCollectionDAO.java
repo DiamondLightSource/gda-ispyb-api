@@ -8,7 +8,6 @@ import uk.ac.diamond.ispyb.api.DataCollectionGroup;
 import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
-import uk.ac.diamond.ispyb.api.SampleImageAnalysis;
 
 public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 
@@ -38,11 +37,6 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	@Override
 	public void updateDataCollectionMachine(DataCollectionMachine dataCollectionMachine) {
 		beanTemplateWrapper.callIspyb("update_dc_machine", dataCollectionMachine);
-	}
-
-	@Override
-	public int upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis){
-		return templateWrapper.callIspyb("upsert_sample_image_analysis", Integer.class, sampleImageAnalysis).get();
 	}
 
 	@Override

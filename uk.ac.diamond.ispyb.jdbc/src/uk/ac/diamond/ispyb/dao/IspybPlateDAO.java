@@ -15,6 +15,7 @@ import uk.ac.diamond.ispyb.api.ContainerStatus;
 import uk.ac.diamond.ispyb.api.ContainerSubsample;
 import uk.ac.diamond.ispyb.api.DataCollectionInfo;
 import uk.ac.diamond.ispyb.api.IspybPlateApi;
+import uk.ac.diamond.ispyb.api.SampleImageAnalysis;
 
 public class IspybPlateDAO implements IspybPlateApi{
 	private final TemplateWrapper templateWrapper;
@@ -86,6 +87,11 @@ public class IspybPlateDAO implements IspybPlateApi{
 		templateWrapper.callIspybForList("clear_container_error", String.class, map("barcode", barcode));
 	}
 
+	@Override
+	public int upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis){
+		return templateWrapper.callIspyb("upsert_sample_image_analysis", Integer.class, sampleImageAnalysis).get();
+	}
+	
 	@Override
 	public void close() throws IOException {
 		try {
