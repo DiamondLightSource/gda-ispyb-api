@@ -146,11 +146,6 @@ public class PlateIntegrationTest extends TestCase{
 		assertThat(dataCollection, is(equalTo(Collections.emptyList())));
 	}
 	
-	@Test
-	public void testTestingConnection() throws Exception {
-		assertThat(helper.execute(api -> api.isConnected()), is(equalTo(true)));
-	}
-	
 	@Before
 	@Override
 	protected void setUp() throws Exception {
