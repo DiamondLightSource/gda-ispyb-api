@@ -78,6 +78,12 @@ public class TemplateWrapper {
 		return (T) object;
 	}
 	
+	@SuppressWarnings("unchecked")
+	<T> Optional<T> callIspybForKey(String procedure, Class<T> clazz, Object params, String key) {
+		Map<String, Object> map = execute(procedure, params);
+		return Optional.of((T) map.get(key));
+	}
+
 	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Object params) {
 		Map<String, Object> map = execute(procedure, params);
 		List<T> list = parser.parse(map, this::firstValue);
