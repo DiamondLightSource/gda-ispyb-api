@@ -1,6 +1,7 @@
 
 package uk.ac.diamond.ispyb.api;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.annotation.Generated;
@@ -18,8 +19,8 @@ public class DataCollectionGroup {
     private int sampleId;
     private String sampleBarcode;
     private String experimenttype;
-    private LocalDateTime starttime;
-    private LocalDateTime endtime;
+    private Timestamp starttime;
+    private Timestamp endtime;
     private String crystalClass;
     private String detectorMode;
     private String actualSampleBarcode;
@@ -84,19 +85,19 @@ public class DataCollectionGroup {
         this.experimenttype = experimenttype;
     }
 
-    public LocalDateTime getStarttime() {
+    public Timestamp getStarttime() {
         return this.starttime;
     }
 
-    public void setStarttime(LocalDateTime starttime) {
+    public void setStarttime(Timestamp starttime) {
         this.starttime = starttime;
     }
 
-    public LocalDateTime getEndtime() {
+    public Timestamp getEndtime() {
         return this.endtime;
     }
 
-    public void setEndtime(LocalDateTime endtime) {
+    public void setEndtime(Timestamp endtime) {
         this.endtime = endtime;
     }
 
