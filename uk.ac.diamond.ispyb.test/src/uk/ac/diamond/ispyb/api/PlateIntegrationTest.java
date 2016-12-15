@@ -13,7 +13,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import org.junit.After;
@@ -22,7 +21,6 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
-import uk.ac.diamond.ispyb.api.ContainerLSQueueEntry;
 
 public class PlateIntegrationTest extends TestCase{
 	private final IntegrationTestHelper<IspybPlateApi> helper = new IntegrationTestHelper<>(new IspybPlateDaoFactory());
