@@ -3,6 +3,8 @@ package uk.ac.diamond.ispyb.api;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import org.junit.After;
 import org.junit.Before;
@@ -44,6 +46,17 @@ public class DataCollectionIntegrationTest extends TestCase{
 		helper.run(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
 	}
 
+	@Test
+	public void testUpsertDataCollectionGroupWithTimestamp() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
+		dataCollectionGroup.setProposalCode("cm");
+		dataCollectionGroup.setProposalNumber(14451);
+		dataCollectionGroup.setSessionNumber(1);
+		dataCollectionGroup.setSampleId(11550);
+		dataCollectionGroup.setStarttime(Timestamp.valueOf(LocalDateTime.now()));
+		dataCollectionGroup.setEndtime(Timestamp.valueOf(LocalDateTime.now()));
+		helper.run(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
+	}
 
 	@Before
 	@Override
