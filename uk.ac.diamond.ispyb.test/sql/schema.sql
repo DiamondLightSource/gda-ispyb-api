@@ -840,7 +840,7 @@ CREATE TABLE `BLSampleImageAnalysis` (
   PRIMARY KEY (`blSampleImageAnalysisId`),
   KEY `BLSampleImageAnalysis_ibfk1` (`blSampleImageId`),
   CONSTRAINT `BLSampleImageAnalysis_ibfk1` FOREIGN KEY (`blSampleImageId`) REFERENCES `BLSampleImage` (`blSampleImageId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1478,7 +1478,7 @@ CREATE TABLE `Container` (
   CONSTRAINT `Container_ibfk6` FOREIGN KEY (`sessionId`) REFERENCES `BLSession` (`sessionId`),
   CONSTRAINT `Container_ibfk7` FOREIGN KEY (`requestedImagerId`) REFERENCES `Imager` (`imagerId`),
   CONSTRAINT `Container_ibfk_1` FOREIGN KEY (`dewarId`) REFERENCES `Dewar` (`dewarId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34882 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34880 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2938,6 +2938,7 @@ CREATE TABLE `Laboratory` (
   `url` varchar(255) DEFAULT NULL,
   `organization` varchar(45) DEFAULT NULL,
   `recordTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation or last update date/time',
+  `laboratoryPk` int(10) DEFAULT NULL,
   PRIMARY KEY (`laboratoryId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -4701,7 +4702,7 @@ CREATE TABLE `ScanParametersModel` (
   KEY `PDF_Model_ibfk2` (`dataCollectionPlanId`),
   CONSTRAINT `PDF_Model_ibfk1` FOREIGN KEY (`scanParametersServiceId`) REFERENCES `ScanParametersService` (`scanParametersServiceId`) ON UPDATE CASCADE,
   CONSTRAINT `PDF_Model_ibfk2` FOREIGN KEY (`dataCollectionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4790,6 +4791,32 @@ CREATE TABLE `ScheduleComponent` (
 LOCK TABLES `ScheduleComponent` WRITE;
 /*!40000 ALTER TABLE `ScheduleComponent` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ScheduleComponent` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SchemaStatus`
+--
+
+DROP TABLE IF EXISTS `SchemaStatus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SchemaStatus` (
+  `schemaStatusId` int(11) NOT NULL AUTO_INCREMENT,
+  `scriptName` varchar(100) NOT NULL,
+  `schemaStatus` varchar(10) DEFAULT NULL,
+  `recordTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`schemaStatusId`),
+  UNIQUE KEY `scriptName` (`scriptName`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SchemaStatus`
+--
+
+LOCK TABLES `SchemaStatus` WRITE;
+/*!40000 ALTER TABLE `SchemaStatus` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SchemaStatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -7941,10 +7968,11 @@ CREATE PROCEDURE `upsert_dc_main`(
 )
     MODIFIES SQL DATA
 BEGIN
-    INSERT INTO DataCollection (dataCollectionId, dataCollectionGroupId, detectorId, datacollectionNumber, startTime, endTime, 
+    INSERT INTO DataCollection (dataCollectionId, dataCollectionGroupId, sessionId, detectorId, datacollectionNumber, startTime, endTime, 
         runStatus, numberOfImages, startImageNumber, numberOfPasses, imageDirectory, imagePrefix, imageSuffix, fileTemplate, 
         xtalSnapshotFullPath1, xtalSnapshotFullPath2, xtalSnapshotFullPath3, xtalSnapshotFullPath4, comments) 
-      VALUES (p_id, p_groupId, p_detectorId, p_dcNumber, p_startTime, p_endTime, 
+      VALUES (p_id, p_groupId, (SELECT sessionId FROM DataCollectionGroup WHERE dataCollectionGroupId = p_groupId), p_detectorId, 
+      p_dcNumber, p_startTime, p_endTime, 
       p_status, p_noImages, p_startImgNumber, p_noPasses, p_imgDir, p_imgPrefix, p_imgSuffix, p_fileTemplate, 
       p_snapshot1, p_snapshot2, p_snapshot3, p_snapshot4, comments)
       ON DUPLICATE KEY UPDATE
@@ -8510,4 +8538,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-09 15:15:03
+-- Dump completed on 2016-12-16 12:13:30
