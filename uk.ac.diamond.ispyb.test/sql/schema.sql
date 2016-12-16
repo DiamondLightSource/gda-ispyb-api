@@ -7968,10 +7968,13 @@ CREATE PROCEDURE `upsert_dc_main`(
 )
     MODIFIES SQL DATA
 BEGIN
-    INSERT INTO DataCollection (dataCollectionId, dataCollectionGroupId, sessionId, detectorId, datacollectionNumber, startTime, endTime, 
+    INSERT INTO DataCollection (dataCollectionId, dataCollectionGroupId, sessionId, blSampleId, detectorId, datacollectionNumber, startTime, endTime, 
         runStatus, numberOfImages, startImageNumber, numberOfPasses, imageDirectory, imagePrefix, imageSuffix, fileTemplate, 
         xtalSnapshotFullPath1, xtalSnapshotFullPath2, xtalSnapshotFullPath3, xtalSnapshotFullPath4, comments) 
-      VALUES (p_id, p_groupId, (SELECT sessionId FROM DataCollectionGroup WHERE dataCollectionGroupId = p_groupId), p_detectorId, 
+      VALUES (p_id, p_groupId, 
+      (SELECT sessionId FROM DataCollectionGroup WHERE dataCollectionGroupId = p_groupId), 
+      (SELECT blSampleId FROM DataCollectionGroup WHERE dataCollectionGroupId = p_groupId), 
+      p_detectorId, 
       p_dcNumber, p_startTime, p_endTime, 
       p_status, p_noImages, p_startImgNumber, p_noPasses, p_imgDir, p_imgPrefix, p_imgSuffix, p_fileTemplate, 
       p_snapshot1, p_snapshot2, p_snapshot3, p_snapshot4, comments)
@@ -8538,4 +8541,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-16 12:13:30
+-- Dump completed on 2016-12-16 15:58:59
