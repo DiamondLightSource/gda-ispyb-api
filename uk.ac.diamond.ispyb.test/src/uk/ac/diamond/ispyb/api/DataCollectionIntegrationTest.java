@@ -52,7 +52,7 @@ public class DataCollectionIntegrationTest extends TestCase{
 		dataCollectionGroup.setProposalCode("cm");
 		dataCollectionGroup.setProposalNumber(14451);
 		dataCollectionGroup.setSessionNumber(1);
-		dataCollectionGroup.setSampleId(11550);
+		dataCollectionGroup.setSampleId(11550L);
 		dataCollectionGroup.setStarttime(Timestamp.valueOf(LocalDateTime.now()));
 		dataCollectionGroup.setEndtime(Timestamp.valueOf(LocalDateTime.now()));
 		helper.run(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
