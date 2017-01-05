@@ -11,11 +11,11 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionGroup {
-    private int id;
+    private Long id = null;
     private String proposalCode;
-    private int proposalNumber;
-    private int sessionNumber;
-    private int sampleId;
+    private Integer proposalNumber;
+    private Integer sessionNumber;
+    private Long sampleId = null;
     private String sampleBarcode;
     private String experimenttype;
     private Timestamp starttime;
@@ -23,16 +23,16 @@ public class DataCollectionGroup {
     private String crystalClass;
     private String detectorMode;
     private String actualSampleBarcode;
-    private int actualSampleSlotInContainer;
+    private Integer actualSampleSlotInContainer = null;
     private String actualContainerBarcode;
-    private int actualContainerSlotInSC;
+    private Integer actualContainerSlotInSC = null;
     private String comments;
 
-    public int getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -60,11 +60,11 @@ public class DataCollectionGroup {
         this.sessionNumber = sessionNumber;
     }
 
-    public int getSampleId() {
+    public Long getSampleId() {
         return this.sampleId;
     }
 
-    public void setSampleId(int sampleId) {
+    public void setSampleId(Long sampleId) {
         this.sampleId = sampleId;
     }
 
@@ -124,11 +124,11 @@ public class DataCollectionGroup {
         this.actualSampleBarcode = actualSampleBarcode;
     }
 
-    public int getActualSampleSlotInContainer() {
+    public Integer getActualSampleSlotInContainer() {
         return this.actualSampleSlotInContainer;
     }
 
-    public void setActualSampleSlotInContainer(int actualSampleSlotInContainer) {
+    public void setActualSampleSlotInContainer(Integer actualSampleSlotInContainer) {
         this.actualSampleSlotInContainer = actualSampleSlotInContainer;
     }
 
@@ -140,11 +140,11 @@ public class DataCollectionGroup {
         this.actualContainerBarcode = actualContainerBarcode;
     }
 
-    public int getActualContainerSlotInSC() {
+    public Integer getActualContainerSlotInSC() {
         return this.actualContainerSlotInSC;
     }
 
-    public void setActualContainerSlotInSC(int actualContainerSlotInSC) {
+    public void setActualContainerSlotInSC(Integer actualContainerSlotInSC) {
         this.actualContainerSlotInSC = actualContainerSlotInSC;
     }
 

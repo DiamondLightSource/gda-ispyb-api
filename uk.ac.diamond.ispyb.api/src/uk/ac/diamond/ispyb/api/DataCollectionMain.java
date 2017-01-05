@@ -1,7 +1,7 @@
 
 package uk.ac.diamond.ispyb.api;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -12,16 +12,16 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionMain {
 
-    private int id;
-    private int groupId;
-    private int detectorId;
-    private int dcNumber;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Long id;
+    private Long groupId;
+    private Integer detectorId;
+    private Integer dcNumber;
+    private Timestamp startTime;
+    private Timestamp endTime;
     private String status;
-    private int noImages;
-    private int startImgNumber;
-    private int noPasses;
+    private Integer noImages;
+    private Integer startImgNumber;
+    private Integer noPasses;
     private String imgDir;
     private String imgPrefix;
     private String imgSuffix;
@@ -32,51 +32,51 @@ public class DataCollectionMain {
     private String snapshot4;
     private String comments;
 
-    public int getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getGroupId() {
+    public Long getGroupId() {
         return this.groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 
-    public int getDetectorId() {
+    public Integer getDetectorId() {
         return this.detectorId;
     }
 
-    public void setDetectorId(int detectorId) {
+    public void setDetectorId(Integer detectorId) {
         this.detectorId = detectorId;
     }
 
-    public int getDcNumber() {
+    public Integer getDcNumber() {
         return this.dcNumber;
     }
 
-    public void setDcNumber(int dcNumber) {
+    public void setDcNumber(Integer dcNumber) {
         this.dcNumber = dcNumber;
     }
 
-    public LocalDateTime getStartTime() {
+    public Timestamp getStartTime() {
         return this.startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public Timestamp getEndTime() {
         return this.endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
     }
 
@@ -88,27 +88,27 @@ public class DataCollectionMain {
         this.status = status;
     }
 
-    public int getNoImages() {
+    public Integer getNoImages() {
         return this.noImages;
     }
 
-    public void setNoImages(int noImages) {
+    public void setNoImages(Integer noImages) {
         this.noImages = noImages;
     }
 
-    public int getStartImgNumber() {
+    public Integer getStartImgNumber() {
         return this.startImgNumber;
     }
 
-    public void setStartImgNumber(int startImgNumber) {
+    public void setStartImgNumber(Integer startImgNumber) {
         this.startImgNumber = startImgNumber;
     }
 
-    public int getNoPasses() {
+    public Integer getNoPasses() {
         return this.noPasses;
     }
 
-    public void setNoPasses(int noPasses) {
+    public void setNoPasses(Integer noPasses) {
         this.noPasses = noPasses;
     }
 

@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 public class ContainerSubsample {
 
     private String barcode;
-    private int id;
+    private Long id;
     private String sampleLocation;
     private double ROIPos1x;
     private double ROIPos1y;
@@ -44,11 +44,11 @@ public class ContainerSubsample {
         this.barcode = barcode;
     }
 
-    public int getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

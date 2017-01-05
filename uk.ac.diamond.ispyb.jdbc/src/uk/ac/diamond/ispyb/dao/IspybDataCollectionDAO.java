@@ -20,13 +20,13 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	}
 
 	@Override
-	public int upsertDataCollectionGroup(DataCollectionGroup dataCollectionGroup) {
-		return templateWrapper.callIspyb("upsert_dc_group", Integer.class, dataCollectionGroup).get();
+	public Long upsertDataCollectionGroup(DataCollectionGroup dataCollectionGroup) {
+		return templateWrapper.callIspybForKey("upsert_dc_group", Long.class, dataCollectionGroup, "p_id").get();
 	}
 
 	@Override
-	public int upsertDataCollectionMain(DataCollectionMain dataCollectionMain) {
-		return templateWrapper.callIspyb("upsert_dc_main", Integer.class, dataCollectionMain).get();
+	public Long upsertDataCollectionMain(DataCollectionMain dataCollectionMain) {
+		return templateWrapper.callIspybForKey("upsert_dc_main", Long.class, dataCollectionMain, "p_id").get();
 	}
 
 	@Override
