@@ -13,8 +13,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 public class DataCollectionGroup {
     private Long id = null;
     private String proposalCode;
-    private int proposalNumber;
-    private int sessionNumber;
+    private Integer proposalNumber;
+    private Integer sessionNumber;
     private Long sampleId = null;
     private String sampleBarcode;
     private String experimenttype;
