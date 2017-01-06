@@ -78,7 +78,7 @@ public class IspybPlateDAO implements IspybPlateApi{
 	}
 	
 	@Override
-	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(int id) {
+	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(long id) {
 		return templateWrapper.callIspybForListBeans("retrieve_dc_infos_for_subsample", DataCollectionInfo.class, map("id", id));
 	}
 
@@ -88,8 +88,8 @@ public class IspybPlateDAO implements IspybPlateApi{
 	}
 
 	@Override
-	public int upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis){
-		return templateWrapper.callIspyb("upsert_sample_image_analysis", Integer.class, sampleImageAnalysis).get();
+	public Long upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis){
+		return templateWrapper.callIspyb("upsert_sample_image_analysis", Long.class, sampleImageAnalysis).get();
 	}
 	
 	@Override
