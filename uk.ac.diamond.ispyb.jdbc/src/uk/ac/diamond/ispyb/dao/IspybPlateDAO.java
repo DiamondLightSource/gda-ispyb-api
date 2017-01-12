@@ -78,7 +78,7 @@ public class IspybPlateDAO implements IspybPlateApi{
 	}
 	
 	@Override
-	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(int id) {
+	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(long id) {
 		return templateWrapper.callIspybForListBeans("retrieve_dc_infos_for_subsample", DataCollectionInfo.class, map("id", id));
 	}
 

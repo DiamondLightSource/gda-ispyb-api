@@ -87,10 +87,10 @@ public class PlateIntegrationTest extends TestCase{
 	
 	@Test
 	public void testShouldRetrieveDataCollection() throws Exception {
-		List<DataCollectionInfo> info = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(2));
+		List<DataCollectionInfo> info = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(2L));
 		
 		DataCollectionInfo expected = new DataCollectionInfo();
-		expected.setId(1066786);
+		expected.setId(1066786L);
 		expected.setDcNumber(2);
 		expected.setStartTime(new Timestamp(2016-1900,4-1,18,11,04,44,0));
 		expected.setEndTime(new Timestamp(2016-1900,4-1,18,11,04,57,0));
@@ -139,7 +139,7 @@ public class PlateIntegrationTest extends TestCase{
 	
 	@Test
 	public void testShouldRetrieveNoBean() throws Exception {
-		List<DataCollectionInfo> dataCollection = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(12345));
+		List<DataCollectionInfo> dataCollection = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(12345L));
 
 		assertThat(dataCollection, is(equalTo(Collections.emptyList())));
 	}

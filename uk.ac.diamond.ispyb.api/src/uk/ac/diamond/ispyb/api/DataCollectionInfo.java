@@ -12,7 +12,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionInfo {
 
-    private int id;
+    private long id;
     private int dcNumber;
     private Timestamp startTime;
     private Timestamp endTime;
@@ -58,11 +58,11 @@ public class DataCollectionInfo {
     private double flux;
     private double fluxEnd;
 
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
