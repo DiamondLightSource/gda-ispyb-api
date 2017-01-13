@@ -12,65 +12,65 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionInfo {
 
-    private long id;
-    private int dcNumber;
+    private Long id;
+    private Integer dcNumber;
     private Timestamp startTime;
     private Timestamp endTime;
     private String status;
-    private float axisStart;
-    private float axisEnd;
-    private float axisRange;
-    private float overlap;
-    private int numberOfImages;
-    private int startImageNumber;
-    private int numberOfPasses;
-    private float exposureTime;
+    private Float axisStart;
+    private Float axisEnd;
+    private Float axisRange;
+    private Float overlap;
+    private Integer numberOfImages;
+    private Integer startImageNumber;
+    private Integer numberOfPasses;
+    private Float exposureTime;
     private String imageDirectory;
     private String imagePrefix;
     private String imageSuffix;
     private String fileTemplate;
-    private float wavelength;
-    private float resolution;
-    private float detectorDistance;
-    private float xBeam;
-    private float yBeam;
+    private Float wavelength;
+    private Float resolution;
+    private Float detectorDistance;
+    private Float xBeam;
+    private Float yBeam;
     private String comments;
-    private float slitgapVertical;
-    private float slitgapHorizontal;
-    private float transmission;
+    private Float slitgapVertical;
+    private Float slitgapHorizontal;
+    private Float transmission;
     private String synchrotronMode;
     private String snapshot1;
     private String snapshot2;
     private String snapshot3;
     private String snapshot4;
     private String rotationAxis;
-    private float phiStart;
-    private float kappaStart;
-    private float omegaStart;
-    private float undulatorGap1;
-    private float undulatorGap2;
-    private float undulatorGap3;
-    private float beamSizeAtSampleX;
-    private float beamSizeAtSampleY;
-    private float focalSpotSizeAtSampleX;
-    private float focalSpotSizeAtSampleY;
-    private float polarisation;
-    private double flux;
-    private double fluxEnd;
+    private Float phiStart;
+    private Float kappaStart;
+    private Float omegaStart;
+    private Float undulatorGap1;
+    private Float undulatorGap2;
+    private Float undulatorGap3;
+    private Float beamSizeAtSampleX;
+    private Float beamSizeAtSampleY;
+    private Float focalSpotSizeAtSampleX;
+    private Float focalSpotSizeAtSampleY;
+    private Float polarisation;
+    private Double flux;
+    private Double fluxEnd;
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getDcNumber() {
+    public Integer getDcNumber() {
         return this.dcNumber;
     }
 
-    public void setDcNumber(int dcNumber) {
+    public void setDcNumber(Integer dcNumber) {
         this.dcNumber = dcNumber;
     }
 
@@ -98,67 +98,67 @@ public class DataCollectionInfo {
         this.status = status;
     }
 
-    public float getAxisStart() {
+    public Float getAxisStart() {
         return this.axisStart;
     }
 
-    public void setAxisStart(float axisStart) {
+    public void setAxisStart(Float axisStart) {
         this.axisStart = axisStart;
     }
 
-    public float getAxisEnd() {
+    public Float getAxisEnd() {
         return this.axisEnd;
     }
 
-    public void setAxisEnd(float axisEnd) {
+    public void setAxisEnd(Float axisEnd) {
         this.axisEnd = axisEnd;
     }
 
-    public float getAxisRange() {
+    public Float getAxisRange() {
         return this.axisRange;
     }
 
-    public void setAxisRange(float axisRange) {
+    public void setAxisRange(Float axisRange) {
         this.axisRange = axisRange;
     }
 
-    public float getOverlap() {
+    public Float getOverlap() {
         return this.overlap;
     }
 
-    public void setOverlap(float overlap) {
+    public void setOverlap(Float overlap) {
         this.overlap = overlap;
     }
 
-    public int getNumberOfImages() {
+    public Integer getNumberOfImages() {
         return this.numberOfImages;
     }
 
-    public void setNumberOfImages(int numberOfImages) {
+    public void setNumberOfImages(Integer numberOfImages) {
         this.numberOfImages = numberOfImages;
     }
 
-    public int getStartImageNumber() {
+    public Integer getStartImageNumber() {
         return this.startImageNumber;
     }
 
-    public void setStartImageNumber(int startImageNumber) {
+    public void setStartImageNumber(Integer startImageNumber) {
         this.startImageNumber = startImageNumber;
     }
 
-    public int getNumberOfPasses() {
+    public Integer getNumberOfPasses() {
         return this.numberOfPasses;
     }
 
-    public void setNumberOfPasses(int numberOfPasses) {
+    public void setNumberOfPasses(Integer numberOfPasses) {
         this.numberOfPasses = numberOfPasses;
     }
 
-    public float getExposureTime() {
+    public Float getExposureTime() {
         return this.exposureTime;
     }
 
-    public void setExposureTime(float exposureTime) {
+    public void setExposureTime(Float exposureTime) {
         this.exposureTime = exposureTime;
     }
 
@@ -194,43 +194,43 @@ public class DataCollectionInfo {
         this.fileTemplate = fileTemplate;
     }
 
-    public float getWavelength() {
+    public Float getWavelength() {
         return this.wavelength;
     }
 
-    public void setWavelength(float wavelength) {
+    public void setWavelength(Float wavelength) {
         this.wavelength = wavelength;
     }
 
-    public float getResolution() {
+    public Float getResolution() {
         return this.resolution;
     }
 
-    public void setResolution(float resolution) {
+    public void setResolution(Float resolution) {
         this.resolution = resolution;
     }
 
-    public float getDetectorDistance() {
+    public Float getDetectorDistance() {
         return this.detectorDistance;
     }
 
-    public void setDetectorDistance(float detectorDistance) {
+    public void setDetectorDistance(Float detectorDistance) {
         this.detectorDistance = detectorDistance;
     }
 
-    public float getXBeam() {
+    public Float getXBeam() {
         return this.xBeam;
     }
 
-    public void setXBeam(float xBeam) {
+    public void setXBeam(Float xBeam) {
         this.xBeam = xBeam;
     }
 
-    public float getYBeam() {
+    public Float getYBeam() {
         return this.yBeam;
     }
 
-    public void setYBeam(float yBeam) {
+    public void setYBeam(Float yBeam) {
         this.yBeam = yBeam;
     }
 
@@ -242,27 +242,27 @@ public class DataCollectionInfo {
         this.comments = comments;
     }
 
-    public float getSlitgapVertical() {
+    public Float getSlitgapVertical() {
         return this.slitgapVertical;
     }
 
-    public void setSlitgapVertical(float slitgapVertical) {
+    public void setSlitgapVertical(Float slitgapVertical) {
         this.slitgapVertical = slitgapVertical;
     }
 
-    public float getSlitgapHorizontal() {
+    public Float getSlitgapHorizontal() {
         return this.slitgapHorizontal;
     }
 
-    public void setSlitgapHorizontal(float slitgapHorizontal) {
+    public void setSlitgapHorizontal(Float slitgapHorizontal) {
         this.slitgapHorizontal = slitgapHorizontal;
     }
 
-    public float getTransmission() {
+    public Float getTransmission() {
         return this.transmission;
     }
 
-    public void setTransmission(float transmission) {
+    public void setTransmission(Float transmission) {
         this.transmission = transmission;
     }
 
@@ -314,107 +314,107 @@ public class DataCollectionInfo {
         this.rotationAxis = rotationAxis;
     }
 
-    public float getPhiStart() {
+    public Float getPhiStart() {
         return this.phiStart;
     }
 
-    public void setPhiStart(float phiStart) {
+    public void setPhiStart(Float phiStart) {
         this.phiStart = phiStart;
     }
 
-    public float getKappaStart() {
+    public Float getKappaStart() {
         return this.kappaStart;
     }
 
-    public void setKappaStart(float kappaStart) {
+    public void setKappaStart(Float kappaStart) {
         this.kappaStart = kappaStart;
     }
 
-    public float getOmegaStart() {
+    public Float getOmegaStart() {
         return this.omegaStart;
     }
 
-    public void setOmegaStart(float omegaStart) {
+    public void setOmegaStart(Float omegaStart) {
         this.omegaStart = omegaStart;
     }
 
-    public float getUndulatorGap1() {
+    public Float getUndulatorGap1() {
         return this.undulatorGap1;
     }
 
-    public void setUndulatorGap1(float undulatorGap1) {
+    public void setUndulatorGap1(Float undulatorGap1) {
         this.undulatorGap1 = undulatorGap1;
     }
 
-    public float getUndulatorGap2() {
+    public Float getUndulatorGap2() {
         return this.undulatorGap2;
     }
 
-    public void setUndulatorGap2(float undulatorGap2) {
+    public void setUndulatorGap2(Float undulatorGap2) {
         this.undulatorGap2 = undulatorGap2;
     }
 
-    public float getUndulatorGap3() {
+    public Float getUndulatorGap3() {
         return this.undulatorGap3;
     }
 
-    public void setUndulatorGap3(float undulatorGap3) {
+    public void setUndulatorGap3(Float undulatorGap3) {
         this.undulatorGap3 = undulatorGap3;
     }
 
-    public float getBeamSizeAtSampleX() {
+    public Float getBeamSizeAtSampleX() {
         return this.beamSizeAtSampleX;
     }
 
-    public void setBeamSizeAtSampleX(float beamSizeAtSampleX) {
+    public void setBeamSizeAtSampleX(Float beamSizeAtSampleX) {
         this.beamSizeAtSampleX = beamSizeAtSampleX;
     }
 
-    public float getBeamSizeAtSampleY() {
+    public Float getBeamSizeAtSampleY() {
         return this.beamSizeAtSampleY;
     }
 
-    public void setBeamSizeAtSampleY(float beamSizeAtSampleY) {
+    public void setBeamSizeAtSampleY(Float beamSizeAtSampleY) {
         this.beamSizeAtSampleY = beamSizeAtSampleY;
     }
 
-    public float getFocalSpotSizeAtSampleX() {
+    public Float getFocalSpotSizeAtSampleX() {
         return this.focalSpotSizeAtSampleX;
     }
 
-    public void setFocalSpotSizeAtSampleX(float focalSpotSizeAtSampleX) {
+    public void setFocalSpotSizeAtSampleX(Float focalSpotSizeAtSampleX) {
         this.focalSpotSizeAtSampleX = focalSpotSizeAtSampleX;
     }
 
-    public float getFocalSpotSizeAtSampleY() {
+    public Float getFocalSpotSizeAtSampleY() {
         return this.focalSpotSizeAtSampleY;
     }
 
-    public void setFocalSpotSizeAtSampleY(float focalSpotSizeAtSampleY) {
+    public void setFocalSpotSizeAtSampleY(Float focalSpotSizeAtSampleY) {
         this.focalSpotSizeAtSampleY = focalSpotSizeAtSampleY;
     }
 
-    public float getPolarisation() {
+    public Float getPolarisation() {
         return this.polarisation;
     }
 
-    public void setPolarisation(float polarisation) {
+    public void setPolarisation(Float polarisation) {
         this.polarisation = polarisation;
     }
 
-    public double getFlux() {
+    public Double getFlux() {
         return this.flux;
     }
 
-    public void setFlux(double flux) {
+    public void setFlux(Double flux) {
         this.flux = flux;
     }
 
-    public double getFluxEnd() {
+    public Double getFluxEnd() {
         return this.fluxEnd;
     }
 
-    public void setFluxEnd(double fluxEnd) {
+    public void setFluxEnd(Double fluxEnd) {
         this.fluxEnd = fluxEnd;
     }
 
