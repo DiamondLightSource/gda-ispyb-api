@@ -40,6 +40,9 @@ public class PlateIntegrationTest extends TestCase{
 		expected.setStatus(ContainerStatus.IN_STORAGE.getStatus());
 		expected.setCapacity(192);
 		expected.setStorageTemperature(20.0f);
+		expected.setProposalCode(null);
+		expected.setProposalNumber(0);
+		expected.setSessionNumber(0);
 		
 		assertThat(containerInfo, is(equalTo(expected)));
 	}
@@ -82,8 +85,8 @@ public class PlateIntegrationTest extends TestCase{
 		container.setCapacity(192);
 		container.setStorageTemperature(20.0f);
 		container.setProposalCode(null);
-		container.setProposalNumber(null);
-		container.setSessionNumber(null);
+		container.setProposalNumber(0);
+		container.setSessionNumber(0);
 		
 		assertThat(beans, is(equalTo(Arrays.asList(container))));
 	}
