@@ -81,6 +81,9 @@ public class PlateIntegrationTest extends TestCase{
 		container.setStatus(ContainerStatus.PROCESSING.getStatus());
 		container.setCapacity(192);
 		container.setStorageTemperature(20.0f);
+		container.setProposalCode(null);
+		container.setProposalNumber(null);
+		container.setSessionNumber(null);
 		
 		assertThat(beans, is(equalTo(Arrays.asList(container))));
 	}
@@ -110,8 +113,8 @@ public class PlateIntegrationTest extends TestCase{
 		expected.setWavelength(0.976253f);
 		expected.setResolution(1.5f);
 		expected.setDetectorDistance(266.693f);
-		expected.setXBeam(0.0f);
-		expected.setYBeam(0.0f);
+		expected.setXBeam(null);
+		expected.setYBeam(null);
 		expected.setComments("(-345,-241,-185) Aperture: Large");
 		expected.setSlitgapVertical(0.059918f);
 		expected.setSlitgapHorizontal(0.099937f);
