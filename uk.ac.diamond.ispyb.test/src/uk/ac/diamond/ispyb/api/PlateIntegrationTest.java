@@ -38,7 +38,7 @@ public class PlateIntegrationTest extends TestCase{
 		expected.setImagerName("Imager1 20c");
 		expected.setImagerSerialNumber("Z125434");
 		expected.setStatus(ContainerStatus.IN_STORAGE.getStatus());
-		expected.setCapacity(192L);
+		expected.setCapacity(192);
 		expected.setStorageTemperature(20.0f);
 		
 		assertThat(containerInfo, is(equalTo(expected)));

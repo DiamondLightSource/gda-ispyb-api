@@ -17,7 +17,7 @@ public class ContainerInfo {
 	private String imagerName;
 	private String imagerSerialNumber;
 	private ContainerStatus status;
-	private Long capacity;
+	private Integer capacity;
 	private Float storageTemperature;
 	private String proposalCode;
 	private Integer proposalNumber;
@@ -157,7 +157,7 @@ public class ContainerInfo {
 	/**
 	 * @return capacity of container
 	 */
-	public Long getCapacity() {
+	public Integer getCapacity() {
 		return capacity;
 	}
 
@@ -166,7 +166,7 @@ public class ContainerInfo {
 	 * 
 	 * @param capacity
 	 */
-	public void setCapacity(Long capacity) {
+	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
 
