@@ -8030,7 +8030,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `upsert_dcg_grid`(
   INOUT p_id int(11) unsigned, 
-  p_dcg_id int(11) unsigned, 
+  p_dcgId int(11) unsigned, 
   p_dxInMm double, 
   p_dyInMm double, 
   p_stepsX double, 
@@ -8045,13 +8045,13 @@ CREATE PROCEDURE `upsert_dcg_grid`(
 )
     MODIFIES SQL DATA
 BEGIN
-	IF p_dcg_id IS NOT NULL THEN
+	IF p_dcgId IS NOT NULL THEN
       INSERT INTO GridInfo (gridInfoId, dataCollectionGroupId, dx_mm, dy_mm, steps_x, steps_y, meshAngle, pixelsPerMicronX, pixelsPerMicronY, 
         snapshot_offsetXPixel, snapshot_offsetYPixel, orientation, snaked)
-        VALUES (p_id, p_dcg_id, p_dxInMm, p_dyInMm, p_stepsX, p_stepsY, p_meshAngle, p_pixelsPerMicronX, p_pixelsPerMicronY,
+        VALUES (p_id, p_dcgId, p_dxInMm, p_dyInMm, p_stepsX, p_stepsY, p_meshAngle, p_pixelsPerMicronX, p_pixelsPerMicronY,
         p_snapshotOffsetXPixel, p_snapshotOffsetYPixel, p_orientation, p_snaked)
         ON DUPLICATE KEY UPDATE
-		  dataCollectionGroupId = IFNULL(p_dcg_id, dataCollectionGroupId),
+		  dataCollectionGroupId = IFNULL(p_dcgId, dataCollectionGroupId),
 		  dx_mm = IFNULL(p_dxInMm, dx_mm),
 		  dy_mm = IFNULL(p_dyInMm, dy_mm),
 		  steps_x = IFNULL(p_stepsX, steps_x),
@@ -8767,4 +8767,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-23 10:59:33
+-- Dump completed on 2017-01-23 12:01:59
