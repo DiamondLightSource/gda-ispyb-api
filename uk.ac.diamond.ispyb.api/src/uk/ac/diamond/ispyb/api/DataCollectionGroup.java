@@ -9,6 +9,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+/**
+ * Details of the group that data collections belong to
+ */
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionGroup {
     private Long id = null;

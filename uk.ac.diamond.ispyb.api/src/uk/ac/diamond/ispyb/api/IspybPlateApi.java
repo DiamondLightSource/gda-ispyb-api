@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Database access methods handling plates
+ */
 public interface IspybPlateApi extends Closeable {
 	Optional<String> retrieveContainerLSPosition(String barcode) throws SQLException;
 

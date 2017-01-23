@@ -105,10 +105,10 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
- 				<artifactId>maven-source-plugin</artifactId>
+				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
-	      					<id>attach-sources</id>
+						<id>attach-sources</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -117,6 +117,13 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.7.8</version>
+		</dependency>
+	</dependencies>
 </project>
 

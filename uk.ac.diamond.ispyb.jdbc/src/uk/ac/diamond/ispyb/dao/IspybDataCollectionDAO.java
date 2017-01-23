@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
 import uk.ac.diamond.ispyb.api.DataCollectionGroup;
+import uk.ac.diamond.ispyb.api.DataCollectionGroupGrid;
 import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
@@ -40,6 +41,11 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	}
 
 	@Override
+	public Long upsertDataCollectionGroupGrid(DataCollectionGroupGrid dataCollectionGroupGrid) {
+		return templateWrapper.callIspybForKey("upsert_dcg_grid", Long.class, dataCollectionGroupGrid, "p_id").get();
+	}
+
+	@Override
 	public void close() throws IOException {
 		try {
 			templateWrapper.closeConnection();
@@ -47,5 +53,4 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 			throw new IOException(e);
 		}
 	}
-
 }

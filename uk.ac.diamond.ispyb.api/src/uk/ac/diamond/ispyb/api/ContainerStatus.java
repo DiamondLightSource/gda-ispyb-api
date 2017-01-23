@@ -1,5 +1,8 @@
 package uk.ac.diamond.ispyb.api;
 
+/**
+ * the current status of the container
+ */
 public enum ContainerStatus {
 	IN_STORAGE("in_storage"),
 	IN_LOCALSTORAGE("in_localstorage"),

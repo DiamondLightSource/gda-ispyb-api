@@ -9,6 +9,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+/**
+ * Extended information about a data collection. Extends from data collected in {@link DataCollectionMain}
+ */
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionInfo {
 
