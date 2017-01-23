@@ -7,6 +7,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+/*
+ * Details of an experiment related to a data collection.
+ */
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionExperiment {
 

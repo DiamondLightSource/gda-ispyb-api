@@ -60,7 +60,17 @@ public class DataCollectionIntegrationTest extends TestCase{
 
 	@Test
 	public void testUpsertDataCollectionGroupGrid() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+		DataCollectionGroup group = new DataCollectionGroup();
+		group.setProposalCode("cm");
+		group.setProposalNumber(14451);
+		group.setSessionNumber(1);
+		group.setSampleId(11550L);
+		
+		Long groupId = helper.execute(api -> api.upsertDataCollectionGroup(group));
+		
 		DataCollectionGroupGrid grid = new DataCollectionGroupGrid();
+		grid.setDcgId(groupId);
+		
 		Long id = helper.execute(api -> api.upsertDataCollectionGroupGrid(grid));
 		assertNotNull(id);
 	}

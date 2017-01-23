@@ -6,6 +6,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+/**
+ * Information about the synchrotron setup relating to a DataCollection
+ */
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionMachine {
 

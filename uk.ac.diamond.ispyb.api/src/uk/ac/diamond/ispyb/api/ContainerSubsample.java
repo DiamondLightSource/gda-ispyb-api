@@ -6,6 +6,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+/**
+ * details about a subsample within a container
+ */
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class ContainerSubsample {
 
