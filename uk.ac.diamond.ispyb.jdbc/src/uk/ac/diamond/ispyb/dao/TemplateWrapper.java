@@ -2,6 +2,7 @@ package uk.ac.diamond.ispyb.dao;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.rmi.UnexpectedException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -168,8 +169,9 @@ public class TemplateWrapper {
 				T bean = beanClass.newInstance();
 				BeanUtils.populate(bean, map);
 				return bean;
-			} catch (InstantiationException | IllegalAccessException | InvocationTargetException ex){
-				return null;
+			} catch (InstantiationException | IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
+				String message = String.format("could not populate bean of type %s using map %s", beanClass.toString(), map.toString());
+				throw new RuntimeException(message, e);
 			}
 		};
 	}

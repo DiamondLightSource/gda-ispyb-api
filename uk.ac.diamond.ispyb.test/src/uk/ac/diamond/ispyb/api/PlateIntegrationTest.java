@@ -61,7 +61,7 @@ public class PlateIntegrationTest extends TestCase{
 		c.set(2016, 8, 30, 12, 56, 21);
 		c.clear(Calendar.MILLISECOND);
 		Date date = c.getTime();
-		expected.setAdded(date);
+		expected.setAdded(new Timestamp(date.getTime()));
 		
 		assertThat(entries, is(equalTo(Arrays.asList(expected))));
 	}
