@@ -88,8 +88,8 @@ public class IspybPlateDAO implements IspybPlateApi{
 	}
 
 	@Override
-	public long upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis){
-		return templateWrapper.callIspyb("upsert_sample_image_analysis", Long.class, sampleImageAnalysis).get();
+	public int upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis){
+		return templateWrapper.callIspyb("upsert_sample_image_analysis", Integer.class, sampleImageAnalysis).get();
 	}
 	
 	@Override
