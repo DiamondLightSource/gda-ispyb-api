@@ -2,7 +2,7 @@
 --
 -- Host: cs04r-sc-vserv-88    Database: ispybstage
 -- ------------------------------------------------------
--- Server version	10.1.19-MariaDB-enterprise
+-- Server version	10.1.21-MariaDB-enterprise
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -7847,6 +7847,61 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_dcg_grid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_dcg_grid`(
+  INOUT p_id int(11) unsigned, 
+  p_dcg_id int(11) unsigned, 
+  p_dx_mm double, 
+  p_dy_mm double, 
+  p_steps_x double, 
+  p_steps_y double, 
+  p_meshAngle double, 
+  p_pixelsPerMicronX float, 
+  p_pixelsPerMicronY float, 
+  p_snapshot_offsetXPixel float, 
+  p_snapshot_offsetYPixel float, 
+  p_orientation enum('vertical','horizontal'), 
+  p_snaked boolean
+)
+    MODIFIES SQL DATA
+BEGIN
+	IF p_dcg_id IS NOT NULL THEN
+      INSERT INTO GridInfo (gridInfoId, dataCollectionGroupId, dx_mm, dy_mm, steps_x, steps_y, meshAngle, pixelsPerMicronX, pixelsPerMicronY, 
+        snapshot_offsetXPixel, snapshot_offsetYPixel, orientation, snaked)
+        VALUES (p_id, p_dcg_id, p_dx_mm, p_dy_mm, p_steps_x, p_steps_y, p_meshAngle, p_pixelsPerMicronX, p_pixelsPerMicronY,
+        p_snapshot_offsetXPixel, p_snapshot_offsetYPixel, p_orientation, p_snaked)
+        ON DUPLICATE KEY UPDATE
+		  dataCollectionGroupId = IFNULL(p_dcg_id, dataCollectionGroupId),
+		  dx_mm = IFNULL(p_dx_mm, dx_mm),
+		  dy_mm = IFNULL(p_dy_mm, dy_mm),
+		  steps_x = IFNULL(p_steps_x, steps_x),
+		  steps_y = IFNULL(p_steps_y, steps_y),
+		  meshAngle = IFNULL(p_meshAngle, meshAngle),
+		  pixelsPerMicronX = IFNULL(p_pixelsPerMicronX, pixelsPerMicronX),
+		  pixelsPerMicronY = IFNULL(p_pixelsPerMicronY, pixelsPerMicronY),
+		  snapshot_offsetXPixel = IFNULL(p_snapshot_offsetXPixel, snapshot_offsetXPixel),
+		  snapshot_offsetYPixel = IFNULL(p_snapshot_offsetYPixel, snapshot_offsetYPixel),
+		  orientation = IFNULL(p_orientation, orientation),
+		  snaked = IFNULL(p_snaked, snaked);
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `upsert_dc_group` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -8541,4 +8596,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-16 15:58:59
+-- Dump completed on 2017-01-19 11:34:31
