@@ -70,6 +70,7 @@ public class DataCollectionIntegrationTest extends TestCase{
 		
 		DataCollectionGroupGrid grid = new DataCollectionGroupGrid();
 		grid.setDcgId(groupId);
+		grid.setOrientation(Orientation.HORIZONTAL.name());
 		
 		Long id = helper.execute(api -> api.upsertDataCollectionGroupGrid(grid));
 		assertNotNull(id);

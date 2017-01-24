@@ -4,6 +4,8 @@ package uk.ac.diamond.ispyb.api;
 import java.util.Optional;
 
 import javax.annotation.Generated;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -114,11 +116,15 @@ public class DataCollectionGroupGrid {
     }
 
     public String getOrientation() {
-        return Optional.ofNullable(orientation).map(x -> x.name()).orElse(null);
+        return Optional
+        		.ofNullable(orientation)
+        		.map(Orientation::name)
+        		.map(StringUtils::lowerCase)
+        		.orElse(null);
     }
 
     public void setOrientation(String orientation) {
-        this.orientation = Orientation.valueOf(orientation);
+        this.orientation = Orientation.valueOf(StringUtils.upperCase(orientation));
     }
 
     public int getSnaked() {
