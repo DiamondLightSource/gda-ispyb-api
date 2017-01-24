@@ -3,13 +3,13 @@ Eclipse-BuddyPolicy: global
 Bundle-ManifestVersion: 2
 Bundle-Name: ISPyB JDBC
 Bundle-SymbolicName: uk.ac.diamond.ispyb.jdbc;singleton:=true
-Bundle-Version: 1.111
+Bundle-Version: 1.3.0
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Service-Component: OSGI-INF/ispybPdfApiService.xml, 
  OSGI-INF/ispybPlateApiService.xml,
  OSGI-INF/ispybDataCollectionApiService.xml
-Require-Bundle: uk.ac.diamond.ispyb.api;bundle-version="1.111",
+Require-Bundle: uk.ac.diamond.ispyb.api;bundle-version="1.3.0",
  org.mariadb.jdbc;bundle-version="1.4.6",
  org.apache.commons.beanutils;bundle-version="1.8.0"
 Import-Package: org.springframework.beans;version="4.0.6.RELEASE",
