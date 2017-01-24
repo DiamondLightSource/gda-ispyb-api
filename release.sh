@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION=$(grep version pom.xml | head -1 | sed 's/\s<version>//g' | sed 's/<\/version>//g')
-NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+\.)(\d+)$/$1.($2+1).$3/e')
+NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+)(\.\d+)$/$1.($2+1).$3/e')
 
 echo "releasing version $VERSION" 
 git tag v$VERSION
