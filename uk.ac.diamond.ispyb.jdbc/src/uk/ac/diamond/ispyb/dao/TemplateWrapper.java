@@ -54,13 +54,6 @@ public class TemplateWrapper {
 		return parser.parse(simpleJdbcCall.execute(in), this::firstValue);
 	}
 	
-	<T> List<T> callIspybForListBeans(String procedure, Class<T> clazz, Object params) {
-		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
-		MapSqlParameterSource in = createInParameters(params);
-		
-		return parser.parse(simpleJdbcCall.execute(in), beanFromMap(clazz));
-	}
-
 	<T> List<T> callIspybForListBeans(String procedure, Class<T> clazz, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
@@ -79,17 +72,6 @@ public class TemplateWrapper {
 		return (T) object;
 	}
 	
-	@SuppressWarnings("unchecked")
-	<T> Optional<T> callIspybForKey(String procedure, Class<T> clazz, Object params, String key) {
-		Map<String, Object> map = execute(procedure, params);
-		return Optional.of((T) map.get(key));
-	}
-
-	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Object params) {
-		Map<String, Object> map = execute(procedure, params);
-		List<T> list = parser.parse(map, this::firstValue);
-		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
-	}
 
 	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Map<String, Object> params) {
 		Map<String, Object> map = execute(procedure, params);
@@ -97,12 +79,6 @@ public class TemplateWrapper {
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 	
-	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Object params) {
-		Map<String, Object> map = execute(procedure, params);
-		List<T> list = parser.parse(map, beanFromMap(clazz));
-		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
-	}
-
 	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Map<String, Object> params) {
 		Map<String, Object> map = execute(procedure, params);
 		List<T> list = parser.parse(map, beanFromMap(clazz));
@@ -113,13 +89,6 @@ public class TemplateWrapper {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		simpleJdbcCall.executeObject(Void.class, in);
-	}
-
-	private Map<String, Object> execute(String procedure, Object params) {
-		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
-		MapSqlParameterSource in = createInParameters(params);
-		Map<String, Object> map = simpleJdbcCall.execute(in);
-		return map;
 	}
 
 	private Map<String, Object> execute(String procedure, Map<String, Object> params) {
@@ -136,19 +105,8 @@ public class TemplateWrapper {
 		}
 		return in;
 	}
-	
-	private MapSqlParameterSource createInParameters(Object params) {
-		MapSqlParameterSource in = new MapSqlParameterSource();
-		BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(params);
-        for (PropertyDescriptor propertyDescriptor : wrapper.getPropertyDescriptors()) {
-        	if (!propertyDescriptor.getName().equals("class")){
-           		in.addValue("p_" + propertyDescriptor.getName(), wrapper.getPropertyValue(propertyDescriptor.getName()));        		
-        	}
-		}
-		return in;
-	}
 
-	private SimpleJdbcCall createCall(String procedure) {
+	SimpleJdbcCall createCall(String procedure) {
 		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(template.getDataSource())
 			.withProcedureName(procedure)
 			.withSchemaName(schema);
@@ -163,7 +121,7 @@ public class TemplateWrapper {
 		}
 	}
 	
-	private <T> Function<Map<String,Object>, T> beanFromMap(Class<T> beanClass){
+	<T> Function<Map<String,Object>, T> beanFromMap(Class<T> beanClass){
 		return map -> {
 			try{
 				T bean = beanClass.newInstance();
@@ -177,7 +135,7 @@ public class TemplateWrapper {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <T> T firstValue(Map<String, Object> map){
+	<T> T firstValue(Map<String, Object> map){
 		return (T) map.values().iterator().next();
 	}
 

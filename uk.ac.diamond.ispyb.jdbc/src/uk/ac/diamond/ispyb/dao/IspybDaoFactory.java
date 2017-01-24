@@ -25,14 +25,14 @@ public class IspybDaoFactory<T> implements IspybFactoryService<T>{
 	@Override
 	public T buildIspybApi(String url, Optional<String> username, Optional<String> password, Optional<String> schema) throws SQLException {
 		TemplateWrapper templateWrapper = buildTemplateWrapper(url, username, password, Optional.empty(), schema);
-		BeanTemplateWrapper beanTemplateWrapper = new BeanTemplateWrapper(templateWrapper);
+		BeanTemplateWrapper beanTemplateWrapper = new BeanTemplateWrapper(templateWrapper, new ResultMapParser());
 		return daoFactory.apply(templateWrapper, beanTemplateWrapper);
 	}
 
 	@Override
 	public T buildIspybApi(String url, Properties properties, Optional<String> schema) throws SQLException {
 		TemplateWrapper templateWrapper = buildTemplateWrapper(url, Optional.empty(), Optional.empty(), Optional.of(properties), schema);
-		BeanTemplateWrapper beanTemplateWrapper = new BeanTemplateWrapper(templateWrapper);
+		BeanTemplateWrapper beanTemplateWrapper = new BeanTemplateWrapper(templateWrapper, new ResultMapParser());
 		return daoFactory.apply(templateWrapper, beanTemplateWrapper);
 	}
 

@@ -24,7 +24,7 @@ public class BeanGenerator {
     private static final String password = System.getProperty("ispyb.pw");
 
     public static void main(String[] args) throws SQLException, IOException, JClassAlreadyExistsException {
-        readStructure(url, user, password, sourceDir, "upsert_dcg_grid", "DataCollectionGroupGrid");
+        readStructure(url, user, password, sourceDir, "upsert_dcg_grid", "DataCollectionGroupGridvi ./");
     }
 
     private static void readStructure(String url, String user, String password, String sourceDir, String storeProcedure, String className) throws JClassAlreadyExistsException, SQLException, IOException {

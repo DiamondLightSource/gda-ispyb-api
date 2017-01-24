@@ -89,7 +89,7 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public int upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis){
-		return templateWrapper.callIspyb("upsert_sample_image_analysis", Integer.class, sampleImageAnalysis).get();
+		return beanTemplateWrapper.callIspyb("upsert_sample_image_analysis", Integer.class, sampleImageAnalysis).get();
 	}
 	
 	@Override

@@ -22,12 +22,12 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 
 	@Override
 	public Long upsertDataCollectionGroup(DataCollectionGroup dataCollectionGroup) {
-		return templateWrapper.callIspybForKey("upsert_dc_group", Long.class, dataCollectionGroup, "p_id").get();
+		return beanTemplateWrapper.callIspybForKey("upsert_dc_group", Long.class, dataCollectionGroup, "p_id").get();
 	}
 
 	@Override
 	public Long upsertDataCollectionMain(DataCollectionMain dataCollectionMain) {
-		return templateWrapper.callIspybForKey("upsert_dc_main", Long.class, dataCollectionMain, "p_id").get();
+		return beanTemplateWrapper.callIspybForKey("upsert_dc_main", Long.class, dataCollectionMain, "p_id").get();
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 
 	@Override
 	public Long upsertDataCollectionGroupGrid(DataCollectionGroupGrid dataCollectionGroupGrid) {
-		return templateWrapper.callIspybForKey("upsert_dcg_grid", Long.class, dataCollectionGroupGrid, "p_id").get();
+		return beanTemplateWrapper.callIspybForKey("upsert_dcg_grid", Long.class, dataCollectionGroupGrid, "p_id").get();
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class BeanTemplateWrapperTest {
 		TemplateWrapper wrapper = mock(TemplateWrapper.class);
 		
 		TestBean bean = new TestBean();
-		new BeanTemplateWrapper(wrapper).updateIspyb("proc", bean);
+		new BeanTemplateWrapper(wrapper, null).updateIspyb("proc", bean);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("i", 5);
