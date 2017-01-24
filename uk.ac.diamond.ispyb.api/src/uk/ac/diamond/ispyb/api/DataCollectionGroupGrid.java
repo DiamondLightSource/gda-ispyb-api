@@ -1,6 +1,8 @@
 
 package uk.ac.diamond.ispyb.api;
 
+import java.util.Optional;
+
 import javax.annotation.Generated;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -20,7 +22,7 @@ public class DataCollectionGroupGrid {
     private float pixelsPerMicronY;
     private float snapshotOffsetXPixel;
     private float snapshotOffsetYPixel;
-    private String orientation;
+    private Orientation orientation;
     private int snaked;
 
     public long getId() {
@@ -112,11 +114,11 @@ public class DataCollectionGroupGrid {
     }
 
     public String getOrientation() {
-        return this.orientation;
+        return Optional.ofNullable(orientation).map(x -> x.name()).orElse(null);
     }
 
     public void setOrientation(String orientation) {
-        this.orientation = orientation;
+        this.orientation = Orientation.valueOf(orientation);
     }
 
     public int getSnaked() {
