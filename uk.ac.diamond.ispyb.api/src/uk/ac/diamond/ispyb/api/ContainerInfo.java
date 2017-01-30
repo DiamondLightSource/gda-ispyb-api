@@ -17,11 +17,11 @@ public class ContainerInfo {
 	private String imagerName;
 	private String imagerSerialNumber;
 	private ContainerStatus status;
-	private long capacity;
-	private float storageTemperature;
+	private Integer capacity;
+	private Float storageTemperature;
 	private String proposalCode;
-	private int proposalNumber;
-	private int sessionNumber;
+	private Integer proposalNumber;
+	private Integer sessionNumber;
 
 	public ContainerInfo() {
 	}
@@ -157,7 +157,7 @@ public class ContainerInfo {
 	/**
 	 * @return capacity of container
 	 */
-	public long getCapacity() {
+	public Integer getCapacity() {
 		return capacity;
 	}
 
@@ -166,14 +166,14 @@ public class ContainerInfo {
 	 * 
 	 * @param capacity
 	 */
-	public void setCapacity(long capacity) {
+	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
 
 	/**
 	 * @return storage temperature of container
 	 */
-	public float getStorageTemperature() {
+	public Float getStorageTemperature() {
 		return storageTemperature;
 	}
 
@@ -182,7 +182,7 @@ public class ContainerInfo {
 	 * 
 	 * @param storageTemperature
 	 */
-	public void setStorageTemperature(float storageTemperature) {
+	public void setStorageTemperature(Float storageTemperature) {
 		this.storageTemperature = storageTemperature;
 	}
 	
@@ -194,19 +194,19 @@ public class ContainerInfo {
 		this.proposalCode = proposalCode;
 	}
 
-	public int getProposalNumber() {
+	public Integer getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(int proposalNumber) {
+	public void setProposalNumber(Integer proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 
-	public int getSessionNumber() {
+	public Integer getSessionNumber() {
 		return sessionNumber;
 	}
 
-	public void setSessionNumber(int sessionNumber) {
+	public void setSessionNumber(Integer sessionNumber) {
 		this.sessionNumber = sessionNumber;
 	}
 

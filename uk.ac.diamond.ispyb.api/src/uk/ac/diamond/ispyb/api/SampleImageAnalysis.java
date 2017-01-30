@@ -10,24 +10,24 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class SampleImageAnalysis {
 
-    private int id;
+    private Long id;
     private String containerBarcode;
     private String sampleLocation;
     private String oavSnapshotBefore;
     private String oavSnapshotAfter;
-    private long deltaX;
-    private long deltaY;
-    private float goodnessOfFit;
-    private float scaleFactor;
+    private Long deltaX;
+    private Long deltaY;
+    private Float goodnessOfFit;
+    private Float scaleFactor;
     private String resultCode;
     private Timestamp matchStartTS;
     private Timestamp matchEndTS;
 
-    public int getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -63,35 +63,35 @@ public class SampleImageAnalysis {
         this.oavSnapshotAfter = oavSnapshotAfter;
     }
 
-    public long getDeltaX() {
+    public Long getDeltaX() {
         return this.deltaX;
     }
 
-    public void setDeltaX(long deltaX) {
+    public void setDeltaX(Long deltaX) {
         this.deltaX = deltaX;
     }
 
-    public long getDeltaY() {
+    public Long getDeltaY() {
         return this.deltaY;
     }
 
-    public void setDeltaY(long deltaY) {
+    public void setDeltaY(Long deltaY) {
         this.deltaY = deltaY;
     }
 
-    public float getGoodnessOfFit() {
+    public Float getGoodnessOfFit() {
         return this.goodnessOfFit;
     }
 
-    public void setGoodnessOfFit(float goodnessOfFit) {
+    public void setGoodnessOfFit(Float goodnessOfFit) {
         this.goodnessOfFit = goodnessOfFit;
     }
 
-    public float getScaleFactor() {
+    public Float getScaleFactor() {
         return this.scaleFactor;
     }
 
-    public void setScaleFactor(float scaleFactor) {
+    public void setScaleFactor(Float scaleFactor) {
         this.scaleFactor = scaleFactor;
     }
 
