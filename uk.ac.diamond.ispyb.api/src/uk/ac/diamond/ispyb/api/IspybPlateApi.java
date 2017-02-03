@@ -34,7 +34,7 @@ public interface IspybPlateApi extends Closeable {
 	
 	void clearContainerError(String barcode) throws SQLException;
 
-	public int upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis);
+	public Long upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis);
 	
 	boolean isConnected();
 }

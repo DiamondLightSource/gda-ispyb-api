@@ -12,17 +12,17 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionMachine {
 
-    private int id;
+    private Long id; // data collection ID
     private String synchrotronMode;
-    private float undulatorGap1;
-    private float undulatorGap2;
-    private float undulatorGap3;
+    private Float undulatorGap1;
+    private Float undulatorGap2;
+    private Float undulatorGap3;
 
-    public int getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -34,27 +34,27 @@ public class DataCollectionMachine {
         this.synchrotronMode = synchrotronMode;
     }
 
-    public float getUndulatorGap1() {
+    public Float getUndulatorGap1() {
         return this.undulatorGap1;
     }
 
-    public void setUndulatorGap1(float undulatorGap1) {
+    public void setUndulatorGap1(Float undulatorGap1) {
         this.undulatorGap1 = undulatorGap1;
     }
 
-    public float getUndulatorGap2() {
+    public Float getUndulatorGap2() {
         return this.undulatorGap2;
     }
 
-    public void setUndulatorGap2(float undulatorGap2) {
+    public void setUndulatorGap2(Float undulatorGap2) {
         this.undulatorGap2 = undulatorGap2;
     }
 
-    public float getUndulatorGap3() {
+    public Float getUndulatorGap3() {
         return this.undulatorGap3;
     }
 
-    public void setUndulatorGap3(float undulatorGap3) {
+    public void setUndulatorGap3(Float undulatorGap3) {
         this.undulatorGap3 = undulatorGap3;
     }
 

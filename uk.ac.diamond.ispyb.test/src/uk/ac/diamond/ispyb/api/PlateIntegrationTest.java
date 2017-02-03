@@ -38,8 +38,11 @@ public class PlateIntegrationTest extends TestCase{
 		expected.setImagerName("Imager1 20c");
 		expected.setImagerSerialNumber("Z125434");
 		expected.setStatus(ContainerStatus.IN_STORAGE.getStatus());
-		expected.setCapacity(192L);
+		expected.setCapacity(192);
 		expected.setStorageTemperature(20.0f);
+		expected.setProposalCode(null);
+		expected.setProposalNumber(0);
+		expected.setSessionNumber(0);
 		
 		assertThat(containerInfo, is(equalTo(expected)));
 	}
@@ -81,6 +84,9 @@ public class PlateIntegrationTest extends TestCase{
 		container.setStatus(ContainerStatus.PROCESSING.getStatus());
 		container.setCapacity(192);
 		container.setStorageTemperature(20.0f);
+		container.setProposalCode(null);
+		container.setProposalNumber(0);
+		container.setSessionNumber(0);
 		
 		assertThat(beans, is(equalTo(Arrays.asList(container))));
 	}
@@ -110,8 +116,8 @@ public class PlateIntegrationTest extends TestCase{
 		expected.setWavelength(0.976253f);
 		expected.setResolution(1.5f);
 		expected.setDetectorDistance(266.693f);
-		expected.setXBeam(0.0f);
-		expected.setYBeam(0.0f);
+		expected.setXBeam(null);
+		expected.setYBeam(null);
 		expected.setComments("(-345,-241,-185) Aperture: Large");
 		expected.setSlitgapVertical(0.059918f);
 		expected.setSlitgapHorizontal(0.099937f);
