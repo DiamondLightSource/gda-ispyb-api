@@ -43,43 +43,43 @@ public class DataCollectionGroupGrid {
         this.dcgId = dcgId;
     }
 
-    public double getDxInMm() {
+    public Double getDxInMm() {
         return this.dxInMm;
     }
 
-    public void setDxInMm(double dxInMm) {
+    public void setDxInMm(Double dxInMm) {
         this.dxInMm = dxInMm;
     }
 
-    public double getDyInMm() {
+    public Double getDyInMm() {
         return this.dyInMm;
     }
 
-    public void setDyInMm(double dyInMm) {
+    public void setDyInMm(Double dyInMm) {
         this.dyInMm = dyInMm;
     }
 
-    public double getStepsX() {
+    public Double getStepsX() {
         return this.stepsX;
     }
 
-    public void setStepsX(double stepsX) {
+    public void setStepsX(Double stepsX) {
         this.stepsX = stepsX;
     }
 
-    public double getStepsY() {
+    public Double getStepsY() {
         return this.stepsY;
     }
 
-    public void setStepsY(double stepsY) {
+    public void setStepsY(Double stepsY) {
         this.stepsY = stepsY;
     }
 
-    public double getMeshAngle() {
+    public Double getMeshAngle() {
         return this.meshAngle;
     }
 
-    public void setMeshAngle(double meshAngle) {
+    public void setMeshAngle(Double meshAngle) {
         this.meshAngle = meshAngle;
     }
 
