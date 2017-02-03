@@ -13,33 +13,33 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionGroupGrid {
 
-    private long id;
-    private long dcgId;
-    private double dxInMm;
-    private double dyInMm;
-    private double stepsX;
-    private double stepsY;
-    private double meshAngle;
-    private float pixelsPerMicronX;
-    private float pixelsPerMicronY;
-    private float snapshotOffsetXPixel;
-    private float snapshotOffsetYPixel;
+    private Long id;
+    private Long dcgId;
+    private Double dxInMm;
+    private Double dyInMm;
+    private Double stepsX;
+    private Double stepsY;
+    private Double meshAngle;
+    private Float pixelsPerMicronX;
+    private Float pixelsPerMicronY;
+    private Float snapshotOffsetXPixel;
+    private Float snapshotOffsetYPixel;
     private Orientation orientation;
-    private int snaked;
+    private Integer snaked;
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getDcgId() {
+    public Long getDcgId() {
         return this.dcgId;
     }
 
-    public void setDcgId(long dcgId) {
+    public void setDcgId(Long dcgId) {
         this.dcgId = dcgId;
     }
 
@@ -83,35 +83,35 @@ public class DataCollectionGroupGrid {
         this.meshAngle = meshAngle;
     }
 
-    public float getPixelsPerMicronX() {
+    public Float getPixelsPerMicronX() {
         return this.pixelsPerMicronX;
     }
 
-    public void setPixelsPerMicronX(float pixelsPerMicronX) {
+    public void setPixelsPerMicronX(Float pixelsPerMicronX) {
         this.pixelsPerMicronX = pixelsPerMicronX;
     }
 
-    public float getPixelsPerMicronY() {
+    public Float getPixelsPerMicronY() {
         return this.pixelsPerMicronY;
     }
 
-    public void setPixelsPerMicronY(float pixelsPerMicronY) {
+    public void setPixelsPerMicronY(Float pixelsPerMicronY) {
         this.pixelsPerMicronY = pixelsPerMicronY;
     }
 
-    public float getSnapshotOffsetXPixel() {
+    public Float getSnapshotOffsetXPixel() {
         return this.snapshotOffsetXPixel;
     }
 
-    public void setSnapshotOffsetXPixel(float snapshotOffsetXPixel) {
+    public void setSnapshotOffsetXPixel(Float snapshotOffsetXPixel) {
         this.snapshotOffsetXPixel = snapshotOffsetXPixel;
     }
 
-    public float getSnapshotOffsetYPixel() {
+    public Float getSnapshotOffsetYPixel() {
         return this.snapshotOffsetYPixel;
     }
 
-    public void setSnapshotOffsetYPixel(float snapshotOffsetYPixel) {
+    public void setSnapshotOffsetYPixel(Float snapshotOffsetYPixel) {
         this.snapshotOffsetYPixel = snapshotOffsetYPixel;
     }
 
@@ -127,11 +127,11 @@ public class DataCollectionGroupGrid {
         this.orientation = Orientation.valueOf(StringUtils.upperCase(orientation));
     }
 
-    public int getSnaked() {
+    public Integer getSnaked() {
         return this.snaked;
     }
 
-    public void setSnaked(int snaked) {
+    public void setSnaked(Integer snaked) {
         this.snaked = snaked;
     }
 
