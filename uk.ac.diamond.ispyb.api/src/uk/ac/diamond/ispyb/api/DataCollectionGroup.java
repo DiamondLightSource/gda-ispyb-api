@@ -47,19 +47,19 @@ public class DataCollectionGroup {
         this.proposalCode = proposalCode;
     }
 
-    public int getProposalNumber() {
+    public Integer getProposalNumber() {
         return this.proposalNumber;
     }
 
-    public void setProposalNumber(int proposalNumber) {
+    public void setProposalNumber(Integer proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 
-    public int getSessionNumber() {
+    public Integer getSessionNumber() {
         return this.sessionNumber;
     }
 
-    public void setSessionNumber(int sessionNumber) {
+    public void setSessionNumber(Integer sessionNumber) {
         this.sessionNumber = sessionNumber;
     }
 
