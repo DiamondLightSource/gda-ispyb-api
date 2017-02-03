@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class SampleImageAnalysis {
 
-    private Long id;
+    private Integer id;
     private String containerBarcode;
     private String sampleLocation;
     private String oavSnapshotBefore;
@@ -23,11 +23,11 @@ public class SampleImageAnalysis {
     private Timestamp matchStartTS;
     private Timestamp matchEndTS;
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
