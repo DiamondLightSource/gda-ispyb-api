@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>uk.ac.diamond</groupId>
 		<artifactId>uk.ac.diamond.ispyb</artifactId>
-		<version>1.4.0</version>
+		<version>1.5.0</version>
                 <relativePath>../</relativePath>
 	</parent>
         <artifactId>uk.ac.diamond.ispyb.feature</artifactId>
