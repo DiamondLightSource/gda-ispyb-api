@@ -109,7 +109,7 @@ public class TemplateWrapper {
 	SimpleJdbcCall createCall(String procedure) {
 		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(template.getDataSource())
 			.withProcedureName(procedure)
-			.withSchemaName(schema);
+			.withCatalogName(schema);
 		return simpleJdbcCall;
 	}
 	

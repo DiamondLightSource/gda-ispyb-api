@@ -20,6 +20,7 @@ public class IntegrationTestHelper<S extends Closeable>{
 	private final String url = System.getProperty("ispyb.url");
 	private final Optional<String> user = Optional.ofNullable(System.getProperty("ispyb.user"));
 	private final Optional<String> password = Optional.ofNullable(System.getProperty("ispyb.pw"));
+	private final Optional<String> port = Optional.ofNullable(System.getProperty("ispyb.port"));
 	private final String systemUser = System.getProperty("user.name");
 	private final String schema = "maven_" + systemUser;
 	
@@ -70,7 +71,7 @@ public class IntegrationTestHelper<S extends Closeable>{
 		Resource resource = new DefaultResourceLoader().getResource(filename);
 		String absolutePath = resource.getFile().getAbsolutePath();
 
-		String command = String.format("./rundbscript.sh %s %s %s %s %s", host, user.get(), password.orElse(""), database, absolutePath);
+		String command = String.format("./rundbscript.sh %s %s %s %s %s %s", host, user.get(), password.orElse(""), port.orElse("3306"), database, absolutePath);
 		
 		CommandLine commandLine = CommandLine.parse(command);
 		DefaultExecutor executor = new DefaultExecutor();
