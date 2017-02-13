@@ -2075,35 +2075,6 @@ INSERT INTO `DataCollectionGroup` VALUES (988855,55167,NULL,374695,'SAD',NULL,NU
 UNLOCK TABLES;
 
 --
--- Table structure for table `DataCollectionPlanGroup`
---
-
-DROP TABLE IF EXISTS `DataCollectionPlanGroup`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `DataCollectionPlanGroup` (
-  `dataCollectionPlanGroupId` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `sessionId` int(11) unsigned DEFAULT NULL,
-  `blSampleId` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`dataCollectionPlanGroupId`),
-  KEY `DataCollectionPlanGroup_ibfk1` (`sessionId`),
-  KEY `DataCollectionPlanGroup_ibfk2` (`blSampleId`),
-  CONSTRAINT `DataCollectionPlanGroup_ibfk1` FOREIGN KEY (`sessionId`) REFERENCES `BLSession` (`sessionId`) ON UPDATE CASCADE,
-  CONSTRAINT `DataCollectionPlanGroup_ibfk2` FOREIGN KEY (`blSampleId`) REFERENCES `BLSample` (`blSampleId`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `DataCollectionPlanGroup`
---
-
-LOCK TABLES `DataCollectionPlanGroup` WRITE;
-/*!40000 ALTER TABLE `DataCollectionPlanGroup` DISABLE KEYS */;
-INSERT INTO `DataCollectionPlanGroup` VALUES (4,55168,398824),(7,55168,398827);
-/*!40000 ALTER TABLE `DataCollectionPlanGroup` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `DataReductionStatus`
 --
 
@@ -2410,16 +2381,13 @@ CREATE TABLE `DiffractionPlan` (
   `numberOfImages` mediumint(9) DEFAULT NULL COMMENT 'The number of images requested',
   `presetForProposalId` int(10) unsigned DEFAULT NULL COMMENT 'Indicates this plan is available to all sessions on given proposal',
   `beamLineName` varchar(45) DEFAULT NULL COMMENT 'Indicates this plan is available to all sessions on given beamline',
-  `dataCollectionPlanGroupId` int(11) unsigned DEFAULT NULL,
   `detectorId` int(11) DEFAULT NULL,
   `distance` double DEFAULT NULL,
   `orientation` double DEFAULT NULL,
   `monoBandwidth` double DEFAULT NULL,
   PRIMARY KEY (`diffractionPlanId`),
   KEY `DiffractionPlan_ibfk1` (`presetForProposalId`),
-  KEY `DataCollectionPlan_ibfk2` (`dataCollectionPlanGroupId`),
   KEY `DataCollectionPlan_ibfk3` (`detectorId`),
-  CONSTRAINT `DataCollectionPlan_ibfk2` FOREIGN KEY (`dataCollectionPlanGroupId`) REFERENCES `DataCollectionPlanGroup` (`dataCollectionPlanGroupId`) ON UPDATE CASCADE,
   CONSTRAINT `DataCollectionPlan_ibfk3` FOREIGN KEY (`detectorId`) REFERENCES `Detector` (`detectorId`) ON UPDATE CASCADE,
   CONSTRAINT `DiffractionPlan_ibfk1` FOREIGN KEY (`presetForProposalId`) REFERENCES `Proposal` (`proposalId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=197789 DEFAULT CHARSET=latin1;
@@ -2431,7 +2399,7 @@ CREATE TABLE `DiffractionPlan` (
 
 LOCK TABLES `DiffractionPlan` WRITE;
 /*!40000 ALTER TABLE `DiffractionPlan` DISABLE KEYS */;
-INSERT INTO `DiffractionPlan` VALUES (197784,'OSC',NULL,NULL,0.2,NULL,NULL,NULL,NULL,NULL,10.5,10.5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,0,NULL,NULL,NULL,1.1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-20 23:50:27',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(197788,NULL,NULL,NULL,10,NULL,NULL,NULL,NULL,NULL,160,100,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 15:28:12',NULL,150,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,4,162.5,45,330.6);
+INSERT INTO `DiffractionPlan` VALUES (197784,'OSC',NULL,NULL,0.2,NULL,NULL,NULL,NULL,NULL,10.5,10.5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,0,NULL,NULL,NULL,1.1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-20 23:50:27',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(197788,NULL,NULL,NULL,10,NULL,NULL,NULL,NULL,NULL,160,100,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 15:28:12',NULL,150,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,162.5,45,330.6);
 /*!40000 ALTER TABLE `DiffractionPlan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7580,10 +7548,10 @@ CREATE PROCEDURE `retrieve_container_ls_queue`(IN p_beamline varchar(45))
     READS SQL DATA
 BEGIN
   IF NOT (p_beamline IS NULL) THEN
-	SELECT c.barcode "barcode", c.sampleChangerLocation "location", cq.createdTimeStamp "added", cq.completedTimeStamp "completed"
+	SELECT c.barcode "barcode", c.sampleChangerLocation "location", cq.createdTimeStamp "added"
     FROM Container c
       INNER JOIN ContainerQueue cq ON c.containerId = cq.containerId
-    WHERE /* cq.completedTimeStamp is NULL AND c.beamlineLocation = p_beamline AND */ c.containerStatus = 'in_localstorage'
+    WHERE cq.completedTimeStamp is NULL AND /* c.beamlineLocation = p_beamline AND */ c.containerStatus = 'in_localstorage'
 	ORDER BY cq.createdTimeStamp ASC;
   END IF;
 END ;;
@@ -7616,6 +7584,32 @@ BEGIN
         LEFT OUTER JOIN Proposal p on p.proposalId = bs.proposalId
       WHERE c.containerStatus = 'processing'
       ORDER BY c.containerId DESC;
+  END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_container_queue_most_recent_completed_timestamp` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_container_queue_most_recent_completed_timestamp`(IN p_barcode varchar(45))
+    READS SQL DATA
+BEGIN
+  IF NOT (p_barcode IS NULL) THEN
+	SELECT max(cq.completedTimeStamp) "completedTimeStamp"
+    FROM Container c
+      INNER JOIN ContainerQueue cq ON c.containerId = cq.containerId
+    WHERE c.barcode = p_barcode
+	ORDER BY c.containerId DESC;
   END IF;
 END ;;
 DELIMITER ;
@@ -8767,4 +8761,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-23 12:01:59
+-- Dump completed on 2017-02-13 16:57:39
