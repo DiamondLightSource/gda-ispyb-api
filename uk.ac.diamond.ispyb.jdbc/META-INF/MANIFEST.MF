@@ -7,8 +7,7 @@ Bundle-Version: 1.6.0
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/ispybPdfApiService.xml, 
- OSGI-INF/ispybPlateApiService.xml,
+Service-Component: OSGI-INF/ispybPlateApiService.xml,
  OSGI-INF/ispybDataCollectionApiService.xml
 Require-Bundle: uk.ac.diamond.ispyb.api;bundle-version="1.6.0",
  org.mariadb.jdbc;bundle-version="1.4.6",
