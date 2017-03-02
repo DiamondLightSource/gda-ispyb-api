@@ -3,7 +3,7 @@ Eclipse-BuddyPolicy: global
 Bundle-ManifestVersion: 2
 Bundle-Name: ISPyB API
 Bundle-SymbolicName: uk.ac.diamond.ispyb.api;singleton:=true
-Bundle-Version: 1.8.2
+Bundle-Version: 1.9.0
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: uk.ac.diamond.ispyb.api
