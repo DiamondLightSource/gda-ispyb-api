@@ -3,9 +3,9 @@
 VERSION=$(grep version pom.xml | head -1 | sed 's/\s<version>//g' | sed 's/<\/version>//g')
 
 if [[ $1 = "major" ]]; then 
-    NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+)(\.\d+)$/($1+1).0.0/e')
+    NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+)(\.\d+)$/"${\($1+1)}.0.0"/e')
 elif [[ $1 = "minor" ]]; then
-    NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+)(\.\d+)$/$1.($2+1).0/e')
+    NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+)(\.\d+)$/"$1.${\($2+1)}.0"/e')
 elif [[ $1 = "bugfix" ]]; then 
     NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+)(\.\d+)$/$1.$2.($3+1)/e')
 else
