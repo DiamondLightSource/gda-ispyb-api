@@ -1,11 +1,17 @@
 #!/bin/bash
 
 VERSION=$(grep version pom.xml | head -1 | sed 's/\s<version>//g' | sed 's/<\/version>//g')
-NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+)(\.\d+)$/$1.($2+1).$3/e')
 
-echo "releasing version $VERSION" 
-git tag v$VERSION
-git push origin --tag
+if [[ $1 = "major" ]]; then 
+    NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+)(\.\d+)$/($1+1).0.0/e')
+elif [[ $1 = "minor" ]]; then
+    NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+)(\.\d+)$/$1.($2+1).0/e')
+elif [[ $1 = "bugfix" ]]; then 
+    NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+\.)(\d+)(\.\d+)$/$1.$2.($3+1)/e')
+else
+    echo "usage: ./release (major|minor|bugfix)"
+    exit 1
+fi
 
 echo "setting up next version $NEW_VERSION"
 
@@ -18,3 +24,8 @@ find . -type f -name "*MANIFEST.MF" -exec sed -i "$REPLACE_PATTERN" {} +
 git add .
 git commit -m "updating version to $NEW_VERSION"
 git push origin master
+
+echo "releasing version $VERSION" 
+git tag v$VERSION
+git push origin --tag
+
