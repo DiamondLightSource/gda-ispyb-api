@@ -759,6 +759,7 @@ CREATE TABLE `BLSample` (
   `dimension2` double DEFAULT NULL,
   `dimension3` double DEFAULT NULL,
   `shape` varchar(15) DEFAULT NULL,
+  `packingFraction` float DEFAULT NULL,
   PRIMARY KEY (`blSampleId`),
   KEY `BLSample_FKIndex1` (`containerId`),
   KEY `BLSample_FKIndex2` (`crystalId`),
@@ -782,7 +783,7 @@ CREATE TABLE `BLSample` (
 
 LOCK TABLES `BLSample` WRITE;
 /*!40000 ALTER TABLE `BLSample` DISABLE KEYS */;
-INSERT INTO `BLSample` VALUES (11550,NULL,3918,1326,'Sample-001','SAM-011550','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:16:11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11553,NULL,3921,1326,'Sample-002','SAM-011553','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:21:43',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11556,NULL,3924,1326,'Sample-003','SAM-011556','3',NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11559,NULL,3927,1329,'Sample-004','SAM-011559','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11562,NULL,3930,1329,'Sample-005','SAM-011562','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11565,NULL,3933,1329,'Sample-006','SAM-011565','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11568,NULL,3936,1332,'Sample-007','SAM-011568','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11571,NULL,3939,1332,'Sample-008','SAM-011571','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11574,NULL,3942,1332,'Sample-009','SAM-011574','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11577,NULL,3942,1335,'Sample-010','SAM-011577','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11580,NULL,3942,1335,'Sample-011','SAM-011580','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11583,NULL,3951,1335,'Sample-012','SAM-011583','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11586,NULL,3954,NULL,'Sample-013','SAM-011586',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11589,NULL,3957,NULL,'Sample-014','SAM-011589',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11592,NULL,3960,NULL,'Sample-015','SAM-011592',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(374695,NULL,310037,33049,'tlys_jan_4','HA00AU3712','4',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:04',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398810,197784,333301,34864,'thau8','HA00AK8934','8',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:05',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398816,197784,310037,34874,'thau88','HH00AU3788','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-09-30 14:21:28',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398819,197784,310037,34877,'thau99','HH00AU3799','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-05 10:15:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398824,NULL,NULL,NULL,'XPDF-1','XPDF-0001',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:47:58',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398827,NULL,NULL,NULL,'XPDF-2','XPDF-0002',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:51:23',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `BLSample` VALUES (11550,NULL,3918,1326,'Sample-001','SAM-011550','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:16:11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11553,NULL,3921,1326,'Sample-002','SAM-011553','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:21:43',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11556,NULL,3924,1326,'Sample-003','SAM-011556','3',NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11559,NULL,3927,1329,'Sample-004','SAM-011559','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11562,NULL,3930,1329,'Sample-005','SAM-011562','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11565,NULL,3933,1329,'Sample-006','SAM-011565','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11568,NULL,3936,1332,'Sample-007','SAM-011568','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11571,NULL,3939,1332,'Sample-008','SAM-011571','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11574,NULL,3942,1332,'Sample-009','SAM-011574','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11577,NULL,3942,1335,'Sample-010','SAM-011577','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11580,NULL,3942,1335,'Sample-011','SAM-011580','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11583,NULL,3951,1335,'Sample-012','SAM-011583','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11586,NULL,3954,NULL,'Sample-013','SAM-011586',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11589,NULL,3957,NULL,'Sample-014','SAM-011589',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11592,NULL,3960,NULL,'Sample-015','SAM-011592',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(374695,NULL,310037,33049,'tlys_jan_4','HA00AU3712','4',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:04',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398810,197784,333301,34864,'thau8','HA00AK8934','8',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:05',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398816,197784,310037,34874,'thau88','HH00AU3788','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-09-30 14:21:28',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398819,197784,310037,34877,'thau99','HH00AU3799','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-05 10:15:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398824,NULL,NULL,NULL,'XPDF-1','XPDF-0001',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:47:58',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398827,NULL,NULL,NULL,'XPDF-2','XPDF-0002',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:51:23',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `BLSample` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -993,29 +994,29 @@ LOCK TABLES `BLSampleType_has_Component` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `BLSample_has_DiffractionPlan`
+-- Table structure for table `BLSample_has_DataCollectionPlan`
 --
 
-DROP TABLE IF EXISTS `BLSample_has_DiffractionPlan`;
+DROP TABLE IF EXISTS `BLSample_has_DataCollectionPlan`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BLSample_has_DiffractionPlan` (
+CREATE TABLE `BLSample_has_DataCollectionPlan` (
   `blSampleId` int(11) unsigned NOT NULL,
-  `diffractionPlanId` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`blSampleId`,`diffractionPlanId`),
-  KEY `BLSample_has_DiffractionPlan_ibfk2` (`diffractionPlanId`),
-  CONSTRAINT `BLSample_has_DiffractionPlan_ibfk1` FOREIGN KEY (`blSampleId`) REFERENCES `BLSample` (`blSampleId`),
-  CONSTRAINT `BLSample_has_DiffractionPlan_ibfk2` FOREIGN KEY (`diffractionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`)
+  `dataCollectionPlanId` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`blSampleId`,`dataCollectionPlanId`),
+  KEY `BLSample_has_DataCollectionPlan_ibfk2` (`dataCollectionPlanId`),
+  CONSTRAINT `BLSample_has_DataCollectionPlan_ibfk1` FOREIGN KEY (`blSampleId`) REFERENCES `BLSample` (`blSampleId`),
+  CONSTRAINT `BLSample_has_DataCollectionPlan_ibfk2` FOREIGN KEY (`dataCollectionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `BLSample_has_DiffractionPlan`
+-- Dumping data for table `BLSample_has_DataCollectionPlan`
 --
 
-LOCK TABLES `BLSample_has_DiffractionPlan` WRITE;
-/*!40000 ALTER TABLE `BLSample_has_DiffractionPlan` DISABLE KEYS */;
-/*!40000 ALTER TABLE `BLSample_has_DiffractionPlan` ENABLE KEYS */;
+LOCK TABLES `BLSample_has_DataCollectionPlan` WRITE;
+/*!40000 ALTER TABLE `BLSample_has_DataCollectionPlan` DISABLE KEYS */;
+/*!40000 ALTER TABLE `BLSample_has_DataCollectionPlan` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1792,7 +1793,7 @@ CREATE TABLE `Crystal` (
   `pdbFilePath` varchar(1024) DEFAULT NULL COMMENT 'pdb file path',
   `recordTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation or last update date/time',
   `abundance` float DEFAULT NULL,
-  `packingFraction` float DEFAULT NULL,
+  `theoreticalDensity` float DEFAULT NULL,
   PRIMARY KEY (`crystalId`),
   KEY `Crystal_FKIndex1` (`proteinId`),
   KEY `Crystal_FKIndex2` (`diffractionPlanId`),
@@ -2072,6 +2073,35 @@ LOCK TABLES `DataCollectionGroup` WRITE;
 /*!40000 ALTER TABLE `DataCollectionGroup` DISABLE KEYS */;
 INSERT INTO `DataCollectionGroup` VALUES (988855,55167,NULL,374695,'SAD',NULL,NULL,NULL,'Ext. Trigger','HA00AU3712',NULL,NULL,NULL,NULL,NULL),(996311,55167,NULL,NULL,'SAD',NULL,NULL,NULL,'Ext. Trigger',NULL,NULL,NULL,NULL,NULL,NULL),(1040398,55168,NULL,NULL,'SAD',NULL,NULL,NULL,'Ext. Trigger',NULL,NULL,NULL,NULL,NULL,NULL),(1040407,55168,NULL,NULL,'SAD',NULL,NULL,NULL,'Ext. Trigger',NULL,NULL,NULL,NULL,NULL,NULL),(1054243,55168,NULL,398810,'SAD',NULL,NULL,NULL,'Ext. Trigger','CA00AG9993',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `DataCollectionGroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DataCollectionPlan_has_Detector`
+--
+
+DROP TABLE IF EXISTS `DataCollectionPlan_has_Detector`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `DataCollectionPlan_has_Detector` (
+  `dataCollectionPlanId` int(11) unsigned NOT NULL,
+  `detectorId` int(11) NOT NULL,
+  `exposureTime` double DEFAULT NULL,
+  `distance` double DEFAULT NULL,
+  `orientation` double DEFAULT NULL,
+  PRIMARY KEY (`dataCollectionPlanId`,`detectorId`),
+  KEY `DataCollectionPlan_has_Detector_ibfk2` (`detectorId`),
+  CONSTRAINT `DataCollectionPlan_has_Detector_ibfk1` FOREIGN KEY (`dataCollectionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`),
+  CONSTRAINT `DataCollectionPlan_has_Detector_ibfk2` FOREIGN KEY (`detectorId`) REFERENCES `Detector` (`detectorId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DataCollectionPlan_has_Detector`
+--
+
+LOCK TABLES `DataCollectionPlan_has_Detector` WRITE;
+/*!40000 ALTER TABLE `DataCollectionPlan_has_Detector` DISABLE KEYS */;
+/*!40000 ALTER TABLE `DataCollectionPlan_has_Detector` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2401,35 +2431,6 @@ LOCK TABLES `DiffractionPlan` WRITE;
 /*!40000 ALTER TABLE `DiffractionPlan` DISABLE KEYS */;
 INSERT INTO `DiffractionPlan` VALUES (197784,'OSC',NULL,NULL,0.2,NULL,NULL,NULL,NULL,NULL,10.5,10.5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,0,NULL,NULL,NULL,1.1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-20 23:50:27',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(197788,NULL,NULL,NULL,10,NULL,NULL,NULL,NULL,NULL,160,100,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 15:28:12',NULL,150,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,162.5,45,330.6);
 /*!40000 ALTER TABLE `DiffractionPlan` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `DiffractionPlan_has_Detector`
---
-
-DROP TABLE IF EXISTS `DiffractionPlan_has_Detector`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `DiffractionPlan_has_Detector` (
-  `diffractionPlanId` int(11) unsigned NOT NULL,
-  `detectorId` int(11) NOT NULL,
-  `exposureTime` double DEFAULT NULL,
-  `distance` double DEFAULT NULL,
-  `orientation` double DEFAULT NULL,
-  PRIMARY KEY (`diffractionPlanId`,`detectorId`),
-  KEY `DiffractionPlan_has_Detector_ibfk2` (`detectorId`),
-  CONSTRAINT `DiffractionPlan_has_Detector_ibfk1` FOREIGN KEY (`diffractionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`),
-  CONSTRAINT `DiffractionPlan_has_Detector_ibfk2` FOREIGN KEY (`detectorId`) REFERENCES `Detector` (`detectorId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `DiffractionPlan_has_Detector`
---
-
-LOCK TABLES `DiffractionPlan_has_Detector` WRITE;
-/*!40000 ALTER TABLE `DiffractionPlan_has_Detector` DISABLE KEYS */;
-/*!40000 ALTER TABLE `DiffractionPlan_has_Detector` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -4406,7 +4407,7 @@ CREATE TABLE `Protein` (
   `concentrationTypeId` int(11) unsigned DEFAULT NULL,
   `global` tinyint(1) DEFAULT '0',
   `externalId` binary(16) DEFAULT NULL,
-  `theoreticalDensity` float DEFAULT NULL,
+  `density` float DEFAULT NULL,
   `abundance` float DEFAULT NULL COMMENT 'Deprecated',
   PRIMARY KEY (`proteinId`),
   KEY `ProteinAcronym_Index` (`proposalId`,`acronym`),
@@ -6579,6 +6580,26 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP FUNCTION IF EXISTS `root_replace` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE FUNCTION `root_replace`(p_str varchar(255), p_oldroot varchar(255), p_newroot varchar(255)) RETURNS varchar(255) CHARSET latin1
+BEGIN
+ DECLARE path_len smallint unsigned DEFAULT LENGTH(p_oldroot);
+ RETURN CASE WHEN LEFT(p_str, path_len) = BINARY p_oldroot THEN CONCAT(p_newroot, SUBSTRING(p_str, path_len + 1)) ELSE p_str END; 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP FUNCTION IF EXISTS `upsert_dc` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -7337,6 +7358,53 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_beamline_action` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `insert_beamline_action`(
+     OUT p_id int(11) unsigned,
+     p_proposalCode varchar(3),
+     p_proposalNumber int(10),
+     p_sessionNumber int(10),
+     p_startTime timestamp,
+     p_endTime timestamp,
+     p_message varchar(255),
+     p_parameter varchar(50),
+     p_value varchar(50),
+     p_logLevel enum('DEBUG','CRITICAL','INFO'),
+     p_status enum('PAUSED','RUNNING','TERMINATED','COMPLETE','ERROR','EPICSFAIL')
+)
+    MODIFIES SQL DATA
+BEGIN
+        DECLARE row_session_id int(10) unsigned DEFAULT NULL;
+        DECLARE row_proposal_id int(10) unsigned DEFAULT NULL;
+
+        IF p_proposalCode IS NOT NULL AND p_proposalNumber IS NOT NULL AND p_sessionNumber IS NOT NULL THEN
+      SELECT max(bs.sessionid), p.proposalId INTO row_session_id, row_proposal_id
+      FROM Proposal p INNER JOIN BLSession bs ON p.proposalid = bs.proposalid
+      WHERE p.proposalCode = p_proposalCode AND p.proposalNumber = p_proposalNumber AND bs.visit_number = p_sessionNumber;
+
+      INSERT INTO BeamlineAction (sessionId, startTimestamp, endTimestamp, message, parameter, `value`, loglevel, `status`)
+          VALUES (row_session_id, p_startTime, p_endTime, p_message, p_parameter, p_value, p_logLevel, p_status);
+
+          IF LAST_INSERT_ID() <> 0 THEN
+                  SET p_id = LAST_INSERT_ID();
+      END IF;
+
+    END IF;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `insert_container_error` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -8006,6 +8074,153 @@ BEGIN
 		WHERE 
 			dataCollectionId = p_id;
 	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_session_paths` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `update_session_paths`(
+  p_proposalCode varchar(3),
+  p_proposalNumber int(10),
+  p_sessionNumber int(10),
+  p_oldRoot varchar(255),
+  p_newRoot varchar(255)
+)
+    MODIFIES SQL DATA
+BEGIN
+  DECLARE row_session_id int(10) unsigned DEFAULT NULL;
+  DECLARE row_proposal_id int(10) unsigned DEFAULT NULL;
+  DECLARE row_sample_id int(10) unsigned DEFAULT NULL;
+        
+  IF p_proposalCode IS NOT NULL AND p_proposalNumber IS NOT NULL AND p_sessionNumber IS NOT NULL THEN
+      SELECT max(bs.sessionid), p.proposalId INTO row_session_id, row_proposal_id 
+      FROM Proposal p INNER JOIN BLSession bs ON p.proposalid = bs.proposalid 
+      WHERE p.proposalCode = p_proposalCode AND p.proposalNumber = p_proposalNumber AND bs.visit_number = p_sessionNumber;
+
+      IF row_session_id IS NOT NULL AND row_proposal_id IS NOT NULL THEN
+
+
+        UPDATE DataCollection dc
+          INNER JOIN DataCollectionGroup dcg on dcg.dataCollectionGroupId = dc.dataCollectionGroupId 
+        SET 
+          imageDirectory = root_replace(imageDirectory, p_oldRoot, p_newRoot),
+          xtalSnapshotFullPath1 = root_replace(xtalSnapshotFullPath1, p_oldRoot, p_newRoot), 
+          xtalSnapshotFullPath2 = root_replace(xtalSnapshotFullPath2, p_oldRoot, p_newRoot), 
+          xtalSnapshotFullPath3 = root_replace(xtalSnapshotFullPath3, p_oldRoot, p_newRoot),
+          xtalSnapshotFullPath4 = root_replace(xtalSnapshotFullPath4, p_oldRoot, p_newRoot),
+          datFullPath = root_replace(datFullPath, p_oldRoot, p_newRoot)
+        WHERE 
+          dcg.sessionId = row_session_id;
+          
+
+	UPDATE XFEFluorescenceSpectrum 
+	SET 
+          jpegScanFileFullPath = root_replace(jpegScanFileFullPath, p_oldRoot, p_newRoot), 
+          annotatedPymcaXfeSpectrum = root_replace(annotatedPymcaXfeSpectrum, p_oldRoot, p_newRoot),
+          fittedDataFileFullPath = root_replace(fittedDataFileFullPath, p_oldRoot, p_newRoot),
+          scanFileFullPath = root_replace(scanFileFullPath, p_oldRoot, p_newRoot),
+          workingDirectory = root_replace(workingDirectory, p_oldRoot, p_newRoot)
+	WHERE 
+          sessionId = row_session_id;
+          
+
+	UPDATE EnergyScan
+	SET 
+          scanFileFullPath = root_replace(scanFileFullPath, p_oldRoot, p_newRoot), 
+          jpegChoochFileFullPath = root_replace(jpegChoochFileFullPath, p_oldRoot, p_newRoot),
+          filename = root_replace(filename, p_oldRoot, p_newRoot),
+          choochFileFullPath = root_replace(choochFileFullPath, p_oldRoot, p_newRoot),
+          workingDirectory = root_replace(workingDirectory, p_oldRoot, p_newRoot)
+	WHERE 
+          sessionId = row_session_id;
+
+
+	UPDATE PhasingProgramAttachment ppa
+          INNER JOIN Phasing p on p.phasingProgramRunId = ppa.phasingProgramRunId
+          INNER JOIN Phasing_has_Scaling phs on phs.phasingAnalysisId = p.phasingAnalysisId
+          INNER JOIN AutoProcScaling_has_Int apshi on apshi.autoProcScalingId = phs.autoProcScalingId
+          INNER JOIN AutoProcIntegration api on api.autoProcIntegrationId = apshi.autoProcIntegrationId
+          INNER JOIN DataCollection dc on dc.dataCollectionId = api.dataCollectionId
+          INNER JOIN DataCollectionGroup dcg on dcg.dataCollectionGroupId = dc.dataCollectionGroupId 
+	SET
+          filePath = root_replace(filePath, p_oldRoot, p_newRoot)
+        WHERE
+          dcg.sessionId = row_session_id;  
+
+
+        UPDATE AutoProcProgramAttachment appa
+          INNER JOIN AutoProcIntegration api on api.autoProcProgramId = appa.autoProcProgramId
+          INNER JOIN DataCollection dc on dc.dataCollectionId = api.dataCollectionId
+          INNER JOIN DataCollectionGroup dcg on dcg.dataCollectionGroupId = dc.dataCollectionGroupId
+        SET
+          filePath = root_replace(filePath, p_oldRoot, p_newRoot)
+        WHERE
+          dcg.sessionId = row_session_id;
+
+
+        UPDATE MXMRRun mr
+          INNER JOIN AutoProcScaling_has_Int apshi on mr.autoProcScalingId = apshi.autoProcScalingId 
+          INNER JOIN AutoProcIntegration api on api.autoProcIntegrationId = apshi.autoProcIntegrationId 
+          INNER JOIN DataCollection dc on dc.dataCollectionId = api.datacollectionId
+          INNER JOIN DataCollectionGroup dcg on dcg.dataCollectionGroupId = dc.dataCollectionGroupId
+        SET
+          inputCoordFile = root_replace(inputCoordFile, p_oldRoot, p_newRoot),
+          outputCoordFile = root_replace(outputCoordFile, p_oldRoot, p_newRoot),
+          inputMTZFile = root_replace(inputMTZFile, p_oldRoot, p_newRoot),
+          outputMTZFile = root_replace(outputMTZFile, p_oldRoot, p_newRoot),
+          runDirectory = root_replace(runDirectory, p_oldRoot, p_newRoot)
+        WHERE
+          dcg.sessionId = row_session_id;
+
+
+        UPDATE MXMRRunBlob mrb
+          INNER JOIN MXMRRun mr on mrb.mxMRRunId = mr.mxMRRunId
+          INNER JOIN AutoProcScaling_has_Int apshi on mr.autoProcScalingId = apshi.autoProcScalingId 
+          INNER JOIN AutoProcIntegration api on api.autoProcIntegrationId = apshi.autoProcIntegrationId 
+          INNER JOIN DataCollection dc on dc.dataCollectionId = api.datacollectionId
+          INNER JOIN DataCollectionGroup dcg on dcg.dataCollectionGroupId = dc.dataCollectionGroupId
+        SET
+          view1 = root_replace(view1, p_oldRoot, p_newRoot),
+          view2 = root_replace(view2, p_oldRoot, p_newRoot),
+          view3 = root_replace(view3, p_oldRoot, p_newRoot)
+        WHERE
+          dcg.sessionId = row_session_id;
+
+
+        UPDATE BLSampleImage blsi
+          INNER JOIN BLSample bls on blsi.blsampleId = bls.blsampleId
+          INNER JOIN Container c on c.containerId = bls.containerId
+		SET
+          imageFullPath = root_replace(imageFullPath, p_oldRoot, p_newRoot)
+        WHERE 
+          c.sessionId = row_session_id;
+
+
+        UPDATE BLSampleImageAnalysis blsia
+          INNER JOIN BLSampleImage blsi on blsia.blSampleImageId = blsi.blSampleImageId
+          INNER JOIN BLSample bls on blsi.blsampleId = bls.blsampleId
+          INNER JOIN Container c on c.containerId = bls.containerId
+		SET
+          imageFullPath = root_replace(imageFullPath, p_oldRoot, p_newRoot)
+        WHERE 
+          c.sessionId = row_session_id;
+
+      ELSE
+        
+		SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1643, MESSAGE_TEXT='Corresponding rows for p_proposalCode + p_proposalNumber + p_sessionNumber not found';
+      END IF;
+  END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -8761,4 +8976,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-13 16:57:39
+-- Dump completed on 2017-02-28 10:16:27
