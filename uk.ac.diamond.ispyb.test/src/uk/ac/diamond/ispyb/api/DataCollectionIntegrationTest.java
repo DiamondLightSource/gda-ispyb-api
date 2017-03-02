@@ -59,7 +59,7 @@ public class DataCollectionIntegrationTest extends TestCase{
 		try{
 			Long id = helper.execute(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
 			assertThat(id, notNullValue());
-		} catch (UncategorizedSQLException e){
+		} catch (UnsupportedOperationException e){
 			// do nothing, expecting a sql exception
 		}
 	}
