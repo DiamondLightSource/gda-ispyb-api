@@ -25,7 +25,7 @@ git add .
 git commit -m "updating version to $NEW_VERSION"
 git push origin master
 
-echo "releasing version $VERSION" 
-git tag v$VERSION
+echo "releasing version $NEW_VERSION" 
+git tag v$NEW_VERSION
 git push origin --tag
 
