@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.diamond.ispyb.feature"
       label="ispyb"
-      version="1.8.0"
+      version="1..8.1"
       provider-name="Diamond Light Source">
 
    <plugin
