@@ -1,5 +1,8 @@
 package uk.ac.diamond.ispyb.api;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,6 +12,7 @@ import java.time.LocalDateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.jdbc.UncategorizedSQLException;
 
 import junit.framework.TestCase;
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
@@ -47,6 +51,20 @@ public class DataCollectionIntegrationTest extends TestCase{
 	}
 
 	@Test
+	public void testUpsertDataCollectionGroupWithoutAllFields() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
+		dataCollectionGroup.setProposalNumber(14451);
+		dataCollectionGroup.setSessionNumber(1);
+		dataCollectionGroup.setSampleId(11550L);
+		try{
+			Long id = helper.execute(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
+			assertThat(id, notNullValue());
+		} catch (UncategorizedSQLException e){
+			// do nothing, expecting a sql exception
+		}
+	}
+	
+	@Test
 	public void testUpsertDataCollectionGroupWithTimestamp() throws SQLException, FileNotFoundException, IOException, InterruptedException {
 		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
 		dataCollectionGroup.setProposalCode("cm");
@@ -55,7 +73,7 @@ public class DataCollectionIntegrationTest extends TestCase{
 		dataCollectionGroup.setSampleId(11550L);
 		dataCollectionGroup.setStarttime(Timestamp.valueOf(LocalDateTime.now()));
 		dataCollectionGroup.setEndtime(Timestamp.valueOf(LocalDateTime.now()));
-		helper.run(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
+		helper.run(api -> api.upsertDataCollectionGroup(dataCollectionGroup));		
 	}
 
 	@Test

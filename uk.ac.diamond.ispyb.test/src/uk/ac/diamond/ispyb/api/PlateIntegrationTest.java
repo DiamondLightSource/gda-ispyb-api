@@ -2,6 +2,7 @@ package uk.ac.diamond.ispyb.api;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.FileNotFoundException;
@@ -153,7 +154,27 @@ public class PlateIntegrationTest extends TestCase{
 	@Test
 	public void testUpsertSampleImageAnalysis() throws SQLException, FileNotFoundException, IOException, InterruptedException {
 		SampleImageAnalysis sampleImageAnalysis = new SampleImageAnalysis();
+		sampleImageAnalysis.setContainerBarcode("test_plate3");
+		sampleImageAnalysis.setSampleLocation("1");
+
 		helper.run(api -> api.upsertSampleImageAnalysis(sampleImageAnalysis));
+	}
+	
+	@Test
+	public void testUpsertSampleImageAnalysisChangesId() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+		SampleImageAnalysis sampleImageAnalysis1 = new SampleImageAnalysis();
+		sampleImageAnalysis1.setContainerBarcode("test_plate3");
+		sampleImageAnalysis1.setSampleLocation("1");
+		
+		Long id1 = helper.execute(api -> api.upsertSampleImageAnalysis(sampleImageAnalysis1));
+
+		SampleImageAnalysis sampleImageAnalysis2 = new SampleImageAnalysis();
+		sampleImageAnalysis2.setContainerBarcode("test_plate3");
+		sampleImageAnalysis2.setSampleLocation("1");
+
+		Long id2 = helper.execute(api -> api.upsertSampleImageAnalysis(sampleImageAnalysis2));
+
+		assertThat(id1, is(not(equalTo(id2))));
 	}
 	
 	@Before

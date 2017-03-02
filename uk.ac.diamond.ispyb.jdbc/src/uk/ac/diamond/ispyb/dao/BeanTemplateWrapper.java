@@ -32,6 +32,10 @@ public class BeanTemplateWrapper {
 	@SuppressWarnings("unchecked")
 	<T> Optional<T> callIspybForKey(String procedure, Class<T> clazz, Object bean, String key) {
 		Map<String, Object> map = execute(procedure, bean);
+		if (!map.containsKey(key) || map.get(key) == null){
+			String message = "could not return parameter " + key + " from map with keys" + map.keySet();
+			throw new UnsupportedOperationException(message);
+		}
 		return Optional.of((T) map.get(key));
 	}
 

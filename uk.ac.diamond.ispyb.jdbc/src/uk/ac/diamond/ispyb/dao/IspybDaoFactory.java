@@ -5,15 +5,13 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
+import org.mariadb.jdbc.MariaDbDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 import uk.ac.diamond.ispyb.api.IspybFactoryService;
 import uk.ac.diamond.ispyb.api.Schema;
-
-import org.mariadb.jdbc.MariaDbDataSource;
 
 public class IspybDaoFactory<T> implements IspybFactoryService<T>{
 	private final BiFunction<TemplateWrapper, BeanTemplateWrapper, T> daoFactory;  
