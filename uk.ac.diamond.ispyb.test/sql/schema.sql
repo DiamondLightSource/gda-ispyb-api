@@ -7877,7 +7877,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `retrieve_persons_for_session` */;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_lcs_for_session` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -7887,7 +7887,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `retrieve_persons_for_session`(p_proposal_code varchar(5), p_proposal_number int, p_session_number int)
+CREATE PROCEDURE `retrieve_lcs_for_session`(p_proposal_code varchar(5), p_proposal_number int, p_session_number int)
     READS SQL DATA
 BEGIN
     IF p_proposal_code IS NOT NULL AND p_proposal_number IS NOT NULL AND p_session_number IS NOT NULL THEN
@@ -7896,7 +7896,7 @@ BEGIN
         INNER JOIN Session_has_Person shp on shp.personId = per.personId
         INNER JOIN BLSession bs on bs.sessionId = shp.sessionId
         INNER JOIN Proposal p on p.proposalId = bs.proposalId
-	  WHERE p.proposalCode = p_proposal_code AND p.proposalNumber = p_proposal_number AND bs.visit_number = p_session_number;
+	  WHERE p.proposalCode = p_proposal_code AND p.proposalNumber = p_proposal_number AND bs.visit_number = p_session_number AND shp.role like 'Local Contact%';
     ELSE
 	  SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory arguments p_proposalCode + p_proposalNumber + p_sessionNumber can not be NULL';
 	END IF;
@@ -9032,4 +9032,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-07 11:25:18
+-- Dump completed on 2017-03-07 11:52:57
