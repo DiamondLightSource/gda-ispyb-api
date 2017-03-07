@@ -7327,6 +7327,8 @@ BEGIN
       INNER JOIN Container c ON af.containerId = c.containerId
     SET af.resolved = 1
     WHERE c.barcode = p_barcode;
+    ELSE 
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -7351,6 +7353,8 @@ BEGIN
     UPDATE ContainerQueue 
     SET completedTimeStamp = current_timestamp 
     WHERE completedTimeStamp is NULL and containerId in (SELECT containerId FROM Container WHERE barcode = p_barcode);
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -7421,6 +7425,8 @@ BEGIN
   IF NOT (p_barcode IS NULL) THEN
     INSERT INTO BF_automationFault (automationErrorId, containerId, severity, stacktrace) 
       VALUES ((SELECT automationErrorId FROM BF_automationError WHERE errorType = p_error), (SELECT containerId FROM Container WHERE barcode = p_barcode), p_severity, p_stack_trace);
+    ELSE 
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
   END IF;
 
 END ;;
@@ -7569,6 +7575,8 @@ BEGIN
       WHERE c.barcode = p_barcode
       ORDER BY c.containerId DESC
       LIMIT 1;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
     END IF;
 END ;;
 DELIMITER ;
@@ -7595,6 +7603,8 @@ BEGIN
       WHERE barcode = p_barcode AND containerStatus = 'in_localstorage'
       ORDER BY containerId DESC
       LIMIT 1;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
     END IF;
 END ;;
 DELIMITER ;
@@ -7619,8 +7629,10 @@ BEGIN
 	SELECT c.barcode "barcode", c.sampleChangerLocation "location", cq.createdTimeStamp "added"
     FROM Container c
       INNER JOIN ContainerQueue cq ON c.containerId = cq.containerId
-    WHERE cq.completedTimeStamp is NULL AND /* c.beamlineLocation = p_beamline AND */ c.containerStatus = 'in_localstorage'
+    WHERE cq.completedTimeStamp is NULL AND  c.containerStatus = 'in_localstorage'
 	ORDER BY cq.createdTimeStamp ASC;
+    ELSE 
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -7652,6 +7664,8 @@ BEGIN
         LEFT OUTER JOIN Proposal p on p.proposalId = bs.proposalId
       WHERE c.containerStatus = 'processing'
       ORDER BY c.containerId DESC;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -7678,6 +7692,8 @@ BEGIN
       INNER JOIN ContainerQueue cq ON c.containerId = cq.containerId
     WHERE c.barcode = p_barcode
 	ORDER BY c.containerId DESC;
+    ELSE 
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -7705,6 +7721,8 @@ BEGIN
     WHERE cq.completedTimeStamp IS NULL AND c.barcode = p_barcode
 	ORDER BY c.containerId DESC
 	LIMIT 1;
+    ELSE 
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -7752,6 +7770,8 @@ BEGIN
       dp.monochromator, 12398.42 / dp.energy, dp.transmission, 
       dp.boxSizeX, dp.boxSizeY, 
       dp.kappaStart, dp.axisStart, dp.axisRange, dp.numberOfImages;
+    ELSE 
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -7857,6 +7877,35 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_persons_for_session` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_persons_for_session`(p_proposal_code varchar(5), p_proposal_number int, p_session_number int)
+    READS SQL DATA
+BEGIN
+    IF p_proposal_code IS NOT NULL AND p_proposal_number IS NOT NULL AND p_session_number IS NOT NULL THEN
+      SELECT per.title, per.givenName, per.familyName, per.login, shp.role
+      FROM Person per 
+        INNER JOIN Session_has_Person shp on shp.personId = per.personId
+        INNER JOIN BLSession bs on bs.sessionId = shp.sessionId
+        INNER JOIN Proposal p on p.proposalId = bs.proposalId
+	  WHERE p.proposalCode = p_proposal_code AND p.proposalNumber = p_proposal_number AND bs.visit_number = p_session_number;
+    ELSE
+	  SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory arguments p_proposalCode + p_proposalNumber + p_sessionNumber can not be NULL';
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `retrieve_session_id` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -7917,6 +7966,8 @@ BEGIN
       WHERE barcode = p_barcode;
 
 	  CALL update_container_status(p_barcode, 'in_localstorage');
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
     END IF;
 END ;;
 DELIMITER ;
@@ -7955,6 +8006,10 @@ BEGIN
 		INSERT INTO ContainerHistory (containerId, location, status) VALUES (row_containerId, row_scLoc, p_status);
 
 	END IF;
+    ELSEIF p_barcode IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_status does not have a valid value';
   END IF;
 END ;;
 DELIMITER ;
@@ -8179,7 +8234,8 @@ BEGIN
           outputCoordFile = root_replace(outputCoordFile, p_oldRoot, p_newRoot),
           inputMTZFile = root_replace(inputMTZFile, p_oldRoot, p_newRoot),
           outputMTZFile = root_replace(outputMTZFile, p_oldRoot, p_newRoot),
-          runDirectory = root_replace(runDirectory, p_oldRoot, p_newRoot)
+          runDirectory = root_replace(runDirectory, p_oldRoot, p_newRoot),
+          logFile = root_replace(logFile, p_oldRoot, p_newRoot)
         WHERE
           dcg.sessionId = row_session_id;
 
@@ -8976,4 +9032,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-28 10:16:27
+-- Dump completed on 2017-03-07 11:25:18
