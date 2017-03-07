@@ -24,7 +24,7 @@ public class ContainerSubsample {
     private String lastImgFullPath;
     private String uploadedImgFilePath;
     private String uploadedImgFileName;
-    private Character experimentKind;
+    private String experimentKind;
     private Float exposureTime;
     private Float preferredBeamSizeX;
     private Float preferredBeamSizeY;
@@ -135,11 +135,11 @@ public class ContainerSubsample {
         this.uploadedImgFileName = uploadedImgFileName;
     }
 
-    public Character getExperimentKind() {
+    public String getExperimentKind() {
         return this.experimentKind;
     }
 
-    public void setExperimentKind(Character experimentKind) {
+    public void setExperimentKind(String experimentKind) {
         this.experimentKind = experimentKind;
     }
 

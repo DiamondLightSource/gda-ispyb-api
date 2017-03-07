@@ -9,12 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -176,7 +171,41 @@ public class PlateIntegrationTest extends TestCase{
 
 		assertThat(id1, is(not(equalTo(id2))));
 	}
-	
+
+	@Test
+	public void testRetrieveContainerSubsamples() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+		List<ContainerSubsample> subsamples = helper.execute(api -> api.retrieveContainerSubsamples("test_plate2"));
+
+		ContainerSubsample expected = new ContainerSubsample();
+		expected.setId(2L);
+		expected.setSampleLocation("1");
+		expected.setLastImgFullPath("/dls/i03/data/2016/cm1234-5/something-else.jpg");
+		expected.setExperimentKind("OSC");
+		expected.setExposureTime(0.2f);
+		expected.setPreferredBeamSizeX(10.5f);
+		expected.setPreferredBeamSizeY(10.5f);
+		expected.setRequiredResolution(1.1);
+
+		expected.setROIPos1x(0.0);
+		expected.setROIPos1y(0.0);
+		expected.setROIPos1z(0.0);
+		expected.setROIPos2x(0.0);
+		expected.setROIPos2y(0.0);
+		expected.setROIPos2z(0.0);
+
+		expected.setWavelength(0.0);
+		expected.setTransmission(0.0f);
+		expected.setBoxSizeX(0.0f);
+		expected.setBoxSizeY(0.0f);
+		expected.setKappaStart(0.0f);
+		expected.setAxisStart(0.0f);
+		expected.setAxisRange(0.0f);
+		expected.setNumberOfImages(0);
+
+
+		assertThat(Arrays.asList(expected), is(equalTo(subsamples)));
+	}
+
 	@Before
 	@Override
 	protected void setUp() throws Exception {
