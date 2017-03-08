@@ -3,7 +3,6 @@ package uk.ac.diamond.ispyb.api;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.jdbc.UncategorizedSQLException;
 
 import junit.framework.TestCase;
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
@@ -21,19 +19,19 @@ public class DataCollectionIntegrationTest extends TestCase{
 	private final IntegrationTestHelper<IspybDataCollectionApi> helper = new IntegrationTestHelper<>(new IspybDataCollectionDaoFactory());
 	
 	@Test
-	public void testUpdateDataCollectionExperiment() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testUpdateDataCollectionExperiment() throws SQLException, IOException, InterruptedException {
 		DataCollectionExperiment experiment = new DataCollectionExperiment();
 		helper.run(api -> api.updateDataCollectionExperiment(experiment));
 	}
 	
 	@Test
-	public void testUpdateDataCollectionMachine() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testUpdateDataCollectionMachine() throws SQLException, IOException, InterruptedException {
 		DataCollectionMachine machine = new DataCollectionMachine();
 		helper.run(api -> api.updateDataCollectionMachine(machine));
 	}
 
 	@Test
-	public void testUpsertDataCollectionMain() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testUpsertDataCollectionMain() throws SQLException, IOException, InterruptedException {
 		DataCollectionMain main = new DataCollectionMain();
 		main.setDetectorId(4);
 		main.setGroupId(988855L);
@@ -41,7 +39,7 @@ public class DataCollectionIntegrationTest extends TestCase{
 	}
 	
 	@Test
-	public void testUpsertDataCollectionGroup() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testUpsertDataCollectionGroup() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
 		dataCollectionGroup.setProposalCode("cm");
 		dataCollectionGroup.setProposalNumber(14451);
@@ -51,7 +49,7 @@ public class DataCollectionIntegrationTest extends TestCase{
 	}
 
 	@Test
-	public void testUpsertDataCollectionGroupWithoutAllFields() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testUpsertDataCollectionGroupWithoutAllFields() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
 		dataCollectionGroup.setProposalNumber(14451);
 		dataCollectionGroup.setSessionNumber(1);
@@ -65,7 +63,7 @@ public class DataCollectionIntegrationTest extends TestCase{
 	}
 	
 	@Test
-	public void testUpsertDataCollectionGroupWithTimestamp() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testUpsertDataCollectionGroupWithTimestamp() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
 		dataCollectionGroup.setProposalCode("cm");
 		dataCollectionGroup.setProposalNumber(14451);
@@ -77,7 +75,7 @@ public class DataCollectionIntegrationTest extends TestCase{
 	}
 
 	@Test
-	public void testUpsertDataCollectionGroupGrid() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testUpsertDataCollectionGroupGrid() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup group = new DataCollectionGroup();
 		group.setProposalCode("cm");
 		group.setProposalNumber(14451);

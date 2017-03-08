@@ -1,7 +1,6 @@
 package uk.ac.diamond.ispyb.api;
 
 import java.io.Closeable;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,13 +15,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 public class IntegrationTestHelper<S extends Closeable>{
-	private final String host = System.getProperty("ispyb.host");
-	private final String url = System.getProperty("ispyb.url");
-	private final Optional<String> user = Optional.ofNullable(System.getProperty("ispyb.user"));
-	private final Optional<String> password = Optional.ofNullable(System.getProperty("ispyb.pw"));
-	private final Optional<String> port = Optional.ofNullable(System.getProperty("ispyb.port"));
-	private final String systemUser = System.getProperty("user.name");
-	private final String schema = "maven_" + systemUser;
+	private static final String host = System.getProperty("ispyb.host");
+	private static final String url = System.getProperty("ispyb.url");
+	private static final Optional<String> user = Optional.ofNullable(System.getProperty("ispyb.user"));
+	private static final Optional<String> password = Optional.ofNullable(System.getProperty("ispyb.pw"));
+	private static final Optional<String> port = Optional.ofNullable(System.getProperty("ispyb.port"));
+	private static final String systemUser = System.getProperty("user.name");
+	private static final String schema = "maven_" + systemUser;
 	
 
 	private final IspybFactoryService<S> factory;
@@ -45,7 +44,7 @@ public class IntegrationTestHelper<S extends Closeable>{
 		return result;
 	}
 	
-	public void setUp() throws FileNotFoundException, IOException, SQLException, InterruptedException{
+	public void setUp() throws IOException, SQLException, InterruptedException{
 		Connection connection = connectToDatabase(url, user, password, Optional.empty());
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
 		jdbcTemplate.execute(String.format("drop database if exists %s;", schema));
@@ -60,14 +59,14 @@ public class IntegrationTestHelper<S extends Closeable>{
 		executeScript("schema.sql", schema);
 	}
 
-	public void tearDown() throws FileNotFoundException, IOException, SQLException, InterruptedException{
+	public void tearDown() throws IOException, SQLException, InterruptedException{
 		Connection connection = connectToDatabase(url, user, password, Optional.empty());
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
 		jdbcTemplate.execute(String.format("drop database if exists %s;", schema));
 		connection.close();
 	}
 
-	private void executeScript(String filename, String database) throws FileNotFoundException, IOException, SQLException, InterruptedException {
+	private void executeScript(String filename, String database) throws IOException, SQLException, InterruptedException {
 		Resource resource = new DefaultResourceLoader().getResource(filename);
 		String absolutePath = resource.getFile().getAbsolutePath();
 
@@ -85,10 +84,12 @@ public class IntegrationTestHelper<S extends Closeable>{
 		password.ifPresent(ds::setPassword);
 		return ds.getConnection();
 	}
-	
+
+	@FunctionalInterface
 	interface CheckedFunction<S,T>{
 		public S apply(T t) throws SQLException;
 	}
+	@FunctionalInterface
 	interface CheckedSupplier<T>{
 		public void apply(T t) throws SQLException;
 	}
