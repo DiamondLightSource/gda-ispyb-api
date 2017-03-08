@@ -27,8 +27,6 @@ public class DataCollectionPlanInfo {
 	
 	private List<ScanParameters> scanParameters = new ArrayList<>();
 	
-	public DataCollectionPlanInfo() {}
-
 	public Double getEnergy() {
 		return energy;
 	}

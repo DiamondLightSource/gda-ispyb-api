@@ -65,15 +65,14 @@ public class BeanTemplateWrapper {
 	private Map<String, Object> execute(String procedure, Object bean) {
 		SimpleJdbcCall simpleJdbcCall = templateWrapper.createCall(procedure);
 		MapSqlParameterSource in = createInParameters(bean);
-		Map<String, Object> map = simpleJdbcCall.execute(in);
-		return map;
+		return simpleJdbcCall.execute(in);
 	}
 	
 	private MapSqlParameterSource createInParameters(Object bean) {
 		MapSqlParameterSource in = new MapSqlParameterSource();
 		BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(bean);
         for (PropertyDescriptor propertyDescriptor : wrapper.getPropertyDescriptors()) {
-        	if (!propertyDescriptor.getName().equals("class")){
+        	if (!"class".equals(propertyDescriptor.getName())){
            		in.addValue("p_" + propertyDescriptor.getName(), wrapper.getPropertyValue(propertyDescriptor.getName()));        		
         	}
 		}
@@ -84,7 +83,7 @@ public class BeanTemplateWrapper {
 		BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(bean);
 		return Arrays.asList(beanWrapper.getPropertyDescriptors())
 			.stream()
-			.filter(propertyDescriptor -> !propertyDescriptor.getName().equals("class"))
+			.filter(propertyDescriptor -> !"class".equals(propertyDescriptor.getName()))
 			.collect(
 					HashMap::new, 
 					(m,p) -> m.put(p.getName(), beanWrapper.getPropertyValue(p.getName())), 

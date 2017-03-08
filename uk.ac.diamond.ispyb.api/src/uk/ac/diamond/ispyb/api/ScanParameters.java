@@ -68,6 +68,6 @@ public class ScanParameters {
 	@Override
 	public boolean equals(Object that) {
 		return EqualsBuilder.reflectionEquals(this, that);
-	};
+	}
 
 }

@@ -14,9 +14,6 @@ public class ContainerLSQueueEntry {
 	private String location;
 	private Timestamp added;
 
-	public ContainerLSQueueEntry() {
-	}
-
 	public String getBarcode() {
 		return barcode;
 	}
