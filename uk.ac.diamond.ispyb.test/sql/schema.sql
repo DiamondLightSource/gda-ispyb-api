@@ -8101,6 +8101,92 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_dc_experiment_v2` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `update_dc_experiment_v2`(
+     p_id int(11) unsigned,
+     p_slitGapVertical float,
+     p_slitGapHorizontal float,
+     p_transmission float,
+     p_exposureTime float,
+     p_xBeam float,
+     p_yBeam float,
+     p_axisStart float,
+     p_axisEnd float,
+     p_axisRange float,
+     p_overlap float,
+     p_flux double,
+     p_fluxEnd double,
+     p_rotationAxis varchar(10),
+     p_phiStart float,
+     p_kappaStart float,
+     p_omegaStart float,
+     p_wavelength float,                                                
+     p_resolution float,
+     p_detectorDistance float,
+     p_detector2Theta float,
+     p_bestWilsonPlotPath varchar(255),
+     p_beamSizeAtSampleX float,
+     p_beamSizeAtSampleY float,
+     p_focalSpotSizeAtSampleX float,
+     p_focalSpotSizeAtSampleY float,
+     p_apertureSizeX float
+)
+    MODIFIES SQL DATA
+BEGIN
+	DECLARE row_apertureId int(11) unsigned;
+    
+	UPDATE DataCollection SET 
+		slitGapVertical=IFNULL(p_slitGapVertical, imagedirectory),
+		slitGapHorizontal=IFNULL(p_slitGapHorizontal, imagedirectory),
+		transmission=IFNULL(p_transmission, imagedirectory),
+		exposureTime=IFNULL(p_exposureTime, imagedirectory),
+		xBeam=IFNULL(p_xBeam, xBeam),
+		yBeam=IFNULL(p_yBeam, yBeam),
+		axisStart=IFNULL(p_axisStart, axisStart),
+		axisEnd=IFNULL(p_axisEnd, axisEnd),
+		axisRange=IFNULL(p_axisRange, axisRange),
+		overlap=IFNULL(p_overlap, overlap),
+		flux=IFNULL(p_flux, flux),
+		flux_end=IFNULL(p_fluxEnd, flux_end),
+		rotationAxis=IFNULL(p_rotationAxis, rotationAxis),
+		phiStart=IFNULL(p_phiStart, phiStart),
+		kappaStart=IFNULL(p_kappaStart, kappaStart),
+		omegaStart=IFNULL(p_omegaStart, omegaStart),
+		wavelength=IFNULL(p_wavelength, wavelength),
+		resolution=IFNULL(p_resolution, resolution),
+		detectorDistance=IFNULL(p_detectorDistance, detectorDistance),
+		detector2Theta=IFNULL(p_detector2Theta, detector2Theta),
+		bestWilsonPlotPath=IFNULL(p_bestWilsonPlotPath, bestWilsonPlotPath),
+		beamSizeAtSampleX=IFNULL(p_beamSizeAtSampleX, beamSizeAtSampleX),
+		beamSizeAtSampleY=IFNULL(p_beamSizeAtSampleY, beamSizeAtSampleY),
+		focalSpotSizeAtSampleX=IFNULL(p_focalSpotSizeAtSampleX, focalSpotSizeAtSampleX),
+		focalSpotSizeAtSampleY=IFNULL(p_focalSpotSizeAtSampleY, focalSpotSizeAtSampleY)
+	WHERE dataCollectionId = p_id;
+
+	SELECT apertureId INTO row_apertureId 
+    FROM DataCollection 
+    WHERE dataCollectionId = p_id;
+
+	IF row_apertureId IS NOT NULL THEN
+		UPDATE Aperture SET 
+			sizeX = IFNULL(p_apertureSizeX, sizeX) 
+		WHERE apertureId = row_apertureId;
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `update_dc_machine` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -9032,4 +9118,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-07 11:52:57
+-- Dump completed on 2017-03-16 17:22:35
