@@ -6,7 +6,7 @@ import java.io.Closeable;
  * Database access methods for adding data to DataCollectionMain related fields
  */
 public interface IspybDataCollectionApi extends Closeable {
-	public Long upsertDataCollectionMain(DataCollectionMain dataCollectionMain);
+	public Long upsertDataCollectionMain(DataCollectionMain dataCollectionMain) throws Exception_Exception;
 	public void updateDataCollectionExperiment(DataCollectionExperiment dataCollectionExperiment);
 	public void updateDataCollectionMachine(DataCollectionMachine dataCollectionMachine);
 	public Long upsertDataCollectionGroup(DataCollectionGroup dataCollectionGroup);

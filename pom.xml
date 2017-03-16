@@ -15,7 +15,8 @@
 		<module>uk.ac.diamond.ispyb.jdbc</module>
 		<module>uk.ac.diamond.ispyb.test</module>
 		<module>uk.ac.diamond.ispyb.feature</module>
-	</modules>
+        <module>uk.ac.diamond.ispyb.webservice-client</module>
+    </modules>
 
 	<properties>
 		<tycho-version>0.24.0</tycho-version>
