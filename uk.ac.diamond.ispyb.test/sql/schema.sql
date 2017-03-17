@@ -2,7 +2,7 @@
 --
 -- Host: cs04r-sc-vserv-88    Database: ispybstage
 -- ------------------------------------------------------
--- Server version	10.1.21-MariaDB-enterprise
+-- Server version	10.1.22-MariaDB-enterprise
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -1139,6 +1139,7 @@ CREATE TABLE `BLSubSample` (
   `blSubSampleId` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key (auto-incremented)',
   `blSampleId` int(10) unsigned NOT NULL COMMENT 'sample',
   `diffractionPlanId` int(10) unsigned DEFAULT NULL COMMENT 'eventually diffractionPlan',
+  `blSampleImageId` int(11) unsigned DEFAULT NULL,
   `positionId` int(11) unsigned DEFAULT NULL COMMENT 'position of the subsample',
   `position2Id` int(11) unsigned DEFAULT NULL,
   `motorPositionId` int(11) unsigned DEFAULT NULL COMMENT 'motor position',
@@ -1153,6 +1154,8 @@ CREATE TABLE `BLSubSample` (
   KEY `BLSubSample_FKIndex3` (`positionId`),
   KEY `BLSubSample_FKIndex4` (`motorPositionId`),
   KEY `BLSubSample_FKIndex5` (`position2Id`),
+  KEY `BLSubSample_blSampleImagefk_1` (`blSampleImageId`),
+  CONSTRAINT `BLSubSample_blSampleImagefk_1` FOREIGN KEY (`blSampleImageId`) REFERENCES `BLSampleImage` (`blSampleImageId`),
   CONSTRAINT `BLSubSample_blSamplefk_1` FOREIGN KEY (`blSampleId`) REFERENCES `BLSample` (`blSampleId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `BLSubSample_diffractionPlanfk_1` FOREIGN KEY (`diffractionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `BLSubSample_motorPositionfk_1` FOREIGN KEY (`motorPositionId`) REFERENCES `MotorPosition` (`motorPositionId`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -1167,7 +1170,7 @@ CREATE TABLE `BLSubSample` (
 
 LOCK TABLES `BLSubSample` WRITE;
 /*!40000 ALTER TABLE `BLSubSample` DISABLE KEYS */;
-INSERT INTO `BLSubSample` VALUES (2,398816,197784,2,5,NULL,NULL,NULL,NULL,NULL,'2016-09-30 14:25:19'),(5,398819,197784,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-05 10:16:44');
+INSERT INTO `BLSubSample` VALUES (2,398816,197784,NULL,2,5,NULL,NULL,NULL,NULL,NULL,'2016-09-30 14:25:19'),(5,398819,197784,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-05 10:16:44');
 /*!40000 ALTER TABLE `BLSubSample` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1446,6 +1449,38 @@ CREATE TABLE `CalendarHash` (
 LOCK TABLES `CalendarHash` WRITE;
 /*!40000 ALTER TABLE `CalendarHash` DISABLE KEYS */;
 /*!40000 ALTER TABLE `CalendarHash` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ComponentLattice`
+--
+
+DROP TABLE IF EXISTS `ComponentLattice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ComponentLattice` (
+  `componentLatticeId` int(11) unsigned NOT NULL,
+  `componentId` int(10) unsigned DEFAULT NULL,
+  `spaceGroup` varchar(20) DEFAULT NULL,
+  `cell_a` double DEFAULT NULL,
+  `cell_b` double DEFAULT NULL,
+  `cell_c` double DEFAULT NULL,
+  `cell_alpha` double DEFAULT NULL,
+  `cell_beta` double DEFAULT NULL,
+  `cell_gamma` double DEFAULT NULL,
+  PRIMARY KEY (`componentLatticeId`),
+  KEY `ComponentLattice_ibfk1` (`componentId`),
+  CONSTRAINT `ComponentLattice_ibfk1` FOREIGN KEY (`componentId`) REFERENCES `Protein` (`proteinId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ComponentLattice`
+--
+
+LOCK TABLES `ComponentLattice` WRITE;
+/*!40000 ALTER TABLE `ComponentLattice` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ComponentLattice` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -4430,35 +4465,6 @@ LOCK TABLES `Protein` WRITE;
 /*!40000 ALTER TABLE `Protein` DISABLE KEYS */;
 INSERT INTO `Protein` VALUES (4380,141666,'Protein 01','PRT-01',NULL,NULL,NULL,'2016-03-17 15:57:52',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4383,141666,'Protein 02','PRT-02',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4386,141666,'Protein 03','PRT-03',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4389,141666,'Protein 04','PRT-04',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4392,141666,'Protein 05','PRT-05',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4395,141666,'Protein 06','PRT-06',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4398,141666,'Protein 07','PRT-07',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4401,141666,'Protein 08','PRT-08',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4404,141666,'Protein 09','PRT-09',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4407,141666,'Protein 10','PRT-10',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4410,141666,'Protein 11','PRT-11',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(4413,141666,'Protein 12','PRT-12',NULL,NULL,NULL,'2016-03-17 16:02:07',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(121393,37027,'therm','therm',NULL,NULL,NULL,'2016-01-13 13:50:20',0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(123491,37027,NULL,'thau',NULL,NULL,NULL,'2016-02-24 12:12:16',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Protein` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `Protein_has_Lattice`
---
-
-DROP TABLE IF EXISTS `Protein_has_Lattice`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Protein_has_Lattice` (
-  `proteinId` int(10) unsigned NOT NULL,
-  `cell_a` double DEFAULT NULL,
-  `cell_b` double DEFAULT NULL,
-  `cell_c` double DEFAULT NULL,
-  `cell_alpha` double DEFAULT NULL,
-  `cell_beta` double DEFAULT NULL,
-  `cell_gamma` double DEFAULT NULL,
-  PRIMARY KEY (`proteinId`),
-  CONSTRAINT `Protein_has_Lattice_ibfk1` FOREIGN KEY (`proteinId`) REFERENCES `Protein` (`proteinId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Protein_has_Lattice`
---
-
-LOCK TABLES `Protein_has_Lattice` WRITE;
-/*!40000 ALTER TABLE `Protein_has_Lattice` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Protein_has_Lattice` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -9118,4 +9124,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-16 17:22:35
+-- Dump completed on 2017-03-17 19:48:41
