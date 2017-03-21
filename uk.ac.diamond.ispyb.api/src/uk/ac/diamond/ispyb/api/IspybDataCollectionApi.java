@@ -11,4 +11,5 @@ public interface IspybDataCollectionApi extends Closeable {
 	public void updateDataCollectionMachine(DataCollectionMachine dataCollectionMachine);
 	public Long upsertDataCollectionGroup(DataCollectionGroup dataCollectionGroup);
 	public Long upsertDataCollectionGroupGrid(DataCollectionGroupGrid dataCollectionGroupGrid);
+	public Long insertBeamlineAction(BeamlineAction beamlineAction);
 }

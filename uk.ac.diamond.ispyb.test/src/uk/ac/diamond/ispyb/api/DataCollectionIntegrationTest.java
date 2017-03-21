@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalField;
 
 import org.junit.After;
 import org.junit.Before;
@@ -89,6 +90,26 @@ public class DataCollectionIntegrationTest extends TestCase{
 		grid.setOrientation(Orientation.HORIZONTAL.name());
 		
 		Long id = helper.execute(api -> api.upsertDataCollectionGroupGrid(grid));
+		assertNotNull(id);
+	}
+
+	@Test
+	public void testInsertBeamlineAction() throws SQLException, IOException, InterruptedException {
+		BeamlineAction beamlineAction = new BeamlineAction();
+
+		beamlineAction.setProposalCode("cm");
+		beamlineAction.setProposalNumber(14451L);
+		beamlineAction.setSessionNumber(55167L);
+		beamlineAction.setStartTime(new Timestamp(System.currentTimeMillis()));
+		beamlineAction.setEndTime(new Timestamp(System.currentTimeMillis()));
+		beamlineAction.setMessage("message");
+		beamlineAction.setParameter("parameter");
+		beamlineAction.setValue("value");
+		beamlineAction.setLogLevel("DEBUG");
+		beamlineAction.setStatus("PAUSED");
+
+		Long id = helper.execute(api -> api.insertBeamlineAction(beamlineAction));
+
 		assertNotNull(id);
 	}
 	

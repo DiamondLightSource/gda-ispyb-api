@@ -8,6 +8,7 @@ import uk.ac.diamond.ispyb.api.DataCollectionGroup;
 import uk.ac.diamond.ispyb.api.DataCollectionGroupGrid;
 import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
+import uk.ac.diamond.ispyb.api.BeamlineAction;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 
 public class IspybDataCollectionDAO implements IspybDataCollectionApi {
@@ -43,6 +44,11 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	@Override
 	public Long upsertDataCollectionGroupGrid(DataCollectionGroupGrid dataCollectionGroupGrid) {
 		return beanTemplateWrapper.callIspybForKey("upsert_dcg_grid", Long.class, dataCollectionGroupGrid, "p_id").get();
+	}
+
+	@Override
+	public Long insertBeamlineAction(BeamlineAction beamlineAction){
+		return beanTemplateWrapper.callIspybForKey("insert_beamline_action", Long.class, beamlineAction, "p_id").get();
 	}
 
 	@Override
