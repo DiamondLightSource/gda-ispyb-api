@@ -210,7 +210,7 @@ public class PlateIntegrationTest extends TestCase{
 			return api.retrieveContainerQueueWithMostRecentCompletedTimestamp("test_plate2");
 		});
 
-		assertThat(timestamp.get(), is(not(nullValue())));
+		assertThat(timestamp.isPresent(), is(true));
 	}
 
 	@Before
