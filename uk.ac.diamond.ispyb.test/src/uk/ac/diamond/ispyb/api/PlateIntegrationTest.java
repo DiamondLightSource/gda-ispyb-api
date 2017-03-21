@@ -1,11 +1,8 @@
 package uk.ac.diamond.ispyb.api;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -22,7 +19,7 @@ public class PlateIntegrationTest extends TestCase{
 	private final IntegrationTestHelper<IspybPlateApi> helper = new IntegrationTestHelper<>(new IspybPlateDaoFactory());
 	
 	@Test
-	public void testRetrieve() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testRetrieve() throws SQLException, IOException, InterruptedException {
 		ContainerInfo containerInfo = helper.execute(api -> api.retrieveContainerInfo("test_plate3")).get();
 		
 		ContainerInfo expected = new ContainerInfo();
@@ -147,7 +144,7 @@ public class PlateIntegrationTest extends TestCase{
 	}
 	
 	@Test
-	public void testUpsertSampleImageAnalysis() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testUpsertSampleImageAnalysis() throws SQLException, IOException, InterruptedException {
 		SampleImageAnalysis sampleImageAnalysis = new SampleImageAnalysis();
 		sampleImageAnalysis.setContainerBarcode("test_plate3");
 		sampleImageAnalysis.setSampleLocation("1");
@@ -156,7 +153,7 @@ public class PlateIntegrationTest extends TestCase{
 	}
 	
 	@Test
-	public void testUpsertSampleImageAnalysisChangesId() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testUpsertSampleImageAnalysisChangesId() throws SQLException, IOException, InterruptedException {
 		SampleImageAnalysis sampleImageAnalysis1 = new SampleImageAnalysis();
 		sampleImageAnalysis1.setContainerBarcode("test_plate3");
 		sampleImageAnalysis1.setSampleLocation("1");
@@ -173,7 +170,7 @@ public class PlateIntegrationTest extends TestCase{
 	}
 
 	@Test
-	public void testRetrieveContainerSubsamples() throws SQLException, FileNotFoundException, IOException, InterruptedException {
+	public void testRetrieveContainerSubsamples() throws SQLException, IOException, InterruptedException {
 		List<ContainerSubsample> subsamples = helper.execute(api -> api.retrieveContainerSubsamples("test_plate2"));
 
 		ContainerSubsample expected = new ContainerSubsample();
@@ -204,6 +201,16 @@ public class PlateIntegrationTest extends TestCase{
 
 
 		assertThat(Arrays.asList(expected), is(equalTo(subsamples)));
+	}
+
+	@Test
+	public void testRetrieveContainerQueueWithMostRecentCompletedTimestamp() throws IOException, SQLException{
+		Optional<Timestamp> timestamp= helper.execute(api -> {
+			api.finishContainer("test_plate2");
+			return api.retrieveContainerQueueWithMostRecentCompletedTimestamp("test_plate2");
+		});
+
+		assertThat(timestamp.get(), is(not(nullValue())));
 	}
 
 	@Before

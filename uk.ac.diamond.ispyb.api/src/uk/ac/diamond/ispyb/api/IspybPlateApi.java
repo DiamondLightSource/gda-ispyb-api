@@ -2,6 +2,7 @@ package uk.ac.diamond.ispyb.api;
 
 import java.io.Closeable;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,8 @@ public interface IspybPlateApi extends Closeable {
 	void finishContainer(String barcode) throws SQLException;
 
 	List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws SQLException;
+
+	Optional<Timestamp> retrieveContainerQueueWithMostRecentCompletedTimestamp(String barcode) throws SQLException;
 
 	Optional<Date> retrieveContainerQueueTimestamp(String barcode) throws SQLException;
 

@@ -2,6 +2,7 @@ package uk.ac.diamond.ispyb.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,6 +60,11 @@ public class IspybPlateDAO implements IspybPlateApi{
 	@Override
 	public List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws SQLException {
 		return templateWrapper.callIspybForListBeans("retrieve_container_ls_queue", ContainerLSQueueEntry.class, map("beamline", beamline));
+	}
+
+	@Override
+	public Optional<Timestamp> retrieveContainerQueueWithMostRecentCompletedTimestamp(String barcode) throws SQLException{
+		return templateWrapper.callIspyb("retrieve_container_queue_most_recent_completed_timestamp", Timestamp.class, map("barcode", barcode));
 	}
 
 	@Override
