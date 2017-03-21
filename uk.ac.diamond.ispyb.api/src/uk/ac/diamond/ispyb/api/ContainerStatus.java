@@ -11,7 +11,9 @@ public enum ContainerStatus {
 	IN_TRANSIT_TO_LOCAL_STORAGE("in_transit_to_localstorage"),
 	IN_TRANSIT_TO_STORAGE("in_transit_to_storage"),
 	IN_TRANSIT_LOADING("in_transit_loading"),
-	IN_TRANSIT_UNLOADING("in_transit_unloading");
+	IN_TRANSIT_UNLOADING("in_transit_unloading"),
+	INVALID("invalid")
+	;
 
 	private final String status;
 	ContainerStatus(String status) {
@@ -28,7 +30,7 @@ public enum ContainerStatus {
 				return e;
 			}
 		}
-		throw new IllegalArgumentException("no container status for " + status);
+		return INVALID;
 	}
 
 }
