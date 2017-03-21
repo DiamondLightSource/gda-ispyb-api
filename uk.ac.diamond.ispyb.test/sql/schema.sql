@@ -7509,6 +7509,69 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_components_for_sample` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_components_for_sample`(IN p_sampleTypeId int unsigned)
+    READS SQL DATA
+BEGIN
+    IF NOT (p_sampleTypeId IS NULL) THEN
+      SELECT
+          prot.proteinId "componentId", prot.name "componentName", prot.density "componentDensity", prot.sequence "componentContent", prot.molecularMass "componentMolecularMass", 
+          prot.abundance "componentAbundance"
+      FROM Protein prot  
+        INNER JOIN Crystal c on prot.proteinId = c.proteinId
+      WHERE c.crystalId = p_sampleTypeId
+      UNION ALL
+      SELECT
+          prot.proteinId "componentId", prot.name "componentName", prot.density "componentDensity", prot.sequence "componentContent", prot.molecularMass "componentMolecularMass", 
+          prot.abundance "componentAbundance"
+      FROM BLSampleType_has_Component bhc  
+        INNER JOIN Protein prot on prot.proteinId = bhc.componentId
+      WHERE bhc.blSampleTypeId = p_sampleTypeId;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_sampleTypeId is NULL';
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_component_lattices_for_component` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_component_lattices_for_component`(IN p_componentId int unsigned)
+    READS SQL DATA
+BEGIN
+    IF NOT (p_componentId IS NULL) THEN
+		SELECT cell_a "cell_a", cell_b "cell_b", cell_c "cell_c", cell_alpha "cell_alpha", cell_beta "cell_beta", cell_gamma "cell_gamma"
+        FROM ComonentLattice
+        WHERE proteinId = p_componentId
+        ORDER BY proteinId ASC;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_componentId is NULL';
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `retrieve_containers_submitted_non_ls` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -7823,6 +7886,52 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_dc_plans_for_sample` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_dc_plans_for_sample`(IN p_sampleId int unsigned)
+    READS SQL DATA
+BEGIN
+    IF NOT (p_sampleId IS NULL) THEN
+    SELECT dp.diffractionPlanId "dcPlanId", dp.name "name", dp.experimentKind "experimentKind", 
+      dp.preferredBeamSizeX "preferredBeamSizeX", dp.preferredBeamSizeY "preferredBeamSizeY", dp.requiredResolution "requiredResolution", 
+      dp.monoBandwidth "monoBandwidth", dp.energy "energy", 
+      dhd.detectorId "detectorId", dhd.exposureTime "exposureTime", dhd.distance "distance", dhd.orientation "orientation", 
+      spm.scanParametersModelId "scanParamModelId", sps.name "scanParamServiceName", spm.modelNumber "scanParamModelNumber", 
+      spm.start "scanParamModelStart", spm.stop "scanParamModelStop", spm.step "scanParamModelStep", spm.array "scanParamModelArray"
+    FROM BLSample_has_DataCollectionPlan bhd 
+      INNER JOIN DiffractionPlan dp ON dp.diffractionPlanId = bhd.dataCollectionPlanId
+      INNER JOIN ScanParametersModel spm on spm.dataCollectionPlanId = dp.diffractionPlanId
+      INNER JOIN ScanParametersService sps on sps.scanParametersServiceId = spm.scanParametersServiceId
+      LEFT OUTER JOIN DataCollectionPlan_has_Detector dhd on dhd.dataCollectionPlanId = dp.diffractionPlanId
+    WHERE bhd.blSampleId = p_sampleId
+    ORDER BY dp.diffractionPlanId ASC, spm.modelNumber ASC;    
+/*
+    GROUP BY blss.blSubSampleId, location, pos1.posX, pos1.posY, pos1.posZ, pos2.posX, pos2.posY, pos2.posZ, 
+	  blsi.imageFullPath, blss.imgFilePath, blss.imgFileName, 
+      dp.experimentKind, dp.exposureTime, 
+      dp.preferredBeamSizeX, dp.preferredBeamSizeY, dp.requiredResolution, 
+      dp.monochromator, 12398.42 / dp.energy, dp.transmission, 
+      dp.boxSizeX, dp.boxSizeY, 
+      dp.kappaStart, dp.axisStart, dp.axisRange, dp.numberOfImages;
+*/
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_sampleId is NULL';
+    END IF;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `retrieve_dc_plan_groups` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -7906,6 +8015,69 @@ BEGIN
     ELSE
 	  SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory arguments p_proposalCode + p_proposalNumber + p_sessionNumber can not be NULL';
 	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_samples_assigned_for_session` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_samples_assigned_for_session`(IN p_proposalCode varchar(3), IN p_proposalNumber int)
+    READS SQL DATA
+BEGIN
+    IF NOT (p_proposalCode IS NULL) AND NOT (p_proposalNumber IS NULL) THEN
+        SELECT bls.blSampleId "sampleId", bls.name "sampleName", bls.code "sampleCode", bls.comments "sampleComments", bls.location "sampleLocation",
+          bls.packingFraction "samplePackingFraction", bls.dimension1 "dimension1", bls.dimension2 "dimension2", bls.dimension3 "dimension3", 
+          bls.shape "shape",
+          cr.crystalId "sampleTypeId", cr.name "sampleTypeName", cr.comments "sampleTypeComments", cr.spaceGroup "sampleTypeSpaceGroup"
+        FROM BLSample bls
+          INNER JOIN BLSample_has_DataCollectionPlan bhd on bls.blSampleId = bhd.blSampleId
+          INNER JOIN Container c on c.containerId = bls.containerId
+          INNER JOIN Crystal cr on cr.crystalId = bls.crystalId
+          INNER JOIN Protein prot on prot.proteinId = cr.proteinId
+          INNER JOIN Proposal p on p.proposalId = prot.proposalId
+        WHERE
+          p.proposalCode = p_proposalCode AND p_proposalNumber = p.proposalNumber AND c.containerStatus = 'processing'
+        ORDER BY
+          bls.blSampleId ASC;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='One or more mandatory arguments are NULL: p_proposalCode, p_proposalNumber';
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_sample_groups_for_sample` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_sample_groups_for_sample`(IN p_sampleId int unsigned)
+    READS SQL DATA
+BEGIN
+    IF NOT (p_sampleId IS NULL) THEN
+        SELECT blSampleGroupId "sampleGroupId", `order`, `type` 
+        FROM BLSampleGroup_has_BLSample 
+        WHERE blSampleId=p_sampleId;
+	ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_sampleId is NULL';
+    END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -9124,4 +9296,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-17 19:48:41
+-- Dump completed on 2017-03-21 15:08:18
