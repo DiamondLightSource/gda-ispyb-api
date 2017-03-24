@@ -10,6 +10,8 @@ import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.api.Sample;
 import uk.ac.diamond.ispyb.api.SampleGroup;
 import uk.ac.diamond.ispyb.api.Component;
+import uk.ac.diamond.ispyb.api.DataCollectionPlan;
+import uk.ac.diamond.ispyb.api.ComponentLattice;
 
 public class IspybXpdfDAO implements IspybXpdfApi{
     private final TemplateWrapper templateWrapper;
@@ -37,6 +39,18 @@ public class IspybXpdfDAO implements IspybXpdfApi{
         Map<String, Object> map = new HashMap<>();
         map.put("sampleTypeId", sampleTypeId);
         return templateWrapper.callIspybForListBeans("retrieve_components_for_sample_type", Component.class, map);
+    }
+
+    public List<DataCollectionPlan> retrieveDataCollectionPlansForSample(Long sampleId){
+        Map<String, Object> map = new HashMap<>();
+        map.put("sampleId", sampleId);
+        return templateWrapper.callIspybForListBeans("retrieve_dc_plans_for_sample", DataCollectionPlan.class, map);
+    }
+
+    public List<ComponentLattice> retrieveComponentLatticesForComponent(Long componentId){
+        Map<String, Object> map = new HashMap<>();
+        map.put("componentId", componentId);
+        return templateWrapper.callIspybForListBeans("retrieve_component_lattices_for_component", ComponentLattice.class, map);
     }
 
     @Override
