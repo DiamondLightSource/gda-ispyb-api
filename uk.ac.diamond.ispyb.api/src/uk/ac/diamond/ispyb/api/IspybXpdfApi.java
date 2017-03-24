@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface IspybXpdfApi extends Closeable {
     List<Sample> retrieveSamplesAssignedForProposal(String proposalCode, Long proposalNumber);
+    List<SampleGroup> retrieveSampleGroupsForSample(Long sampleId);
 }
