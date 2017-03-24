@@ -2021,9 +2021,9 @@ CREATE TABLE `DataCollection` (
   KEY `startPositionId` (`startPositionId`),
   KEY `DataCollection_FKIndex0` (`BLSAMPLEID`),
   KEY `DataCollection_FKIndex00` (`SESSIONID`),
+  CONSTRAINT `DataCollection_ibfk_3` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `_DataCollection_ibfk_1` FOREIGN KEY (`strategySubWedgeOrigId`) REFERENCES `ScreeningStrategySubWedge` (`screeningStrategySubWedgeId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `_DataCollection_ibfk_2` FOREIGN KEY (`detectorId`) REFERENCES `Detector` (`detectorId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_DataCollection_ibfk_3` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `_DataCollection_ibfk_6` FOREIGN KEY (`startPositionId`) REFERENCES `MotorPosition` (`motorPositionId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `_DataCollection_ibfk_7` FOREIGN KEY (`endPositionId`) REFERENCES `MotorPosition` (`motorPositionId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `_DataCollection_ibfk_8` FOREIGN KEY (`blSubSampleId`) REFERENCES `BLSubSample` (`blSubSampleId`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2083,7 +2083,7 @@ CREATE TABLE `DataCollectionGroup` (
   `sessionId` int(10) unsigned NOT NULL COMMENT 'references Session table',
   `comments` varchar(1024) DEFAULT NULL COMMENT 'comments',
   `blSampleId` int(10) unsigned DEFAULT NULL COMMENT 'references BLSample table',
-  `experimentType` enum('SAD','SAD - Inverse Beam','OSC','Collect - Multiwedge','MAD','Helical','Multi-positional','Mesh','Burn','MAD - Inverse Beam','Characterization','Dehydration') DEFAULT NULL COMMENT 'Experiment type flag',
+  `experimentType` enum('SAD','SAD - Inverse Beam','OSC','Collect - Multiwedge','MAD','Helical','Multi-positional','Mesh','Burn','MAD - Inverse Beam','Characterization','Dehydration','tomo','experiment','EM','PDF','PDF+Bragg','Bragg') DEFAULT NULL,
   `startTime` datetime DEFAULT NULL COMMENT 'Start time of the dataCollectionGroup',
   `endTime` datetime DEFAULT NULL COMMENT 'end time of the dataCollectionGroup',
   `crystalClass` varchar(20) DEFAULT NULL COMMENT 'Crystal Class for industrials users',
@@ -2098,9 +2098,9 @@ CREATE TABLE `DataCollectionGroup` (
   KEY `DataCollectionGroup_FKIndex1` (`blSampleId`),
   KEY `DataCollectionGroup_FKIndex2` (`sessionId`),
   KEY `workflowId` (`workflowId`),
-  CONSTRAINT `DataCollectionGroup_ibfk_1` FOREIGN KEY (`blSampleId`) REFERENCES `BLSample` (`blSampleId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `DataCollectionGroup_ibfk_2` FOREIGN KEY (`sessionId`) REFERENCES `BLSession` (`sessionId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `DataCollectionGroup_ibfk_3` FOREIGN KEY (`workflowId`) REFERENCES `Workflow` (`workflowId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `_DataCollectionGroup_ibfk_1` FOREIGN KEY (`blSampleId`) REFERENCES `BLSample` (`blSampleId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `_DataCollectionGroup_ibfk_2` FOREIGN KEY (`sessionId`) REFERENCES `BLSession` (`sessionId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `_DataCollectionGroup_ibfk_3` FOREIGN KEY (`workflowId`) REFERENCES `Workflow` (`workflowId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1054244 DEFAULT CHARSET=latin1 COMMENT='a dataCollectionGroup is a group of dataCollection for a spe';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2782,9 +2782,9 @@ CREATE TABLE `GridInfo` (
   `snaked` tinyint(1) DEFAULT '0' COMMENT 'True: The images associated with the DCG were collected in a snaked pattern',
   PRIMARY KEY (`gridInfoId`),
   KEY `workflowMeshId` (`workflowMeshId`),
-  KEY `GridInfo_ibfk_2` (`dataCollectionGroupId`),
+  KEY `_GridInfo_ibfk_2` (`dataCollectionGroupId`),
   CONSTRAINT `GridInfo_ibfk_1` FOREIGN KEY (`workflowMeshId`) REFERENCES `WorkflowMesh` (`workflowMeshId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `GridInfo_ibfk_2` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`)
+  CONSTRAINT `_GridInfo_ibfk_2` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4169,7 +4169,7 @@ CREATE TABLE `Project_has_DCGroup` (
   PRIMARY KEY (`projectId`,`dataCollectionGroupId`),
   KEY `Project_has_DCGroup_FK2` (`dataCollectionGroupId`),
   CONSTRAINT `Project_has_DCGroup_FK1` FOREIGN KEY (`projectId`) REFERENCES `Project` (`projectId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Project_has_DCGroup_FK2` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `_Project_has_DCGroup_FK2` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -5076,7 +5076,7 @@ CREATE TABLE `Screening` (
   KEY `dcgroupId` (`dataCollectionGroupId`),
   KEY `Screening_ibfk2` (`dataCollectionId`),
   CONSTRAINT `Screening_ibfk2` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Screening_ibfk_1` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `_Screening_ibfk_1` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1927991 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -7565,7 +7565,7 @@ CREATE PROCEDURE `retrieve_component_lattices_for_component`(IN p_componentId in
     READS SQL DATA
 BEGIN
     IF NOT (p_componentId IS NULL) THEN
-                SELECT cell_a "cell_a", cell_b "cell_b", cell_c "cell_c", cell_alpha "cell_alpha", cell_beta "cell_beta", cell_gamma "cell_gamma"
+		SELECT cell_a "a", cell_b "b", cell_c "c", cell_alpha "alpha", cell_beta "beta", cell_gamma "gamma"
         FROM ComponentLattice
         WHERE componentId = p_componentId
         ORDER BY componentId ASC;
@@ -9304,4 +9304,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-23 22:51:06
+-- Dump completed on 2017-03-24 13:32:18
