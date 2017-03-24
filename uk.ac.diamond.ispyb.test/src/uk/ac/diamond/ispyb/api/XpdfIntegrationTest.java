@@ -60,12 +60,20 @@ public class XpdfIntegrationTest extends TestCase{
 		assertThat(groups , is(equalTo(Arrays.asList(sampleGroup))));
 	}
 
-//	@Test
-//	public void testRetrieveComponentsForSampleType()throws SQLException, IOException, InterruptedException {
-//		List<Component> components = helper.execute(api -> api.retrieveComponentsForSampleType(333308));
-//		assertThat(components, is(equalTo(Arrays.asList(new Component()))));
-//	}
-//
+	@Test
+	public void testRetrieveComponentsForSampleType()throws SQLException, IOException, InterruptedException {
+		List<Component> components = helper.execute(api -> api.retrieveComponentsForSampleType(333308L));
+
+		Component component = new Component();
+		component.setComponentId(123497L);
+		component.setComponentName("XPDF comp1");
+		component.setComponentDensity(0.0);
+		component.setComponentMolecularMass(0.0);
+		component.setComponentAbundance(0.0);
+
+		assertThat(components, is(equalTo(Arrays.asList(component))));
+	}
+
 //	@Test
 //	public void testRetrieveDataCollectionPlansForSample()throws SQLException, IOException, InterruptedException {
 //		List<DataCollectionPlan> components = helper.execute(api -> api.retrieveDataCollectionPlansForSample(398824));

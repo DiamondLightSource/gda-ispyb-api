@@ -9,6 +9,7 @@ import java.util.List;
 import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.api.Sample;
 import uk.ac.diamond.ispyb.api.SampleGroup;
+import uk.ac.diamond.ispyb.api.Component;
 
 public class IspybXpdfDAO implements IspybXpdfApi{
     private final TemplateWrapper templateWrapper;
@@ -30,6 +31,12 @@ public class IspybXpdfDAO implements IspybXpdfApi{
         Map<String, Object> map = new HashMap<>();
         map.put("sampleId", sampleId);
         return templateWrapper.callIspybForListBeans("retrieve_sample_groups_for_sample", SampleGroup.class, map);
+    }
+
+    public List<Component> retrieveComponentsForSampleType(Long sampleTypeId){
+        Map<String, Object> map = new HashMap<>();
+        map.put("sampleTypeId", sampleTypeId);
+        return templateWrapper.callIspybForListBeans("retrieve_components_for_sample_type", Component.class, map);
     }
 
     @Override
