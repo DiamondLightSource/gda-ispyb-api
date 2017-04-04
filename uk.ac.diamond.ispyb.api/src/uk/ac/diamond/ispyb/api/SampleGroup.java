@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public class SampleGroup {
   private Long sampleGroupId;
+  private Long sampleId;
   private Long order;
   private SampleGroupType type;
 
@@ -17,6 +18,14 @@ public class SampleGroup {
 
     public void setSampleGroupId(Long blSampleGroupId) {
         this.sampleGroupId = blSampleGroupId;
+    }
+
+    public Long getSampleId() {
+        return sampleId;
+    }
+
+    public void setSampleId(Long blSampleId) {
+        this.sampleId = blSampleId;
     }
 
     public Long getOrder() {

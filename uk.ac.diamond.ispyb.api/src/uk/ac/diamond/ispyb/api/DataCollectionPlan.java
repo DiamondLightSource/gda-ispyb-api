@@ -16,10 +16,10 @@ public class DataCollectionPlan {
     private Long detectorId;
     private Double exposureTime;
     private Double distance;
-    private Double orientation;
+    private Double roll;
     private Long scanParamModelId;
     private String scanParamServiceName;
-    private String scanParamModelNumber;
+    private String scanParamSequenceNumber;
     private Double scanParamModelStart;
     private Double scanParamModelStop;
     private Double scanParamModelStep;
@@ -113,12 +113,12 @@ public class DataCollectionPlan {
         this.distance = distance;
     }
 
-    public Double getOrientation() {
-        return orientation;
+    public Double getRoll() {
+        return roll;
     }
 
-    public void setOrientation(Double orientation) {
-        this.orientation = orientation;
+    public void setRoll(Double roll) {
+        this.roll = roll;
     }
 
     public Long getScanParamModelId() {
@@ -137,12 +137,12 @@ public class DataCollectionPlan {
         this.scanParamServiceName = scanParamServiceName;
     }
 
-    public String getScanParamModelNumber() {
-        return scanParamModelNumber;
+    public String getScanParamSequenceNumber() {
+        return scanParamSequenceNumber;
     }
 
-    public void setScanParamModelNumber(String scanParamModelNumber) {
-        this.scanParamModelNumber = scanParamModelNumber;
+    public void setScanParamSequenceNumber(String scanParamSequenceNumber) {
+        this.scanParamSequenceNumber = scanParamSequenceNumber;
     }
 
     public Double getScanParamModelStart() {

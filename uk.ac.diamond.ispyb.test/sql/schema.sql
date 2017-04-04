@@ -835,7 +835,7 @@ CREATE TABLE `BLSampleGroup_has_BLSample` (
 
 LOCK TABLES `BLSampleGroup_has_BLSample` WRITE;
 /*!40000 ALTER TABLE `BLSampleGroup_has_BLSample` DISABLE KEYS */;
-INSERT INTO `BLSampleGroup_has_BLSample` VALUES (5,398824,NULL,NULL),(5,398827,NULL,NULL);
+INSERT INTO `BLSampleGroup_has_BLSample` VALUES (5,398824,1,'background'),(5,398827,2,'sample');
 /*!40000 ALTER TABLE `BLSampleGroup_has_BLSample` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2126,7 +2126,7 @@ CREATE TABLE `DataCollectionPlan_has_Detector` (
   `detectorId` int(11) NOT NULL,
   `exposureTime` double DEFAULT NULL,
   `distance` double DEFAULT NULL,
-  `orientation` double DEFAULT NULL,
+  `roll` double DEFAULT NULL,
   PRIMARY KEY (`dataCollectionPlanId`,`detectorId`),
   KEY `DataCollectionPlan_has_Detector_ibfk2` (`detectorId`),
   CONSTRAINT `DataCollectionPlan_has_Detector_ibfk1` FOREIGN KEY (`dataCollectionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`),
@@ -4844,7 +4844,7 @@ CREATE TABLE `ScanParametersModel` (
   `scanParametersModelId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `scanParametersServiceId` int(10) unsigned DEFAULT NULL,
   `dataCollectionPlanId` int(11) unsigned DEFAULT NULL,
-  `modelNumber` tinyint(3) unsigned DEFAULT NULL,
+  `sequenceNumber` tinyint(3) unsigned DEFAULT NULL,
   `start` double DEFAULT NULL,
   `stop` double DEFAULT NULL,
   `step` double DEFAULT NULL,
@@ -7447,6 +7447,51 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_screening_strategy_sub_wedge` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `insert_screening_strategy_sub_wedge`(
+     OUT p_id int(10) unsigned,
+     p_screeningStrategyWedgeId int(10) unsigned,
+     p_subWedgeNumber int(10) unsigned,
+     p_rotationAxis varchar(45),
+     p_axisStart float,
+     p_axisEnd float,
+     p_exposureTime float,
+     p_transmission float, 
+     p_oscillationRange float,
+     p_resolution float,
+     p_completeness float,
+     p_multiplicity float,
+     p_doseTotal float,
+     p_numberOfImages	int(10) unsigned,
+     p_comments varchar(255)
+     )
+    MODIFIES SQL DATA
+BEGIN
+      INSERT INTO ScreeningStrategySubWedge (
+        screeningStrategyWedgeId, subWedgeNumber, rotationAxis, axisStart, axisEnd, exposureTime, transmission, 
+        oscillationRange, completeness, multiplicity, resolution, doseTotal, numberOfImages, comments)
+        VALUES (p_screeningStrategyWedgeId, p_subWedgeNumber, p_rotationAxis, p_axisStart, p_axisEnd, p_exposureTime, p_transmission, 
+        p_oscillationRange, p_completeness, p_multiplicity, p_resolution, p_doseTotal, p_numberOfImages, p_comments);
+        
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `retrieve_associated_dc_ids` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -7900,7 +7945,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_dc_plans_for_sample`(IN p_sampleId int unsigned)
     READS SQL DATA
@@ -7909,8 +7954,8 @@ BEGIN
     SELECT dp.diffractionPlanId "dcPlanId", dp.name "name", dp.experimentKind "experimentKind", 
       dp.preferredBeamSizeX "preferredBeamSizeX", dp.preferredBeamSizeY "preferredBeamSizeY", dp.requiredResolution "requiredResolution", 
       dp.monoBandwidth "monoBandwidth", dp.energy "energy", 
-      dhd.detectorId "detectorId", dhd.exposureTime "exposureTime", dhd.distance "distance", dhd.orientation "orientation", 
-      spm.scanParametersModelId "scanParamModelId", sps.name "scanParamServiceName", spm.modelNumber "scanParamModelNumber", 
+      dhd.detectorId "detectorId", dhd.exposureTime "exposureTime", dhd.distance "distance", dhd.roll "roll", 
+      spm.scanParametersModelId "scanParamModelId", sps.name "scanParamServiceName", spm.sequenceNumber "scanParamSequenceNumber", 
       spm.start "scanParamModelStart", spm.stop "scanParamModelStop", spm.step "scanParamModelStep", spm.array "scanParamModelArray"
     FROM BLSample_has_DataCollectionPlan bhd 
       INNER JOIN DiffractionPlan dp ON dp.diffractionPlanId = bhd.dataCollectionPlanId
@@ -7918,7 +7963,7 @@ BEGIN
       INNER JOIN ScanParametersService sps on sps.scanParametersServiceId = spm.scanParametersServiceId
       LEFT OUTER JOIN DataCollectionPlan_has_Detector dhd on dhd.dataCollectionPlanId = dp.diffractionPlanId
     WHERE bhd.blSampleId = p_sampleId
-    ORDER BY dp.diffractionPlanId ASC, spm.modelNumber ASC;    
+    ORDER BY dp.diffractionPlanId ASC, spm.sequenceNumber ASC;    
 /*
     GROUP BY blss.blSubSampleId, location, pos1.posX, pos1.posY, pos1.posZ, pos2.posX, pos2.posY, pos2.posZ, 
 	  blsi.imageFullPath, blss.imgFilePath, blss.imgFileName, 
@@ -8066,6 +8111,33 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_samples_for_sample_group` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_samples_for_sample_group`(IN p_sampleGroupId int unsigned)
+    READS SQL DATA
+BEGIN
+    IF NOT (p_sampleGroupId IS NULL) THEN
+		SELECT blSampleId "sampleId", `type` "type", `order` "order"
+        FROM BLSampleGroup_has_BLSample 
+        WHERE blSampleGroupId = p_sampleGroupId
+        ORDER BY blSampleId;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument is NULL: p_sampleGroupId';
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `retrieve_sample_groups_for_sample` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -8074,7 +8146,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_sample_groups_for_sample`(IN p_sampleId int unsigned)
     READS SQL DATA
@@ -9304,4 +9376,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-24 13:32:18
+-- Dump completed on 2017-04-04  9:50:46

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -53,11 +54,33 @@ public class XpdfIntegrationTest extends TestCase{
 
 	@Test
 	public void testRetrieveSampleGroupsForSample()throws SQLException, IOException, InterruptedException {
-		List<SampleGroup> groups = helper.execute(api -> api.retrieveSampleGroupsForSample(398824L));
+		List<SampleGroup> samples = helper.execute(api -> api.retrieveSampleGroupsForSample(398824L));
 		SampleGroup sampleGroup = new SampleGroup();
 		sampleGroup.setSampleGroupId(5L);
-		sampleGroup.setOrder(0L);
-		assertThat(groups , is(equalTo(Arrays.asList(sampleGroup))));
+		sampleGroup.setOrder(1L);
+		sampleGroup.setType(SampleGroupType.BACKGROUND.name());
+		
+		assertThat(samples , is(equalTo(Arrays.asList(sampleGroup))));
+	}
+
+	@Test
+	public void testRetrieveSamplesForSampleGroups()throws SQLException, IOException, InterruptedException {
+		List<SampleGroup> groups = helper.execute(api -> api.retrieveSamplesForSampleGroup(5L));
+		List<SampleGroup> sampleGroups = new ArrayList<SampleGroup>();
+
+		SampleGroup sampleGroup1 = new SampleGroup();
+		sampleGroup1.setSampleId(398824L);
+		sampleGroup1.setOrder(1L);
+		sampleGroup1.setType(SampleGroupType.BACKGROUND.name());
+		sampleGroups.add(sampleGroup1);
+
+		SampleGroup sampleGroup2 = new SampleGroup();
+		sampleGroup2.setSampleId(398827L);
+		sampleGroup2.setOrder(2L);
+		sampleGroup2.setType(SampleGroupType.SAMPLE.name());
+		sampleGroups.add(sampleGroup2);
+		
+		assertThat(groups , is(equalTo(sampleGroups)));
 	}
 
 	@Test
@@ -88,10 +111,10 @@ public class XpdfIntegrationTest extends TestCase{
 		dataCollectionPlan1.setDetectorId(8L);
 		dataCollectionPlan1.setExposureTime(5.4);
 		dataCollectionPlan1.setDistance(136.86);
-		dataCollectionPlan1.setOrientation(45.0);
+		dataCollectionPlan1.setRoll(45.0);
 		dataCollectionPlan1.setScanParamModelId(20L);
 		dataCollectionPlan1.setScanParamServiceName("Pressure");
-		dataCollectionPlan1.setScanParamModelNumber("1");
+		dataCollectionPlan1.setScanParamSequenceNumber("1");
 		dataCollectionPlan1.setScanParamModelStart(0.0);
 		dataCollectionPlan1.setScanParamModelStop(90.0);
 		dataCollectionPlan1.setScanParamModelStep(5.0);
@@ -107,10 +130,10 @@ public class XpdfIntegrationTest extends TestCase{
 		dataCollectionPlan2.setDetectorId(8L);
 		dataCollectionPlan2.setExposureTime(5.4);
 		dataCollectionPlan2.setDistance(136.86);
-		dataCollectionPlan2.setOrientation(45.0);
+		dataCollectionPlan2.setRoll(45.0);
 		dataCollectionPlan2.setScanParamModelId(23L);
 		dataCollectionPlan2.setScanParamServiceName("Pressure");
-		dataCollectionPlan2.setScanParamModelNumber("2");
+		dataCollectionPlan2.setScanParamSequenceNumber("2");
 		dataCollectionPlan2.setScanParamModelStart(90.0);
 		dataCollectionPlan2.setScanParamModelStop(120.0);
 		dataCollectionPlan2.setScanParamModelStep(1.0);
