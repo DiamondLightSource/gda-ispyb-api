@@ -2072,6 +2072,34 @@ LOCK TABLES `DataCollectionComment` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `DataCollectionFileAttachment`
+--
+
+DROP TABLE IF EXISTS `DataCollectionFileAttachment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `DataCollectionFileAttachment` (
+  `dataCollectionFileAttachmentId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `dataCollectionId` int(11) unsigned NOT NULL,
+  `fileFullPath` varchar(255) NOT NULL,
+  `fileType` enum('snapshot','log','xy') NOT NULL,
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`dataCollectionFileAttachmentId`),
+  KEY `dataCollectionFileAttachmentId_fk1` (`dataCollectionId`),
+  CONSTRAINT `dataCollectionFileAttachmentId_fk1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DataCollectionFileAttachment`
+--
+
+LOCK TABLES `DataCollectionFileAttachment` WRITE;
+/*!40000 ALTER TABLE `DataCollectionFileAttachment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `DataCollectionFileAttachment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `DataCollectionGroup`
 --
 
@@ -2186,7 +2214,7 @@ CREATE TABLE `Detector` (
   `detectorPixelSizeVertical` float DEFAULT NULL,
   `DETECTORMAXRESOLUTION` float DEFAULT NULL,
   `DETECTORMINRESOLUTION` float DEFAULT NULL,
-  `detectorSerialNumber` float DEFAULT NULL,
+  `detectorSerialNumber` varchar(30) DEFAULT NULL,
   `detectorDistanceMin` double DEFAULT NULL,
   `detectorDistanceMax` double DEFAULT NULL,
   `trustedPixelValueRangeLower` double DEFAULT NULL,
@@ -2201,6 +2229,7 @@ CREATE TABLE `Detector` (
   `density` float DEFAULT NULL,
   `composition` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`detectorId`),
+  UNIQUE KEY `Detector_ibuk1` (`detectorSerialNumber`),
   KEY `Detector_FKIndex1` (`detectorType`,`detectorManufacturer`,`detectorModel`,`detectorPixelSizeHorizontal`,`detectorPixelSizeVertical`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COMMENT='Detector table is linked to a dataCollection';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2211,7 +2240,7 @@ CREATE TABLE `Detector` (
 
 LOCK TABLES `Detector` WRITE;
 /*!40000 ALTER TABLE `Detector` DISABLE KEYS */;
-INSERT INTO `Detector` VALUES (4,'Photon counting','In-house','Excalibur',NULL,NULL,NULL,NULL,NULL,100,300,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,55,'CrO3Br5Sr10'),(8,'Diamond XPDF detector',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,10.4,'C+Br+He');
+INSERT INTO `Detector` VALUES (4,'Photon counting','In-house','Excalibur',NULL,NULL,NULL,NULL,'1109-434',100,300,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,55,'CrO3Br5Sr10'),(8,'Diamond XPDF detector',NULL,NULL,NULL,NULL,NULL,NULL,'1109-761',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,10.4,'C+Br+He');
 /*!40000 ALTER TABLE `Detector` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -8043,6 +8072,39 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_detector` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_detector`(IN p_serialNumber varchar(15))
+    READS SQL DATA
+BEGIN
+  IF p_serialNumber IS NOT NULL THEN
+    SELECT detectorId "detectorId", detectorType "detectorType", detectorManufacturer "detectorManufacturer", 
+      detectorModel "detectorModel", detectorPixelSizeHorizontal "detectorPixelSizeHorizontal", 
+      detectorPixelSizeVertical "detectorPixelSizeVertical",
+      detectorDistanceMin "detectorDistanceMin", detectorDistanceMax "detectorDistanceMax", 
+      trustedPixelValueRangeLower "trustedPixelValueRangeLower", trustedPixelValueRangeUpper "trustedPixelValueRangeUpper", 
+      sensorThickness "sensorThickness", overload "overload", detectorMode "detectorMode", CS "CS", 
+      detectorPixelSize "detectorPixelSize", density "density", composition "composition"
+	FROM Detector
+    WHERE detectorSerialNumber = p_serialNumber;
+  ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_serialNumber is NULL';  
+  END IF;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `retrieve_lcs_for_session` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -9376,4 +9438,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-04  9:50:46
+-- Dump completed on 2017-04-11 11:15:57
