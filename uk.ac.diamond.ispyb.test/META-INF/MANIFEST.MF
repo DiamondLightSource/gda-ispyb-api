@@ -9,12 +9,12 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Fragment-Host: uk.ac.diamond.ispyb.jdbc
 Require-Bundle: org.junit;bundle-version="4.12.0",
  org.apache.commons.logging;bundle-version="1.1.1",
- org.h2;bundle-version="1.3.168",
+ org.h2,
  org.mariadb.jdbc,
  org.apache.commons.lang3,
- org.apache.commons.exec,
- org.mockito.mockito-core
-Import-Package: org.springframework.beans;version="4.0.6.RELEASE",
+ org.apache.commons.exec
+Import-Package: org.mockito,
+ org.springframework.beans;version="4.0.6.RELEASE",
  org.springframework.beans.factory;version="4.0.6.RELEASE",
  org.springframework.core;version="4.0.6.RELEASE",
  org.springframework.core.io;version="4.0.6.RELEASE",
