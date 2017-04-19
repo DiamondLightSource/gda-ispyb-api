@@ -10,7 +10,7 @@ public class SampleGroup {
   private Long sampleGroupId;
   private Long sampleId;
   private Long order;
-  private SampleGroupType type;
+  private SampleGroupType type=SampleGroupType.SAMPLE;
 
     public Long getSampleGroupId() {
         return sampleGroupId;

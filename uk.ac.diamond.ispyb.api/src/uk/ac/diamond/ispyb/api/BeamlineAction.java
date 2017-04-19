@@ -15,8 +15,8 @@ public class BeamlineAction {
     private String message;
     private String parameter;
     private String value;
-    private BeamlineLogLevel logLevel;
-    private BeamlineActionStatus status;
+    private BeamlineLogLevel logLevel = BeamlineLogLevel.INFO;
+    private BeamlineActionStatus status = BeamlineActionStatus.NONE;
 
 
     public String getProposalCode() {
