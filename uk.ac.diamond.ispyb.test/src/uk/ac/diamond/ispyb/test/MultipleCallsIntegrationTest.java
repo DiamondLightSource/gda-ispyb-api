@@ -9,7 +9,7 @@
  * Contributors:
  *    See git history
  *******************************************************************************/
-package uk.ac.diamond.ispyb.api;
+package uk.ac.diamond.ispyb.test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,8 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.TestCase;
+import uk.ac.diamond.ispyb.api.ContainerInfo;
+import uk.ac.diamond.ispyb.api.IspybPlateApi;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
-
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.equalTo;

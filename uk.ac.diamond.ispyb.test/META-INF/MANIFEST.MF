@@ -6,13 +6,14 @@ Bundle-SymbolicName: uk.ac.diamond.ispyb.test;singleton:=true
 Bundle-Version: 1.11.0
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Fragment-Host: uk.ac.diamond.ispyb.jdbc
 Require-Bundle: org.junit;bundle-version="4.12.0",
  org.apache.commons.logging;bundle-version="1.1.1",
  org.h2,
  org.mariadb.jdbc,
  org.apache.commons.lang3,
- org.apache.commons.exec
+ org.apache.commons.exec,
+ uk.ac.diamond.ispyb.jdbc;bundle-version="1.11.0",
+ uk.ac.diamond.ispyb.api;bundle-version="1.11.0"
 Import-Package: org.mockito,
  org.springframework.beans;version="4.0.6.RELEASE",
  org.springframework.beans.factory;version="4.0.6.RELEASE",
@@ -24,4 +25,5 @@ Import-Package: org.mockito,
  org.springframework.jdbc.datasource;version="4.0.6.RELEASE",
  org.springframework.jdbc.support;version="4.0.6.RELEASE",
  org.springframework.util;version="4.0.6.RELEASE"
+Export-Package: uk.ac.diamond.ispyb.test
 

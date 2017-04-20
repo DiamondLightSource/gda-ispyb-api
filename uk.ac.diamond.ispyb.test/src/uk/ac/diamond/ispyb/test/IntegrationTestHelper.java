@@ -9,7 +9,7 @@
  * Contributors:
  *    See git history
  *******************************************************************************/
-package uk.ac.diamond.ispyb.api;
+package uk.ac.diamond.ispyb.test;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -24,6 +24,8 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+
+import uk.ac.diamond.ispyb.api.IspybFactoryService;
 
 public class IntegrationTestHelper<S extends Closeable>{
 	private static final String host = System.getProperty("ispyb.host");
@@ -81,13 +83,22 @@ public class IntegrationTestHelper<S extends Closeable>{
 		Resource resource = new DefaultResourceLoader().getResource(filename);
 		String absolutePath = resource.getFile().getAbsolutePath();
 
-		String command = String.format("./rundbscript.sh %s %s %s %s %s %s", host, user.get(), password.orElse(""), port.orElse("3306"), database, absolutePath);
-		
-		CommandLine commandLine = CommandLine.parse(command);
+		String command = String.format(" %s %s %s %s %s %s", host, user.orElse("UNKNOWN"), password.orElse(""), port.orElse("3306"), database, absolutePath);
+		CommandLine commandLine;
+		if (isWindows()) {
+			commandLine = new CommandLine("cmd");
+			commandLine.addArgument("/c");
+			commandLine.addArgument("rundbscript.bat"+command);
+		} else {
+			commandLine = CommandLine.parse("./rundbscript.sh"+command);
+		}
 		DefaultExecutor executor = new DefaultExecutor();
 		executor.execute(commandLine);
 	}
-	
+	static private final boolean isWindows() {
+		return (System.getProperty("os.name").indexOf("Windows") == 0);
+	}
+
 	private Connection connectToDatabase(String url, Optional<String> username, Optional<String> password, Optional<Properties> properties) throws SQLException {
 		SingleConnectionDataSource ds = new SingleConnectionDataSource(url, false);
 		properties.ifPresent(ds::setConnectionProperties);

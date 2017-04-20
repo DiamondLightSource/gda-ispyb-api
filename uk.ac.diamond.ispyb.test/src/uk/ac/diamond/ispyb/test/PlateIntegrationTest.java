@@ -9,7 +9,7 @@
  * Contributors:
  *    See git history
  *******************************************************************************/
-package uk.ac.diamond.ispyb.api;
+package uk.ac.diamond.ispyb.test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -24,6 +24,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.TestCase;
+import uk.ac.diamond.ispyb.api.ContainerInfo;
+import uk.ac.diamond.ispyb.api.ContainerLSQueueEntry;
+import uk.ac.diamond.ispyb.api.ContainerStatus;
+import uk.ac.diamond.ispyb.api.ContainerSubsample;
+import uk.ac.diamond.ispyb.api.DataCollectionInfo;
+import uk.ac.diamond.ispyb.api.IspybPlateApi;
+import uk.ac.diamond.ispyb.api.SampleImageAnalysis;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
 
 public class PlateIntegrationTest extends TestCase{

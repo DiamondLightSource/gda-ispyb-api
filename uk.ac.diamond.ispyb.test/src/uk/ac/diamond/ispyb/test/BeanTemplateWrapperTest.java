@@ -9,7 +9,7 @@
  * Contributors:
  *    See git history
  *******************************************************************************/
-package uk.ac.diamond.ispyb.api;
+package uk.ac.diamond.ispyb.test;
 
 import org.junit.Test;
 import static org.mockito.Mockito.*;

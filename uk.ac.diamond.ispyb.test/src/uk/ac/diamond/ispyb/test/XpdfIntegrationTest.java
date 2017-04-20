@@ -9,12 +9,20 @@
  * Contributors:
  *    See git history
  *******************************************************************************/
-package uk.ac.diamond.ispyb.api;
+package uk.ac.diamond.ispyb.test;
 
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import uk.ac.diamond.ispyb.api.Component;
+import uk.ac.diamond.ispyb.api.ComponentLattice;
+import uk.ac.diamond.ispyb.api.DataCollectionPlan;
+import uk.ac.diamond.ispyb.api.IspybXpdfApi;
+import uk.ac.diamond.ispyb.api.Sample;
+import uk.ac.diamond.ispyb.api.SampleGroup;
+import uk.ac.diamond.ispyb.api.SampleGroupType;
 import uk.ac.diamond.ispyb.dao.IspybXpdfDaoFactory;
 
 import java.io.IOException;

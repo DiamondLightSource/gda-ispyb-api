@@ -24,3 +24,4 @@ Import-Package: org.springframework.beans;version="4.0.6.RELEASE",
  org.springframework.jdbc.datasource;version="4.0.6.RELEASE",
  org.springframework.jdbc.support;version="4.0.6.RELEASE",
  org.springframework.util;version="4.0.6.RELEASE"
+Export-Package: uk.ac.diamond.ispyb.dao

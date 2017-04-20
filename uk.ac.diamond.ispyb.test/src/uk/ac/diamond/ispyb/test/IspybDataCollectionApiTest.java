@@ -9,7 +9,7 @@
  * Contributors:
  *    See git history
  *******************************************************************************/
-package uk.ac.diamond.ispyb.api;
+package uk.ac.diamond.ispyb.test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -21,6 +21,9 @@ import java.util.Optional;
 
 import org.junit.Test;
 
+import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
+import uk.ac.diamond.ispyb.api.IspybDataCollectionFactoryService;
+import uk.ac.diamond.ispyb.api.Schema;
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
 
 public class IspybDataCollectionApiTest {

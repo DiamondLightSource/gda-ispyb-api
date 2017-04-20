@@ -9,7 +9,7 @@
  * Contributors:
  *    See git history
  *******************************************************************************/
-package uk.ac.diamond.ispyb.api;
+package uk.ac.diamond.ispyb.test;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,6 +25,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.TestCase;
+import uk.ac.diamond.ispyb.api.BeamlineAction;
+import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
+import uk.ac.diamond.ispyb.api.DataCollectionGroup;
+import uk.ac.diamond.ispyb.api.DataCollectionGroupGrid;
+import uk.ac.diamond.ispyb.api.DataCollectionMachine;
+import uk.ac.diamond.ispyb.api.DataCollectionMain;
+import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
+import uk.ac.diamond.ispyb.api.Orientation;
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
 
 public class DataCollectionIntegrationTest extends TestCase{

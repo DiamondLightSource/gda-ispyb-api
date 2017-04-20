@@ -9,7 +9,7 @@
  * Contributors:
  *    See git history
  *******************************************************************************/
-package uk.ac.diamond.ispyb.api;
+package uk.ac.diamond.ispyb.test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -26,6 +26,10 @@ import java.util.Optional;
 import org.h2.tools.SimpleResultSet;
 import org.junit.Test;
 
+import uk.ac.diamond.ispyb.api.ContainerStatus;
+import uk.ac.diamond.ispyb.api.IspybPlateApi;
+import uk.ac.diamond.ispyb.api.IspybPlateFactoryService;
+import uk.ac.diamond.ispyb.api.Schema;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
 
 public class IspybPlateApiTest {

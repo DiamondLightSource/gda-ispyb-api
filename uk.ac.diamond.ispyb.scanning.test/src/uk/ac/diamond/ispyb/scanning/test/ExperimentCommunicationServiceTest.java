@@ -15,9 +15,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.api.IExperimentCommunicationService;
+import uk.ac.diamond.ispyb.api.IspybXpdfApi;
+import uk.ac.diamond.ispyb.dao.IspybXpdfDaoFactory;
 import uk.ac.diamond.ispyb.scanning.ExperimentCommunicationService;
+import uk.ac.diamond.ispyb.test.IntegrationTestHelper;
 
 public class ExperimentCommunicationServiceTest {
+
+	private final IntegrationTestHelper<IspybXpdfApi> helper = new IntegrationTestHelper<>(new IspybXpdfDaoFactory());
 
 	private IExperimentCommunicationService service;
 	
