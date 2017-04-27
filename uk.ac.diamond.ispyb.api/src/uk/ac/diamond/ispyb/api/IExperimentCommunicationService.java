@@ -11,6 +11,9 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.api;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -42,7 +45,24 @@ import java.util.List;
  * @see {@link http://confluence.diamond.ac.uk/display/I151/GDA-Database+Communications+Specification}
  * 
  */
-public interface IExperimentCommunicationService {
+public interface IExperimentCommunicationService extends Closeable {
+
+	/**
+	 * Open the connection. 
+	 * A connection must be opened before it may be used
+	 * A service may be open and closed multiple times
+	 * @throws SQLException
+	 */
+	public void open() throws SQLException;
+	
+	/**
+	 * Close the connection to the database
+	 * A connection must be closed after use
+	 * A service may be open and closed multiple times
+	 * @throws IOException
+	 */
+	@Override
+	public void close() throws IOException;
 
 	/**
 	 * This method wraps 'retrieveSamplesAssignedForProposal' without doing further work.
