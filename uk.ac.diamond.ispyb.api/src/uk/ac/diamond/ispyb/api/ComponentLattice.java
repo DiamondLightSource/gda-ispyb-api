@@ -16,14 +16,23 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 public class ComponentLattice {
-    private Double a;
+	private String spaceGroup;
+	private Double a;
     private Double b;
     private Double c;
     private Double alpha;
     private Double beta;
     private Double gamma;
 
-    public Double getA() {
+    public String getSpaceGroup() {
+		return spaceGroup;
+	}
+
+	public void setSpaceGroup(String spaceGroup) {
+		this.spaceGroup = spaceGroup;
+	}
+
+	public Double getA() {
         return a;
     }
 
