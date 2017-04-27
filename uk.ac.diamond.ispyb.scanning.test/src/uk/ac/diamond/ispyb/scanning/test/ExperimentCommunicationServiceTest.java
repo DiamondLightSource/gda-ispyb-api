@@ -14,6 +14,7 @@ package uk.ac.diamond.ispyb.scanning.test;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,6 +34,7 @@ import uk.ac.diamond.ispyb.api.IExperimentCommunicationService;
 import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.api.IspybXpdfFactoryService;
 import uk.ac.diamond.ispyb.api.Sample;
+import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
 import uk.ac.diamond.ispyb.dao.IspybXpdfDaoFactory;
 import uk.ac.diamond.ispyb.scanning.ExperimentCommunicationService;
 import uk.ac.diamond.ispyb.test.IntegrationTestHelper;
@@ -76,17 +79,17 @@ public class ExperimentCommunicationServiceTest {
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void checkArgs1() {
+	public void checkSampleArgs1() {
 		service.getSamples(null, Long.MAX_VALUE);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void checkArgs2() {
+	public void checkSampleArgs2() {
 		service.getSamples("cm", Long.MIN_VALUE);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void checkArgs3() {
+	public void checkSampleArgs3() {
 		service.getSamples("cm", 0);
 	}
 	
@@ -132,6 +135,53 @@ public class ExperimentCommunicationServiceTest {
 		sample2.setSampleTypeSpaceGroup("P12121");
 
 		assertThat(samples, is(equalTo(Arrays.asList(sample1, sample2))));
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void checkSampleInformationArgs1() {
+		service.getSampleInformation(null, Long.MAX_VALUE, 398824L);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void checkSampleInformationArgs2() {
+		service.getSampleInformation("cm", Long.MIN_VALUE, 398824L);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void checkSampleInformationArgs3() {
+		service.getSampleInformation("cm", 0, 398824L);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void checkSampleInformationArgs4() {
+		service.getSampleInformation("cm", 0, null);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void checkSampleInformationArgs5() {
+		service.getSampleInformation("cm", 0, new long[]{});
+	}
+
+	@Test
+	public void checkCM14451InfoNotNull() {
+		SampleInformation info = service.getSampleInformation("cm", 14451L, 398824L);
+		assertNotNull(info);
+	}
+	
+	@Test
+	public void checkCM14451InfoSize() {
+		Map<Long, SampleInformation> info = service.getSampleInformation("cm", 14451L, 398824L, 398827L);
+		assertFalse(info.isEmpty());
+		assertEquals(2, info.size());
+	}
+
+	@Test
+	public void checkCM14451InfoComponentSize() {
+		Map<Long, SampleInformation> info = service.getSampleInformation("cm", 14451L, 398824L, 398827L);
+		assertEquals(1, info.get(398824L).getComponents().size());
+		assertEquals(1, info.get(398824L).getLattices().size());
+		assertEquals(1, info.get(398827L).getComponents().size());
+		assertEquals(1, info.get(398827L).getLattices().size());
 	}
 
 }

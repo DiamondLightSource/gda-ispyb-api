@@ -6,6 +6,7 @@ Bundle-SymbolicName: uk.ac.diamond.ispyb.api;singleton:=true
 Bundle-Version: 1.11.0
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: uk.ac.diamond.ispyb.api
+Export-Package: uk.ac.diamond.ispyb.api,
+ uk.ac.diamond.ispyb.api.beans.composites
 Require-Bundle: org.apache.commons.lang3;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy

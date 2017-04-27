@@ -15,6 +15,9 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+
+import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
 
 /**
  * 
@@ -73,4 +76,23 @@ public interface IExperimentCommunicationService extends Closeable {
 	 * @return
 	 */
 	List<Sample> getSamples(String proposalCode, long proposalNumber);
+	
+	/**
+	 * 
+	 * @param proposalCode
+	 * @param proposalNumber
+	 * @param sampleIds
+	 * @return
+	 */
+	SampleInformation getSampleInformation(String proposalCode, long proposalNumber, long sampleIds) ;
+	
+	/**
+	 * 
+	 * @param proposalCode
+	 * @param proposalNumber
+	 * @param sampleIds
+	 * @return Map{sampleId->SampleInformation}
+	 */
+	Map<Long,SampleInformation> getSampleInformation(String proposalCode, long proposalNumber, long... sampleIds) ;
+
 }
