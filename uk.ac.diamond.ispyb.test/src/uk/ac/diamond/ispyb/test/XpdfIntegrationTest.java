@@ -164,6 +164,7 @@ public class XpdfIntegrationTest extends TestCase{
 	public void testRetrieveComponentLatticesForComponent()throws SQLException, IOException, InterruptedException {
 		List<ComponentLattice> lattices = helper.execute(api -> api.retrieveComponentLatticesForComponent(123497L));
 		ComponentLattice componentLattice = new ComponentLattice();
+		componentLattice.setSpaceGroup("P21");
 		componentLattice.setA(10.1);
 		componentLattice.setB(11.1);
 		componentLattice.setC(12.1);
