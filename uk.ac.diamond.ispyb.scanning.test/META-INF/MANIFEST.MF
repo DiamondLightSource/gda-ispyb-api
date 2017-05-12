@@ -14,5 +14,7 @@ Require-Bundle: org.eclipse.dawnsci.json;bundle-version="1.1.0",
  uk.ac.diamond.ispyb.scanning;bundle-version="1.0.0",
  uk.ac.diamond.ispyb.api;bundle-version="1.11.0",
  uk.ac.diamond.ispyb.test;bundle-version="1.11.0",
- uk.ac.diamond.ispyb.jdbc;bundle-version="1.11.0"
+ uk.ac.diamond.ispyb.jdbc;bundle-version="1.11.0",
+ org.apache.commons.collections;bundle-version="3.2.2",
+ org.hamcrest.core;bundle-version="1.3.0"
 Export-Package: uk.ac.diamond.ispyb.scanning.test

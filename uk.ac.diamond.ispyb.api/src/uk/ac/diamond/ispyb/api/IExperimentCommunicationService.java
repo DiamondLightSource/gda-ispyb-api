@@ -11,7 +11,13 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.api;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+
+import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
 
 /**
  * 
@@ -42,7 +48,24 @@ import java.util.List;
  * @see {@link http://confluence.diamond.ac.uk/display/I151/GDA-Database+Communications+Specification}
  * 
  */
-public interface IExperimentCommunicationService {
+public interface IExperimentCommunicationService extends Closeable {
+
+	/**
+	 * Open the connection. 
+	 * A connection must be opened before it may be used
+	 * A service may be open and closed multiple times
+	 * @throws SQLException
+	 */
+	public void open() throws SQLException;
+	
+	/**
+	 * Close the connection to the database
+	 * A connection must be closed after use
+	 * A service may be open and closed multiple times
+	 * @throws IOException
+	 */
+	@Override
+	public void close() throws IOException;
 
 	/**
 	 * This method wraps 'retrieveSamplesAssignedForProposal' without doing further work.
@@ -53,4 +76,23 @@ public interface IExperimentCommunicationService {
 	 * @return
 	 */
 	List<Sample> getSamples(String proposalCode, long proposalNumber);
+	
+	/**
+	 * 
+	 * @param proposalCode
+	 * @param proposalNumber
+	 * @param sampleIds
+	 * @return
+	 */
+	SampleInformation getSampleInformation(String proposalCode, long proposalNumber, long sampleIds) ;
+	
+	/**
+	 * 
+	 * @param proposalCode
+	 * @param proposalNumber
+	 * @param sampleIds
+	 * @return Map{sampleId->SampleInformation}
+	 */
+	Map<Long,SampleInformation> getSampleInformation(String proposalCode, long proposalNumber, long... sampleIds) ;
+
 }
