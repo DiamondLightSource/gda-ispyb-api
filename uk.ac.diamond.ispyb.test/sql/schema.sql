@@ -797,7 +797,7 @@ DROP TABLE IF EXISTS `BLSampleGroup`;
 CREATE TABLE `BLSampleGroup` (
   `blSampleGroupId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`blSampleGroupId`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1838,7 +1838,7 @@ CREATE TABLE `Crystal` (
   KEY `Crystal_FKIndex2` (`diffractionPlanId`),
   CONSTRAINT `Crystal_ibfk_1` FOREIGN KEY (`proteinId`) REFERENCES `Protein` (`proteinId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Crystal_ibfk_2` FOREIGN KEY (`diffractionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=333311 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=333309 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4489,7 +4489,7 @@ CREATE TABLE `Protein` (
   CONSTRAINT `Protein_ibfk_1` FOREIGN KEY (`proposalId`) REFERENCES `Proposal` (`proposalId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `protein_fk3` FOREIGN KEY (`componentTypeId`) REFERENCES `ComponentType` (`componentTypeId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `protein_fk4` FOREIGN KEY (`concentrationTypeId`) REFERENCES `ConcentrationType` (`concentrationTypeId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=123500 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=123498 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4883,7 +4883,7 @@ CREATE TABLE `ScanParametersModel` (
   KEY `PDF_Model_ibfk2` (`dataCollectionPlanId`),
   CONSTRAINT `PDF_Model_ibfk1` FOREIGN KEY (`scanParametersServiceId`) REFERENCES `ScanParametersService` (`scanParametersServiceId`) ON UPDATE CASCADE,
   CONSTRAINT `PDF_Model_ibfk2` FOREIGN KEY (`dataCollectionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -6597,6 +6597,31 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP FUNCTION IF EXISTS `retrieve_proposal_title` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE FUNCTION `retrieve_proposal_title`(p_proposal_code varchar(5), p_proposal_number int) RETURNS varchar(255) CHARSET latin1
+    READS SQL DATA
+BEGIN
+	DECLARE ret_title varchar(255);
+    SELECT title INTO ret_title
+    FROM Proposal 
+	WHERE proposalCode = p_proposal_code AND proposalNumber = p_proposal_number
+    LIMIT 1;
+	RETURN ret_title;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP FUNCTION IF EXISTS `retrieve_visit_id` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -7476,6 +7501,232 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_screening` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `insert_screening`(
+     OUT p_id int(11) unsigned,
+     p_dcgId int(11) unsigned,
+     p_dcId int(11) unsigned,
+     p_programVersion varchar(45),
+     p_shortComments varchar(20),
+     p_comments varchar(255)
+)
+    MODIFIES SQL DATA
+BEGIN
+	  IF p_dcgId IS NULL AND p_dcId IS NOT NULL THEN
+		SELECT dataCollectionGroupId INTO p_dcgId FROM DataCollection WHERE dataCollectionId = p_dcId;
+	  END IF;
+      
+      INSERT INTO Screening (dataCollectionGroupId, dataCollectionId, programVersion, shortComments, comments) 
+        VALUES (IFNULL(p_dcgId, (SELECT dataCollectionGroupId FROM DataCollection WHERE dataCollectionId = p_dcId)), p_dcId, p_programVersion, p_shortComments, p_comments);
+
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_screening_input` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `insert_screening_input`(
+     OUT p_id int(11) unsigned,
+     p_screeningId int(10) unsigned,
+     p_beamX float,
+     p_beamY float,
+     p_rmsErrorLimits float,
+     p_minFractionIndexed float,
+     p_maxFractionRejected float,
+     p_minSignalToNoise float
+)
+    MODIFIES SQL DATA
+BEGIN
+      INSERT INTO ScreeningInput (screeningId, beamX, beamY, rmsErrorLimits, minimumFractionIndexed, maximumFractionRejected, minimumSignalToNoise) 
+        VALUES (p_screeningId, p_beamX, p_beamY, p_rmsErrorLimits, p_minFractionIndexed, p_maxFractionRejected, p_minSignalToNoise);
+
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_screening_output` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `insert_screening_output`(
+     OUT p_id int(11) unsigned,
+     p_screeningId int(10) unsigned,
+     p_statusDescription varchar(1024), 
+     p_rejectedReflections int(10) unsigned, 
+     p_resolutionObtained float, 
+     p_spotDeviationR float, 
+     p_spotDeviationTheta float, 
+     p_beamShiftX float, 
+     p_beamShiftY float, 
+     p_numSpotsFound int(10) unsigned, 
+     p_numSpotsUsed int(10) unsigned, 
+     p_numSpotsRejected int(10) unsigned, 
+     p_mosaicity float, 
+     p_iOverSigma float, 
+     p_diffractionRings boolean, 
+     p_mosaicityEstimated boolean, 
+     p_rankingResolution double, 
+     p_program varchar(45), 
+     p_doseTotal double, 
+     p_totalExposureTime double, 
+     p_totalRotationRange double, 
+     p_totalNumberOfImages int(11), 
+     p_rFriedel double, 
+     p_indexingSuccess boolean, 
+     p_strategySuccess boolean
+)
+    MODIFIES SQL DATA
+BEGIN
+      INSERT INTO ScreeningOutput (screeningId, statusDescription, rejectedReflections, resolutionObtained, spotDeviationR, spotDeviationTheta, 
+        beamShiftX, beamShiftY, numSpotsFound, numSpotsUsed, numSpotsRejected, mosaicity, iOverSigma, 
+        diffractionRings, mosaicityEstimated, rankingResolution, program, doseTotal, totalExposureTime, totalRotationRange, 
+        totalNumberOfImages, rFriedel, indexingSuccess, strategySuccess) 
+        VALUES (p_screeningId, p_statusDescription, p_rejectedReflections, p_resolutionObtained, p_spotDeviationR, p_spotDeviationTheta, 
+        p_beamShiftX, p_beamShiftY, p_numSpotsFound, p_numSpotsUsed, p_numSpotsRejected, p_mosaicity, p_iOverSigma, 
+        p_diffractionRings, p_mosaicityEstimated, p_rankingResolution, p_program, p_doseTotal, p_totalExposureTime, p_totalRotationRange,
+        p_totalNumberOfImages, p_rFriedel, p_indexingSuccess, p_strategySuccess);
+
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_screening_output_lattice` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `insert_screening_output_lattice`(
+     OUT p_id int(10) unsigned,
+     p_screeningOutputId int(10) unsigned,
+     p_spaceGroup	varchar(45),
+     p_pointGroup	varchar(45),
+     p_bravaisLattice	varchar(45),
+     p_rawOrientationMatrix_a_x float,
+     p_rawOrientationMatrix_a_y float,
+     p_rawOrientationMatrix_a_z float,
+     p_rawOrientationMatrix_b_x float,
+     p_rawOrientationMatrix_b_y float,
+     p_rawOrientationMatrix_b_z float,
+     p_rawOrientationMatrix_c_x float,
+     p_rawOrientationMatrix_c_y float,
+     p_rawOrientationMatrix_c_z float,
+     p_unitCell_a	float,
+     p_unitCell_b	float,
+     p_unitCell_c	float,
+     p_unitCell_alpha	float,
+     p_unitCell_beta	float,
+     p_unitCell_gamma	float,
+     p_labelitIndexing boolean
+)
+    MODIFIES SQL DATA
+BEGIN
+      INSERT INTO ScreeningOutputLattice (screeningOutputId, spaceGroup, pointGroup, bravaisLattice, 
+        rawOrientationMatrix_a_x, rawOrientationMatrix_a_y, rawOrientationMatrix_a_z,
+		rawOrientationMatrix_b_x, rawOrientationMatrix_b_y, rawOrientationMatrix_b_z,
+        rawOrientationMatrix_c_x, rawOrientationMatrix_c_y, rawOrientationMatrix_c_z,
+        unitCell_a, unitCell_b, unitCell_c, unitCell_alpha, unitCell_beta, unitCell_gamma, labelitIndexing) 
+        VALUES (p_screeningOutputId, p_spaceGroup, p_pointGroup, p_bravaisLattice, 
+        p_rawOrientationMatrix_a_x, p_rawOrientationMatrix_a_y, p_rawOrientationMatrix_a_z,
+		p_rawOrientationMatrix_b_x, p_rawOrientationMatrix_b_y, p_rawOrientationMatrix_b_z,
+        p_rawOrientationMatrix_c_x, p_rawOrientationMatrix_c_y, p_rawOrientationMatrix_c_z,
+        p_unitCell_a, p_unitCell_b, p_unitCell_c, p_unitCell_alpha, p_unitCell_beta, p_unitCell_gamma, p_labelitIndexing
+        );
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_screening_strategy` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `insert_screening_strategy`(
+     OUT p_id int(10) unsigned,
+     p_screeningOutputId int(10) unsigned,
+     p_phiStart float,
+     p_phiEnd float,
+     p_rotation float,
+     p_exposureTime float,
+     p_resolution float,
+     p_completeness float,
+     p_multiplicity float,
+     p_anomalous float,
+     p_program varchar(45),
+     p_rankingResolution float,
+     p_transmission float
+)
+    MODIFIES SQL DATA
+BEGIN
+      INSERT INTO ScreeningStrategy (
+        screeningOutputId, phiStart, phiEnd, rotation, exposureTime, 
+        resolution, completeness, multiplicity, anomalous, program, rankingResolution, transmission)
+        VALUES (p_screeningOutputId, p_phiStart, p_phiEnd, p_rotation, p_exposureTime, 
+        p_resolution, p_completeness, p_multiplicity, p_anomalous, p_program, p_rankingResolution, p_transmission);
+
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `insert_screening_strategy_sub_wedge` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -7510,6 +7761,49 @@ BEGIN
         oscillationRange, completeness, multiplicity, resolution, doseTotal, numberOfImages, comments)
         VALUES (p_screeningStrategyWedgeId, p_subWedgeNumber, p_rotationAxis, p_axisStart, p_axisEnd, p_exposureTime, p_transmission, 
         p_oscillationRange, p_completeness, p_multiplicity, p_resolution, p_doseTotal, p_numberOfImages, p_comments);
+        
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_screening_strategy_wedge` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `insert_screening_strategy_wedge`(
+     OUT p_id int(10) unsigned,
+     p_screeningStrategyId int(10) unsigned,
+     p_wedgeNumber int(10) unsigned,
+     p_resolution	float,
+     p_completeness float,
+     p_multiplicity float,
+     p_doseTotal float,
+     p_numberOfImages	int(10) unsigned,
+     p_phi float,
+     p_kappa float,
+     p_chi float,
+     p_comments varchar(255),
+     p_wavelength	double
+     )
+    MODIFIES SQL DATA
+BEGIN
+      INSERT INTO ScreeningStrategyWedge (
+        screeningStrategyId, wedgeNumber, resolution, completeness, multiplicity, doseTotal, numberOfImages, 
+        phi, kappa, chi, comments, wavelength)
+        VALUES (p_screeningStrategyId, p_wedgeNumber, p_resolution, p_completeness, p_multiplicity, p_doseTotal, p_numberOfImages, 
+        p_phi, p_kappa, p_chi, p_comments, p_wavelength);
         
 	  IF LAST_INSERT_ID() <> 0 THEN 
 		  SET p_id = LAST_INSERT_ID();
@@ -7639,7 +7933,7 @@ CREATE PROCEDURE `retrieve_component_lattices_for_component`(IN p_componentId in
     READS SQL DATA
 BEGIN
     IF NOT (p_componentId IS NULL) THEN
-		SELECT cell_a "a", cell_b "b", cell_c "c", cell_alpha "alpha", cell_beta "beta", cell_gamma "gamma"
+		SELECT spaceGroup "spaceGroup", cell_a "a", cell_b "b", cell_c "c", cell_alpha "alpha", cell_beta "beta", cell_gamma "gamma"
         FROM ComponentLattice
         WHERE componentId = p_componentId
         ORDER BY componentId ASC;
@@ -7928,6 +8222,78 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_current_cm_sessions` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_current_cm_sessions`(IN p_beamline varchar(15))
+BEGIN
+    SELECT concat(p.proposalCode, p.proposalNumber, '-', bs.visit_number) `session`
+    FROM Proposal p
+      INNER JOIN BLSession bs on p.proposalId = bs.proposalId
+	WHERE p.proposalCode = 'cm' AND bs.beamlinename = p_beamline AND now() > bs.startDate;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_current_sessions` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_current_sessions`(IN p_beamline varchar(15), IN p_tolerance_minutes int)
+BEGIN
+	set p_tolerance_minutes = IFNULL(p_tolerance_minutes, 0);
+    SELECT concat(p.proposalCode, p.proposalNumber, '-', bs.visit_number) `session`, bs.startDate, bs.endDate
+    FROM Proposal p
+      INNER JOIN BLSession bs on p.proposalId = bs.proposalId
+	WHERE bs.beamlinename = p_beamline AND now() BETWEEN bs.startDate - INTERVAL p_tolerance_minutes MINUTE and bs.endDate + INTERVAL p_tolerance_minutes MINUTE 
+    ORDER BY bs.startDate;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_current_sessions_for_person` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_current_sessions_for_person`(IN p_beamline varchar(15), IN p_fed_id varchar(24), IN p_tolerance_minutes int)
+BEGIN
+	set p_tolerance_minutes = IFNULL(p_tolerance_minutes, 0);
+    SELECT concat(p.proposalCode, p.proposalNumber, '-', bs.visit_number) `session`, bs.startDate, bs.endDate
+    FROM Proposal p
+      INNER JOIN BLSession bs on p.proposalId = bs.proposalId
+      INNER JOIN Session_has_Person shp ON shp.sessionId = bs.sessionId 
+	  INNER JOIN Person per ON shp.personId = per.personId
+	WHERE bs.beamlinename = p_beamline AND per.login = p_fed_id AND now() BETWEEN bs.startDate - INTERVAL p_tolerance_minutes MINUTE and bs.endDate + INTERVAL p_tolerance_minutes MINUTE
+    ORDER BY bs.startDate;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `retrieve_dc_infos_for_subsample` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -8128,6 +8494,30 @@ BEGIN
     ELSE
 	  SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory arguments p_proposalCode + p_proposalNumber + p_sessionNumber can not be NULL';
 	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_most_recent_session` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_most_recent_session`(IN p_beamline varchar(15), IN p_proposal_code varchar(5))
+BEGIN
+    SELECT concat(p.proposalCode, p.proposalNumber, '-', bs.visit_number) `session`, bs.startDate, bs.endDate
+    FROM Proposal p
+      INNER JOIN BLSession bs on p.proposalId = bs.proposalId
+	WHERE p.proposalCode = p_proposal_code AND bs.beamlinename = p_beamline AND now() > bs.startDate
+    ORDER BY bs.startDate DESC
+    LIMIT 1;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -9438,4 +9828,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-11 11:15:57
+-- Dump completed on 2017-04-25 17:58:29
