@@ -120,6 +120,7 @@ public class XpdfIntegrationTest extends TestCase{
 		dataCollectionPlan1.setScanParamModelId(20L);
 		dataCollectionPlan1.setScanParamServiceName("Pressure");
 		dataCollectionPlan1.setScanParamSequenceNumber("1");
+		dataCollectionPlan1.setScanParamModelStart(0.0);
 		dataCollectionPlan1.setScanParamModelStop(90.0);
 		dataCollectionPlan1.setScanParamModelStep(5.0);
 
