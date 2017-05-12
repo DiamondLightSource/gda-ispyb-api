@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalField;
 
 import org.junit.After;
 import org.junit.Before;

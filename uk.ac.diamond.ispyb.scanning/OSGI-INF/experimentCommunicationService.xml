@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="start" deactivate="stop" immediate="true" name="Experiment Communication Service">
+   <implementation class="uk.ac.diamond.ispyb.scanning.ExperimentCommunicationService"/>
+   <service>
+      <provide interface="uk.ac.diamond.ispyb.api.IExperimentCommunicationService"/>
+   </service>
+   <reference bind="setIspybXpdfFactoryService" cardinality="0..1" interface="uk.ac.diamond.ispyb.api.IspybXpdfFactoryService" name="IspybXpdfFactoryService" policy="static"/>
+   <reference bind="setIspybDataCollectionFactoryService" cardinality="0..1" interface="uk.ac.diamond.ispyb.api.IspybDataCollectionFactoryService" name="IspybDataCollectionFactoryService" policy="static"/>
+</scr:component>

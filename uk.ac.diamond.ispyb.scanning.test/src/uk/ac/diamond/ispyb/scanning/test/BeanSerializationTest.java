@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Locale;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
@@ -65,6 +66,7 @@ public class BeanSerializationTest {
 	private void createEmptyObjectsForSomeFields(Object bean, Class<?> clazz) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
 		Field[] fields = clazz.getDeclaredFields();
 		for (Field field : fields) {
+			if (Modifier.isStatic(field.getModifiers())) continue;
 			String setterName = getSetterName(field.getName());
 			String getterName = getGetterName(field.getName());
 			try {

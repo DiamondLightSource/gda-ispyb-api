@@ -25,16 +25,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
+import uk.ac.diamond.ispyb.api.ConnectionData;
 import uk.ac.diamond.ispyb.api.IspybFactoryService;
 
 public class IntegrationTestHelper<S extends Closeable>{
-	private static final String host = System.getProperty("ispyb.host");
-	private static final String url = System.getProperty("ispyb.url");
-	private static final Optional<String> user = Optional.ofNullable(System.getProperty("ispyb.user"));
-	private static final Optional<String> password = Optional.ofNullable(System.getProperty("ispyb.pw"));
-	private static final Optional<String> port = Optional.ofNullable(System.getProperty("ispyb.port"));
-	private static final String systemUser = System.getProperty("user.name");
-	private static final String schema = "maven_" + systemUser;
 	
 
 	private final IspybFactoryService<S> factory;
@@ -51,17 +45,19 @@ public class IntegrationTestHelper<S extends Closeable>{
 	}
 	
 	public <T> T execute(CheckedFunction<T, S> f) throws SQLException, IOException {
-		S api = factory.buildIspybApi(url, user,  password, Optional.of(schema));
+		ConnectionData data = new ConnectionData();
+		S api = factory.buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()));
 		T result = f.apply(api);
 		api.close();
 		return result;
 	}
 	
 	public void setUp() throws IOException, SQLException, InterruptedException{
-		Connection connection = connectToDatabase(url, user, password, Optional.empty());
+		ConnectionData data = new ConnectionData();
+		Connection connection = connectToDatabase(data.getUrl(), data.getUser(),  data.getPassword(), Optional.empty());
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
-		jdbcTemplate.execute(String.format("drop database if exists %s;", schema));
-		jdbcTemplate.execute(String.format("create database %s;", schema));
+		jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
+		jdbcTemplate.execute(String.format("create database %s;", data.getSchema()));
 		try{
 			jdbcTemplate.execute("SET GLOBAL log_bin_trust_function_creators = 1;");
 		} catch (Exception e){
@@ -69,13 +65,14 @@ public class IntegrationTestHelper<S extends Closeable>{
 		}
 		connection.close();
 		
-		executeScript("schema.sql", schema);
+		executeScript("schema.sql", data.getSchema());
 	}
 
 	public void tearDown() throws IOException, SQLException, InterruptedException{
-		Connection connection = connectToDatabase(url, user, password, Optional.empty());
+		ConnectionData data = new ConnectionData();
+		Connection connection = connectToDatabase(data.getUrl(), data.getUser(),  data.getPassword(), Optional.empty());
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
-		jdbcTemplate.execute(String.format("drop database if exists %s;", schema));
+		jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
 		connection.close();
 	}
 
@@ -83,7 +80,8 @@ public class IntegrationTestHelper<S extends Closeable>{
 		Resource resource = new DefaultResourceLoader().getResource(filename);
 		String absolutePath = resource.getFile().getAbsolutePath();
 
-		String command = String.format(" %s %s %s %s %s %s", host, user.orElse("UNKNOWN"), password.orElse(""), port.orElse("3306"), database, absolutePath);
+		ConnectionData data = new ConnectionData();
+		String command = String.format(" %s %s %s %s %s %s", data.getHost(), data.getUser().orElse("UNKNOWN"), data.getPassword().orElse(""), data.getPort().orElse("3306"), database, absolutePath);
 		CommandLine commandLine;
 		if (isWindows()) {
 			commandLine = new CommandLine("cmd");
@@ -114,5 +112,8 @@ public class IntegrationTestHelper<S extends Closeable>{
 	@FunctionalInterface
 	interface CheckedSupplier<T>{
 		public void apply(T t) throws SQLException;
+	}
+	public IspybFactoryService<S> getFactory() {
+		return factory;
 	}
 }
