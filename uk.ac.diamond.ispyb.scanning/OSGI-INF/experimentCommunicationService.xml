@@ -5,4 +5,5 @@
       <provide interface="uk.ac.diamond.ispyb.api.IExperimentCommunicationService"/>
    </service>
    <reference bind="setIspybXpdfFactoryService" cardinality="0..1" interface="uk.ac.diamond.ispyb.api.IspybXpdfFactoryService" name="IspybXpdfFactoryService" policy="static"/>
+   <reference bind="setIspybDataCollectionFactoryService" cardinality="0..1" interface="uk.ac.diamond.ispyb.api.IspybDataCollectionFactoryService" name="IspybDataCollectionFactoryService" policy="static"/>
 </scr:component>
