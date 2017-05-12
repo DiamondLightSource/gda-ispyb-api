@@ -55,7 +55,7 @@ public class TemplateWrapper {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
 		
-		return parser.parse(simpleJdbcCall.execute(in), beanFromMap(clazz));
+		return parser.parse(simpleJdbcCall.execute(in), new MapToBeanFunction<T>(clazz));
 	}
 	
 	<T> T callIspybForAllRows(String procedure, ResultSetExtractor<T> extractor, Map<String, Object> params) {
@@ -78,7 +78,7 @@ public class TemplateWrapper {
 	
 	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Map<String, Object> params) {
 		Map<String, Object> map = execute(procedure, params);
-		List<T> list = parser.parse(map, beanFromMap(clazz));
+		List<T> list = parser.parse(map, new MapToBeanFunction<T>(clazz));
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 	
@@ -116,19 +116,6 @@ public class TemplateWrapper {
 		} catch (EmptyResultDataAccessException ex) {
 			return Optional.empty();
 		}
-	}
-	
-	<T> Function<Map<String,Object>, T> beanFromMap(Class<T> beanClass){
-		return map -> {
-			try{
-				T bean = beanClass.newInstance();
-				BeanUtils.populate(bean, map);
-				return bean;
-			} catch (InstantiationException | IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
-				String message = String.format("could not populate bean of type %s using map %s", beanClass.toString(), map.toString());
-				throw new RuntimeException(message, e);
-			}
-		};
 	}
 	
 	@SuppressWarnings("unchecked")
