@@ -47,9 +47,6 @@ public class XpdfIntegrationTest extends TestCase{
 		sample1.setSampleName("XPDF-1");
 		sample1.setSampleCode("XPDF-0001");
 		sample1.setSampleComments("Test sample for XPDF");
-		sample1.setDimension1(0.0);
-		sample1.setDimension2(0.0);
-		sample1.setDimension3(0.0);
 		sample1.setSampleTypeId(333308L);
 		sample1.setSampleTypeName("SampleType01");
 		sample1.setSampleTypeComments("sample type comments ...");
