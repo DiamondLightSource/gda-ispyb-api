@@ -60,9 +60,6 @@ public class XpdfIntegrationTest extends TestCase{
 		sample2.setSampleName("XPDF-2");
 		sample2.setSampleCode("XPDF-0002");
 		sample2.setSampleComments("Test sample for XPDF");
-		sample2.setDimension1(0.0);
-		sample2.setDimension2(0.0);
-		sample2.setDimension3(0.0);
 		sample2.setSampleTypeId(333308L);
 		sample2.setSampleTypeName("SampleType01");
 		sample2.setSampleTypeComments("sample type comments ...");
@@ -109,9 +106,6 @@ public class XpdfIntegrationTest extends TestCase{
 		Component component = new Component();
 		component.setComponentId(123497L);
 		component.setComponentName("XPDF comp1");
-		component.setComponentDensity(0.0);
-		component.setComponentMolecularMass(0.0);
-		component.setComponentAbundance(0.0);
 
 		assertThat(components, is(equalTo(Arrays.asList(component))));
 	}
@@ -122,11 +116,6 @@ public class XpdfIntegrationTest extends TestCase{
 		DataCollectionPlan dataCollectionPlan1 = new DataCollectionPlan();
 		dataCollectionPlan1.setDcPlanId(197792L);
 		dataCollectionPlan1.setName("XPDF-1");
-		dataCollectionPlan1.setPreferredBeamSizeX(0.0);
-		dataCollectionPlan1.setPreferredBeamSizeY(0.0);
-		dataCollectionPlan1.setRequiredResolution(0.0);
-		dataCollectionPlan1.setMonoBandwidth(0.0);
-		dataCollectionPlan1.setEnergy(0.0);
 		dataCollectionPlan1.setDetectorId(8L);
 		dataCollectionPlan1.setExposureTime(5.4);
 		dataCollectionPlan1.setDistance(136.86);
@@ -134,18 +123,12 @@ public class XpdfIntegrationTest extends TestCase{
 		dataCollectionPlan1.setScanParamModelId(20L);
 		dataCollectionPlan1.setScanParamServiceName("Pressure");
 		dataCollectionPlan1.setScanParamSequenceNumber("1");
-		dataCollectionPlan1.setScanParamModelStart(0.0);
 		dataCollectionPlan1.setScanParamModelStop(90.0);
 		dataCollectionPlan1.setScanParamModelStep(5.0);
 
 		DataCollectionPlan dataCollectionPlan2 = new DataCollectionPlan();
 		dataCollectionPlan2.setDcPlanId(197792L);
 		dataCollectionPlan2.setName("XPDF-1");
-		dataCollectionPlan2.setPreferredBeamSizeX(0.0);
-		dataCollectionPlan2.setPreferredBeamSizeY(0.0);
-		dataCollectionPlan2.setRequiredResolution(0.0);
-		dataCollectionPlan2.setMonoBandwidth(0.0);
-		dataCollectionPlan2.setEnergy(0.0);
 		dataCollectionPlan2.setDetectorId(8L);
 		dataCollectionPlan2.setExposureTime(5.4);
 		dataCollectionPlan2.setDistance(136.86);

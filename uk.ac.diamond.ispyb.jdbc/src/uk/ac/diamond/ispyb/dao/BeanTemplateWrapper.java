@@ -58,7 +58,7 @@ public class BeanTemplateWrapper {
 	
 	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Object params) {
 		Map<String, Object> map = execute(procedure, params);
-		List<T> list = parser.parse(map, templateWrapper.beanFromMap(clazz));
+		List<T> list = parser.parse(map, new MapToBeanFunction<T>(clazz));
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 	
@@ -70,7 +70,7 @@ public class BeanTemplateWrapper {
 		SimpleJdbcCall simpleJdbcCall = templateWrapper.createCall(procedure);
 		MapSqlParameterSource in = createInParameters(bean);
 		
-		return parser.parse(simpleJdbcCall.execute(in), templateWrapper.beanFromMap(clazz));
+		return parser.parse(simpleJdbcCall.execute(in), new MapToBeanFunction<T>(clazz));
 	}
 	
 	private Map<String, Object> execute(String procedure, Object bean) {

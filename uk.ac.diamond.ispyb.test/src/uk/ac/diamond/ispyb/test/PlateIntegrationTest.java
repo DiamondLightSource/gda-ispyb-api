@@ -52,9 +52,7 @@ public class PlateIntegrationTest extends TestCase{
 		expected.setCapacity(192);
 		expected.setStorageTemperature(20.0f);
 		expected.setProposalCode(null);
-		expected.setProposalNumber(0);
-		expected.setSessionNumber(0);
-		
+
 		assertThat(containerInfo, is(equalTo(expected)));
 	}
 
@@ -96,12 +94,10 @@ public class PlateIntegrationTest extends TestCase{
 		container.setCapacity(192);
 		container.setStorageTemperature(20.0f);
 		container.setProposalCode(null);
-		container.setProposalNumber(0);
-		container.setSessionNumber(0);
-		
+
 		assertThat(beans, is(equalTo(Arrays.asList(container))));
 	}
-	
+
 	@Test
 	public void testShouldRetrieveDataCollection() throws Exception {
 		List<DataCollectionInfo> info = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(2L));
@@ -129,6 +125,7 @@ public class PlateIntegrationTest extends TestCase{
 		expected.setDetectorDistance(266.693f);
 		expected.setXBeam(null);
 		expected.setYBeam(null);
+		expected.setOmegaStart(0.0f);
 		expected.setComments("(-345,-241,-185) Aperture: Large");
 		expected.setSlitgapVertical(0.059918f);
 		expected.setSlitgapHorizontal(0.099937f);
@@ -136,20 +133,13 @@ public class PlateIntegrationTest extends TestCase{
 		expected.setSynchrotronMode("User");
 		expected.setSnapshot1("/dls/i03/data/2016/cm14451-2/jpegs/gw/20160418/thau/edna_test/thau_2_1_90.0.png");
 		expected.setSnapshot2("/dls/i03/data/2016/cm14451-2/jpegs/gw/20160418/thau/edna_test/thau_2_1_0.0.png");
-		expected.setPhiStart(0.0f);
-		expected.setKappaStart(0.0f);
-		expected.setOmegaStart(0.0f);
 		expected.setRotationAxis("Omega");
 		expected.setUndulatorGap1(5.301f);
-		expected.setUndulatorGap2(0.0f);
-		expected.setUndulatorGap3(0.0f);
 		expected.setBeamSizeAtSampleX(0.08f);
 		expected.setBeamSizeAtSampleY(0.02f);
 		expected.setFocalSpotSizeAtSampleX(80.0f);
 		expected.setFocalSpotSizeAtSampleY(20.0f);
-		expected.setPolarisation(0.0f);
 		expected.setFlux(5.7087013071909134E10);
-		expected.setFluxEnd(0.0);
 
 		assertThat(info, is(equalTo(Arrays.asList(expected))));
 	}
@@ -200,23 +190,6 @@ public class PlateIntegrationTest extends TestCase{
 		expected.setPreferredBeamSizeX(10.5f);
 		expected.setPreferredBeamSizeY(10.5f);
 		expected.setRequiredResolution(1.1);
-
-		expected.setROIPos1x(0.0);
-		expected.setROIPos1y(0.0);
-		expected.setROIPos1z(0.0);
-		expected.setROIPos2x(0.0);
-		expected.setROIPos2y(0.0);
-		expected.setROIPos2z(0.0);
-
-		expected.setWavelength(0.0);
-		expected.setTransmission(0.0f);
-		expected.setBoxSizeX(0.0f);
-		expected.setBoxSizeY(0.0f);
-		expected.setKappaStart(0.0f);
-		expected.setAxisStart(0.0f);
-		expected.setAxisRange(0.0f);
-		expected.setNumberOfImages(0);
-
 
 		assertThat(Arrays.asList(expected), is(equalTo(subsamples)));
 	}
