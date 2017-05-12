@@ -20,6 +20,7 @@ import org.junit.runners.Suite.SuiteClasses;
     BeanSerializationTest.class,
     DataCollectionTest.class,
     CompositeTest.class,
+    AsynchCompositeTest.class,
     SampleInformationTest.class
 })
 public class Suite {

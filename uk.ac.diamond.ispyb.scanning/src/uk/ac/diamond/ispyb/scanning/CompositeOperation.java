@@ -3,11 +3,12 @@ package uk.ac.diamond.ispyb.scanning;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import uk.ac.diamond.ispyb.api.CompositeBean;
-import uk.ac.diamond.ispyb.api.Operation;
 import uk.ac.diamond.ispyb.api.IExperimentCommunicationService.ISPyBOperation;
 import uk.ac.diamond.ispyb.api.Id;
+import uk.ac.diamond.ispyb.api.Operation;
 
 /**
  * 
@@ -46,8 +47,8 @@ class CompositeOperation implements ISPyBOperation<CompositeBean> {
 		
 		ISPyBOperation<T> operation = service.getOperation(type, bean);
 		try {
-			Id child = service.execute(operation, bean, true);
-			id.put(bean.getClass().getSimpleName(), child);
+			Future<Id> child = service.execute(operation, bean, true);
+			id.put(bean.getClass().getSimpleName(), child.get());
 		} catch (Exception e) {
 			id.put(bean.getClass().getSimpleName(), -1L);
 			id.putError(bean.getClass().getSimpleName(), e.getMessage());

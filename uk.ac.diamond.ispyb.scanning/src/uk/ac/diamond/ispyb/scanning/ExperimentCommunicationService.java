@@ -21,6 +21,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.osgi.framework.ServiceReference;
@@ -38,13 +42,13 @@ import uk.ac.diamond.ispyb.api.DataCollectionGroup;
 import uk.ac.diamond.ispyb.api.DataCollectionGroupGrid;
 import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
-import uk.ac.diamond.ispyb.api.Operation;
 import uk.ac.diamond.ispyb.api.IExperimentCommunicationService;
 import uk.ac.diamond.ispyb.api.Id;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionFactoryService;
 import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.api.IspybXpdfFactoryService;
+import uk.ac.diamond.ispyb.api.Operation;
 import uk.ac.diamond.ispyb.api.Sample;
 import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
 
@@ -142,19 +146,19 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 		operations.put(Operation.COMPOSITE, composites);
 	}
 	@Override
-    public <T> Id insert(T entry, boolean blocking) throws IllegalArgumentException, Exception {
+    public <T> Future<Id> insert(T entry, boolean blocking) throws IllegalArgumentException, Exception {
     	return execute(getOperation(Operation.INSERT, entry), entry, blocking);
     }
 	@Override
-    public <T> Id upsert(T entry, boolean blocking) throws IllegalArgumentException, Exception {
+    public <T> Future<Id> upsert(T entry, boolean blocking) throws IllegalArgumentException, Exception {
     	return execute(getOperation(Operation.UPSERT, entry), entry, blocking);
     }
 	@Override
-    public <T> Id update(T entry, boolean blocking) throws IllegalArgumentException, Exception {
+    public <T> Future<Id> update(T entry, boolean blocking) throws IllegalArgumentException, Exception {
     	return execute(getOperation(Operation.UPDATE, entry), entry, blocking);
     }
 	@Override
-    public <T> Id composite(T entry, boolean blocking) throws IllegalArgumentException, Exception {
+    public <T> Future<Id> composite(T entry, boolean blocking) throws IllegalArgumentException, Exception {
     	return execute(getOperation(Operation.COMPOSITE, entry), entry, blocking);
     }
 
@@ -172,10 +176,12 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
      * @param blocking
      * @return
      */
-	protected <T> Id execute(ISPyBOperation<T> operation, T entry, boolean blocking)  throws Exception {
-		if (blocking) return operation.operate(entry);
-		queue.add(new OperationAction<>(operation, entry));
-		return Id.NONE;
+	protected <T> Future<Id> execute(ISPyBOperation<T> operation, T entry, boolean blocking)  throws Exception {
+		if (blocking) return CompletableFuture.completedFuture(operation.operate(entry));
+		
+		CompletableFuture<Id> future = new CompletableFuture<>();
+		queue.add(new OperationAction<>(operation, entry, future));
+		return future;
 	}
 	
 	
@@ -186,9 +192,21 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 		asynchWorker.start();
 		logger.debug("Worker thread started '{}'", asynchWorker.getName());
 	}
+	
+	private CountDownLatch workerLatch;
+	
+	/**
+	 * Spends 50ms (maximum) waiting to see if the worker stops.
+	 * @return true if worker still going, false if it really has stopped.
+	 * @throws InterruptedException
+	 */
+	public boolean isWorkerActive() throws InterruptedException {
+		return !workerLatch.await(50, TimeUnit.MILLISECONDS);
+	}
 
 	private void process() {
 		try {
+			workerLatch = new CountDownLatch(1);
 			OperationAction<?> action;
 			while((action = queue.take())!=null) {
 				if (action==OperationAction.EMPTY) break;
@@ -201,7 +219,8 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 			}
 		} catch (InterruptedException ne) {
 			logger.debug("Worker thread interrupted!", ne);
-			return;
+		} finally {
+			workerLatch.countDown();
 		}
 	}
 
@@ -253,15 +272,17 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 
 	private static class OperationAction<T> {
 		
-		public static final OperationAction<Object> EMPTY = new OperationAction<>(null, null);
+		public static final OperationAction<Object> EMPTY = new OperationAction<>(null, null, null);
 		private final ISPyBOperation<T> operation;
 		private final T                 bean;
+		private final CompletableFuture<Id> future;
 		
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((bean == null) ? 0 : bean.hashCode());
+			result = prime * result + ((future == null) ? 0 : future.hashCode());
 			result = prime * result + ((operation == null) ? 0 : operation.hashCode());
 			return result;
 		}
@@ -280,6 +301,11 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 					return false;
 			} else if (!bean.equals(other.bean))
 				return false;
+			if (future == null) {
+				if (other.future != null)
+					return false;
+			} else if (!future.equals(other.future))
+				return false;
 			if (operation == null) {
 				if (other.operation != null)
 					return false;
@@ -288,13 +314,17 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 			return true;
 		}
 
-		OperationAction(ISPyBOperation<T> operation, T bean) {
+		OperationAction(ISPyBOperation<T> operation, T bean, CompletableFuture<Id> future) {
 			this.operation = operation;
 			this.bean      = bean;
+			this.future    = future;
 		}
 		
 		public Id operate() throws Exception {
-			return operation.operate(bean);
+			Id id = operation.operate(bean);
+			boolean isComplete = future.complete(id);
+			if (!isComplete) throw new IllegalArgumentException("The future should now be complete!");
+			return id;
 		}
 	}
 	

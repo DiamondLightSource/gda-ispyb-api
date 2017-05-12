@@ -37,7 +37,7 @@ public class DataCollectionTest extends ExperimentServiceTest {
 		DataCollectionMain main = new DataCollectionMain();
 		main.setDetectorId(4);
 		main.setGroupId(988855L);
-		Id id = service.upsert(main, true);
+		Id id = service.upsert(main, true).get();
 		assertTrue(id.is());
 	}
 	
@@ -48,7 +48,7 @@ public class DataCollectionTest extends ExperimentServiceTest {
 		dataCollectionGroup.setProposalNumber(14451);
 		dataCollectionGroup.setSessionNumber(1);
 		dataCollectionGroup.setSampleId(11550L);
-		Id id = service.upsert(dataCollectionGroup, true);
+		Id id = service.upsert(dataCollectionGroup, true).get();
 		assertTrue(id.is());
 	}
 
@@ -59,7 +59,7 @@ public class DataCollectionTest extends ExperimentServiceTest {
 		dataCollectionGroup.setSessionNumber(1);
 		dataCollectionGroup.setSampleId(11550L);
 		try{
-			Id id = service.upsert(dataCollectionGroup, true);
+			Id id = service.upsert(dataCollectionGroup, true).get();
 			assertTrue(id.is());
 		} catch (UnsupportedOperationException e){
 			// do nothing, expecting a sql exception
@@ -75,7 +75,7 @@ public class DataCollectionTest extends ExperimentServiceTest {
 		dataCollectionGroup.setSampleId(11550L);
 		dataCollectionGroup.setStarttime(Timestamp.valueOf(LocalDateTime.now()));
 		dataCollectionGroup.setEndtime(Timestamp.valueOf(LocalDateTime.now()));
-		Id id = service.upsert(dataCollectionGroup, true);
+		Id id = service.upsert(dataCollectionGroup, true).get();
 		assertTrue(id.is());
 	}
 
@@ -87,14 +87,14 @@ public class DataCollectionTest extends ExperimentServiceTest {
 		group.setSessionNumber(1);
 		group.setSampleId(11550L);
 		
-		Id id = service.upsert(group, true);
+		Id id = service.upsert(group, true).get();
 		assertTrue(id.is());
 		
 		DataCollectionGroupGrid grid = new DataCollectionGroupGrid();
 		grid.setDcgId(id.get());
 		grid.setOrientation(Orientation.HORIZONTAL.name());
 		
-		id = service.upsert(grid, true);
+		id = service.upsert(grid, true).get();
 		assertTrue(id.is());
 	}
 
@@ -113,7 +113,7 @@ public class DataCollectionTest extends ExperimentServiceTest {
 		beamlineAction.setLogLevel("DEBUG");
 		beamlineAction.setStatus("PAUSED");
 
-		Id id = service.insert(beamlineAction, true);
+		Id id = service.insert(beamlineAction, true).get();
 		assertTrue(id.is());
 	}
 

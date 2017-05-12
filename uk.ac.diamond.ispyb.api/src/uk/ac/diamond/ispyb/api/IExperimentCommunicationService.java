@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
 
@@ -124,7 +125,7 @@ public interface IExperimentCommunicationService extends Closeable {
      * @throws IllegalArgumentException
      * @throws Exception
      */
-    <T> Id insert(T action, boolean blocking)  throws IllegalArgumentException, Exception;
+    <T> Future<Id> insert(T action, boolean blocking)  throws IllegalArgumentException, Exception;
  
     /**
 	 * The method can be used to create new records for instance:
@@ -153,7 +154,7 @@ public interface IExperimentCommunicationService extends Closeable {
      * @throws IllegalArgumentException
      * @throws Exception
 	 */
-    <T> Id upsert(T entry, boolean blocking) throws IllegalArgumentException, Exception;
+    <T> Future<Id> upsert(T entry, boolean blocking) throws IllegalArgumentException, Exception;
 	
 	/**
 	 * The method cannot be used to create new records.		
@@ -172,7 +173,7 @@ public interface IExperimentCommunicationService extends Closeable {
      * @throws IllegalArgumentException
      * @throws Exception
 	 */
-    <T> Id update(T entry, boolean blocking) throws IllegalArgumentException, Exception;
+    <T> Future<Id> update(T entry, boolean blocking) throws IllegalArgumentException, Exception;
 	
    
     /**
@@ -189,6 +190,6 @@ public interface IExperimentCommunicationService extends Closeable {
      * @throws IllegalArgumentException
      * @throws Exception
      */
-    <T> Id composite(T action, boolean blocking)  throws IllegalArgumentException, Exception;
+    <T> Future<Id> composite(T action, boolean blocking)  throws IllegalArgumentException, Exception;
 
 }
