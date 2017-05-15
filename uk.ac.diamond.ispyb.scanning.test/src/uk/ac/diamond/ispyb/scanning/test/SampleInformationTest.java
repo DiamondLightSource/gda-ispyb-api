@@ -24,48 +24,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.diamond.ispyb.api.IExperimentCommunicationService;
-import uk.ac.diamond.ispyb.api.IspybXpdfApi;
-import uk.ac.diamond.ispyb.api.IspybXpdfFactoryService;
 import uk.ac.diamond.ispyb.api.Sample;
 import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
-import uk.ac.diamond.ispyb.dao.IspybXpdfDaoFactory;
-import uk.ac.diamond.ispyb.scanning.ExperimentCommunicationService;
-import uk.ac.diamond.ispyb.test.IntegrationTestHelper;
 
-public class ExperimentCommunicationServiceTest {
-
-	private static IExperimentCommunicationService     service;
-	private static IntegrationTestHelper<IspybXpdfApi> helper;
-	
-	@BeforeClass
-	public static void create() throws SQLException, IOException, InterruptedException {
-		IspybXpdfFactoryService factory = new IspybXpdfDaoFactory();
-		helper  = new IntegrationTestHelper<>(factory);
-		service = new ExperimentCommunicationService(factory);
-		helper.setUp(); // Runs system command and takes a while.
-	}
-	
-	@AfterClass
-	public static void dispose() throws Exception {
-		helper.tearDown();
-	}
-	
-	@Before
-	public void open() throws SQLException {
-		service.open();
-	}
-
-	@After
-	public void close() throws IOException {
-		service.close();
-	}
+public class SampleInformationTest extends ExperimentServiceTest {
 	
 	@Test(expected=IllegalAccessError.class)
 	public void twoOpens() throws SQLException {

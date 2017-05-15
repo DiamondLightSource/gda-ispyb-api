@@ -16,16 +16,17 @@ import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Locale;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
-import org.eclipse.dawnsci.json.MarshallerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.ispyb.scanning.MarshallingRegistry;
+import uk.ac.diamond.ispyb.scanning.test.mock.MockMarshallerService;
 
 public class BeanSerializationTest {
 	
@@ -34,7 +35,7 @@ public class BeanSerializationTest {
 	
 	@Before
 	public void create() {
-		marshaller = new MarshallerService(new MarshallingRegistry());
+		marshaller = new MockMarshallerService(new MarshallingRegistry());
 	}
 
 	@Test
@@ -65,6 +66,7 @@ public class BeanSerializationTest {
 	private void createEmptyObjectsForSomeFields(Object bean, Class<?> clazz) throws InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
 		Field[] fields = clazz.getDeclaredFields();
 		for (Field field : fields) {
+			if (Modifier.isStatic(field.getModifiers())) continue;
 			String setterName = getSetterName(field.getName());
 			String getterName = getGetterName(field.getName());
 			try {
