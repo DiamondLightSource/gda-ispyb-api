@@ -10,6 +10,7 @@ jdk:
  - oraclejdk8
  
 # Clone the dependencies.
+before_install:
  - git clone --depth=50 --branch=master https://github.com/eclipse/scanning.git  # We only need one bundle, sparse checkout?
  - mv ./scanning/org.eclipse.scanning.api ./gda-ispyb-api
  - git clone --depth=50 --branch=master https://github.com/eclipse/dawnsci.git   # We only need one bundle, sparse checkout?
