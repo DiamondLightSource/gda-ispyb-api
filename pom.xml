@@ -73,7 +73,7 @@
 				</environments>
 				<target>
 					<artifact>
-						<groupId>org.eclipse</groupId>
+						<groupId>uk.ac.diamond</groupId>
 						<artifactId>uk.ac.diamond.ispyb.target</artifactId>
 						<version>1.111</version>
 					</artifact>

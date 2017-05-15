@@ -7,7 +7,6 @@
 		<artifactId>uk.ac.diamond.ispyb</artifactId>
 		<groupId>uk.ac.diamond</groupId>
 		<version>1.111</version>
-		<relativePath>../</relativePath>
 	</parent>
 	<artifactId>uk.ac.diamond.ispyb.target</artifactId>
 	<packaging>eclipse-target-definition</packaging>
