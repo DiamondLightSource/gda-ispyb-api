@@ -17,8 +17,6 @@
 		<module>uk.ac.diamond.ispyb.feature</module>
 		<module>uk.ac.diamond.ispyb.scanning</module>
 		<module>uk.ac.diamond.ispyb.scanning.test</module>
-		<module>org.eclipse.scanning.api</module>
-		<module>org.eclipse.dawnsci.analysis.api</module>
 	</modules>
 
 	<properties>

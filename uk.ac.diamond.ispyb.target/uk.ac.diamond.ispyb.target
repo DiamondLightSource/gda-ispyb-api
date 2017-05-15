@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="uk.ac.diamond.ispyb" sequenceNumber="6">
+<?pde version="3.8"?><target name="uk.ac.diamond.ispyb" sequenceNumber="7">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="uk.ac.diamond.org.springframework" version="4.0.6.RELEASE"/>
 <unit id="org.mariadb.jdbc" version="1.4.6.0"/>
 <unit id="org.mockito.mockito-core" version="1.10.19"/>
 <repository location="https://alfred.diamond.ac.uk/p2/orbit/continuous/repository/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.dawnsci.analysis.api" version="1.1.0.v20170410-1515"/>
+<unit id="org.eclipse.scanning.api" version="1.0.0.v20170511-1301"/>
+<repository location="http://www.opengda.org/DawnDiamond/master/updates/snapshot/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
