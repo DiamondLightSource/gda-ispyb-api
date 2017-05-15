@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.scanning.api.database.Id;
 import org.junit.Test;
 
-import uk.ac.diamond.ispyb.scanning.ExperimentCommunicationService;
+import uk.ac.diamond.ispyb.scanning.XPDFDatabaseService;
 
 public class AsynchCompositeTest extends AbstractCompositeTest {
 
@@ -26,15 +26,15 @@ public class AsynchCompositeTest extends AbstractCompositeTest {
 	@Test
 	public void testStoppedWorker() throws Exception {
 		service.close(); // Force thread to stop
-		assertFalse(((ExperimentCommunicationService)service).isWorkerActive());
+		assertFalse(((XPDFDatabaseService)service).isWorkerActive());
 
 		service.open(); // Force thread to start
-		assertTrue(((ExperimentCommunicationService)service).isWorkerActive());
+		assertTrue(((XPDFDatabaseService)service).isWorkerActive());
 		Id id = service.composite(prepare2Updates(), false).get(); // Force use of thread
 		assertEquals(2, id.size()); // Two Id.NONE
 
 		service.close(); // Force thread to stop
-		assertFalse(((ExperimentCommunicationService)service).isWorkerActive());
+		assertFalse(((XPDFDatabaseService)service).isWorkerActive());
 	}
 
 }

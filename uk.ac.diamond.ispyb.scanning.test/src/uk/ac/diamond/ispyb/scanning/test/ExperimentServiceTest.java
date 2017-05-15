@@ -13,7 +13,7 @@ import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
 import uk.ac.diamond.ispyb.dao.IspybXpdfDaoFactory;
-import uk.ac.diamond.ispyb.scanning.ExperimentCommunicationService;
+import uk.ac.diamond.ispyb.scanning.XPDFDatabaseService;
 import uk.ac.diamond.ispyb.test.IntegrationTestHelper;
 
 public abstract class ExperimentServiceTest {
@@ -28,7 +28,7 @@ public abstract class ExperimentServiceTest {
 		IspybDataCollectionDaoFactory cfactory = new IspybDataCollectionDaoFactory();
 		xhelper  = new IntegrationTestHelper<>(xfactory);
 		chelper  = new IntegrationTestHelper<>(cfactory);
-		service = new ExperimentCommunicationService(xfactory, cfactory);
+		service = new XPDFDatabaseService(xfactory, cfactory);
 		xhelper.setUp(); // Runs system command and takes a while.
 	}
 	

@@ -61,9 +61,9 @@ import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
  * @author Matthew Gerring
  *
  */
-public class ExperimentCommunicationService implements IExperimentDatabaseService, Closeable {
+public class XPDFDatabaseService implements IExperimentDatabaseService, Closeable {
 	
-	private final static Logger logger = LoggerFactory.getLogger(ExperimentCommunicationService.class);
+	private final static Logger logger = LoggerFactory.getLogger(XPDFDatabaseService.class);
 
 	// OSGi Services
 	private static IspybXpdfFactoryService           ispybXpdfFactoryService;
@@ -79,7 +79,7 @@ public class ExperimentCommunicationService implements IExperimentDatabaseServic
 	/** 
 	 * OSGi
 	 */
-	public ExperimentCommunicationService() {
+	public XPDFDatabaseService() {
 		operations = new HashMap<>();
 		queue      = new ArrayBlockingQueue<>(37);
 	}
@@ -88,7 +88,7 @@ public class ExperimentCommunicationService implements IExperimentDatabaseServic
 	 * Testing only
 	 * @param xpdfApi
 	 */
-	public ExperimentCommunicationService(IspybXpdfFactoryService xservice, IspybDataCollectionFactoryService cservice) {
+	public XPDFDatabaseService(IspybXpdfFactoryService xservice, IspybDataCollectionFactoryService cservice) {
 		this();
 		ispybXpdfFactoryService = xservice;
 		ispybDataCollectionFactoryService = cservice;
@@ -348,7 +348,7 @@ public class ExperimentCommunicationService implements IExperimentDatabaseServic
 		return ispybXpdfFactoryService;
 	}
 	public static void setIspybXpdfFactoryService(IspybXpdfFactoryService ispybXpdfFactoryService) {
-		ExperimentCommunicationService.ispybXpdfFactoryService = ispybXpdfFactoryService;
+		XPDFDatabaseService.ispybXpdfFactoryService = ispybXpdfFactoryService;
 	}
 	private static <T> T getService(Class<T> clazz) {
 		if (context == null) return null;
@@ -366,7 +366,7 @@ public class ExperimentCommunicationService implements IExperimentDatabaseServic
 	}
 
 	public static void setIspybDataCollectionFactoryService(IspybDataCollectionFactoryService ispybDataCollectionFactoryService) {
-		ExperimentCommunicationService.ispybDataCollectionFactoryService = ispybDataCollectionFactoryService;
+		XPDFDatabaseService.ispybDataCollectionFactoryService = ispybDataCollectionFactoryService;
 	}
 
 }

@@ -22,10 +22,10 @@ import org.eclipse.scanning.api.database.Operation;
  */
 class CompositeOperation implements DatabaseOperation<CompositeBean> {
 
-	private final ExperimentCommunicationService service;
+	private final XPDFDatabaseService service;
 	private List<Operation> allowed;
 
-	CompositeOperation(ExperimentCommunicationService service, Operation... allowed) {
+	CompositeOperation(XPDFDatabaseService service, Operation... allowed) {
 		this.service = service;
 		this.allowed = allowed!=null && allowed.length>0 ? Arrays.asList(allowed) : Operation.ends();
 	}
