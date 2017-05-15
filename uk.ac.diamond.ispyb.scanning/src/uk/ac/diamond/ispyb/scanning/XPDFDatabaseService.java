@@ -27,9 +27,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import org.eclipse.scanning.api.database.IExperimentDatabaseService;
 import org.eclipse.scanning.api.database.CompositeBean;
 import org.eclipse.scanning.api.database.DatabaseOperation;
+import org.eclipse.scanning.api.database.IExperimentDatabaseService;
+import org.eclipse.scanning.api.database.ISampleDescriptionService;
 import org.eclipse.scanning.api.database.Id;
 import org.eclipse.scanning.api.database.Operation;
 import org.osgi.framework.ServiceReference;
@@ -123,6 +124,9 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	 */
 	private void createOperations() {
 		
+		// This map of lambdas maps the methods of the form $action$$TypeName$(Type...) to
+		// <T> $action$(T...) which is generic and does not bind the API users to specific
+		// types.
 		Map<Class<?>, DatabaseOperation<?>> inserts    = new HashMap<>();
 		inserts.put(BeamlineAction.class,           (grp)->new Id(collectionApi.insertBeamlineAction((BeamlineAction)grp)));
 		inserts.put(CompositeBean.class,             new CompositeOperation(this, Operation.INSERT));

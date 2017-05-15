@@ -16,6 +16,12 @@ import uk.ac.diamond.ispyb.dao.IspybXpdfDaoFactory;
 import uk.ac.diamond.ispyb.scanning.XPDFDatabaseService;
 import uk.ac.diamond.ispyb.test.IntegrationTestHelper;
 
+/**
+ * 
+ * @author Matthew Gerring
+ *
+ * @param <T>
+ */
 public abstract class ExperimentServiceTest {
 	
 	protected static IExperimentDatabaseService               service;
