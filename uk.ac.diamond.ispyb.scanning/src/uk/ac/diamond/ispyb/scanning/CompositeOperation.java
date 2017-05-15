@@ -5,10 +5,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import uk.ac.diamond.ispyb.api.CompositeBean;
-import uk.ac.diamond.ispyb.api.IExperimentCommunicationService.ISPyBOperation;
-import uk.ac.diamond.ispyb.api.Id;
-import uk.ac.diamond.ispyb.api.Operation;
+import org.eclipse.scanning.api.database.CompositeBean;
+import org.eclipse.scanning.api.database.DatabaseOperation;
+import org.eclipse.scanning.api.database.Id;
+import org.eclipse.scanning.api.database.Operation;
 
 /**
  * 
@@ -20,7 +20,7 @@ import uk.ac.diamond.ispyb.api.Operation;
  * @author Matthew Gerring
  *
  */
-class CompositeOperation implements ISPyBOperation<CompositeBean> {
+class CompositeOperation implements DatabaseOperation<CompositeBean> {
 
 	private final ExperimentCommunicationService service;
 	private List<Operation> allowed;
@@ -45,7 +45,7 @@ class CompositeOperation implements ISPyBOperation<CompositeBean> {
 
 	private <T> void process(Operation type, T bean, Id id) {
 		
-		ISPyBOperation<T> operation = service.getOperation(type, bean);
+		DatabaseOperation<T> operation = service.getOperation(type, bean);
 		try {
 			Future<Id> child = service.execute(operation, bean, true);
 			id.put(bean.getClass().getSimpleName(), child.get());

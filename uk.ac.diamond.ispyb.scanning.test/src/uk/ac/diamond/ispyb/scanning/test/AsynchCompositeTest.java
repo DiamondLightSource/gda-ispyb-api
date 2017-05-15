@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.scanning.api.database.Id;
 import org.junit.Test;
 
-import uk.ac.diamond.ispyb.api.Id;
 import uk.ac.diamond.ispyb.scanning.ExperimentCommunicationService;
 
 public class AsynchCompositeTest extends AbstractCompositeTest {

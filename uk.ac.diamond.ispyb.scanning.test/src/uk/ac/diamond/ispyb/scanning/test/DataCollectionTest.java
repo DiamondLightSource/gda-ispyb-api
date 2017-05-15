@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import org.eclipse.scanning.api.database.Id;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.api.BeamlineAction;
@@ -13,7 +14,6 @@ import uk.ac.diamond.ispyb.api.DataCollectionGroup;
 import uk.ac.diamond.ispyb.api.DataCollectionGroupGrid;
 import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
-import uk.ac.diamond.ispyb.api.Id;
 import uk.ac.diamond.ispyb.api.Orientation;
 
 public class DataCollectionTest extends ExperimentServiceTest {

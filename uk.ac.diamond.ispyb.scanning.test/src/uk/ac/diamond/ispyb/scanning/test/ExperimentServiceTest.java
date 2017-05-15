@@ -3,12 +3,12 @@ package uk.ac.diamond.ispyb.scanning.test;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.eclipse.scanning.api.database.IExperimentDatabaseService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import uk.ac.diamond.ispyb.api.IExperimentCommunicationService;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
@@ -18,7 +18,7 @@ import uk.ac.diamond.ispyb.test.IntegrationTestHelper;
 
 public abstract class ExperimentServiceTest {
 	
-	protected static IExperimentCommunicationService               service;
+	protected static IExperimentDatabaseService               service;
 	protected static IntegrationTestHelper<IspybXpdfApi>           xhelper;
 	protected static IntegrationTestHelper<IspybDataCollectionApi> chelper;
 	

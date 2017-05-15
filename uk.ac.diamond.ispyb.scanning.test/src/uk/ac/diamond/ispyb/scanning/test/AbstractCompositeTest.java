@@ -5,16 +5,16 @@ import static org.junit.Assert.assertEquals;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import org.eclipse.scanning.api.database.CompositeBean;
+import org.eclipse.scanning.api.database.Id;
+import org.eclipse.scanning.api.database.Operation;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.api.BeamlineAction;
-import uk.ac.diamond.ispyb.api.CompositeBean;
 import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
 import uk.ac.diamond.ispyb.api.DataCollectionGroup;
 import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
-import uk.ac.diamond.ispyb.api.Id;
-import uk.ac.diamond.ispyb.api.Operation;
 
 public abstract class AbstractCompositeTest extends ExperimentServiceTest {
 

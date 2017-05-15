@@ -27,6 +27,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.eclipse.scanning.api.database.IExperimentDatabaseService;
+import org.eclipse.scanning.api.database.CompositeBean;
+import org.eclipse.scanning.api.database.DatabaseOperation;
+import org.eclipse.scanning.api.database.Id;
+import org.eclipse.scanning.api.database.Operation;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
@@ -35,20 +40,16 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.ispyb.api.BeamlineAction;
 import uk.ac.diamond.ispyb.api.Component;
 import uk.ac.diamond.ispyb.api.ComponentLattice;
-import uk.ac.diamond.ispyb.api.CompositeBean;
 import uk.ac.diamond.ispyb.api.ConnectionData;
 import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
 import uk.ac.diamond.ispyb.api.DataCollectionGroup;
 import uk.ac.diamond.ispyb.api.DataCollectionGroupGrid;
 import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
-import uk.ac.diamond.ispyb.api.IExperimentCommunicationService;
-import uk.ac.diamond.ispyb.api.Id;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionFactoryService;
 import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.api.IspybXpdfFactoryService;
-import uk.ac.diamond.ispyb.api.Operation;
 import uk.ac.diamond.ispyb.api.Sample;
 import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
 
@@ -60,7 +61,7 @@ import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
  * @author Matthew Gerring
  *
  */
-public class ExperimentCommunicationService implements IExperimentCommunicationService, Closeable {
+public class ExperimentCommunicationService implements IExperimentDatabaseService, Closeable {
 	
 	private final static Logger logger = LoggerFactory.getLogger(ExperimentCommunicationService.class);
 
@@ -72,7 +73,7 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 	private IspybXpdfApi           xpdfApi;
 	private IspybDataCollectionApi collectionApi;
 	
-	private Map<Operation, Map<Class<?>, ISPyBOperation<?>>>  operations;
+	private Map<Operation, Map<Class<?>, DatabaseOperation<?>>>  operations;
 	private BlockingQueue<OperationAction<?>> queue; // No need for this in the remote version.
 
 	/** 
@@ -122,22 +123,22 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 	 */
 	private void createOperations() {
 		
-		Map<Class<?>, ISPyBOperation<?>> inserts    = new HashMap<>();
+		Map<Class<?>, DatabaseOperation<?>> inserts    = new HashMap<>();
 		inserts.put(BeamlineAction.class,           (grp)->new Id(collectionApi.insertBeamlineAction((BeamlineAction)grp)));
 		inserts.put(CompositeBean.class,             new CompositeOperation(this, Operation.INSERT));
 		
-		Map<Class<?>, ISPyBOperation<?>> upserts    = new HashMap<>();
+		Map<Class<?>, DatabaseOperation<?>> upserts    = new HashMap<>();
 		upserts.put(DataCollectionGroup.class,      (grp)->new Id(collectionApi.upsertDataCollectionGroup((DataCollectionGroup)grp)));
 		upserts.put(DataCollectionMain.class,       (grp)->new Id(collectionApi.upsertDataCollectionMain((DataCollectionMain)grp)));
 		upserts.put(DataCollectionGroupGrid.class,  (grp)->new Id(collectionApi.upsertDataCollectionGroupGrid((DataCollectionGroupGrid)grp)));
 		upserts.put(CompositeBean.class,             new CompositeOperation(this, Operation.UPSERT));
 		
-		Map<Class<?>, ISPyBOperation<?>> updates    = new HashMap<>();
+		Map<Class<?>, DatabaseOperation<?>> updates    = new HashMap<>();
 		updates.put(DataCollectionExperiment.class, (grp)->{collectionApi.updateDataCollectionExperiment((DataCollectionExperiment)grp);return Id.NONE;});
 		updates.put(DataCollectionMachine.class,    (grp)->{collectionApi.updateDataCollectionMachine((DataCollectionMachine)grp);return Id.NONE;});
 		updates.put(CompositeBean.class,             new CompositeOperation(this, Operation.UPDATE));
 
-		Map<Class<?>, ISPyBOperation<?>> composites    = new HashMap<>();
+		Map<Class<?>, DatabaseOperation<?>> composites    = new HashMap<>();
 		composites.put(CompositeBean.class,          new CompositeOperation(this));
 
 		operations.put(Operation.INSERT, inserts);
@@ -163,10 +164,10 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
     }
 
 	@SuppressWarnings("unchecked")
-	protected <T> ISPyBOperation<T> getOperation(Operation type, T bean) {
+	protected <T> DatabaseOperation<T> getOperation(Operation type, T bean) {
 		Map<?,?> map  = operations.get(type);
 		if (map==null||!map.containsKey(bean.getClass())) throw new IllegalArgumentException("No operation for "+bean.getClass());
-		return (ISPyBOperation<T>)map.get(bean.getClass());
+		return (DatabaseOperation<T>)map.get(bean.getClass());
 	}
 
     /**
@@ -176,7 +177,7 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
      * @param blocking
      * @return
      */
-	protected <T> Future<Id> execute(ISPyBOperation<T> operation, T entry, boolean blocking)  throws Exception {
+	protected <T> Future<Id> execute(DatabaseOperation<T> operation, T entry, boolean blocking)  throws Exception {
 		if (blocking) return CompletableFuture.completedFuture(operation.operate(entry));
 		
 		CompletableFuture<Id> future = new CompletableFuture<>();
@@ -274,7 +275,7 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 	private static class OperationAction<T> {
 		
 		public static final OperationAction<Object> EMPTY = new OperationAction<>(null, null, null);
-		private final ISPyBOperation<T> operation;
+		private final DatabaseOperation<T> operation;
 		private final T                 bean;
 		private final CompletableFuture<Id> future;
 		
@@ -315,7 +316,7 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 			return true;
 		}
 
-		OperationAction(ISPyBOperation<T> operation, T bean, CompletableFuture<Id> future) {
+		OperationAction(DatabaseOperation<T> operation, T bean, CompletableFuture<Id> future) {
 			this.operation = operation;
 			this.bean      = bean;
 			this.future    = future;
