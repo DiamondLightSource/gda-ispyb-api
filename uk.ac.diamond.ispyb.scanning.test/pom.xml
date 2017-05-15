@@ -4,12 +4,12 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>uk.ac.diamond.ispyb.scanning.test</artifactId>
+		<artifactId>uk.ac.diamond.ispyb</artifactId>
 		<groupId>uk.ac.diamond</groupId>
 		<version>1.11.0</version>
 		<relativePath>../</relativePath>
 	</parent>
-	<artifactId>uk.ac.diamond.ispyb.api</artifactId>
+	<artifactId>uk.ac.diamond.ispyb.scanning.test</artifactId>
  	<packaging>eclipse-plugin</packaging>
 
     <build>
