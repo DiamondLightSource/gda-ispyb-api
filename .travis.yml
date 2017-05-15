@@ -11,9 +11,14 @@ jdk:
  
 # Clone the dependencies.
 before_install:
- - git clone --depth=50 --branch=master https://github.com/eclipse/scanning.git  # We only need one bundle, sparse checkout?
+# We only need one bundle, sparse checkout?
+ - git clone --depth=50 --branch=master https://github.com/eclipse/scanning.git
+# Move the org.eclipse.scanning.api bundle to where maven can see it.
  - mv ./scanning/org.eclipse.scanning.api ./gda-ispyb-api
- - git clone --depth=50 --branch=master https://github.com/eclipse/dawnsci.git   # We only need one bundle, sparse checkout?
+
+# We only need one bundle, sparse checkout?
+ - git clone --depth=50 --branch=master https://github.com/eclipse/dawnsci.git
+# Move the org.eclipse.dawnsci.analysis.api bundle to where maven can see it.
  - mv ./dawnsci/org.eclipse.dawnsci.analysis.api ./gda-ispyb-api
  
 # Run maven. This happens automatically and adding it again makes the build longer.
