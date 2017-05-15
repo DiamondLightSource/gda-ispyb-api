@@ -20,13 +20,13 @@ import java.lang.reflect.Modifier;
 import java.util.Locale;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
-import org.eclipse.dawnsci.json.MarshallerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.ispyb.scanning.MarshallingRegistry;
+import uk.ac.diamond.ispyb.scanning.test.mock.MockMarshallerService;
 
 public class BeanSerializationTest {
 	
@@ -35,7 +35,7 @@ public class BeanSerializationTest {
 	
 	@Before
 	public void create() {
-		marshaller = new MarshallerService(new MarshallingRegistry());
+		marshaller = new MockMarshallerService(new MarshallingRegistry());
 	}
 
 	@Test
