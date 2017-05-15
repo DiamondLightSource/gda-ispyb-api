@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>uk.ac.diamond.ispyb.scanning.test</artifactId>
+		<groupId>uk.ac.diamond</groupId>
+		<version>1.11.0</version>
+		<relativePath>../</relativePath>
+	</parent>
+	<artifactId>uk.ac.diamond.ispyb.api</artifactId>
+ 	<packaging>eclipse-plugin</packaging>
+
+    <build>
+        <outputDirectory>bin</outputDirectory>
+    </build>
+</project>
+
