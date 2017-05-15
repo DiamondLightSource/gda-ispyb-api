@@ -186,6 +186,7 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 	
 	
 	private void createWorkerThead() {
+		workerLatch = new CountDownLatch(1); // Latch for thread created before new thread (important order).
 		Thread asynchWorker = new Thread(()->process(), getClass().getSimpleName()+" Worker Thread");
 		asynchWorker.setPriority(Thread.NORM_PRIORITY-2);
 		asynchWorker.setDaemon(true);
@@ -201,12 +202,12 @@ public class ExperimentCommunicationService implements IExperimentCommunicationS
 	 * @throws InterruptedException
 	 */
 	public boolean isWorkerActive() throws InterruptedException {
+		if (workerLatch==null) return false;
 		return !workerLatch.await(50, TimeUnit.MILLISECONDS);
 	}
 
 	private void process() {
 		try {
-			workerLatch = new CountDownLatch(1);
 			OperationAction<?> action;
 			while((action = queue.take())!=null) {
 				if (action==OperationAction.EMPTY) break;
