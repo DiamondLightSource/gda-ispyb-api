@@ -8,8 +8,8 @@
 <repository location="https://alfred.diamond.ac.uk/p2/orbit/continuous/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.dawnsci.analysis.api" version="1.1.0.v20170410-1515"/>
 <unit id="org.eclipse.scanning.api" version="1.0.0.v20170511-1301"/>
+<unit id="org.eclipse.dawnsci.analysis.api" version="1.1.0.v20170410-1515"/>
 <repository location="http://www.opengda.org/DawnDiamond/master/updates/snapshot/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">

@@ -33,6 +33,11 @@
 			<layout>p2</layout>
 		</repository>
 		<repository>
+			<id>dawnsci</id>
+			<url>http://www.opengda.org/DawnDiamond/master/updates/snapshot/</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
 			<id>orbit</id>
 			<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</url>
 			<layout>p2</layout>
