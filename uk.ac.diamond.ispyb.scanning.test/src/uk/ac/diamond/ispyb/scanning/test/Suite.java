@@ -30,14 +30,4 @@ import org.junit.runners.Suite.SuiteClasses;
 })
 public class Suite {
 
-	@BeforeClass
-	public static void create() throws SQLException, IOException, InterruptedException {
-		ExperimentServiceTest.create(true, true);
-	}
-	
-	@AfterClass
-	public static void dispose() throws Exception {
-		ExperimentServiceTest.dispose();
-	}
-
 }

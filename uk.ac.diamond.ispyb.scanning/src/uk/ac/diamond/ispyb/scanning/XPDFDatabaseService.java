@@ -273,7 +273,8 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 
 	    // We flat map assuming that the component : lattices is 1:1
 	    List<ComponentLattice> lattices = components.stream()
-	    		                                    .flatMap(c->xpdfApi.retrieveComponentLatticesForComponent(c.getComponentId()).stream())
+	    		                                    .map(Component::getComponentId)
+	    		                                    .flatMap(id->xpdfApi.retrieveComponentLatticesForComponent(id).stream())
 	    		                                    .collect(Collectors.toList());
 	    info.setLattices(lattices);
 	    return info;

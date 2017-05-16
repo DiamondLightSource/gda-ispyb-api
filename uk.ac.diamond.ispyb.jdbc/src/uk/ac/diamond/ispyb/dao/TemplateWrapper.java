@@ -101,7 +101,7 @@ public class TemplateWrapper {
 	}
 
 	SimpleJdbcCall createCall(String procedure) {
-		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(template.getDataSource())
+		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(template)
 			.withProcedureName(procedure)
 			.withCatalogName(schema);
 		return simpleJdbcCall;

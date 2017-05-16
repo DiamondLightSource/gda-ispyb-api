@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import org.eclipse.scanning.api.database.CompositeBean;
 import org.eclipse.scanning.api.database.Id;
 import org.eclipse.scanning.api.database.Operation;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -22,6 +23,16 @@ import uk.ac.diamond.ispyb.api.DataCollectionMain;
 public abstract class AbstractCompositeTest extends ExperimentServiceTest {
 
 	protected abstract boolean isBlocking();
+	
+	@BeforeClass
+	public static void create() throws SQLException, IOException, InterruptedException {
+		ExperimentServiceTest.create(false, true);
+	}
+	
+	@AfterClass
+	public static void dispose() throws Exception {
+		ExperimentServiceTest.dispose();
+	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void checkIllegalType() {
