@@ -62,14 +62,14 @@
 						<ws>gtk</ws>
 						<arch>x86_64</arch>
 					</environment>
-				    <target>
-					    <artifact>
-	                        <groupId>uk.ac.diamond</groupId>
-	                        <artifactId>uk.ac.diamond.ispyb.target</artifactId>
-	                        <version>1.11.0</version>
-					    </artifact>
-				    </target>
 				</environments>
+				<target>
+					 <artifact>
+	                     <groupId>uk.ac.diamond</groupId>
+	                     <artifactId>uk.ac.diamond.ispyb.target</artifactId>
+	                     <version>1.11.0</version>
+				  </artifact>
+				</target>
 			    <pomDependencies>consider</pomDependencies>
 			</configuration>
 		</plugin>

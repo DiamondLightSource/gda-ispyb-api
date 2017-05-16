@@ -9,6 +9,11 @@ cache:
 jdk:
  - oraclejdk8
  
+install:
+  - cd ../
+  - mv gda-ispyb-api uk.ac.diamond.ispyb
+  - cd uk.ac.diamond.ispyb
+ 
 # Run maven. This happens automatically and adding it again makes the build longer.
 script: 
  - mvn -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=travis -Dispyb.host=localhost clean compile surefire:test -Dtest.includes=**/Suite.java
