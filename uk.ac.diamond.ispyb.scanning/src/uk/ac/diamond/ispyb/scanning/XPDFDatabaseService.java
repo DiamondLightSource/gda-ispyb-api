@@ -98,8 +98,12 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	public synchronized void open() throws SQLException {
 		if (xpdfApi!=null) throw new IllegalAccessError("The service is still open and cannot be opened twice!");
 		ConnectionData data = new ConnectionData();		
-		this.xpdfApi = getIspybXpdfFactoryService().buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()));
-	    this.collectionApi = getIspybDataCollectionFactoryService().buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()));
+		this.xpdfApi = getIspybXpdfFactoryService()!=null
+				     ? getIspybXpdfFactoryService().buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()))
+				     : null;
+	    this.collectionApi = getIspybDataCollectionFactoryService()!=null
+	    		           ? getIspybDataCollectionFactoryService().buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()))
+	    		           : null;
 		createOperations();
 		createWorkerThead(); // TODO This would be a remote queue for the AMQ version of the service.
 	}

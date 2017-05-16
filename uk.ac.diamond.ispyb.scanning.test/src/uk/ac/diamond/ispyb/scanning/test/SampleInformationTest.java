@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -31,6 +32,11 @@ import uk.ac.diamond.ispyb.api.Sample;
 import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
 
 public class SampleInformationTest extends ExperimentServiceTest {
+	
+	@BeforeClass
+	public static void create() throws SQLException, IOException, InterruptedException {
+		ExperimentServiceTest.create(true, false);
+	}
 	
 	@Test(expected=IllegalAccessError.class)
 	public void twoOpens() throws SQLException {

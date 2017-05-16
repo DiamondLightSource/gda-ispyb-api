@@ -2,12 +2,15 @@ package uk.ac.diamond.ispyb.scanning.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import org.eclipse.scanning.api.database.CompositeBean;
 import org.eclipse.scanning.api.database.Id;
 import org.eclipse.scanning.api.database.Operation;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.api.BeamlineAction;
@@ -20,6 +23,11 @@ public abstract class AbstractCompositeTest extends ExperimentServiceTest {
 
 	protected abstract boolean isBlocking();
 	
+	@BeforeClass
+	public static void create() throws SQLException, IOException, InterruptedException {
+		ExperimentServiceTest.create(false, true);
+	}
+
 	@Test(expected=IllegalArgumentException.class)
 	public void checkIllegalType() {
 		new CompositeBean(Operation.COMPOSITE, new Object());
