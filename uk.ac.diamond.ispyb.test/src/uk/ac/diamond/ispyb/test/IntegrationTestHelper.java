@@ -69,9 +69,9 @@ public class IntegrationTestHelper<S extends Closeable>{
 				// internally we use row logging, but this should work on travis
 			}
 			try{
-				jdbcTemplate.execute("SET GLOBAL max_connections = 10000;");
+				jdbcTemplate.execute("SET GLOBAL max_connections = 1000;");
 			} catch (Exception e){
-				// e.printStackTrace();
+				// internally we do not allow connection set non-admin, but this should work on travis
 			}
 		} finally {
 		    connection.close();
