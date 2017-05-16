@@ -48,23 +48,29 @@ public class IntegrationTestHelper<S extends Closeable>{
 	public <T> T execute(CheckedFunction<T, S> f) throws SQLException, IOException {
 		ConnectionData data = new ConnectionData();
 		S api = factory.buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()));
-		T result = f.apply(api);
-		api.close();
-		return result;
+		try {
+			T result = f.apply(api);
+			return result;
+		} finally {
+			api.close();
+		}
 	}
 	
 	public void setUp() throws IOException, SQLException, InterruptedException{
 		ConnectionData data = new ConnectionData();
 		Connection connection = connectToDatabase(data.getUrl(), data.getUser(),  data.getPassword(), Optional.empty());
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
-		jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
-		jdbcTemplate.execute(String.format("create database %s;", data.getSchema()));
-		try{
-			jdbcTemplate.execute("SET GLOBAL log_bin_trust_function_creators = 1;");
-		} catch (Exception e){
-			// internally we use row logging, but this should work on travis
+		try {
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
+			jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
+			jdbcTemplate.execute(String.format("create database %s;", data.getSchema()));
+			try{
+				jdbcTemplate.execute("SET GLOBAL log_bin_trust_function_creators = 1;");
+			} catch (Exception e){
+				// internally we use row logging, but this should work on travis
+			}
+		} finally {
+		    connection.close();
 		}
-		connection.close();
 		
 		executeScript("schema.sql", data.getSchema());
 	}
@@ -72,9 +78,12 @@ public class IntegrationTestHelper<S extends Closeable>{
 	public void tearDown() throws IOException, SQLException, InterruptedException{
 		ConnectionData data = new ConnectionData();
 		Connection connection = connectToDatabase(data.getUrl(), data.getUser(),  data.getPassword(), Optional.empty());
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
-		jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
-		connection.close();
+		try {
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
+			jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
+		} finally {
+		    connection.close();
+		}
 	}
 
 	private void executeScript(String filename, String database) throws IOException, SQLException, InterruptedException {
