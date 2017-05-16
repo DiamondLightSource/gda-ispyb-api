@@ -1,27 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="uk.ac.diamond.ispyb" sequenceNumber="7">
+<?pde version="3.8"?><target name="uk.ac.diamond.ispyb" sequenceNumber="11">
 <locations>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="uk.ac.diamond.org.springframework" version="4.0.6.RELEASE"/>
 <unit id="org.mariadb.jdbc" version="1.4.6.0"/>
 <unit id="org.mockito.mockito-core" version="1.10.19"/>
 <repository location="https://alfred.diamond.ac.uk/p2/orbit/continuous/repository/"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.scanning.api" version="1.0.0.v20170511-1301"/>
 <unit id="org.eclipse.dawnsci.analysis.api" version="1.1.0.v20170410-1515"/>
 <repository location="http://www.opengda.org/DawnDiamond/master/updates/snapshot/"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="org.slf4j.api" version="1.7.2.v20121108-1250"/>
 <unit id="org.junit" version="4.12.0.v201504281640"/>
-<unit id="org.apache.commons.beanutils" version="1.8.0.v201205091237"/>
-<unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
 <unit id="org.h2" version="1.3.168.v201212121212"/>
 <unit id="org.apache.commons.logging" version="1.1.1.v201101211721"/>
 <unit id="org.apache.commons.exec" version="1.1.0.v201301240602"/>
+<unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
 <unit id="org.apache.commons.beanutils" version="1.8.0.v201205091237"/>
+<unit id="org.apache.commons.collections" version="3.2.2.v201511171945"/>
+<unit id="com.fasterxml.jackson.core.jackson-annotations" version="2.5.0.v201504151636"/>
+<unit id="com.fasterxml.jackson.core.jackson-databind" version="2.5.0.v201504151636"/>
+<unit id="com.fasterxml.jackson.core.jackson-core" version="2.5.0.v201504151636"/>
+<unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.january" version="2.0.1.v201703300842"/>
+<unit id="org.eclipse.january.source" version="2.0.1.v201703300842"/>
+<repository location="https://alfred.diamond.ac.uk/sites/download.eclipse.org/january/releases/2.0.1/repository/"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.dawnsci.third.feature.feature.group" version="1.0.0"/>
+<repository location="http://www.opengda.org/updates/tp_dawnsci/releases/1.1.0/"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.11.2.v20160202-2102"/>
+<repository location="http://download.eclipse.org/releases/mars"/>
 </location>
 </locations>
 </target>
