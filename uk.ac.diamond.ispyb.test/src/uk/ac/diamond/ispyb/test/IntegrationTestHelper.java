@@ -12,6 +12,7 @@
 package uk.ac.diamond.ispyb.test;
 
 import java.io.Closeable;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -77,21 +78,33 @@ public class IntegrationTestHelper<S extends Closeable>{
 	}
 
 	private void executeScript(String filename, String database) throws IOException, SQLException, InterruptedException {
-		Resource resource = new DefaultResourceLoader().getResource(filename);
-		String absolutePath = resource.getFile().getAbsolutePath();
-
-		ConnectionData data = new ConnectionData();
-		String command = String.format(" %s %s %s %s %s %s", data.getHost(), data.getUser().orElse("UNKNOWN"), data.getPassword().orElse(""), data.getPort().orElse("3306"), database, absolutePath);
-		CommandLine commandLine;
-		if (isWindows()) {
-			commandLine = new CommandLine("cmd");
-			commandLine.addArgument("/c");
-			commandLine.addArgument("rundbscript.bat"+command);
-		} else {
-			commandLine = CommandLine.parse("./rundbscript.sh"+command);
+		
+		final String orig = System.getProperty("user.dir");
+		try {
+			// The test might be from another bundle
+			File dir = new File("../uk.ac.diamond.ispyb.test");
+			System.setProperty("user.dir", dir.getCanonicalPath());
+			
+			Resource resource = new DefaultResourceLoader().getResource(filename);
+			String absolutePath = resource.getFile().getAbsolutePath();
+	
+			ConnectionData data = new ConnectionData();
+			String command = String.format(" %s %s %s %s %s %s", data.getHost(), data.getUser().orElse("UNKNOWN"), data.getPassword().orElse(""), data.getPort().orElse("3306"), database, absolutePath);
+			CommandLine commandLine;
+			if (isWindows()) {
+				commandLine = new CommandLine("cmd");
+				commandLine.addArgument("/c");
+				commandLine.addArgument("rundbscript.bat"+command);
+			} else {
+				commandLine = CommandLine.parse("./rundbscript.sh"+command);
+			}
+			DefaultExecutor executor = new DefaultExecutor();
+			executor.setWorkingDirectory(dir);
+			executor.execute(commandLine);
+			
+		} finally {
+			System.setProperty("user.dir", orig);
 		}
-		DefaultExecutor executor = new DefaultExecutor();
-		executor.execute(commandLine);
 	}
 	static private final boolean isWindows() {
 		return (System.getProperty("os.name").indexOf("Windows") == 0);
