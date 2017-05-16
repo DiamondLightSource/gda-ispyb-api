@@ -12,6 +12,11 @@
 package uk.ac.diamond.ispyb.scanning.test;
 
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
@@ -24,5 +29,15 @@ import org.junit.runners.Suite.SuiteClasses;
     SampleInformationTest.class
 })
 public class Suite {
+
+	@BeforeClass
+	public static void create() throws SQLException, IOException, InterruptedException {
+		ExperimentServiceTest.create(true, true);
+	}
+	
+	@AfterClass
+	public static void dispose() throws Exception {
+		ExperimentServiceTest.dispose();
+	}
 
 }

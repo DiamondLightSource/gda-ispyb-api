@@ -20,12 +20,6 @@ import uk.ac.diamond.ispyb.api.DataCollectionMain;
 import uk.ac.diamond.ispyb.api.Orientation;
 
 public class DataCollectionTest extends ExperimentServiceTest {
-
-	
-	@BeforeClass
-	public static void create() throws SQLException, IOException, InterruptedException {
-		ExperimentServiceTest.create(false, true);
-	}
 	
 	@Test
 	public void testUpdateDataCollectionExperiment() throws Exception {

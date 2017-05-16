@@ -44,8 +44,7 @@ public abstract class ExperimentServiceTest {
 		service  = new XPDFDatabaseService(xfactory, cfactory);
 	}
 	
-	@AfterClass
-	public static void dispose() throws Exception {
+	protected static void dispose() throws Exception {
 		if (xhelper!=null) xhelper.tearDown();
 		if (chelper!=null) chelper.tearDown();
 	}

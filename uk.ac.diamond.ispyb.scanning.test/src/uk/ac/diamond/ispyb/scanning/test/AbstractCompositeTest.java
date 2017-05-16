@@ -22,11 +22,6 @@ import uk.ac.diamond.ispyb.api.DataCollectionMain;
 public abstract class AbstractCompositeTest extends ExperimentServiceTest {
 
 	protected abstract boolean isBlocking();
-	
-	@BeforeClass
-	public static void create() throws SQLException, IOException, InterruptedException {
-		ExperimentServiceTest.create(false, true);
-	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void checkIllegalType() {
