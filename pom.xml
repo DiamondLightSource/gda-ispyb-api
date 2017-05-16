@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>uk.ac.diamond</groupId>
 	<artifactId>uk.ac.diamond.ispyb</artifactId>
-	<version>1.11.0-SNAPSHOT</version>
+	<version>1.11.0-SNAPSHOT</version> <!--  Used snapshot system -->
 	<packaging>pom</packaging>
 
 	<prerequisites>
@@ -11,12 +11,14 @@
 	</prerequisites>
 
 	<modules>
+        <module>uk.ac.diamond.ispyb.target</module>
 		<module>uk.ac.diamond.ispyb.api</module>
 		<module>uk.ac.diamond.ispyb.jdbc</module>
 		<module>uk.ac.diamond.ispyb.test</module>
-		<module>uk.ac.diamond.ispyb.feature</module>
+		<!--  
 		<module>uk.ac.diamond.ispyb.scanning</module>
 		<module>uk.ac.diamond.ispyb.scanning.test</module>
+		-->
 	</modules>
 
 	<properties>
@@ -101,18 +103,6 @@
                 <failOnError>false</failOnError>
             </configuration>
           </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
       </plugins>
    </build>
 

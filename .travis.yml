@@ -9,14 +9,16 @@ cache:
 jdk:
  - oraclejdk8
  
-install:
-  - cd ../
-  - mv gda-ispyb-api uk.ac.diamond.ispyb
-  - cd uk.ac.diamond.ispyb
+before_install:
+ - cd ../
+ - git clone --depth=50 --branch=master https://github.com/eclipse/dawnsci.git  org.eclipse.dawnsci  # We only need one bundle, sparse checkout?
+ - git clone --depth=50 --branch=master https://github.com/eclipse/scanning.git org.eclipse.scanning # We only need one bundle, sparse checkout?
+ - mv gda-ispyb-api uk.ac.diamond.ispyb
+ - cd uk.ac.diamond.ispyb
  
 # Run maven. This happens automatically and adding it again makes the build longer.
 script: 
- - mvn -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=travis -Dispyb.host=localhost clean compile surefire:test -Dtest.includes=**/Suite.java
+ - mvn -q -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=travis -Dispyb.host=localhost clean compile surefire:test -Dtest.includes=**/Suite.java
  - sonar-scanner
 
 addons:

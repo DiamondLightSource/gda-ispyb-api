@@ -11,16 +11,21 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.test;
 
-import org.junit.Test;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import uk.ac.diamond.ispyb.dao.TemplateWrapper;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import uk.ac.diamond.ispyb.dao.BeanTemplateWrapper;
+import uk.ac.diamond.ispyb.dao.TemplateWrapper;
 
 public class BeanTemplateWrapperTest {
+	
+	@Ignore("Does not work with mockito version in orbit http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/")
 	@Test
 	public void testUpdate(){
 		TemplateWrapper wrapper = mock(TemplateWrapper.class);
