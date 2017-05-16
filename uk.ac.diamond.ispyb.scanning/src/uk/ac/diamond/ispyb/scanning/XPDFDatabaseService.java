@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 import org.eclipse.scanning.api.database.CompositeBean;
 import org.eclipse.scanning.api.database.DatabaseOperation;
 import org.eclipse.scanning.api.database.IExperimentDatabaseService;
-import org.eclipse.scanning.api.database.ISampleDescriptionService;
 import org.eclipse.scanning.api.database.Id;
 import org.eclipse.scanning.api.database.Operation;
 import org.osgi.framework.ServiceReference;
@@ -97,7 +96,7 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	
 	@Override
 	public synchronized void open() throws SQLException {
-		if (xpdfApi!=null) throw new IllegalAccessError();
+		if (xpdfApi!=null) throw new IllegalAccessError("The service is still open and cannot be opened twice!");
 		ConnectionData data = new ConnectionData();		
 		this.xpdfApi = getIspybXpdfFactoryService().buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()));
 	    this.collectionApi = getIspybDataCollectionFactoryService().buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()));
