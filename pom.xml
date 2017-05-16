@@ -15,7 +15,6 @@
 		<module>uk.ac.diamond.ispyb.api</module>
 		<module>uk.ac.diamond.ispyb.jdbc</module>
 		<module>uk.ac.diamond.ispyb.test</module>
-		<module>uk.ac.diamond.ispyb.feature</module>
 		<!--  
 		<module>uk.ac.diamond.ispyb.scanning</module>
 		<module>uk.ac.diamond.ispyb.scanning.test</module>
