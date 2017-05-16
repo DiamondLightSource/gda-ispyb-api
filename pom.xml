@@ -11,7 +11,7 @@
 	</prerequisites>
 
 	<modules>
-        <module>k.ac.diamond.ispyb.target</module>
+        <module>uk.ac.diamond.ispyb.target</module>
 		<module>uk.ac.diamond.ispyb.api</module>
 		<module>uk.ac.diamond.ispyb.jdbc</module>
 		<module>uk.ac.diamond.ispyb.test</module>
