@@ -26,7 +26,7 @@ public abstract class AbstractCompositeTest extends ExperimentServiceTest {
 	
 	@BeforeClass
 	public static void create() throws SQLException, IOException, InterruptedException {
-		ExperimentServiceTest.create(false, true);
+		ExperimentServiceTest.create(true, true);
 	}
 	
 	@AfterClass
