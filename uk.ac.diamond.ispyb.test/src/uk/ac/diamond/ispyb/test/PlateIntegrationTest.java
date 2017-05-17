@@ -11,19 +11,26 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.test;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.TimeZone;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import junit.framework.TestCase;
 import uk.ac.diamond.ispyb.api.ContainerInfo;
 import uk.ac.diamond.ispyb.api.ContainerLSQueueEntry;
 import uk.ac.diamond.ispyb.api.ContainerStatus;
@@ -33,8 +40,19 @@ import uk.ac.diamond.ispyb.api.IspybPlateApi;
 import uk.ac.diamond.ispyb.api.SampleImageAnalysis;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
 
-public class PlateIntegrationTest extends TestCase{
-	private final IntegrationTestHelper<IspybPlateApi> helper = new IntegrationTestHelper<>(new IspybPlateDaoFactory());
+public class PlateIntegrationTest {
+	private final static IntegrationTestHelper<IspybPlateApi> helper = new IntegrationTestHelper<>(new IspybPlateDaoFactory());
+	
+	@BeforeClass
+	public static void connect() throws Exception {
+		helper.setUp();
+	};
+	
+	@AfterClass
+	public static void disconnect() throws Exception {
+		helper.tearDown();
+	};
+
 	
 	@Test
 	public void testRetrieve() throws SQLException, IOException, InterruptedException {
@@ -203,16 +221,4 @@ public class PlateIntegrationTest extends TestCase{
 
 		assertThat(timestamp.isPresent(), is(true));
 	}
-
-	@Before
-	@Override
-	protected void setUp() throws Exception {
-		helper.setUp();
-	};
-	
-	@After
-	@Override
-	protected void tearDown() throws Exception {
-		helper.tearDown();
-	};
 }

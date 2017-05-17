@@ -2,12 +2,16 @@ package uk.ac.diamond.ispyb.scanning.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import org.eclipse.scanning.api.database.CompositeBean;
 import org.eclipse.scanning.api.database.Id;
 import org.eclipse.scanning.api.database.Operation;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.api.BeamlineAction;
@@ -20,6 +24,16 @@ public abstract class AbstractCompositeTest extends ExperimentServiceTest {
 
 	protected abstract boolean isBlocking();
 	
+	@BeforeClass
+	public static void create() throws SQLException, IOException, InterruptedException {
+		ExperimentServiceTest.create(true, true);
+	}
+	
+	@AfterClass
+	public static void dispose() throws Exception {
+		ExperimentServiceTest.dispose();
+	}
+
 	@Test(expected=IllegalArgumentException.class)
 	public void checkIllegalType() {
 		new CompositeBean(Operation.COMPOSITE, new Object());
@@ -110,12 +124,12 @@ public abstract class AbstractCompositeTest extends ExperimentServiceTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testFourUpsertsInsert() throws Exception {
-		service.insert(prepareFourUpserts(), true); // There are no inserts!
+		service.insert(prepareFourUpserts(), isBlocking()); // There are no inserts!
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testFourUpsertsUpdate() throws Exception {
-		service.update(prepareFourUpserts(), true); // There are no inserts!
+		service.update(prepareFourUpserts(), isBlocking()); // There are no inserts!
 	}
 
 	private CompositeBean prepareFourUpserts() {

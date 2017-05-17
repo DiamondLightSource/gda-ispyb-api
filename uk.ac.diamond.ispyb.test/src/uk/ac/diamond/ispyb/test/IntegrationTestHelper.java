@@ -12,6 +12,7 @@
 package uk.ac.diamond.ispyb.test;
 
 import java.io.Closeable;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -47,23 +48,34 @@ public class IntegrationTestHelper<S extends Closeable>{
 	public <T> T execute(CheckedFunction<T, S> f) throws SQLException, IOException {
 		ConnectionData data = new ConnectionData();
 		S api = factory.buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()));
-		T result = f.apply(api);
-		api.close();
-		return result;
+		try {
+			T result = f.apply(api);
+			return result;
+		} finally {
+			api.close();
+		}
 	}
 	
 	public void setUp() throws IOException, SQLException, InterruptedException{
 		ConnectionData data = new ConnectionData();
 		Connection connection = connectToDatabase(data.getUrl(), data.getUser(),  data.getPassword(), Optional.empty());
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
-		jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
-		jdbcTemplate.execute(String.format("create database %s;", data.getSchema()));
-		try{
-			jdbcTemplate.execute("SET GLOBAL log_bin_trust_function_creators = 1;");
-		} catch (Exception e){
-			// internally we use row logging, but this should work on travis
+		try {
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
+			jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
+			jdbcTemplate.execute(String.format("create database %s;", data.getSchema()));
+			try{
+				jdbcTemplate.execute("SET GLOBAL log_bin_trust_function_creators = 1;");
+			} catch (Exception e){
+				// internally we use row logging, but this should work on travis
+			}
+			try{
+				jdbcTemplate.execute("SET GLOBAL max_connections = 1000;");
+			} catch (Exception e){
+				// internally we do not allow connection set non-admin, but this should work on travis
+			}
+		} finally {
+		    connection.close();
 		}
-		connection.close();
 		
 		executeScript("schema.sql", data.getSchema());
 	}
@@ -71,27 +83,42 @@ public class IntegrationTestHelper<S extends Closeable>{
 	public void tearDown() throws IOException, SQLException, InterruptedException{
 		ConnectionData data = new ConnectionData();
 		Connection connection = connectToDatabase(data.getUrl(), data.getUser(),  data.getPassword(), Optional.empty());
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
-		jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
-		connection.close();
+		try {
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
+			jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
+		} finally {
+		    connection.close();
+		}
 	}
 
 	private void executeScript(String filename, String database) throws IOException, SQLException, InterruptedException {
-		Resource resource = new DefaultResourceLoader().getResource(filename);
-		String absolutePath = resource.getFile().getAbsolutePath();
-
-		ConnectionData data = new ConnectionData();
-		String command = String.format(" %s %s %s %s %s %s", data.getHost(), data.getUser().orElse("UNKNOWN"), data.getPassword().orElse(""), data.getPort().orElse("3306"), database, absolutePath);
-		CommandLine commandLine;
-		if (isWindows()) {
-			commandLine = new CommandLine("cmd");
-			commandLine.addArgument("/c");
-			commandLine.addArgument("rundbscript.bat"+command);
-		} else {
-			commandLine = CommandLine.parse("./rundbscript.sh"+command);
+		
+		final String orig = System.getProperty("user.dir");
+		try {
+			// The test might be from another bundle
+			File dir = new File("../uk.ac.diamond.ispyb.test");
+			System.setProperty("user.dir", dir.getCanonicalPath());
+			
+			Resource resource = new DefaultResourceLoader().getResource(filename);
+			String absolutePath = resource.getFile().getAbsolutePath();
+	
+			ConnectionData data = new ConnectionData();
+			String command = String.format(" %s %s %s %s %s %s", data.getHost(), data.getUser().orElse("UNKNOWN"), data.getPassword().orElse(""), data.getPort().orElse("3306"), database, absolutePath);
+			CommandLine commandLine;
+			if (isWindows()) {
+				commandLine = new CommandLine("cmd");
+				commandLine.addArgument("/c");
+				commandLine.addArgument("rundbscript.bat"+command);
+			} else {
+				commandLine = CommandLine.parse("./rundbscript.sh"+command);
+			}
+			DefaultExecutor executor = new DefaultExecutor();
+			executor.setWorkingDirectory(dir);
+			executor.execute(commandLine);
+			
+		} finally {
+			System.setProperty("user.dir", orig);
 		}
-		DefaultExecutor executor = new DefaultExecutor();
-		executor.execute(commandLine);
 	}
 	static private final boolean isWindows() {
 		return (System.getProperty("os.name").indexOf("Windows") == 0);

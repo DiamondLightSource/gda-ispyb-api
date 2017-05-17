@@ -11,14 +11,11 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.dao;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -104,7 +101,7 @@ public class TemplateWrapper {
 	}
 
 	SimpleJdbcCall createCall(String procedure) {
-		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(template.getDataSource())
+		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(template)
 			.withProcedureName(procedure)
 			.withCatalogName(schema);
 		return simpleJdbcCall;

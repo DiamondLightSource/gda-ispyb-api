@@ -2,10 +2,14 @@ package uk.ac.diamond.ispyb.scanning.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import org.eclipse.scanning.api.database.Id;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.api.BeamlineAction;
@@ -17,8 +21,16 @@ import uk.ac.diamond.ispyb.api.DataCollectionMain;
 import uk.ac.diamond.ispyb.api.Orientation;
 
 public class DataCollectionTest extends ExperimentServiceTest {
-
+	@BeforeClass
+	public static void create() throws SQLException, IOException, InterruptedException {
+		ExperimentServiceTest.create(false, true);
+	}
 	
+	@AfterClass
+	public static void dispose() throws Exception {
+		ExperimentServiceTest.dispose();
+	}
+
 	@Test
 	public void testUpdateDataCollectionExperiment() throws Exception {
 		DataCollectionExperiment experiment = new DataCollectionExperiment();

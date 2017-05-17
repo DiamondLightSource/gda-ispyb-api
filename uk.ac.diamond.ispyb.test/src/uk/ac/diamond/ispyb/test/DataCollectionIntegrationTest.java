@@ -13,17 +13,17 @@ package uk.ac.diamond.ispyb.test;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import junit.framework.TestCase;
 import uk.ac.diamond.ispyb.api.BeamlineAction;
 import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
 import uk.ac.diamond.ispyb.api.DataCollectionGroup;
@@ -34,9 +34,20 @@ import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 import uk.ac.diamond.ispyb.api.Orientation;
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
 
-public class DataCollectionIntegrationTest extends TestCase{
-	private final IntegrationTestHelper<IspybDataCollectionApi> helper = new IntegrationTestHelper<>(new IspybDataCollectionDaoFactory());
+public class DataCollectionIntegrationTest {
 	
+	private final static IntegrationTestHelper<IspybDataCollectionApi> helper = new IntegrationTestHelper<>(new IspybDataCollectionDaoFactory());
+	
+	@BeforeClass
+	public static void connect() throws Exception {
+		helper.setUp();
+	};
+	
+	@AfterClass
+	public static void disconnect() throws Exception {
+		helper.tearDown();
+	};
+
 	@Test
 	public void testUpdateDataCollectionExperiment() throws SQLException, IOException, InterruptedException {
 		DataCollectionExperiment experiment = new DataCollectionExperiment();
@@ -131,15 +142,4 @@ public class DataCollectionIntegrationTest extends TestCase{
 		assertNotNull(id);
 	}
 	
-	@Before
-	@Override
-	protected void setUp() throws Exception {
-		helper.setUp();
-	};
-	
-	@After
-	@Override
-	protected void tearDown() throws Exception {
-		helper.tearDown();
-	};
 }

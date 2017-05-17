@@ -11,26 +11,37 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import junit.framework.TestCase;
 import uk.ac.diamond.ispyb.api.ContainerInfo;
 import uk.ac.diamond.ispyb.api.IspybPlateApi;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+public class MultipleCallsIntegrationTest {
+	
+	private final static IntegrationTestHelper<IspybPlateApi> helper = new IntegrationTestHelper<>(new IspybPlateDaoFactory());
+	
+	@BeforeClass
+	public static void connect() throws Exception {
+		helper.setUp();
+	};
+	
+	@AfterClass
+	public static void disconnect() throws Exception {
+		helper.tearDown();
+	};
 
-public class MultipleCallsIntegrationTest extends TestCase{
-	private final IntegrationTestHelper<IspybPlateApi> helper = new IntegrationTestHelper<>(new IspybPlateDaoFactory());
 	
 	@Test
 	public void testRetrieve() throws SQLException, FileNotFoundException, IOException, InterruptedException {
@@ -42,16 +53,4 @@ public class MultipleCallsIntegrationTest extends TestCase{
 		assertThat(containerInfo, is(notNullValue()));
 		assertThat(containerInfo.getName(), is(equalTo("test_plate3")));
 	}
-	
-	@Before
-	@Override
-	protected void setUp() throws Exception {
-		helper.setUp();
-	};
-	
-	@After
-	@Override
-	protected void tearDown() throws Exception {
-		helper.tearDown();
-	};
 }

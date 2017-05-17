@@ -11,9 +11,18 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.test;
 
-import junit.framework.TestCase;
-import org.junit.After;
-import org.junit.Before;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.ac.diamond.ispyb.api.Component;
@@ -25,18 +34,18 @@ import uk.ac.diamond.ispyb.api.SampleGroup;
 import uk.ac.diamond.ispyb.api.SampleGroupType;
 import uk.ac.diamond.ispyb.dao.IspybXpdfDaoFactory;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-public class XpdfIntegrationTest extends TestCase{
-	private final IntegrationTestHelper<IspybXpdfApi> helper = new IntegrationTestHelper<>(new IspybXpdfDaoFactory());
+public class XpdfIntegrationTest {
+	private final static IntegrationTestHelper<IspybXpdfApi> helper = new IntegrationTestHelper<>(new IspybXpdfDaoFactory());
+	
+	@BeforeClass
+	public static void connect() throws Exception {
+		helper.setUp();
+	};
+	
+	@AfterClass
+	public static void disconnect() throws Exception {
+		helper.tearDown();
+	};
 	
 	@Test
 	public void testRetrieveSamplesAssignedForSession() throws SQLException, IOException, InterruptedException {
@@ -155,16 +164,4 @@ public class XpdfIntegrationTest extends TestCase{
 
 		assertThat(lattices , is(equalTo(Arrays.asList(componentLattice))));
 	}
-
-	@Before
-	@Override
-	protected void setUp() throws Exception {
-		helper.setUp();
-	};
-	
-	@After
-	@Override
-	protected void tearDown() throws Exception {
-		helper.tearDown();
-	};
 }
