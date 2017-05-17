@@ -193,15 +193,21 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
      */
 	protected <T> Future<Id> execute(DatabaseOperation<T> operation, Operation type, T entry, boolean blocking)  throws Exception {
 		
-		if (blocking) return CompletableFuture.completedFuture(operation.operate(entry));
-		
-		if (workerLatch==null || workerLatch.getCount()<1) {
-			throw new IllegalArgumentException("The asynchronous worker for "+getClass().getSimpleName()+" is not running!");
-		}
-		if (entry instanceof CompositeBean) {
+		// Check that there is data for the required operation
+		if (type!=Operation.COMPOSITE && entry instanceof CompositeBean) {
 			CompositeBean cbean = (CompositeBean)entry;
 			if (cbean.get(type).isEmpty()) throw new IllegalArgumentException("There are no bean with the operation "+type+" defined in the "+CompositeBean.class.getSimpleName());
 		}
+
+		// Do the snych operation in this thread
+		if (blocking) return CompletableFuture.completedFuture(operation.operate(entry));
+		
+		// Check that there is a worker thread
+		if (workerLatch==null || workerLatch.getCount()<1) {
+			throw new IllegalArgumentException("The asynchronous worker for "+getClass().getSimpleName()+" is not running!");
+		}
+		
+		// Add a task to happen later.
 		CompletableFuture<Id> future = new CompletableFuture<>();
 		queue.add(new OperationAction<>(operation, entry, future));
 		return future;
