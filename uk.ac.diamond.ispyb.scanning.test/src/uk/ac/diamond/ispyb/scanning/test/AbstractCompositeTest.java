@@ -124,12 +124,12 @@ public abstract class AbstractCompositeTest extends ExperimentServiceTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testFourUpsertsInsert() throws Exception {
-		service.insert(prepareFourUpserts(), true); // There are no inserts!
+		service.insert(prepareFourUpserts(), isBlocking()); // There are no inserts!
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testFourUpsertsUpdate() throws Exception {
-		service.update(prepareFourUpserts(), true); // There are no inserts!
+		service.update(prepareFourUpserts(), isBlocking()); // There are no inserts!
 	}
 
 	private CompositeBean prepareFourUpserts() {

@@ -117,6 +117,13 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 		operations.clear();
 		queue.clear();
 		queue.add(OperationAction.EMPTY);
+
+		try {
+			boolean ok = workerLatch.await(1000, TimeUnit.MILLISECONDS);
+			if (!ok) throw new IOException("The thread was unable to stop!");
+		} catch (InterruptedException e) {
+			throw new  IOException("The worker thread was interrupted and did not stop normally!");
+		}
 	}
 
 	/**
@@ -155,19 +162,19 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	}
 	@Override
     public <T> Future<Id> insert(T entry, boolean blocking) throws IllegalArgumentException, Exception {
-    	return execute(getOperation(Operation.INSERT, entry), entry, blocking);
+    	return execute(getOperation(Operation.INSERT, entry), Operation.INSERT, entry, blocking);
     }
 	@Override
     public <T> Future<Id> upsert(T entry, boolean blocking) throws IllegalArgumentException, Exception {
-    	return execute(getOperation(Operation.UPSERT, entry), entry, blocking);
+    	return execute(getOperation(Operation.UPSERT, entry), Operation.UPSERT,entry, blocking);
     }
 	@Override
     public <T> Future<Id> update(T entry, boolean blocking) throws IllegalArgumentException, Exception {
-    	return execute(getOperation(Operation.UPDATE, entry), entry, blocking);
+    	return execute(getOperation(Operation.UPDATE, entry), Operation.UPDATE, entry, blocking);
     }
 	@Override
     public <T> Future<Id> composite(T entry, boolean blocking) throws IllegalArgumentException, Exception {
-    	return execute(getOperation(Operation.COMPOSITE, entry), entry, blocking);
+    	return execute(getOperation(Operation.COMPOSITE, entry), Operation.COMPOSITE, entry, blocking);
     }
 
 	@SuppressWarnings("unchecked")
@@ -184,9 +191,17 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
      * @param blocking
      * @return
      */
-	protected <T> Future<Id> execute(DatabaseOperation<T> operation, T entry, boolean blocking)  throws Exception {
+	protected <T> Future<Id> execute(DatabaseOperation<T> operation, Operation type, T entry, boolean blocking)  throws Exception {
+		
 		if (blocking) return CompletableFuture.completedFuture(operation.operate(entry));
 		
+		if (workerLatch==null || workerLatch.getCount()<1) {
+			throw new IllegalArgumentException("The asynchronous worker for "+getClass().getSimpleName()+" is not running!");
+		}
+		if (entry instanceof CompositeBean) {
+			CompositeBean cbean = (CompositeBean)entry;
+			if (cbean.get(type).isEmpty()) throw new IllegalArgumentException("There are no bean with the operation "+type+" defined in the "+CompositeBean.class.getSimpleName());
+		}
 		CompletableFuture<Id> future = new CompletableFuture<>();
 		queue.add(new OperationAction<>(operation, entry, future));
 		return future;
@@ -194,6 +209,7 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	
 	
 	private void createWorkerThead() {
+		queue.clear();
 		workerLatch = new CountDownLatch(1); // Latch for thread created before new thread (important order).
 		Thread asynchWorker = new Thread(()->process(), getClass().getSimpleName()+" Worker Thread");
 		asynchWorker.setPriority(Thread.NORM_PRIORITY-2);
@@ -205,13 +221,13 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	private CountDownLatch workerLatch;
 	
 	/**
-	 * Spends 50ms (maximum) waiting to see if the worker stops.
+	 * Spends 200ms (maximum) waiting to see if the worker stops.
 	 * @return true if worker still going, false if it really has stopped.
 	 * @throws InterruptedException
 	 */
 	public boolean isWorkerActive() throws InterruptedException {
 		if (workerLatch==null) return false;
-		return !workerLatch.await(50, TimeUnit.MILLISECONDS);
+		return !workerLatch.await(200, TimeUnit.MILLISECONDS);
 	}
 
 	private void process() {

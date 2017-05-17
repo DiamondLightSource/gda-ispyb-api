@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import org.eclipse.scanning.api.database.IExperimentDatabaseService;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 
 import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
@@ -26,9 +25,11 @@ public abstract class ExperimentServiceTest {
 	protected static IExperimentDatabaseService                    service;
 	protected static IntegrationTestHelper<IspybXpdfApi>           xhelper;
 	protected static IntegrationTestHelper<IspybDataCollectionApi> chelper;
+	private static boolean disposeLock;
 	
 	protected static void create(boolean connectXPDF, boolean connectDC) throws SQLException, IOException, InterruptedException {
 		
+		if (service!=null) return;
 		IspybXpdfDaoFactory xfactory = null;
 		if (connectXPDF) {
 			xfactory = new IspybXpdfDaoFactory();
@@ -43,10 +44,14 @@ public abstract class ExperimentServiceTest {
 		}
 		service  = new XPDFDatabaseService(xfactory, cfactory);
 	}
-	
+	protected static void setDisposeLocked(boolean locked) {
+		disposeLock = locked;
+	}
 	protected static void dispose() throws Exception {
+		if (disposeLock) return;
 		if (xhelper!=null) xhelper.tearDown();
 		if (chelper!=null) chelper.tearDown();
+		service = null;
 	}
 	
 	@Before
