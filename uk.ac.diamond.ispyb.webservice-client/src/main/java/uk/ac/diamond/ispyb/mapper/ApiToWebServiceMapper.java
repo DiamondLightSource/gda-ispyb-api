@@ -5,7 +5,7 @@ import org.modelmapper.config.Configuration;
 import uk.ac.diamond.ispyb.soapclientsample.DataCollectionWS3VO;
 
 public class ApiToWebServiceMapper {
-    public DataCollectionWS3VO map(Object input) {
+    public <T> T map(Object input, Class<T> target) {
         ModelMapper modelMapper = new ModelMapper();
         Configuration configuration = modelMapper.getConfiguration();
         configuration.setDestinationNameTransformer(
@@ -16,7 +16,7 @@ public class ApiToWebServiceMapper {
                 new StringReplacingNameTransformer(configuration.getSourceNameTransformer(), this::convertName)
         );
 
-        return modelMapper.map(input, DataCollectionWS3VO.class);
+        return modelMapper.map(input, target);
     }
 
     private String convertName(String input){

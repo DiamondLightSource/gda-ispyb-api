@@ -2,8 +2,10 @@ package uk.ac.diamond.ispyb.mapper;
 
 import org.junit.Test;
 import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
+import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
 import uk.ac.diamond.ispyb.mapper.ApiToWebServiceMapper;
+import uk.ac.diamond.ispyb.soapclientsample.DataCollection3VO;
 import uk.ac.diamond.ispyb.soapclientsample.DataCollectionWS3VO;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -39,7 +41,7 @@ public class ApiToWebserviceMapperTest {
         input.setSnapshot4("img4");
         input.setComments("comment");
 
-        DataCollectionWS3VO output = new ApiToWebServiceMapper().map(input);
+        DataCollectionWS3VO output = new ApiToWebServiceMapper().map(input, DataCollectionWS3VO.class);
 
         assertThat(output.getDataCollectionId()).isEqualTo(1);
         assertThat(output.getDataCollectionGroupId()).isEqualTo(2);
@@ -95,7 +97,7 @@ public class ApiToWebserviceMapperTest {
         experiment.setFocalSpotSizeAtSampleY(23f);
         experiment.setApertureSizeX(24f);
 
-        DataCollectionWS3VO output = new ApiToWebServiceMapper().map(experiment);
+        DataCollectionWS3VO output = new ApiToWebServiceMapper().map(experiment, DataCollectionWS3VO.class);
 
         assertThat(output.getDataCollectionId()).isEqualTo(1);
         assertThat(output.getSlitGapVertical()).isEqualTo(2f);
@@ -111,6 +113,38 @@ public class ApiToWebserviceMapperTest {
         assertThat(output.getFlux()).isEqualTo(12.0);
         assertThat(output.getFluxEnd()).isEqualTo(13.0);
         assertThat(output.getRotationAxis()).isEqualTo("axis");
+        assertThat(output.getPhiStart()).isEqualTo(14f);
+        assertThat(output.getKappaStart()).isEqualTo(15f);
+        assertThat(output.getOmegaStart()).isEqualTo(16f);
+        assertThat(output.getWavelength()).isEqualTo(17f);
+        assertThat(output.getResolution()).isEqualTo(18f);
+        assertThat(output.getDetectorDistance()).isEqualTo(19f);
+        assertThat(output.getBestWilsonPlotPath()).isEqualTo("best");
+        assertThat(output.getBeamSizeAtSampleX()).isEqualTo(20f);
+        assertThat(output.getBeamSizeAtSampleY()).isEqualTo(21f);
+
+        /** note three missing:
+         experiment.setFocalSpotSizeAtSampleX(22f);
+         experiment.setFocalSpotSizeAtSampleY(23f);
+         experiment.setApertureSizeX(24f);
+         */
+    }
+
+    @Test
+    public void mapsDataCollectionsToWebserviceDataCollectionMachine() throws DatatypeConfigurationException {
+        DataCollectionMachine machine = new DataCollectionMachine();
+        machine.setId(1L);
+        machine.setSynchrotronMode("awesome");
+        machine.setUndulatorGap1(2f);
+        machine.setUndulatorGap2(3f);
+        machine.setUndulatorGap3(4f);
+
+        DataCollectionWS3VO output = new ApiToWebServiceMapper().map(machine, DataCollectionWS3VO.class);
+
+        assertThat(output.getDataCollectionId()).isEqualTo(1);
+        assertThat(output.getSynchrotronMode()).isEqualTo("awesome");
+        assertThat(output.getUndulatorGap1()).isEqualTo((2f));
+        assertThat(output.getUndulatorGap2()).isEqualTo((3f));
+        assertThat(output.getUndulatorGap3()).isEqualTo((4f));
     }
 }
-
