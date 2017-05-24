@@ -7478,10 +7478,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `clear_container_error`(IN p_barcode varchar(10))
     MODIFIES SQL DATA
+    COMMENT 'Sets error for p_barcode in automation fault table to resolved state'
 BEGIN
   IF NOT (p_barcode IS NULL) THEN
 	UPDATE BF_automationFault af 
@@ -7489,7 +7490,7 @@ BEGIN
     SET af.resolved = 1
     WHERE c.barcode = p_barcode;
     ELSE 
-        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -7505,10 +7506,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `finish_container`(IN p_barcode varchar(45))
     MODIFIES SQL DATA
+    COMMENT 'Set the completedTimeStamp in the ContainerQueue table for the container with this barcode'
 BEGIN
   IF NOT (p_barcode IS NULL) THEN
     UPDATE ContainerQueue 
@@ -7578,16 +7580,17 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `insert_container_error`(IN p_barcode varchar(45), p_error varchar(255), p_severity int, p_stack_trace text)
     MODIFIES SQL DATA
+    COMMENT 'Inserts row with info about container loading-related error into the automation fault table'
 BEGIN
   IF NOT (p_barcode IS NULL) THEN
     INSERT INTO BF_automationFault (automationErrorId, containerId, severity, stacktrace) 
       VALUES ((SELECT automationErrorId FROM BF_automationError WHERE errorType = p_error), (SELECT containerId FROM Container WHERE barcode = p_barcode), p_severity, p_stack_trace);
     ELSE 
-        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
   END IF;
 
 END ;;
@@ -8101,10 +8104,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_container_info`(IN p_barcode varchar(45))
     READS SQL DATA
+    COMMENT 'Returns single row result-set with info about the container with barcode = p_barcode'
 BEGIN
     IF NOT (p_barcode IS NULL) THEN 
 	  SELECT c.code as "name", c.barcode "barcode", c.containerStatus as "status", c.containerType "type", c.capacity "capacity",
@@ -8135,10 +8139,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_container_ls_position`(IN p_barcode varchar(45))
     READS SQL DATA
+    COMMENT 'Returns single row, single column result-set with the position of the container with barcode = p_barcode and containerStatus = in_localstorage'
 BEGIN
     IF NOT (p_barcode IS NULL) THEN 
 	  SELECT sampleChangerLocation "position"
@@ -8167,6 +8172,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_container_ls_queue`(IN p_beamline varchar(45))
     READS SQL DATA
+    COMMENT 'Returns a multi-row result-set with info about when containers on p_beamline were given status in_localstorage'
 BEGIN
   IF NOT (p_beamline IS NULL) THEN
     SELECT c.barcode "barcode", c.sampleChangerLocation "location", max(ch.blTimeStamp) "added"
@@ -8192,10 +8198,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_container_on_gonio`(IN p_beamline varchar(45))
     READS SQL DATA
+    COMMENT 'Returns multi-row result-set with info about the containers on p_beamline with containerStatus = processing'
 BEGIN
   IF NOT (p_beamline IS NULL) THEN
 	  SELECT c.code as "name", c.barcode "barcode", c.containerStatus as "status", c.containerType "type", c.capacity "capacity",
@@ -8225,10 +8232,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_container_queue_most_recent_completed_timestamp`(IN p_barcode varchar(45))
     READS SQL DATA
+    COMMENT 'Returns a single-row result-set with the most recent timestamp of when p_barcode in container queue was completed'
 BEGIN
   IF NOT (p_barcode IS NULL) THEN
 	SELECT max(cq.completedTimeStamp) "completedTimeStamp"
@@ -8237,7 +8245,7 @@ BEGIN
     WHERE c.barcode = p_barcode
 	ORDER BY c.containerId DESC;
     ELSE 
-        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -8253,20 +8261,21 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_container_queue_timestamp`(IN p_barcode varchar(45))
     READS SQL DATA
+    COMMENT 'Returns a single-column, single-row result-set with timestamp of when container p_barcode entered container queue'
 BEGIN
   IF NOT (p_barcode IS NULL) THEN
-	SELECT cq.createdTimeStamp "createdTimeStamp"
+	SELECT max(cq.createdTimeStamp) "createdTimeStamp"
     FROM Container c
       INNER JOIN ContainerQueue cq ON c.containerId = cq.containerId
     WHERE cq.completedTimeStamp IS NULL AND c.barcode = p_barcode
 	ORDER BY c.containerId DESC
 	LIMIT 1;
     ELSE 
-        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -8282,10 +8291,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_container_subsamples`(IN p_barcode varchar(45))
     READS SQL DATA
+    COMMENT 'Returns a mutli-row result-set with general info about submitted subsamples on submitted container p_barcode'
 BEGIN
   IF NOT (p_barcode IS NULL) THEN
     SELECT blss.blSubSampleId "id", bls.location "sampleLocation", pos1.posX "ROIPos1x", pos1.posY "ROIPos1y", pos1.posZ "ROIPos1z", pos2.posX "ROIPos2x", pos2.posY "ROIPos2y", pos2.posZ "ROIPos2z", 
@@ -8315,7 +8325,7 @@ BEGIN
       dp.boxSizeX, dp.boxSizeY, 
       dp.kappaStart, dp.axisStart, dp.axisRange, dp.numberOfImages;
     ELSE 
-        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
   END IF;
 END ;;
 DELIMITER ;
@@ -8747,9 +8757,10 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_test`()
+    COMMENT 'For testing the connection'
 BEGIN
   SELECT now() as "curr_ts", '2016-10-07 14:02:58' as "curr_ts2", '2' as "2_1", 2 as "2_2", '2.0' as "20_1", 2.0 as "20_2";
 END ;;
@@ -8766,10 +8777,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `update_container_ls_position`(IN p_barcode varchar(45), IN p_position int)
     MODIFIES SQL DATA
+    COMMENT 'Updates container sampleChangerLocation for barcode = p_barcode, then calls update_container_status(p_barcode, in_localstorage)'
 BEGIN
 	IF NOT (p_barcode IS NULL) THEN
 	  UPDATE Container
@@ -8798,6 +8810,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `update_container_status`(IN p_barcode varchar(45), IN p_status varchar(45))
     MODIFIES SQL DATA
+    COMMENT 'Set container containerStatus = p_status for barcode = p_barcode. Only a defined range of statuses are accepted.'
 BEGIN
   DECLARE row_containerId int(11) unsigned DEFAULT NULL;
   DECLARE row_scLoc varchar(20) DEFAULT NULL;
@@ -9929,4 +9942,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-24 12:01:36
+-- Dump completed on 2017-05-24 15:37:25
