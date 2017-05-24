@@ -13,7 +13,11 @@ package uk.ac.diamond.ispyb.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
+import java.util.Map;
+import java.util.HashMap;
 
+import uk.ac.diamond.ispyb.api.Detector;
 import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
 import uk.ac.diamond.ispyb.api.DataCollectionGroup;
 import uk.ac.diamond.ispyb.api.DataCollectionGroupGrid;
@@ -30,6 +34,11 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	public IspybDataCollectionDAO(TemplateWrapper templateWrapper, BeanTemplateWrapper beanTemplateWrapper) {
 		this.templateWrapper = templateWrapper;
 		this.beanTemplateWrapper = beanTemplateWrapper;
+	}
+
+	@Override
+	public Optional<Detector> retrieveDetector(String serialNumber) throws SQLException {
+		return templateWrapper.callIspybForBean("retrieve_detector", Detector.class, map("serialNumber", serialNumber));
 	}
 
 	@Override
@@ -70,4 +79,11 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 			throw new IOException(e);
 		}
 	}
+
+	private Map<String, Object> map(String key, Object value) {
+		Map<String, Object> map = new HashMap<>();
+		map.put(key, value);
+		return map;
+	}
+
 }
