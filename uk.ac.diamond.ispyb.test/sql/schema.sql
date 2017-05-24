@@ -2,7 +2,7 @@
 --
 -- Host: cs04r-sc-vserv-88    Database: ispybstage
 -- ------------------------------------------------------
--- Server version	10.1.22-MariaDB-enterprise
+-- Server version	10.1.23-MariaDB-enterprise
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -1612,6 +1612,7 @@ CREATE TABLE `Container` (
   `comments` varchar(255) DEFAULT NULL,
   `experimentType` varchar(20) DEFAULT NULL,
   `storageTemperature` float DEFAULT NULL,
+  `containerRegistryId` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`containerId`),
   UNIQUE KEY `Container_UNIndex1` (`barcode`),
   KEY `Container_FKIndex` (`beamlineLocation`),
@@ -1623,12 +1624,14 @@ CREATE TABLE `Container` (
   KEY `Container_ibfk6` (`sessionId`),
   KEY `Container_ibfk5` (`ownerId`),
   KEY `Container_ibfk7` (`requestedImagerId`),
+  KEY `Container_ibfk8` (`containerRegistryId`),
   CONSTRAINT `Container_ibfk2` FOREIGN KEY (`screenId`) REFERENCES `Screen` (`screenId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Container_ibfk3` FOREIGN KEY (`scheduleId`) REFERENCES `Schedule` (`scheduleId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Container_ibfk4` FOREIGN KEY (`imagerId`) REFERENCES `Imager` (`imagerId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Container_ibfk5` FOREIGN KEY (`ownerId`) REFERENCES `Person` (`personId`),
   CONSTRAINT `Container_ibfk6` FOREIGN KEY (`sessionId`) REFERENCES `BLSession` (`sessionId`),
   CONSTRAINT `Container_ibfk7` FOREIGN KEY (`requestedImagerId`) REFERENCES `Imager` (`imagerId`),
+  CONSTRAINT `Container_ibfk8` FOREIGN KEY (`containerRegistryId`) REFERENCES `ContainerRegistry` (`containerRegistryId`),
   CONSTRAINT `Container_ibfk_1` FOREIGN KEY (`dewarId`) REFERENCES `Dewar` (`dewarId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=34884 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1639,7 +1642,7 @@ CREATE TABLE `Container` (
 
 LOCK TABLES `Container` WRITE;
 /*!40000 ALTER TABLE `Container` DISABLE KEYS */;
-INSERT INTO `Container` VALUES (1326,573,'Container-1-cm0001-1','Puck-16',16,'3','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000001',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1329,573,'Container-2-cm0001-1','Puck-16',16,'4','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000002',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1332,576,'Container-3-cm0001-1','Puck-16',16,'5','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000003',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1335,579,'Container-4-cm0001-2','Puck-16',16,'6','processing',NULL,'i03',NULL,NULL,'container-cm0001-2-0001335',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1338,582,'Container-5-cm0001-3','Puck-16',16,'7','processing',NULL,'i03',NULL,NULL,'container-cm0001-3-0001338',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(1341,573,'Manual',NULL,NULL,'9',NULL,NULL,'i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(33049,8287,'cm14451-1_i03r-002','Puck',16,NULL,'at DLS',NULL,'i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(34864,8572,'I03R-001','Puck',16,'29','processing','2016-02-24 12:13:05','i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL),(34874,8572,'test_plate2','CrystalQuickX',192,'3','in_localstorage','2016-02-12 09:20:44','i03',NULL,2,'test_plate2',2,NULL,NULL,2,0,NULL,NULL,NULL),(34877,8572,'test_plate3','CrystalQuickX',192,'3','in_storage','2016-10-04 10:50:05','i03',NULL,2,'test_plate3',2,NULL,NULL,2,0,NULL,NULL,NULL),(34879,8572,'test_plate4','CrystalQuickX',192,'4','processing',NULL,'i02-2',NULL,2,'test_plate4',2,NULL,NULL,2,0,NULL,NULL,NULL),(34883,NULL,'XPDF-container-1','XPDF container',NULL,NULL,'processing',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL);
+INSERT INTO `Container` VALUES (1326,573,'Container-1-cm0001-1','Puck-16',16,'3','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000001',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL),(1329,573,'Container-2-cm0001-1','Puck-16',16,'4','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000002',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL),(1332,576,'Container-3-cm0001-1','Puck-16',16,'5','processing',NULL,'i03',NULL,NULL,'container-cm0001-1-0000003',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL),(1335,579,'Container-4-cm0001-2','Puck-16',16,'6','processing',NULL,'i03',NULL,NULL,'container-cm0001-2-0001335',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL),(1338,582,'Container-5-cm0001-3','Puck-16',16,'7','processing',NULL,'i03',NULL,NULL,'container-cm0001-3-0001338',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL),(1341,573,'Manual',NULL,NULL,'9',NULL,NULL,'i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL),(33049,8287,'cm14451-1_i03r-002','Puck',16,NULL,'at DLS',NULL,'i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL),(34864,8572,'I03R-001','Puck',16,'29','processing','2016-02-24 12:13:05','i03',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL),(34874,8572,'test_plate2','CrystalQuickX',192,'3','in_localstorage','2016-02-12 09:20:44','i03',NULL,2,'test_plate2',2,NULL,NULL,2,0,NULL,NULL,NULL,NULL),(34877,8572,'test_plate3','CrystalQuickX',192,'3','in_storage','2016-10-04 10:50:05','i03',NULL,2,'test_plate3',2,NULL,NULL,2,0,NULL,NULL,NULL,NULL),(34879,8572,'test_plate4','CrystalQuickX',192,'4','processing',NULL,'i02-2',NULL,2,'test_plate4',2,NULL,NULL,2,0,NULL,NULL,NULL,NULL),(34883,NULL,'XPDF-container-1','XPDF container',NULL,NULL,'processing',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Container` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1656,10 +1659,11 @@ CREATE TABLE `ContainerHistory` (
   `location` varchar(45) DEFAULT NULL,
   `blTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` varchar(45) DEFAULT NULL,
+  `beamlineName` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`containerHistoryId`),
   KEY `ContainerHistory_ibfk1` (`containerId`),
   CONSTRAINT `ContainerHistory_ibfk1` FOREIGN KEY (`containerId`) REFERENCES `Container` (`containerId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1668,6 +1672,7 @@ CREATE TABLE `ContainerHistory` (
 
 LOCK TABLES `ContainerHistory` WRITE;
 /*!40000 ALTER TABLE `ContainerHistory` DISABLE KEYS */;
+INSERT INTO `ContainerHistory` VALUES (6,34874,'3','2016-09-30 12:56:21','in_localstorage','i03');
 /*!40000 ALTER TABLE `ContainerHistory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1770,6 +1775,94 @@ LOCK TABLES `ContainerQueueSample` WRITE;
 /*!40000 ALTER TABLE `ContainerQueueSample` DISABLE KEYS */;
 INSERT INTO `ContainerQueueSample` VALUES (2,2,2);
 /*!40000 ALTER TABLE `ContainerQueueSample` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ContainerRegistry`
+--
+
+DROP TABLE IF EXISTS `ContainerRegistry`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ContainerRegistry` (
+  `containerRegistryId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `barcode` varchar(20) DEFAULT NULL,
+  `comments` varchar(255) DEFAULT NULL,
+  `recordTimestamp` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`containerRegistryId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ContainerRegistry`
+--
+
+LOCK TABLES `ContainerRegistry` WRITE;
+/*!40000 ALTER TABLE `ContainerRegistry` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ContainerRegistry` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ContainerRegistry_has_Proposal`
+--
+
+DROP TABLE IF EXISTS `ContainerRegistry_has_Proposal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ContainerRegistry_has_Proposal` (
+  `containerRegistryHasProposalId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `containerRegistryId` int(11) unsigned DEFAULT NULL,
+  `proposalId` int(10) unsigned DEFAULT NULL,
+  `personId` int(10) unsigned DEFAULT NULL COMMENT 'Person registering the container',
+  `recordTimestamp` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`containerRegistryHasProposalId`),
+  UNIQUE KEY `containerRegistryId` (`containerRegistryId`,`proposalId`),
+  KEY `ContainerRegistry_has_Proposal_ibfk2` (`proposalId`),
+  KEY `ContainerRegistry_has_Proposal_ibfk3` (`personId`),
+  CONSTRAINT `ContainerRegistry_has_Proposal_ibfk1` FOREIGN KEY (`containerRegistryId`) REFERENCES `ContainerRegistry` (`containerRegistryId`),
+  CONSTRAINT `ContainerRegistry_has_Proposal_ibfk2` FOREIGN KEY (`proposalId`) REFERENCES `Proposal` (`proposalId`),
+  CONSTRAINT `ContainerRegistry_has_Proposal_ibfk3` FOREIGN KEY (`personId`) REFERENCES `Person` (`personId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ContainerRegistry_has_Proposal`
+--
+
+LOCK TABLES `ContainerRegistry_has_Proposal` WRITE;
+/*!40000 ALTER TABLE `ContainerRegistry_has_Proposal` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ContainerRegistry_has_Proposal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ContainerReport`
+--
+
+DROP TABLE IF EXISTS `ContainerReport`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ContainerReport` (
+  `containerReportId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `containerRegistryId` int(11) unsigned DEFAULT NULL,
+  `personId` int(10) unsigned DEFAULT NULL COMMENT 'Person making report',
+  `report` text,
+  `attachmentFilePath` varchar(255) DEFAULT NULL,
+  `recordTimestamp` datetime DEFAULT NULL,
+  PRIMARY KEY (`containerReportId`),
+  KEY `ContainerReport_ibfk1` (`containerRegistryId`),
+  KEY `ContainerReport_ibfk2` (`personId`),
+  CONSTRAINT `ContainerReport_ibfk1` FOREIGN KEY (`containerRegistryId`) REFERENCES `ContainerRegistry` (`containerRegistryId`),
+  CONSTRAINT `ContainerReport_ibfk2` FOREIGN KEY (`personId`) REFERENCES `Person` (`personId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ContainerReport`
+--
+
+LOCK TABLES `ContainerReport` WRITE;
+/*!40000 ALTER TABLE `ContainerReport` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ContainerReport` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -2150,16 +2243,18 @@ DROP TABLE IF EXISTS `DataCollectionPlan_has_Detector`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DataCollectionPlan_has_Detector` (
+  `dataCollectionPlanHasDetectorId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `dataCollectionPlanId` int(11) unsigned NOT NULL,
   `detectorId` int(11) NOT NULL,
   `exposureTime` double DEFAULT NULL,
   `distance` double DEFAULT NULL,
   `roll` double DEFAULT NULL,
-  PRIMARY KEY (`dataCollectionPlanId`,`detectorId`),
+  PRIMARY KEY (`dataCollectionPlanHasDetectorId`),
+  UNIQUE KEY `dataCollectionPlanId` (`dataCollectionPlanId`,`detectorId`),
   KEY `DataCollectionPlan_has_Detector_ibfk2` (`detectorId`),
   CONSTRAINT `DataCollectionPlan_has_Detector_ibfk1` FOREIGN KEY (`dataCollectionPlanId`) REFERENCES `DiffractionPlan` (`diffractionPlanId`),
   CONSTRAINT `DataCollectionPlan_has_Detector_ibfk2` FOREIGN KEY (`detectorId`) REFERENCES `Detector` (`detectorId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2168,7 +2263,7 @@ CREATE TABLE `DataCollectionPlan_has_Detector` (
 
 LOCK TABLES `DataCollectionPlan_has_Detector` WRITE;
 /*!40000 ALTER TABLE `DataCollectionPlan_has_Detector` DISABLE KEYS */;
-INSERT INTO `DataCollectionPlan_has_Detector` VALUES (197792,8,5.4,136.86,45);
+INSERT INTO `DataCollectionPlan_has_Detector` VALUES (4,197792,8,5.4,136.86,45);
 /*!40000 ALTER TABLE `DataCollectionPlan_has_Detector` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7954,9 +8049,11 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_containers_submitted_non_ls`(IN p_beamline varchar(15))
+    READS SQL DATA
+    COMMENT 'Returns multi-row result-set with info about submitted, not completed in_storage containers + subsamples'
 BEGIN
 SELECT
   c.barcode "containerBarcode",
@@ -7967,9 +8064,11 @@ SELECT
   c.containerType "containerType",
   i.name "imagerName",
   i.serial "imagerSerialNumber",
+  i.temperature "imagerTemperature",
   cq.createdTimeStamp "containerQueueTS",
   blsi.imageFullPath "lastImgFullPath", 
   blss.imgFilePath "uploadedImgFilePath", blss.imgFileName "uploadedImgFileName", 
+  bls.location "sampleLocation",
   dp.experimentKind "experimentKind", dp.exposureTime "exposureTime", 
   dp.preferredBeamSizeX "preferredBeamSizeX", dp.preferredBeamSizeY "preferredBeamSizeY", dp.requiredResolution "requiredResolution", 
   dp.monochromator "monochromator", 12398.42 / dp.energy "wavelength", dp.transmission "transmission", 
@@ -7980,12 +8079,13 @@ FROM Proposal p
   INNER JOIN Dewar d ON d.shippingId = s.shippingId  
   INNER JOIN Container c ON c.dewarId = d.dewarId
   INNER JOIN ContainerQueue cq ON c.containerId = cq.containerId
-  INNER JOIN BLSample bls ON bls.containerId = c.containerId
-  INNER JOIN BLSubSample blss ON blss.blSampleId = bls.blSampleId
+  INNER JOIN ContainerQueueSample cqs on cq.containerQueueId = cqs.containerQueueId
+  INNER JOIN BLSubSample blss ON blss.blSubSampleId = cqs.blSubSampleId
+  INNER JOIN BLSample bls ON blss.blSampleId = bls.blSampleId  
   INNER JOIN DiffractionPlan dp ON dp.diffractionPlanId = blss.diffractionPlanId
   INNER JOIN Imager i ON i.imagerId = c.imagerId 
-  LEFT OUTER JOIN BLSampleImage blsi ON blsi.blSampleId = bls.blSampleId
-WHERE cq.completedTimeStamp is NULL
+  LEFT OUTER JOIN BLSampleImage blsi ON blsi.blSampleId = blss.blSampleId
+WHERE cq.completedTimeStamp is NULL AND c.containerStatus = 'in_storage'
 ORDER BY cq.createdTimeStamp ASC;
 END ;;
 DELIMITER ;
@@ -8063,17 +8163,18 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_container_ls_queue`(IN p_beamline varchar(45))
     READS SQL DATA
 BEGIN
   IF NOT (p_beamline IS NULL) THEN
-	SELECT c.barcode "barcode", c.sampleChangerLocation "location", cq.createdTimeStamp "added"
-    FROM Container c
-      INNER JOIN ContainerQueue cq ON c.containerId = cq.containerId
-    WHERE cq.completedTimeStamp is NULL AND  c.containerStatus = 'in_localstorage'
-	ORDER BY cq.createdTimeStamp ASC;
+    SELECT c.barcode "barcode", c.sampleChangerLocation "location", max(ch.blTimeStamp) "added"
+	FROM Container c
+      INNER JOIN ContainerHistory ch ON c.containerId = ch.containerId 
+	WHERE c.containerStatus = 'in_localstorage' AND ch.status = 'in_localstorage' AND ch.beamlineName = p_beamline 
+	GROUP BY c.barcode, c.sampleChangerLocation
+	ORDER BY ch.blTimeStamp ASC;
     ELSE 
         SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_beamline is NULL';
   END IF;
@@ -8452,13 +8553,13 @@ CREATE PROCEDURE `retrieve_detector`(IN p_serialNumber varchar(15))
     READS SQL DATA
 BEGIN
   IF p_serialNumber IS NOT NULL THEN
-    SELECT detectorId "detectorId", detectorType "detectorType", detectorManufacturer "detectorManufacturer", 
-      detectorModel "detectorModel", detectorPixelSizeHorizontal "detectorPixelSizeHorizontal", 
-      detectorPixelSizeVertical "detectorPixelSizeVertical",
-      detectorDistanceMin "detectorDistanceMin", detectorDistanceMax "detectorDistanceMax", 
+    SELECT detectorId "detectorId", detectorType "type", detectorManufacturer "manufacturer", 
+      detectorModel "model", detectorPixelSizeHorizontal "pixelSizeHorizontal", 
+      detectorPixelSizeVertical "pixelSizeVertical",
+      detectorDistanceMin "distanceMin", detectorDistanceMax "distanceMax", 
       trustedPixelValueRangeLower "trustedPixelValueRangeLower", trustedPixelValueRangeUpper "trustedPixelValueRangeUpper", 
-      sensorThickness "sensorThickness", overload "overload", detectorMode "detectorMode", CS "CS", 
-      detectorPixelSize "detectorPixelSize", density "density", composition "composition"
+      sensorThickness "sensorThickness", overload "overload", detectorMode "mode"
+      -- , CS "CS", detectorPixelSize "pixelSize", density "density", composition "composition"
 	FROM Detector
     WHERE detectorSerialNumber = p_serialNumber;
   ELSE
@@ -8693,7 +8794,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `update_container_status`(IN p_barcode varchar(45), IN p_status varchar(45))
     MODIFIES SQL DATA
@@ -8713,7 +8814,7 @@ BEGIN
 		SET containerStatus = p_status 
 		WHERE containerId = row_containerId;
 
-		INSERT INTO ContainerHistory (containerId, location, status) VALUES (row_containerId, row_scLoc, p_status);
+		INSERT INTO ContainerHistory (containerId, location, status, beamlineName) VALUES (row_containerId, row_scLoc, p_status, 'i02-2');
 
 	END IF;
     ELSEIF p_barcode IS NULL THEN
@@ -9828,4 +9929,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-25 17:58:29
+-- Dump completed on 2017-05-24 12:01:36

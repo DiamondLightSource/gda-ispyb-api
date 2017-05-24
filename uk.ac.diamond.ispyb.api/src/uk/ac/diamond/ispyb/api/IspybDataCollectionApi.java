@@ -12,11 +12,14 @@
 package uk.ac.diamond.ispyb.api;
 
 import java.io.Closeable;
+import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * Database access methods for adding data to DataCollectionMain related fields
  */
 public interface IspybDataCollectionApi extends Closeable {
+     public Optional<Detector> retrieveDetector(String serialNumber) throws SQLException;
 	public Long upsertDataCollectionMain(DataCollectionMain dataCollectionMain);
 	public void updateDataCollectionExperiment(DataCollectionExperiment dataCollectionExperiment);
 	public void updateDataCollectionMachine(DataCollectionMachine dataCollectionMachine);

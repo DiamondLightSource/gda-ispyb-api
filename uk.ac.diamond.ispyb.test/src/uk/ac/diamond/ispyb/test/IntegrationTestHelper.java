@@ -30,9 +30,8 @@ import uk.ac.diamond.ispyb.api.ConnectionData;
 import uk.ac.diamond.ispyb.api.IspybFactoryService;
 
 public class IntegrationTestHelper<S extends Closeable>{
-	
-
 	private final IspybFactoryService<S> factory;
+	private S api;
 	
 	public IntegrationTestHelper(IspybFactoryService<S> factory) {
 		this.factory = factory;
@@ -46,14 +45,8 @@ public class IntegrationTestHelper<S extends Closeable>{
 	}
 	
 	public <T> T execute(CheckedFunction<T, S> f) throws SQLException, IOException {
-		ConnectionData data = new ConnectionData();
-		S api = factory.buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()));
-		try {
-			T result = f.apply(api);
-			return result;
-		} finally {
-			api.close();
-		}
+		T result = f.apply(api);
+		return result;
 	}
 	
 	public void setUp() throws IOException, SQLException, InterruptedException{
@@ -78,6 +71,8 @@ public class IntegrationTestHelper<S extends Closeable>{
 		}
 		
 		executeScript("schema.sql", data.getSchema());
+
+		this.api = factory.buildIspybApi(data.getUrl(), data.getUser(),  data.getPassword(), Optional.of(data.getSchema()));
 	}
 
 	public void tearDown() throws IOException, SQLException, InterruptedException{
@@ -89,6 +84,8 @@ public class IntegrationTestHelper<S extends Closeable>{
 		} finally {
 		    connection.close();
 		}
+
+		api.close();
 	}
 
 	private void executeScript(String filename, String database) throws IOException, SQLException, InterruptedException {

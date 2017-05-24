@@ -14,6 +14,8 @@ package uk.ac.diamond.ispyb.test;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -24,6 +26,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import junit.framework.TestCase;
+import uk.ac.diamond.ispyb.api.Detector;
 import uk.ac.diamond.ispyb.api.BeamlineAction;
 import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
 import uk.ac.diamond.ispyb.api.DataCollectionGroup;
@@ -34,8 +38,28 @@ import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 import uk.ac.diamond.ispyb.api.Orientation;
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
 
-public class DataCollectionIntegrationTest {
-	
+public class DataCollectionIntegrationTest{
+	@Test
+	public void testRetrieveDetector() throws SQLException, IOException, InterruptedException {
+		Detector detector = helper.execute(api -> api.retrieveDetector("1109-434")).get();
+		
+		Detector expected = new Detector();
+		expected.setDetectorId(4L);
+		expected.setType("Photon counting");
+		expected.setManufacturer("In-house");
+		expected.setModel("Excalibur");
+		//expected.setPixelSizeHorizontal(null);
+		//expected.setPixelSizeVertical(null);
+		expected.setDistanceMin(100.0);
+		expected.setDistanceMax(300.0);
+		//expected.setTrustedPixelValueRangeLower(null);
+		//expected.setTrustedPixelValueRangeUpper(null);
+		//expected.setSensorThickness(null);
+		//expected.setOverload(null);
+		
+		assertThat(detector, is(equalTo(expected)));
+	}
+
 	private final static IntegrationTestHelper<IspybDataCollectionApi> helper = new IntegrationTestHelper<>(new IspybDataCollectionDaoFactory());
 	
 	@BeforeClass
