@@ -73,6 +73,14 @@ public class IspybPlateDAO implements IspybPlateApi{
 		return templateWrapper.callIspybForListBeans("retrieve_container_ls_queue", ContainerLSQueueEntry.class, map("beamline", beamline));
 	}
 
+        @Override
+        public List<ContainerLSQueueEntry> retrieveContainersOnBeamlineWithStatus(String beamline, ContainerStatus status) throws SQLException {
+                Map<String, Object> map = new HashMap<>();
+                map.put("beamline", beamline);
+                map.put("status", status.getStatus());
+                return templateWrapper.callIspybForListBeans("retrieve_containers_on_beamline_with_status", ContainerLSQueueEntry.class, map);
+        }
+
 	@Override
 	public Optional<Timestamp> retrieveContainerQueueWithMostRecentCompletedTimestamp(String barcode) throws SQLException{
 		return templateWrapper.callIspyb("retrieve_container_queue_most_recent_completed_timestamp", Timestamp.class, map("barcode", barcode));
