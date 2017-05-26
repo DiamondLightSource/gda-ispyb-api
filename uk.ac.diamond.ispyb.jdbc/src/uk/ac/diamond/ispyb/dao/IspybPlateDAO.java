@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import uk.ac.diamond.ispyb.api.ContainerInfo;
 import uk.ac.diamond.ispyb.api.ContainerLSQueueEntry;
+import uk.ac.diamond.ispyb.api.ContainerForBeamlineAndStatusEntry;
 import uk.ac.diamond.ispyb.api.ContainerStatus;
 import uk.ac.diamond.ispyb.api.ContainerSubsample;
 import uk.ac.diamond.ispyb.api.DataCollectionInfo;
@@ -72,6 +73,14 @@ public class IspybPlateDAO implements IspybPlateApi{
 	public List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws SQLException {
 		return templateWrapper.callIspybForListBeans("retrieve_container_ls_queue", ContainerLSQueueEntry.class, map("beamline", beamline));
 	}
+
+        @Override
+        public List<ContainerForBeamlineAndStatusEntry> retrieveContainersOnBeamlineWithStatus(String beamline, ContainerStatus status) throws SQLException {
+                Map<String, Object> map = new HashMap<>();
+                map.put("beamline", beamline);
+                map.put("status", status.getStatus());
+                return templateWrapper.callIspybForListBeans("retrieve_containers_on_beamline_with_status", ContainerForBeamlineAndStatusEntry.class, map);
+        }
 
 	@Override
 	public Optional<Timestamp> retrieveContainerQueueWithMostRecentCompletedTimestamp(String barcode) throws SQLException{

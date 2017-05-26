@@ -33,6 +33,7 @@ import org.junit.Test;
 
 import uk.ac.diamond.ispyb.api.ContainerInfo;
 import uk.ac.diamond.ispyb.api.ContainerLSQueueEntry;
+import uk.ac.diamond.ispyb.api.ContainerForBeamlineAndStatusEntry;
 import uk.ac.diamond.ispyb.api.ContainerStatus;
 import uk.ac.diamond.ispyb.api.ContainerSubsample;
 import uk.ac.diamond.ispyb.api.DataCollectionInfo;
@@ -95,6 +96,22 @@ public class PlateIntegrationTest {
 		
 		assertThat(entries, is(equalTo(Arrays.asList(expected))));
 	}
+
+        @Test
+        public void testRetrieveContainersOnBeamlineWithStatus() throws SQLException, IOException{
+                List<ContainerForBeamlineAndStatusEntry> entries = helper.execute(api-> api.retrieveContainersOnBeamlineWithStatus("i03", ContainerStatus.IN_LOCALSTORAGE));
+
+                ContainerForBeamlineAndStatusEntry expected = new ContainerForBeamlineAndStatusEntry();
+                expected.setBarcode("test_plate2");
+                expected.setLocation("3");
+                Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                c.set(2016, 8, 30, 12, 56, 21);
+                c.clear(Calendar.MILLISECOND);
+                Date date = c.getTime();
+                expected.setAdded(new Timestamp(date.getTime()));
+
+                assertThat(entries, is(equalTo(Arrays.asList(expected))));
+        }
 	
 	@Test
 	public void testShouldRetrieveContainerOnGonio() throws Exception {
