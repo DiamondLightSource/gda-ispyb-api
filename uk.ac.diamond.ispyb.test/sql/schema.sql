@@ -6189,6 +6189,63 @@ LOCK TABLES `XFEFluorescenceSpectrum` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `XRFFluorescenceMapping`
+--
+
+DROP TABLE IF EXISTS `XRFFluorescenceMapping`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `XRFFluorescenceMapping` (
+  `xrfFluorescenceMappingId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `xrfFluorescenceMappingROIId` int(11) unsigned NOT NULL,
+  `dataCollectionId` int(11) unsigned NOT NULL,
+  `imageNumber` int(10) unsigned NOT NULL,
+  `counts` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`xrfFluorescenceMappingId`),
+  KEY `XRFFluorescenceMapping_ibfk1` (`xrfFluorescenceMappingROIId`),
+  KEY `XRFFluorescenceMapping_ibfk2` (`dataCollectionId`),
+  CONSTRAINT `XRFFluorescenceMapping_ibfk1` FOREIGN KEY (`xrfFluorescenceMappingROIId`) REFERENCES `XRFFluorescenceMappingROI` (`xrfFluorescenceMappingROIId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `XRFFluorescenceMapping_ibfk2` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `XRFFluorescenceMapping`
+--
+
+LOCK TABLES `XRFFluorescenceMapping` WRITE;
+/*!40000 ALTER TABLE `XRFFluorescenceMapping` DISABLE KEYS */;
+/*!40000 ALTER TABLE `XRFFluorescenceMapping` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `XRFFluorescenceMappingROI`
+--
+
+DROP TABLE IF EXISTS `XRFFluorescenceMappingROI`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `XRFFluorescenceMappingROI` (
+  `xrfFluorescenceMappingROIId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `startEnergy` float NOT NULL,
+  `endEnergy` float NOT NULL,
+  `element` varchar(2) DEFAULT NULL,
+  `edge` varchar(2) DEFAULT NULL COMMENT 'In future may be changed to enum(K, L)',
+  `colour` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`xrfFluorescenceMappingROIId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `XRFFluorescenceMappingROI`
+--
+
+LOCK TABLES `XRFFluorescenceMappingROI` WRITE;
+/*!40000 ALTER TABLE `XRFFluorescenceMappingROI` DISABLE KEYS */;
+/*!40000 ALTER TABLE `XRFFluorescenceMappingROI` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Temporary table structure for view `v_Log4Stat`
 --
 
@@ -7533,7 +7590,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `insert_beamline_action`(
      OUT p_id int(11) unsigned,
@@ -7549,22 +7606,24 @@ CREATE PROCEDURE `insert_beamline_action`(
      p_status enum('PAUSED','RUNNING','TERMINATED','COMPLETE','ERROR','EPICSFAIL')
 )
     MODIFIES SQL DATA
+    COMMENT 'Insert a beamline action row for session p_proposalCode + p_proposalNumber + p_sessionNumber. Returns ID of row in p_id'
 BEGIN
-        DECLARE row_session_id int(10) unsigned DEFAULT NULL;
-        DECLARE row_proposal_id int(10) unsigned DEFAULT NULL;
-
-        IF p_proposalCode IS NOT NULL AND p_proposalNumber IS NOT NULL AND p_sessionNumber IS NOT NULL THEN
-      SELECT max(bs.sessionid), p.proposalId INTO row_session_id, row_proposal_id
-      FROM Proposal p INNER JOIN BLSession bs ON p.proposalid = bs.proposalid
+	DECLARE row_session_id int(10) unsigned DEFAULT NULL;
+	DECLARE row_proposal_id int(10) unsigned DEFAULT NULL;
+  
+	IF p_proposalCode IS NOT NULL AND p_proposalNumber IS NOT NULL AND p_sessionNumber IS NOT NULL THEN
+      SELECT max(bs.sessionid), p.proposalId INTO row_session_id, row_proposal_id 
+      FROM Proposal p INNER JOIN BLSession bs ON p.proposalid = bs.proposalid 
       WHERE p.proposalCode = p_proposalCode AND p.proposalNumber = p_proposalNumber AND bs.visit_number = p_sessionNumber;
 
-      INSERT INTO BeamlineAction (sessionId, startTimestamp, endTimestamp, message, parameter, `value`, loglevel, `status`)
+      INSERT INTO BeamlineAction (sessionId, startTimestamp, endTimestamp, message, parameter, `value`, loglevel, `status`) 
           VALUES (row_session_id, p_startTime, p_endTime, p_message, p_parameter, p_value, p_logLevel, p_status);
 
-          IF LAST_INSERT_ID() <> 0 THEN
-                  SET p_id = LAST_INSERT_ID();
-      END IF;
-
+	  IF LAST_INSERT_ID() <> 0 THEN 
+		  SET p_id = LAST_INSERT_ID();
+      END IF;      
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='One or more mandatory arguments are NULL: p_proposalCode, p_proposalNumber, p_sessionNumber';
     END IF;
   END ;;
 DELIMITER ;
@@ -7618,6 +7677,7 @@ CREATE PROCEDURE `insert_screening`(
      p_comments varchar(255)
 )
     MODIFIES SQL DATA
+    COMMENT 'Insert a row with info about a screening. Returns the ID in p_id.'
 BEGIN
 	  IF p_dcgId IS NULL AND p_dcId IS NOT NULL THEN
 		SELECT dataCollectionGroupId INTO p_dcgId FROM DataCollection WHERE dataCollectionId = p_dcId;
@@ -7657,6 +7717,7 @@ CREATE PROCEDURE `insert_screening_input`(
      p_minSignalToNoise float
 )
     MODIFIES SQL DATA
+    COMMENT 'Insert a row with info about a screening input. Returns the ID in p_id.'
 BEGIN
       INSERT INTO ScreeningInput (screeningId, beamX, beamY, rmsErrorLimits, minimumFractionIndexed, maximumFractionRejected, minimumSignalToNoise) 
         VALUES (p_screeningId, p_beamX, p_beamY, p_rmsErrorLimits, p_minFractionIndexed, p_maxFractionRejected, p_minSignalToNoise);
@@ -7708,6 +7769,7 @@ CREATE PROCEDURE `insert_screening_output`(
      p_strategySuccess boolean
 )
     MODIFIES SQL DATA
+    COMMENT 'Insert a row with info about a screening output. Returns the ID in p_id.'
 BEGIN
       INSERT INTO ScreeningOutput (screeningId, statusDescription, rejectedReflections, resolutionObtained, spotDeviationR, spotDeviationTheta, 
         beamShiftX, beamShiftY, numSpotsFound, numSpotsUsed, numSpotsRejected, mosaicity, iOverSigma, 
@@ -7761,6 +7823,7 @@ CREATE PROCEDURE `insert_screening_output_lattice`(
      p_labelitIndexing boolean
 )
     MODIFIES SQL DATA
+    COMMENT 'Insert a row with info about a screening output lattice. Returns the ID in p_id.'
 BEGIN
       INSERT INTO ScreeningOutputLattice (screeningOutputId, spaceGroup, pointGroup, bravaisLattice, 
         rawOrientationMatrix_a_x, rawOrientationMatrix_a_y, rawOrientationMatrix_a_z,
@@ -7808,6 +7871,7 @@ CREATE PROCEDURE `insert_screening_strategy`(
      p_transmission float
 )
     MODIFIES SQL DATA
+    COMMENT 'Insert a row with info about a screening strategy. Returns the ID in p_id.'
 BEGIN
       INSERT INTO ScreeningStrategy (
         screeningOutputId, phiStart, phiEnd, rotation, exposureTime, 
@@ -7853,6 +7917,7 @@ CREATE PROCEDURE `insert_screening_strategy_sub_wedge`(
      p_comments varchar(255)
      )
     MODIFIES SQL DATA
+    COMMENT 'Insert a row with info about a screening strategy sub-wedge. Returns the ID in p_id.'
 BEGIN
       INSERT INTO ScreeningStrategySubWedge (
         screeningStrategyWedgeId, subWedgeNumber, rotationAxis, axisStart, axisEnd, exposureTime, transmission, 
@@ -7896,6 +7961,7 @@ CREATE PROCEDURE `insert_screening_strategy_wedge`(
      p_wavelength	double
      )
     MODIFIES SQL DATA
+    COMMENT 'Insert a row with info about a screening strategy wedge. Returns the ID in p_id.'
 BEGIN
       INSERT INTO ScreeningStrategyWedge (
         screeningStrategyId, wedgeNumber, resolution, completeness, multiplicity, doseTotal, numberOfImages, 
@@ -7993,19 +8059,20 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_components_for_sample_type`(IN p_sampleTypeId int unsigned)
     READS SQL DATA
+    COMMENT 'Return multi-row result-set with component ID and other info about components associated with sample type p_sampleTypeId'
 BEGIN
     IF NOT (p_sampleTypeId IS NULL) THEN
       SELECT
-          prot.proteinId "componentId", prot.name "componentName", prot.density "componentDensity", prot.sequence "componentContent", prot.molecularMass "componentMolecularMass",
+          prot.proteinId "componentId", prot.name "componentName", prot.density "componentDensity", prot.sequence "componentContent", prot.molecularMass "componentMolecularMass", 
           prot.abundance "componentAbundance"
-      FROM Protein prot
+      FROM Protein prot  
         INNER JOIN Crystal c on prot.proteinId = c.proteinId
       WHERE c.crystalId = p_sampleTypeId
       UNION ALL
       SELECT
-          prot.proteinId "componentId", prot.name "componentName", prot.density "componentDensity", prot.sequence "componentContent", prot.molecularMass "componentMolecularMass",
+          prot.proteinId "componentId", prot.name "componentName", prot.density "componentDensity", prot.sequence "componentContent", prot.molecularMass "componentMolecularMass", 
           prot.abundance "componentAbundance"
-      FROM BLSampleType_has_Component bhc
+      FROM BLSampleType_has_Component bhc  
         INNER JOIN Protein prot on prot.proteinId = bhc.componentId
       WHERE bhc.blSampleTypeId = p_sampleTypeId;
     ELSE
@@ -8029,6 +8096,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_component_lattices_for_component`(IN p_componentId int unsigned)
     READS SQL DATA
+    COMMENT 'Return multi-row result-set with component lattices for component p_componentId'
 BEGIN
     IF NOT (p_componentId IS NULL) THEN
 		SELECT spaceGroup "spaceGroup", cell_a "a", cell_b "b", cell_c "c", cell_alpha "alpha", cell_beta "beta", cell_gamma "gamma"
@@ -8298,11 +8366,11 @@ CREATE PROCEDURE `retrieve_container_queue_timestamp`(IN p_barcode varchar(45))
     COMMENT 'Returns a single-column, single-row result-set with timestamp of when container p_barcode entered container queue'
 BEGIN
   IF NOT (p_barcode IS NULL) THEN
-	SELECT max(cq.createdTimeStamp) "createdTimeStamp"
+	SELECT cq.createdTimeStamp "createdTimeStamp"
     FROM Container c
       INNER JOIN ContainerQueue cq ON c.containerId = cq.containerId
     WHERE cq.completedTimeStamp IS NULL AND c.barcode = p_barcode
-	ORDER BY c.containerId DESC
+	ORDER BY cq.createdTimeStamp DESC
 	LIMIT 1;
     ELSE 
         SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_barcode is NULL';
@@ -8485,6 +8553,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_dc_plans_for_sample`(IN p_sampleId int unsigned)
     READS SQL DATA
+    COMMENT 'Return multi-row result-set with info about data collection plans associated with sample p_sampleId'
 BEGIN
     IF NOT (p_sampleId IS NULL) THEN
     SELECT dp.diffractionPlanId "dcPlanId", dp.name "name", dp.experimentKind "experimentKind", 
@@ -8677,6 +8746,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_samples_assigned_for_proposal`(IN p_proposalCode varchar(3), IN p_proposalNumber int)
     READS SQL DATA
+    COMMENT 'Retrieve the user friendly name and ID of all assigned instances which have datacollection plans associated with them'
 BEGIN
     IF NOT (p_proposalCode IS NULL) AND NOT (p_proposalNumber IS NULL) THEN
         SELECT bls.blSampleId "sampleId", bls.name "sampleName", bls.code "sampleCode", bls.comments "sampleComments", bls.location "sampleLocation",
@@ -8716,6 +8786,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_samples_for_sample_group`(IN p_sampleGroupId int unsigned)
     READS SQL DATA
+    COMMENT 'Return multi-row result set with sample IDs, order in the group and type for sample group p_sampleGroupId'
 BEGIN
     IF NOT (p_sampleGroupId IS NULL) THEN
 		SELECT blSampleId "sampleId", `type` "type", `order` "order"
@@ -8743,6 +8814,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `retrieve_sample_groups_for_sample`(IN p_sampleId int unsigned)
     READS SQL DATA
+    COMMENT 'Return multi-row result-set with sample group IDs, order in the group and type for sample p_sampleId'
 BEGIN
     IF NOT (p_sampleId IS NULL) THEN
         SELECT blSampleGroupId "sampleGroupId", `order`, `type` 
@@ -9445,7 +9517,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `upsert_sample_image_analysis`(
 	 INOUT p_id int(11) unsigned,
@@ -9462,6 +9534,7 @@ CREATE PROCEDURE `upsert_sample_image_analysis`(
      p_matchEndTS timestamp
      )
     MODIFIES SQL DATA
+    COMMENT 'Insert or update info about the sample image analysis for the most recent sample image on \ncontainer p_containerBarcode in location p_sampleLocation. \nFor updates, specify the ID of the row in p_id. \nFor inserts, the ID is returned in p_id.'
 BEGIN
       DECLARE row_sampleImageId int(11) unsigned;
       
@@ -9972,4 +10045,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-25 16:12:33
+-- Dump completed on 2017-05-31 15:02:46
