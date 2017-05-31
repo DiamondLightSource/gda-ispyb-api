@@ -2,18 +2,17 @@ package uk.ac.diamond.ispyb.mapper;
 
 import org.junit.Test;
 import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
+import uk.ac.diamond.ispyb.api.DataCollectionGroup;
 import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
-import uk.ac.diamond.ispyb.mapper.ApiToWebServiceMapper;
-import uk.ac.diamond.ispyb.soapclientsample.DataCollection3VO;
+import uk.ac.diamond.ispyb.soapclientsample.DataCollectionGroupWS3VO;
 import uk.ac.diamond.ispyb.soapclientsample.DataCollectionWS3VO;
 
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-import static org.fest.assertions.Assertions.*;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class ApiToWebserviceMapperTest {
 
@@ -67,7 +66,7 @@ public class ApiToWebserviceMapperTest {
     }
 
     @Test
-    public void mapsDataCollectionsToWebserviceDataCollectionExperiments() throws DatatypeConfigurationException {
+    public void mapsDataCollectionsExperimentsToWebserviceDataCollection() throws DatatypeConfigurationException {
         DataCollectionExperiment experiment = new DataCollectionExperiment();
 
         experiment.setId(1L);
@@ -131,7 +130,7 @@ public class ApiToWebserviceMapperTest {
     }
 
     @Test
-    public void mapsDataCollectionsToWebserviceDataCollectionMachine() throws DatatypeConfigurationException {
+    public void mapsDataCollectionMachineToWebserviceDataCollection() throws DatatypeConfigurationException {
         DataCollectionMachine machine = new DataCollectionMachine();
         machine.setId(1L);
         machine.setSynchrotronMode("awesome");
@@ -146,5 +145,48 @@ public class ApiToWebserviceMapperTest {
         assertThat(output.getUndulatorGap1()).isEqualTo((2f));
         assertThat(output.getUndulatorGap2()).isEqualTo((3f));
         assertThat(output.getUndulatorGap3()).isEqualTo((4f));
+    }
+
+    @Test
+    public void mapsDataCollectionGroupToWebserviceDataCollectionGroup() throws DatatypeConfigurationException {
+        DataCollectionGroup group = new DataCollectionGroup();
+        group.setId(1L);
+        group.setProposalCode("code");
+        group.setProposalNumber(2);
+        group.setSessionNumber(3);
+        group.setSampleId(4L);
+        group.setSampleBarcode("barcode");
+        group.setExperimenttype("awesome");
+        group.setStarttime(Timestamp.valueOf(LocalDate.of(2017, 3, 12).atStartOfDay()));
+        group.setEndtime(Timestamp.valueOf(LocalDate.of(2018, 3, 12).atStartOfDay()));
+        group.setCrystalClass("high");
+        group.setDetectorMode("fast");
+        group.setActualSampleBarcode("actualbarcode");
+        group.setActualSampleSlotInContainer(5);
+        group.setActualContainerBarcode("actualcontainerbarcode");
+        group.setActualContainerSlotInSC(6);
+        group.setComments("comments");
+
+        DataCollectionGroupWS3VO output = new ApiToWebServiceMapper().map(group, DataCollectionGroupWS3VO.class);
+
+        assertThat(output.getDataCollectionGroupId()).isEqualTo(1);
+
+
+        output.("code");
+//
+  //      group.setProposalNumber(2);
+        assertThat(output.getSessionId()).isEqualTo(3);
+        assertThat(output.getBlSampleId()).isEqualTo(4);
+//          assertThat(output.getSampleBarcode()).isEqualTo("barcode");
+        assertThat(output.getExperimentType()).isEqualTo("awesome");
+        assertThat(output.getStartTime().getYear()).isEqualTo(2017);
+        assertThat(output.getEndTime().getYear()).isEqualTo(2018);
+        assertThat(output.getCrystalClass()).isEqualTo("high");
+        assertThat(output.getDetectorMode()).isEqualTo("fast");
+        assertThat(output.getActualSampleBarcode()).isEqualTo("actualbarcode");
+        assertThat(output.getActualSampleSlotInContainer()).isEqualTo(5);
+        assertThat(output.getActualContainerBarcode()).isEqualTo("actualcontainerbarcode");
+        assertThat(output.getActualContainerSlotInSC()).isEqualTo(6);
+        assertThat(output.getComments()).isEqualTo("comments");
     }
 }

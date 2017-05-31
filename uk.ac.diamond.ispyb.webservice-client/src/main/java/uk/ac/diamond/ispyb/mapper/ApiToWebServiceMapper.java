@@ -24,6 +24,7 @@ public class ApiToWebServiceMapper {
                 .replace("Directory", "Dir")
                 .replace("NumberOf", "No")
                 .replace("Run", "")
+                .replace("Bl", "")
                 .replace("XtalSnapshotFullPath", "Snapshot");
     }
 }
