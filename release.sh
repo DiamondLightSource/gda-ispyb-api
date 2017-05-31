@@ -21,11 +21,12 @@ find . -type f -name "*pom.xml" -exec sed -i "$REPLACE_PATTERN" {} +
 find . -type f -name "*feature.xml" -exec sed -i "$REPLACE_PATTERN" {} +
 find . -type f -name "*MANIFEST.MF" -exec sed -i "$REPLACE_PATTERN" {} +
 
+git checkout -b $NEW_VERSION
 git add .
 git commit -m "updating version to $NEW_VERSION"
-git push origin master
 
 echo "releasing version $NEW_VERSION" 
 git tag v$NEW_VERSION
-git push origin --tag
+git push origin $NEW_VERSION --tag
 
+echo "you currently need to manually merge back into master"
