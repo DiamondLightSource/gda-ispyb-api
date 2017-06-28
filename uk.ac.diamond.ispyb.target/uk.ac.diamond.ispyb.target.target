@@ -24,7 +24,7 @@
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="org.mariadb.jdbc" version="2.0.2"/>
+<unit id="org.mariadb.jdbc" version="1.4.6.0"/>
 <repository location="https://alfred.diamond.ac.uk/p2/orbit/continuous/repository/"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
