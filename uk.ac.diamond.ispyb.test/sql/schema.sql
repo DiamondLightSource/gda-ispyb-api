@@ -8910,7 +8910,7 @@ BEGIN
 	  FROM Container c
         INNER JOIN ContainerRegistry cr ON c.containerRegistryId = cr.containerRegistryId
 	  WHERE cr.barcode = p_registry_barcode 
-	  ORDER BY cr.recordTimestamp DESC 
+	  ORDER BY c.containerId DESC 
 	  LIMIT 1;
 
       IF NOT row_containerId IS NULL THEN
@@ -10113,4 +10113,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-28 12:02:14
+-- Dump completed on 2017-06-28 15:51:46
