@@ -26,7 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
     DataCollectionTest.class,
     CompositeTest.class,
     AsynchCompositeTest.class,
-    SampleInformationTest.class
+    SampleInformationTest.class // Must be last
 })
 public class Suite {
 

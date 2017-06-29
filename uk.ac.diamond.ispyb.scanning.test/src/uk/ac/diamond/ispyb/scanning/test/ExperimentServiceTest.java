@@ -25,7 +25,7 @@ public abstract class ExperimentServiceTest {
 	protected static IExperimentDatabaseService                    service;
 	protected static IntegrationTestHelper<IspybXpdfApi>           xhelper;
 	protected static IntegrationTestHelper<IspybDataCollectionApi> chelper;
-	private static boolean disposeLock;
+	private static volatile boolean disposeLock;
 	
 	protected static void create(boolean connectXPDF, boolean connectDC) throws SQLException, IOException, InterruptedException {
 		
@@ -47,6 +47,10 @@ public abstract class ExperimentServiceTest {
 	protected static void setDisposeLocked(boolean locked) {
 		disposeLock = locked;
 	}
+	public static boolean isDisposedLocked() {
+		return disposeLock;
+	}
+
 	protected static void dispose() throws Exception {
 		if (disposeLock) return;
 		if (xhelper!=null) xhelper.tearDown();

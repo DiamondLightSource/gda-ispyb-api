@@ -222,7 +222,7 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 		return future;
 	}
 	
-	private <B> B fromBean(Object entry) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	<B> B fromBean(Object entry) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		
 		if (!(entry instanceof Bean)) return (B)entry;
 		
