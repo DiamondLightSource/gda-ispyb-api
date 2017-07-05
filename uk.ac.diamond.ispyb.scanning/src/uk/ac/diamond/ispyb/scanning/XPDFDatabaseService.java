@@ -36,6 +36,8 @@ import org.eclipse.scanning.api.database.DatabaseOperation;
 import org.eclipse.scanning.api.database.IExperimentDatabaseService;
 import org.eclipse.scanning.api.database.Id;
 import org.eclipse.scanning.api.database.Operation;
+import org.eclipse.scanning.api.event.queues.models.ExperimentConfiguration;
+import org.eclipse.scanning.api.scan.models.ScanMetadata;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
@@ -298,10 +300,28 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 		return xpdfApi.retrieveSamplesAssignedForProposal(proposalCode, proposalNumber);
 	}
 
+	@Override
+	public Map<Long, String> getSampleIdNames(String proposalCode, long proposalNumber) {
+		// TODO Auto-generated method stub
+		return IExperimentDatabaseService.super.getSampleIdNames(proposalCode, proposalNumber);
+	}
 
 	@Override
 	public SampleInformation getSampleInformation(String proposalCode, long proposalNumber, long sampleId) {
 		return getSampleInformation(proposalCode, proposalNumber, new long[]{sampleId}).values().iterator().next();
+	}
+
+	@Override
+	public ExperimentConfiguration generateExperimentConfiguration(String proposalCode, long proposalNumber,
+			long sampleId) {
+		// TODO Auto-generated method stub
+		return IExperimentDatabaseService.super.generateExperimentConfiguration(proposalCode, proposalNumber, sampleId);
+	}
+
+	@Override
+	public List<ScanMetadata> generateSampleScanMetadata(String proposalCode, long proposalNumber, long sampleIds) {
+		// TODO Auto-generated method stub
+		return IExperimentDatabaseService.super.generateSampleScanMetadata(proposalCode, proposalNumber, sampleIds);
 	}
 
 	@Override
@@ -317,6 +337,24 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 		rsamples.forEach(sample->ret.put(sample.getSampleId(), extractInformation(sample)));
 			
 		return ret;
+	}
+	
+	@Override
+	public Map<Long, ExperimentConfiguration> generateAllExperimentConfiguration(String proposalCode,
+			long proposalNumber, long... sampleIds) {
+		Map<Long, SampleInformation> allSamplesInformation = getSampleInformation(proposalCode, proposalNumber, sampleIds);
+		
+		// TODO Auto-generated method stub
+		return IExperimentDatabaseService.super.generateAllExperimentConfiguration(proposalCode, proposalNumber, sampleIds);
+	}
+
+	@Override
+	public Map<Long, List<ScanMetadata>> generateAllScanMetadata(String proposalCode, long proposalNumber,
+			long... sampleIds) {
+		Map<Long, SampleInformation> allSamplesInformation = getSampleInformation(proposalCode, proposalNumber, sampleIds);
+		
+		// TODO Auto-generated method stub
+		return IExperimentDatabaseService.super.generateAllScanMetadata(proposalCode, proposalNumber, sampleIds);
 	}
 
 	private SampleInformation extractInformation(Sample sample) {

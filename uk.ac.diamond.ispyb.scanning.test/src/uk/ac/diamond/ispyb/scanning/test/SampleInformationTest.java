@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -164,6 +165,17 @@ public class SampleInformationTest extends ExperimentServiceTest {
 		assertEquals(1, info.get(398824L).getLattices().size());
 		assertEquals(1, info.get(398827L).getComponents().size());
 		assertEquals(1, info.get(398827L).getLattices().size());
+	}
+	
+	@Test
+	public void testGettingSampleNameIDMap() {
+		Map<Long, String> expectedIdNames = new HashMap<>();
+		expectedIdNames.put(398824L, "XPDF-1");
+		expectedIdNames.put(398827L, "XPDF-2");
+		
+		Map<Long, String> dbSampleIdNames = service.getSampleIdNames("cm", 14451L);
+		
+		assertEquals("Sample name/ID map returned by database different from expected", expectedIdNames, dbSampleIdNames);
 	}
 
 }
