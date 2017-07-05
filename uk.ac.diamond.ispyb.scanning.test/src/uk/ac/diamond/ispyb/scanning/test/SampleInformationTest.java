@@ -17,6 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -25,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.scanning.api.event.queues.models.ExperimentConfiguration;
+import org.eclipse.scanning.api.scan.models.ScanMetadata;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -169,13 +172,49 @@ public class SampleInformationTest extends ExperimentServiceTest {
 	
 	@Test
 	public void testGettingSampleNameIDMap() {
-		Map<Long, String> expectedIdNames = new HashMap<>();
+		Map<Long, String> dbSampleIdNames, expectedIdNames = new HashMap<>();
 		expectedIdNames.put(398824L, "XPDF-1");
 		expectedIdNames.put(398827L, "XPDF-2");
 		
-		Map<Long, String> dbSampleIdNames = service.getSampleIdNames("cm", 14451L);
+		dbSampleIdNames = service.getSampleIdNames("cm", 14451L);
 		
 		assertEquals("Sample name/ID map returned by database different from expected", expectedIdNames, dbSampleIdNames);
+	}
+	
+	@Test
+	public void testGenerateExperimentConfig() {
+		Map<Long, ExperimentConfiguration> allConfigs, expectedConfigs = new HashMap<>();
+		//TODO Make expected
+		
+		ExperimentConfiguration dbExpConfig = service.generateExperimentConfiguration("cm", 14451L, 398824L);
+		System.out.println("Testing single sample getting");
+		compareExperimentalConfigs(expectedConfigs.get(398824L), dbExpConfig);
+		
+		System.out.println("Testing multi-sample getting");
+		allConfigs = service.generateAllExperimentConfiguration("cm", 14451L, 398824L, 398827L);
+		assertEquals("Different IDs in expected and db", expectedConfigs.keySet(), allConfigs.keySet());
+		allConfigs.forEach((id, conf) -> compareExperimentalConfigs(expectedConfigs.get(id), conf));
+	}
+	
+	private void compareExperimentalConfigs(ExperimentConfiguration expected, ExperimentConfiguration dbExpConfig) {
+		if (dbExpConfig != expected) {
+			assertEquals("localValues differ", expected.getLocalValues(), dbExpConfig.getLocalValues());
+			assertEquals("pathModels differ", expected.getPathModelValues(), dbExpConfig.getPathModelValues());
+			assertEquals("detectorModels differ", expected.getDetectorModelValues(), dbExpConfig.getDetectorModelValues());
+			fail("ExperimentConfigs differ");
+		}
+	}
+	
+	@Test
+	public void testGenerateScanMetadata() {
+		Map<Long, List<ScanMetadata>> allMetadata, expectedMetadata = new HashMap<>();
+		//TODO Make expected
+		
+		List<ScanMetadata> dbMetadata = service.generateSampleScanMetadata("cm", 14451L, 398824L);
+		assertEquals("Single sample metadata differs from expected", expectedMetadata.get(398824L), dbMetadata);
+		
+		allMetadata = service.generateAllScanMetadata("cm", 14451L, 398824L, 398827L);
+		assertEquals("Multi-sample metadata differs from expected", expectedMetadata, allMetadata);
 	}
 
 }

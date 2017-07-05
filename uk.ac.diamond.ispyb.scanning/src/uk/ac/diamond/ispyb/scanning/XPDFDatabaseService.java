@@ -13,7 +13,6 @@ package uk.ac.diamond.ispyb.scanning;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -302,8 +301,10 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 
 	@Override
 	public Map<Long, String> getSampleIdNames(String proposalCode, long proposalNumber) {
-		// TODO Auto-generated method stub
-		return IExperimentDatabaseService.super.getSampleIdNames(proposalCode, proposalNumber);
+		List<Sample> allSamples = getSamples(proposalCode, proposalNumber);
+		Map<Long, String> allSamplesIdNames = new HashMap<>();
+		allSamples.forEach(sam -> allSamplesIdNames.put(sam.getSampleId(), sam.getSampleName()));
+		return allSamplesIdNames;
 	}
 
 	@Override
@@ -314,14 +315,12 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	@Override
 	public ExperimentConfiguration generateExperimentConfiguration(String proposalCode, long proposalNumber,
 			long sampleId) {
-		// TODO Auto-generated method stub
-		return IExperimentDatabaseService.super.generateExperimentConfiguration(proposalCode, proposalNumber, sampleId);
+		return extractExperimentInfo(getSampleInformation(proposalCode, proposalNumber, sampleId));
 	}
 
 	@Override
-	public List<ScanMetadata> generateSampleScanMetadata(String proposalCode, long proposalNumber, long sampleIds) {
-		// TODO Auto-generated method stub
-		return IExperimentDatabaseService.super.generateSampleScanMetadata(proposalCode, proposalNumber, sampleIds);
+	public List<ScanMetadata> generateSampleScanMetadata(String proposalCode, long proposalNumber, long sampleId) {
+		return extractScanMetadata(getSampleInformation(proposalCode, proposalNumber, sampleId));
 	}
 
 	@Override
@@ -342,19 +341,23 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	@Override
 	public Map<Long, ExperimentConfiguration> generateAllExperimentConfiguration(String proposalCode,
 			long proposalNumber, long... sampleIds) {
-		Map<Long, SampleInformation> allSamplesInformation = getSampleInformation(proposalCode, proposalNumber, sampleIds);
+		Map<Long, ExperimentConfiguration> allExperimentConfig = new HashMap<>();
 		
-		// TODO Auto-generated method stub
-		return IExperimentDatabaseService.super.generateAllExperimentConfiguration(proposalCode, proposalNumber, sampleIds);
+		Map<Long, SampleInformation> allSamplesInformation = getSampleInformation(proposalCode, proposalNumber, sampleIds);
+		allSamplesInformation.forEach((id, info) -> allExperimentConfig.put(id, extractExperimentInfo(info)));
+		
+		return allExperimentConfig;
 	}
 
 	@Override
 	public Map<Long, List<ScanMetadata>> generateAllScanMetadata(String proposalCode, long proposalNumber,
 			long... sampleIds) {
-		Map<Long, SampleInformation> allSamplesInformation = getSampleInformation(proposalCode, proposalNumber, sampleIds);
+		Map<Long, List<ScanMetadata>> allScanMetadata = new HashMap<>();
 		
-		// TODO Auto-generated method stub
-		return IExperimentDatabaseService.super.generateAllScanMetadata(proposalCode, proposalNumber, sampleIds);
+		Map<Long, SampleInformation> allSamplesInformation = getSampleInformation(proposalCode, proposalNumber, sampleIds);
+		allSamplesInformation.forEach((id, info) -> allScanMetadata.put(id, extractScanMetadata(info)));
+		
+		return allScanMetadata;
 	}
 
 	private SampleInformation extractInformation(Sample sample) {
@@ -372,6 +375,16 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	    		                                    .collect(Collectors.toList());
 	    info.setLattices(lattices);
 	    return info;
+	}
+	
+	private ExperimentConfiguration extractExperimentInfo(SampleInformation info) {
+		//TODO
+		return null;
+	}
+	
+	private List<ScanMetadata> extractScanMetadata(SampleInformation info) {
+		//TODO
+		return null;
 	}
 
 	private static class OperationAction<T> {
