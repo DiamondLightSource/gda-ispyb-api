@@ -2,7 +2,7 @@
 --
 -- Host: cs04r-sc-vserv-88    Database: ispybstage
 -- ------------------------------------------------------
--- Server version	10.1.24-MariaDB-enterprise
+-- Server version	10.1.25-MariaDB-enterprise
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -4535,9 +4535,10 @@ DROP TABLE IF EXISTS `ProposalHasPerson`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ProposalHasPerson` (
-  `proposalHasPersonId` int(10) unsigned NOT NULL,
+  `proposalHasPersonId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `proposalId` int(10) unsigned NOT NULL,
   `personId` int(10) unsigned NOT NULL,
+  `role` enum('Co-Investigator','Principal Investigator','Alternate Contact') DEFAULT NULL,
   PRIMARY KEY (`proposalHasPersonId`),
   KEY `fk_ProposalHasPerson_Proposal` (`proposalId`),
   KEY `fk_ProposalHasPerson_Personal` (`personId`),
@@ -9577,6 +9578,48 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_dc_position` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_dc_position`(
+     p_dcId int(11) unsigned, 
+     p_posX double,
+     p_posY double,
+     p_posZ double,
+     p_scale double
+)
+    MODIFIES SQL DATA
+    COMMENT 'Inserts or updates a Position for the data collection (p_id).'
+BEGIN
+	DECLARE row_position_id int(11) unsigned DEFAULT NULL;
+	IF p_dcId IS NOT NULL THEN
+		SELECT positionId INTO row_position_id FROM DataCollection WHERE dataCollectionId = p_dcId;
+        INSERT INTO Position (positionId, posX, posY, posZ, scale)
+          VALUES (row_position_id, p_posX, p_posY, p_posZ, p_scale)
+          ON DUPLICATE KEY UPDATE
+		  posX = IFNULL(p_posX, posX),
+		  posY = IFNULL(p_posY, posY),
+		  posZ = IFNULL(p_posZ, posZ),
+          scale = IFNULL(p_scale, scale);
+	    IF LAST_INSERT_ID() <> 0 THEN 
+          UPDATE DataCollection SET positionId = LAST_INSERT_ID() WHERE dataCollectionId = p_dcId;
+        END IF;
+	ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_dcId is NULL';  
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `upsert_sample_image_analysis` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -10113,4 +10156,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-28 15:51:46
+-- Dump completed on 2017-07-07 15:22:07
