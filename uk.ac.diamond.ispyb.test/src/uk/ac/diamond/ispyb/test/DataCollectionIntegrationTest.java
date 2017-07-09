@@ -36,6 +36,7 @@ import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 import uk.ac.diamond.ispyb.api.Orientation;
+import uk.ac.diamond.ispyb.api.Position;
 import uk.ac.diamond.ispyb.dao.IspybDataCollectionDaoFactory;
 
 public class DataCollectionIntegrationTest{
@@ -144,6 +145,18 @@ public class DataCollectionIntegrationTest{
 		
 		Long id = helper.execute(api -> api.upsertDataCollectionGroupGrid(grid));
 		assertNotNull(id);
+	}
+
+	@Test
+	public void testUpsertDataCollectionPosition() throws SQLException, IOException, InterruptedException {
+		Position position = new Position();
+		position.setPosX(1.0);
+		position.setPosY(2.0);
+		position.setPosZ(3.0);
+		position.setScale(1.0);
+		position.setDCId(993677L);
+
+          helper.run(api -> api.updateDataCollectionPosition(position));
 	}
 
 	@Test

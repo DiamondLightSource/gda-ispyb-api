@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import uk.ac.diamond.ispyb.api.Detector;
+import uk.ac.diamond.ispyb.api.Position;
 import uk.ac.diamond.ispyb.api.DataCollectionExperiment;
 import uk.ac.diamond.ispyb.api.DataCollectionGroup;
 import uk.ac.diamond.ispyb.api.DataCollectionGroupGrid;
@@ -65,6 +66,11 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	public Long upsertDataCollectionGroupGrid(DataCollectionGroupGrid dataCollectionGroupGrid) {
 		return beanTemplateWrapper.callIspybForKey("upsert_dcg_grid", Long.class, dataCollectionGroupGrid, "p_id").get();
 	}
+
+	@Override
+        public void updateDataCollectionPosition(Position position) {
+		beanTemplateWrapper.callIspyb("update_dc_position", position);
+        }
 
 	@Override
 	public Long insertBeamlineAction(BeamlineAction beamlineAction){

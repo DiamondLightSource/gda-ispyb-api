@@ -9216,6 +9216,48 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_dc_position` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `update_dc_position`(
+     p_dcId int(11) unsigned, 
+     p_posX double,
+     p_posY double,
+     p_posZ double,
+     p_scale double
+)
+    MODIFIES SQL DATA
+    COMMENT 'Sets the Position for the data collection (p_id).'
+BEGIN
+	DECLARE row_position_id int(11) unsigned DEFAULT NULL;
+	IF p_dcId IS NOT NULL THEN
+		SELECT positionId INTO row_position_id FROM DataCollection WHERE dataCollectionId = p_dcId;
+        INSERT INTO Position (positionId, posX, posY, posZ, scale)
+          VALUES (row_position_id, p_posX, p_posY, p_posZ, p_scale)
+          ON DUPLICATE KEY UPDATE
+		  posX = IFNULL(p_posX, posX),
+		  posY = IFNULL(p_posY, posY),
+		  posZ = IFNULL(p_posZ, posZ),
+          scale = IFNULL(p_scale, scale);
+	    IF LAST_INSERT_ID() <> 0 THEN 
+          UPDATE DataCollection SET positionId = LAST_INSERT_ID() WHERE dataCollectionId = p_dcId;
+        END IF;
+	ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_dcId is NULL';  
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `update_session_paths` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -9573,48 +9615,6 @@ BEGIN
 		SET p_id = LAST_INSERT_ID();
     END IF;
   END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `upsert_dc_position` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-CREATE PROCEDURE `upsert_dc_position`(
-     p_dcId int(11) unsigned, 
-     p_posX double,
-     p_posY double,
-     p_posZ double,
-     p_scale double
-)
-    MODIFIES SQL DATA
-    COMMENT 'Inserts or updates a Position for the data collection (p_id).'
-BEGIN
-	DECLARE row_position_id int(11) unsigned DEFAULT NULL;
-	IF p_dcId IS NOT NULL THEN
-		SELECT positionId INTO row_position_id FROM DataCollection WHERE dataCollectionId = p_dcId;
-        INSERT INTO Position (positionId, posX, posY, posZ, scale)
-          VALUES (row_position_id, p_posX, p_posY, p_posZ, p_scale)
-          ON DUPLICATE KEY UPDATE
-		  posX = IFNULL(p_posX, posX),
-		  posY = IFNULL(p_posY, posY),
-		  posZ = IFNULL(p_posZ, posZ),
-          scale = IFNULL(p_scale, scale);
-	    IF LAST_INSERT_ID() <> 0 THEN 
-          UPDATE DataCollection SET positionId = LAST_INSERT_ID() WHERE dataCollectionId = p_dcId;
-        END IF;
-	ELSE
-        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_dcId is NULL';  
-    END IF;
-END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -10156,4 +10156,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-07 15:22:07
+-- Dump completed on 2017-07-09 11:30:07
