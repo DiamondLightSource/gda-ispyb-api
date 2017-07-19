@@ -15,6 +15,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +36,10 @@ import org.eclipse.scanning.api.database.DatabaseOperation;
 import org.eclipse.scanning.api.database.IExperimentDatabaseService;
 import org.eclipse.scanning.api.database.Id;
 import org.eclipse.scanning.api.database.Operation;
+import org.eclipse.scanning.api.event.queues.models.DeviceModel;
 import org.eclipse.scanning.api.event.queues.models.ExperimentConfiguration;
+import org.eclipse.scanning.api.event.queues.models.arguments.IQueueValue;
+import org.eclipse.scanning.api.event.queues.models.arguments.QueueValue;
 import org.eclipse.scanning.api.scan.models.ScanMetadata;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.ComponentContext;
@@ -51,6 +55,7 @@ import uk.ac.diamond.ispyb.api.DataCollectionGroup;
 import uk.ac.diamond.ispyb.api.DataCollectionGroupGrid;
 import uk.ac.diamond.ispyb.api.DataCollectionMachine;
 import uk.ac.diamond.ispyb.api.DataCollectionMain;
+import uk.ac.diamond.ispyb.api.DataCollectionPlan;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionApi;
 import uk.ac.diamond.ispyb.api.IspybDataCollectionFactoryService;
 import uk.ac.diamond.ispyb.api.IspybXpdfApi;
@@ -313,17 +318,6 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	}
 
 	@Override
-	public ExperimentConfiguration generateExperimentConfiguration(String proposalCode, long proposalNumber,
-			long sampleId) {
-		return extractExperimentInfo(getSampleInformation(proposalCode, proposalNumber, sampleId));
-	}
-
-	@Override
-	public List<ScanMetadata> generateSampleScanMetadata(String proposalCode, long proposalNumber, long sampleId) {
-		return extractScanMetadata(getSampleInformation(proposalCode, proposalNumber, sampleId));
-	}
-
-	@Override
 	public Map<Long, SampleInformation> getSampleInformation(String proposalCode, long proposalNumber, long... sampleIds) {
 		
 		if (sampleIds==null || sampleIds.length<1) throw new IllegalArgumentException("At least one sampleId must be provided");
@@ -338,28 +332,6 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 		return ret;
 	}
 	
-	@Override
-	public Map<Long, ExperimentConfiguration> generateAllExperimentConfiguration(String proposalCode,
-			long proposalNumber, long... sampleIds) {
-		Map<Long, ExperimentConfiguration> allExperimentConfig = new HashMap<>();
-		
-		Map<Long, SampleInformation> allSamplesInformation = getSampleInformation(proposalCode, proposalNumber, sampleIds);
-		allSamplesInformation.forEach((id, info) -> allExperimentConfig.put(id, extractExperimentInfo(info)));
-		
-		return allExperimentConfig;
-	}
-
-	@Override
-	public Map<Long, List<ScanMetadata>> generateAllScanMetadata(String proposalCode, long proposalNumber,
-			long... sampleIds) {
-		Map<Long, List<ScanMetadata>> allScanMetadata = new HashMap<>();
-		
-		Map<Long, SampleInformation> allSamplesInformation = getSampleInformation(proposalCode, proposalNumber, sampleIds);
-		allSamplesInformation.forEach((id, info) -> allScanMetadata.put(id, extractScanMetadata(info)));
-		
-		return allScanMetadata;
-	}
-
 	private SampleInformation extractInformation(Sample sample) {
 		
 		SampleInformation info = new SampleInformation(sample.getSampleId());
@@ -377,13 +349,111 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 	    return info;
 	}
 	
+	@Override
+	public ExperimentConfiguration generateExperimentConfiguration(String proposalCode, long proposalNumber,
+			long sampleId) {
+		return extractExperimentInfo(getSampleInformation(proposalCode, proposalNumber, sampleId));
+	}
+	
+	@Override
+	public Map<Long, ExperimentConfiguration> generateAllExperimentConfiguration(String proposalCode,
+			long proposalNumber, long... sampleIds) {
+		Map<Long, ExperimentConfiguration> allExperimentConfig = new HashMap<>();
+		
+		Map<Long, SampleInformation> allSamplesInformation = getSampleInformation(proposalCode, proposalNumber, sampleIds);
+		allSamplesInformation.forEach((id, info) -> allExperimentConfig.put(id, extractExperimentInfo(info)));
+		
+		return allExperimentConfig;
+	}
+
 	private ExperimentConfiguration extractExperimentInfo(SampleInformation info) {
-		//TODO
-		return null;
+		List<DataCollectionPlan> dcPlans = info.getPlans();
+		
+		//Create localValues, pathModels and detectorModels
+		List<IQueueValue<?>> localValues = new ArrayList<>();
+		Map<String, DeviceModel> pathModels = new HashMap<>(), detectorModels = new HashMap<>();
+		/*
+		 * FIXME Really there should be one DataCollectionPlan with m detectors 
+		 * and n paths associated with it. I raised this in MXSW-1115
+		 */
+		for (DataCollectionPlan plan : dcPlans) {
+			DeviceModel path, detector;
+			
+			//Make a path model
+			String type; //Possible values for "type" and the arguments for the pathConfig are given in the classes in o.e.s.e.queues.spooler.modelassembler clases 
+			Map<String,Object> pathConfig = new HashMap<>();
+			/*
+			 * This handles only two path types: step & array
+			 */
+			if (plan.getScanParamModelStart() != null && 
+					plan.getScanParamModelStop() != null &&
+					plan.getScanParamModelStep() != null) {
+				type = "step";
+				pathConfig.put("start", plan.getScanParamModelStart());
+				pathConfig.put("stop", plan.getScanParamModelStop());
+				pathConfig.put("step", plan.getScanParamModelStep());
+			} else if (plan.getScanParamModelArray() != null) {
+				type = "array";
+				//FIXME Ideally we wouldn't be parsing a String here - don't know what to suggest; needs reporting to Kevin/Karl
+				String modelArray = plan.getScanParamModelArray();
+				Double[] posns = Arrays.stream(modelArray.split(",")).map(st -> st.replaceAll("\\s+", "")) //Split our , separated list of positions & remove whitespace
+						.map(st -> Double.parseDouble(st)).toArray(Double[]::new); //Convert strings to doubles and output as an array
+				pathConfig.put("positions", posns);
+			} else {
+				throw new IllegalArgumentException("Cannot create path from database values - not enough information given");
+			}
+			path = new DeviceModel(type, pathConfig);
+			pathModels.put(plan.getScanParamServiceName(), path); //Service name will be substituted in QueueSpoolerService
+			
+			//Make a detector model
+			Map<String, Object> detectorConfig = new HashMap<>();
+			detectorConfig.put("exposureTime", plan.getExposureTime());
+			detector = new DeviceModel(null, detectorConfig);
+			//FIXME We shouldn't be using detectorID here. It would be better to use serial number or even a raw name (supplied by beamline staff)
+			detectorModels.put(String.valueOf(plan.getDetectorId()), detector); //Serial number/name will be substituted in QueueSpoolerService
+			
+			//Populate localValues
+			localValues.add(new QueueValue<>("planName", plan.getName()));
+			localValues.add(new QueueValue<>("experimentKind", plan.getExperimentKind()));
+			localValues.add(new QueueValue<>("beamSizeX", plan.getPreferredBeamSizeX()));
+			localValues.add(new QueueValue<>("beamSizeY", plan.getPreferredBeamSizeY()));
+			localValues.add(new QueueValue<>("monoBandwidth", plan.getMonoBandwidth()));
+			localValues.add(new QueueValue<>("energy", plan.getEnergy()));
+			localValues.add(new QueueValue<>("distance", plan.getDistance()));
+			localValues.add(new QueueValue<>("roll", plan.getRoll()));
+		}
+		
+		return new ExperimentConfiguration(localValues, pathModels, detectorModels);
+	}
+	
+	@Override
+	public List<ScanMetadata> generateSampleScanMetadata(String proposalCode, long proposalNumber, long sampleId) {
+		return extractScanMetadata(getSampleInformation(proposalCode, proposalNumber, sampleId));
+	}
+
+	@Override
+	public Map<Long, List<ScanMetadata>> generateAllScanMetadata(String proposalCode, long proposalNumber,
+			long... sampleIds) {
+		Map<Long, List<ScanMetadata>> allScanMetadata = new HashMap<>();
+		
+		Map<Long, SampleInformation> allSamplesInformation = getSampleInformation(proposalCode, proposalNumber, sampleIds);
+		allSamplesInformation.forEach((id, info) -> allScanMetadata.put(id, extractScanMetadata(info)));
+		
+		return allScanMetadata;
 	}
 	
 	private List<ScanMetadata> extractScanMetadata(SampleInformation info) {
-		//TODO
+		/*
+		 * FIXME This needs to provide data for NeXus. It will need to extract 
+		 * components and lattices from SampleInformation and reformat them 
+		 * into ScanMetadata objects which can be passed into the NXsample part 
+		 * of the NeXus file. It will also need to include static information 
+		 * about the beamline (e.g. name & alt_name) for inclusion into 
+		 * NXinstrument.
+		 * 
+		 * Full details of I15-1 NeXus are available at: 
+		 * http://confluence.diamond.ac.uk/display/I151/NeXus+Specification
+		 */
 		return null;
 	}
 
