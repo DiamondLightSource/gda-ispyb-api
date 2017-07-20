@@ -18,11 +18,12 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 public class ScanParameters {
 	private String scanParamServiceName;
 	private String scanParamServiceDesc;
-	private Integer scanParamModelNumber;
+	private Integer scanParamSequenceNumber;
 	private Double scanParamModelStart;
 	private Double scanParamModelStop;
 	private Double scanParamModelStep;
 	private String scanParamModelArray;
+
 	public String getScanParamServiceName() {
 		return scanParamServiceName;
 	}
@@ -35,11 +36,11 @@ public class ScanParameters {
 	public void setScanParamServiceDesc(String scanParamServiceDesc) {
 		this.scanParamServiceDesc = scanParamServiceDesc;
 	}
-	public Integer getScanParamModelNumber() {
-		return scanParamModelNumber;
+	public Integer getScanParamSequenceNumber() {
+		return scanParamSequenceNumber;
 	}
-	public void setScanParamModelNumber(Integer scanParamModelNumber) {
-		this.scanParamModelNumber = scanParamModelNumber;
+	public void setScanParamSequenceNumber(Integer scanParamSequenceNumber) {
+		this.scanParamSequenceNumber = scanParamSequenceNumber;
 	}
 	public Double getScanParamModelStart() {
 		return scanParamModelStart;

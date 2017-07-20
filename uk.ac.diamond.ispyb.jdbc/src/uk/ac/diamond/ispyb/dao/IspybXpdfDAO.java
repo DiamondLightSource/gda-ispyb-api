@@ -11,20 +11,16 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.dao;
 
+import uk.ac.diamond.ispyb.api.*;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-import uk.ac.diamond.ispyb.api.IspybXpdfApi;
-import uk.ac.diamond.ispyb.api.Sample;
-import uk.ac.diamond.ispyb.api.SampleGroup;
-import uk.ac.diamond.ispyb.api.Component;
-import uk.ac.diamond.ispyb.api.DataCollectionPlan;
-import uk.ac.diamond.ispyb.api.ComponentLattice;
 
-public class IspybXpdfDAO implements IspybXpdfApi{
+public class IspybXpdfDAO implements IspybXpdfApi {
     private final TemplateWrapper templateWrapper;
     private final BeanTemplateWrapper beanTemplateWrapper;
 
@@ -62,6 +58,11 @@ public class IspybXpdfDAO implements IspybXpdfApi{
         Map<String, Object> map = new HashMap<>();
         map.put("sampleId", sampleId);
         return templateWrapper.callIspybForListBeans("retrieve_dc_plans_for_sample", DataCollectionPlan.class, map);
+    }
+
+    @Override
+    public DataCollectionPlanInfo retrieveDataCollectionPlanInfoForSample(Long sampleId) {
+        throw new IllegalArgumentException("not implemented");
     }
 
     public List<ComponentLattice> retrieveComponentLatticesForComponent(Long componentId){

@@ -25,13 +25,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import uk.ac.diamond.ispyb.api.Component;
-import uk.ac.diamond.ispyb.api.ComponentLattice;
-import uk.ac.diamond.ispyb.api.DataCollectionPlan;
-import uk.ac.diamond.ispyb.api.IspybXpdfApi;
-import uk.ac.diamond.ispyb.api.Sample;
-import uk.ac.diamond.ispyb.api.SampleGroup;
-import uk.ac.diamond.ispyb.api.SampleGroupType;
+import uk.ac.diamond.ispyb.api.*;
 import uk.ac.diamond.ispyb.dao.IspybXpdfDaoFactory;
 
 public class XpdfIntegrationTest {
@@ -148,6 +142,39 @@ public class XpdfIntegrationTest {
 		dataCollectionPlan2.setScanParamModelStep(1.0);
 
 		assertThat(components, is(equalTo(Arrays.asList(dataCollectionPlan1, dataCollectionPlan2))));
+	}
+
+	@Test
+	public void testRetrieveDataCollectionPlansForSampleWithScans()throws SQLException, IOException, InterruptedException {
+		DataCollectionPlanInfo result = helper.execute(api -> api.retrieveDataCollectionPlanInfoForSample(398824L));
+
+		DataCollectionPlanInfo expected = new DataCollectionPlanInfo();
+		expected.setName("XPDF-1");
+
+		DetectorConfiguration configuration = new DetectorConfiguration();
+		configuration.setExposureTime(5.4);
+		configuration.setDistance(136.86);
+		configuration.setRoll(45.0);
+
+		expected.addDetectorConfiguration(configuration);
+
+		ScanParameters scanParameters1 = new ScanParameters();
+		scanParameters1.setScanParamServiceName("Pressure");
+		scanParameters1.setScanParamSequenceNumber(1);
+		scanParameters1.setScanParamModelStart(0.0);
+		scanParameters1.setScanParamModelStop(90.0);
+		scanParameters1.setScanParamModelStep(5.0);
+
+		ScanParameters scanParameters2 = new ScanParameters();
+		scanParameters2.setScanParamServiceName("Pressure");
+		scanParameters2.setScanParamSequenceNumber(2);
+		scanParameters2.setScanParamModelStart(90.0);
+		scanParameters2.setScanParamModelStop(120.0);
+		scanParameters2.setScanParamModelStep(1.0);
+
+		expected.addScanParameter(scanParameters1, scanParameters2);
+
+		assertThat(result, is(equalTo(expected)));
 	}
 
 	@Test
