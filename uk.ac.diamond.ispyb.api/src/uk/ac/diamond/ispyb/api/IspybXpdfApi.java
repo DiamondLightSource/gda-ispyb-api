@@ -23,5 +23,6 @@ public interface IspybXpdfApi extends Closeable {
     List<SampleGroup> retrieveSamplesForSampleGroup(Long sampleGroupId);
     List<Component> retrieveComponentsForSampleType(Long sampleTypeId);
     List<DataCollectionPlan> retrieveDataCollectionPlansForSample(Long sampleId);
+    DataCollectionPlanInfo retrieveDataCollectionPlanInfoForSample(Long sampleId);
     List<ComponentLattice> retrieveComponentLatticesForComponent(Long componentId);
 }
