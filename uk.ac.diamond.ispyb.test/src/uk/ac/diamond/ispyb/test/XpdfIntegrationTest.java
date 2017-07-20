@@ -17,13 +17,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Optional;
+import java.util.List;
+import java.util.ArrayList;
 
 import uk.ac.diamond.ispyb.api.*;
 import uk.ac.diamond.ispyb.dao.IspybXpdfDaoFactory;
@@ -146,7 +148,7 @@ public class XpdfIntegrationTest {
 
 	@Test
 	public void testRetrieveDataCollectionPlansForSampleWithScans()throws SQLException, IOException, InterruptedException {
-		DataCollectionPlanInfo result = helper.execute(api -> api.retrieveDataCollectionPlanInfoForSample(398824L));
+		Optional<DataCollectionPlanInfo> result = helper.execute(api -> api.retrieveDataCollectionPlanInfoForSample(398824L));
 
 		DataCollectionPlanInfo expected = new DataCollectionPlanInfo();
 		expected.setName("XPDF-1");
@@ -174,7 +176,7 @@ public class XpdfIntegrationTest {
 
 		expected.addScanParameter(scanParameters1, scanParameters2);
 
-		assertThat(result, is(equalTo(expected)));
+		assertThat(result.get(), is(equalTo(expected)));
 	}
 
 	@Test

@@ -15,9 +15,7 @@ import uk.ac.diamond.ispyb.api.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
 
 
 public class IspybXpdfDAO implements IspybXpdfApi {
@@ -61,8 +59,15 @@ public class IspybXpdfDAO implements IspybXpdfApi {
     }
 
     @Override
-    public DataCollectionPlanInfo retrieveDataCollectionPlanInfoForSample(Long sampleId) {
-        throw new IllegalArgumentException("not implemented");
+    public Optional<DataCollectionPlanInfo> retrieveDataCollectionPlanInfoForSample(Long sampleId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("sampleId", sampleId);
+        Collection<DataCollectionPlanInfo> infos = templateWrapper.callIspybForAllRows(
+                "retrieve_dc_plans_for_sample",
+                new DataCollectionPlanInfoListExtractor(),
+                map
+        );
+        return infos.stream().findFirst();
     }
 
     public List<ComponentLattice> retrieveComponentLatticesForComponent(Long componentId){
