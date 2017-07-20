@@ -225,6 +225,7 @@ public class PlateIntegrationTest {
 		expected.setPreferredBeamSizeX(10.5f);
 		expected.setPreferredBeamSizeY(10.5f);
 		expected.setRequiredResolution(1.1);
+		expected.setNumDCs(1);
 
 		assertThat(Arrays.asList(expected), is(equalTo(subsamples)));
 	}
