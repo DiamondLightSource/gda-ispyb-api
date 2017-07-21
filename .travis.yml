@@ -9,14 +9,8 @@ cache:
 jdk:
  - oraclejdk8
  
-before_install:
- - cd ../
- - mv gda-ispyb-api uk.ac.diamond.ispyb
- - cd uk.ac.diamond.ispyb
- 
-# Run maven. This happens automatically and adding it again makes the build longer.
 script: 
- - mvn -q -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=travis -Dispyb.host=localhost clean compile surefire:test package -Dtest.includes=**/Suite.java
+ - mvn -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=travis -Dispyb.host=localhost package 
  - sonar-scanner
 
 addons:
@@ -32,9 +26,7 @@ deploy:
     secure: RvLBN1Xee/OAoG1Blz0V7O4LWEG9eaiQMPk4yGMFdygTPYT2utKKDN/1hAqfUc/Zp12+T27rmZk1V0GsxLJ7RfsUd+8DfCn+w3SDC0logI7s3a2YB9tqBvymtkK5byFXiTGqNO4Ent7LFGkyc3zzqnLVia+O+voODAIM46FOrVwgOMucsPQpYm87+SCLqzRRuVL2mekNvvDHq/uCz3WDo9SJL5S3HCQR8wsidp6RciRpFDoSCkxUQDAVYPhstZXO7cnaew56fugBPjUFTaxuzSq1vgC8sYAlSvlqRW6HvfrwwBlmgJePVZwDago5eZhR5bdG6fQ1s7PXg4qxcmSumAhlfI5CWOQhi2iqxInFAyVtCDWSPGaNkHaHu1K4N/Ft782VWb3IQp1jEgAE+tmhDOFTInRN1cExgB5m/uwbwzLpreog7iuoqXfTEDkKvCZZ47e0Wc/vWXyCx4XYYmbtpXtaHZ+vp1yl7+eCCysRgLNmqdr2HOFOjlqF+V2xOpjQCI3zSAooqZU70fM0lMHvxDgbpME3S9pvGYJrfmu6p+LDMou1fqxqmIKoiPC6WHRGta03VkAEjLIv1remhGARXK+d9CdNrLHXLWom9qq7ENMVm21Z7Zx4lJ4KdBOnlrhV+GxCCDC6F3/5GNurl7DBxw2K4wp7Q12z2orzLrDAGgc=
   file_glob: true
   file:
-    - "uk.ac.diamond.ispyb.api/target/uk.ac.diamond.ispyb.api-*.jar"
-    - "uk.ac.diamond.ispyb.feature/target/uk.ac.diamond.ispyb.feature-*.jar"
-    - "uk.ac.diamond.ispyb.jdbc/target/uk.ac.diamond.ispyb.jdbc-*.jar"
+    - "target/ispyb-api-*.jar"
   skip_cleanup: true
   on:
     tags: true
