@@ -39,7 +39,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Eclipse-SourceBundle>${project.groupId};version="${project.version}"</Eclipse-SourceBundle>
+                            <Eclipse-SourceBundle>uk.ac.diamond.ispyb.api;version="${project.version}"</Eclipse-SourceBundle>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -55,7 +55,7 @@
                         <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
                         <Export-Package>uk.ac.diamond.ispyb.api</Export-Package>
                         <Require-Bundle>
-                             org.apache.commons.lang3;bundle-version="3.1.0"
+                             org.apache.commons.lang3;bundle-version="3.1.0",
                              org.mariadb.jdbc;bundle-version="1.4.6",
                              org.apache.commons.beanutils;bundle-version="1.8.0"
                         </Require-Bundle>
