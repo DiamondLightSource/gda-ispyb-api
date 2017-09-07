@@ -2,7 +2,7 @@
 --
 -- Host: cs04r-sc-vserv-88    Database: ispybstage
 -- ------------------------------------------------------
--- Server version	10.1.25-MariaDB-enterprise
+-- Server version	10.1.26-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -303,8 +303,8 @@ CREATE TABLE `AutoProcIntegration` (
   PRIMARY KEY (`autoProcIntegrationId`),
   KEY `AutoProcIntegrationIdx1` (`dataCollectionId`),
   KEY `AutoProcIntegration_FKIndex1` (`autoProcProgramId`),
-  CONSTRAINT `AutoProcIntegration_ibfk_2` FOREIGN KEY (`autoProcProgramId`) REFERENCES `AutoProcProgram` (`autoProcProgramId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_AutoProcIntegration_ibfk_1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `AutoProcIntegration_ibfk_1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `AutoProcIntegration_ibfk_2` FOREIGN KEY (`autoProcProgramId`) REFERENCES `AutoProcProgram` (`autoProcProgramId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=600377 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -335,10 +335,10 @@ CREATE TABLE `AutoProcProgram` (
   `processingEndTime` datetime DEFAULT NULL COMMENT 'Processing end time',
   `processingEnvironment` varchar(255) DEFAULT NULL COMMENT 'Cpus, Nodes,...',
   `recordTimeStamp` datetime DEFAULT NULL COMMENT 'Creation or last update date/time',
-  `dataCollectionId` int(11) unsigned DEFAULT NULL,
+  `reprocessingId` int(11) unsigned DEFAULT NULL COMMENT 'Which reprocessing triggered this auto processing',
   PRIMARY KEY (`autoProcProgramId`),
-  KEY `AutoProcProgram_FK1` (`dataCollectionId`),
-  CONSTRAINT `_AutoProcProgram_FK1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
+  KEY `AutoProcProgram_FK2` (`reprocessingId`),
+  CONSTRAINT `AutoProcProgram_FK2` FOREIGN KEY (`reprocessingId`) REFERENCES `Reprocessing` (`reprocessingId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=56986674 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -760,6 +760,12 @@ CREATE TABLE `BLSample` (
   `dimension3` double DEFAULT NULL,
   `shape` varchar(15) DEFAULT NULL,
   `packingFraction` float DEFAULT NULL,
+  `preparationTemeprature` mediumint(9) DEFAULT NULL COMMENT 'Sample preparation temperature, Units: kelvin',
+  `preparationHumidity` float DEFAULT NULL COMMENT 'Sample preparation humidity, Units: %',
+  `blottingTime` int(11) unsigned DEFAULT NULL COMMENT 'Blotting time, Units: sec',
+  `blottingForce` float DEFAULT NULL COMMENT 'Force used when blotting sample, Units: N?',
+  `blottingDrainTime` int(11) unsigned DEFAULT NULL COMMENT 'Time sample left to drain after blotting, Units: sec',
+  `support` varchar(50) DEFAULT NULL COMMENT 'Sample support material',
   PRIMARY KEY (`blSampleId`),
   KEY `BLSample_FKIndex1` (`containerId`),
   KEY `BLSample_FKIndex2` (`crystalId`),
@@ -783,7 +789,7 @@ CREATE TABLE `BLSample` (
 
 LOCK TABLES `BLSample` WRITE;
 /*!40000 ALTER TABLE `BLSample` DISABLE KEYS */;
-INSERT INTO `BLSample` VALUES (11550,NULL,3918,1326,'Sample-001','SAM-011550','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:16:11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11553,NULL,3921,1326,'Sample-002','SAM-011553','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:21:43',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11556,NULL,3924,1326,'Sample-003','SAM-011556','3',NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11559,NULL,3927,1329,'Sample-004','SAM-011559','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11562,NULL,3930,1329,'Sample-005','SAM-011562','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11565,NULL,3933,1329,'Sample-006','SAM-011565','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11568,NULL,3936,1332,'Sample-007','SAM-011568','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11571,NULL,3939,1332,'Sample-008','SAM-011571','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11574,NULL,3942,1332,'Sample-009','SAM-011574','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11577,NULL,3942,1335,'Sample-010','SAM-011577','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11580,NULL,3942,1335,'Sample-011','SAM-011580','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11583,NULL,3951,1335,'Sample-012','SAM-011583','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11586,NULL,3954,NULL,'Sample-013','SAM-011586',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11589,NULL,3957,NULL,'Sample-014','SAM-011589',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11592,NULL,3960,NULL,'Sample-015','SAM-011592',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(374695,NULL,310037,33049,'tlys_jan_4','HA00AU3712','4',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:04',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398810,197784,333301,34864,'thau8','HA00AK8934','8',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:05',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398816,197784,310037,34874,'thau88','HH00AU3788','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-09-30 14:21:28',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398819,197784,310037,34877,'thau99','HH00AU3799','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-05 10:15:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398824,NULL,333308,34883,'XPDF-1','XPDF-0001',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:47:58',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398827,NULL,333308,34883,'XPDF-2','XPDF-0002',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:51:23',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `BLSample` VALUES (11550,NULL,3918,1326,'Sample-001','SAM-011550','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:16:11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11553,NULL,3921,1326,'Sample-002','SAM-011553','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:21:43',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11556,NULL,3924,1326,'Sample-003','SAM-011556','3',NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11559,NULL,3927,1329,'Sample-004','SAM-011559','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11562,NULL,3930,1329,'Sample-005','SAM-011562','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11565,NULL,3933,1329,'Sample-006','SAM-011565','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11568,NULL,3936,1332,'Sample-007','SAM-011568','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11571,NULL,3939,1332,'Sample-008','SAM-011571','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11574,NULL,3942,1332,'Sample-009','SAM-011574','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11577,NULL,3942,1335,'Sample-010','SAM-011577','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11580,NULL,3942,1335,'Sample-011','SAM-011580','2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11583,NULL,3951,1335,'Sample-012','SAM-011583','3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11586,NULL,3954,NULL,'Sample-013','SAM-011586',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11589,NULL,3957,NULL,'Sample-014','SAM-011589',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11592,NULL,3960,NULL,'Sample-015','SAM-011592',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-17 16:27:25',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(374695,NULL,310037,33049,'tlys_jan_4','HA00AU3712','4',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:04',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398810,197784,333301,34864,'thau8','HA00AK8934','8',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:57:05',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398816,197784,310037,34874,'thau88','HH00AU3788','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-09-30 14:21:28',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398819,197784,310037,34877,'thau99','HH00AU3799','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-05 10:15:47',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398824,NULL,333308,34883,'XPDF-1','XPDF-0001',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:47:58',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(398827,NULL,333308,34883,'XPDF-2','XPDF-0002',NULL,NULL,NULL,NULL,NULL,'Test sample for XPDF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2016-10-26 14:51:23',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `BLSample` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1005,6 +1011,7 @@ DROP TABLE IF EXISTS `BLSample_has_DataCollectionPlan`;
 CREATE TABLE `BLSample_has_DataCollectionPlan` (
   `blSampleId` int(11) unsigned NOT NULL,
   `dataCollectionPlanId` int(11) unsigned NOT NULL,
+  `order` tinyint(3) unsigned DEFAULT NULL,
   PRIMARY KEY (`blSampleId`,`dataCollectionPlanId`),
   KEY `BLSample_has_DataCollectionPlan_ibfk2` (`dataCollectionPlanId`),
   CONSTRAINT `BLSample_has_DataCollectionPlan_ibfk1` FOREIGN KEY (`blSampleId`) REFERENCES `BLSample` (`blSampleId`),
@@ -1018,7 +1025,7 @@ CREATE TABLE `BLSample_has_DataCollectionPlan` (
 
 LOCK TABLES `BLSample_has_DataCollectionPlan` WRITE;
 /*!40000 ALTER TABLE `BLSample_has_DataCollectionPlan` DISABLE KEYS */;
-INSERT INTO `BLSample_has_DataCollectionPlan` VALUES (398824,197792),(398827,197792);
+INSERT INTO `BLSample_has_DataCollectionPlan` VALUES (398824,197792,NULL),(398827,197792,NULL);
 /*!40000 ALTER TABLE `BLSample_has_DataCollectionPlan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1287,6 +1294,8 @@ CREATE TABLE `BeamLineSetup` (
   `goniostatMinOscillationWidth` double DEFAULT NULL,
   `minTransmission` double DEFAULT NULL,
   `recordTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation or last update date/time',
+  `CS` float DEFAULT NULL COMMENT 'Spherical Aberration, Units: mm?',
+  `beamlineName` varchar(50) DEFAULT NULL COMMENT 'Beamline that this setup relates to',
   PRIMARY KEY (`beamLineSetupId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1297,7 +1306,7 @@ CREATE TABLE `BeamLineSetup` (
 
 LOCK TABLES `BeamLineSetup` WRITE;
 /*!40000 ALTER TABLE `BeamLineSetup` DISABLE KEYS */;
-INSERT INTO `BeamLineSetup` VALUES (1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2007-04-26 00:00:00','Diamond Light Source',NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:56:25');
+INSERT INTO `BeamLineSetup` VALUES (1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2007-04-26 00:00:00','Diamond Light Source',NULL,NULL,NULL,NULL,NULL,'2016-03-19 22:56:25',NULL,NULL);
 /*!40000 ALTER TABLE `BeamLineSetup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1427,6 +1436,49 @@ CREATE TABLE `BufferHasAdditive` (
 LOCK TABLES `BufferHasAdditive` WRITE;
 /*!40000 ALTER TABLE `BufferHasAdditive` DISABLE KEYS */;
 /*!40000 ALTER TABLE `BufferHasAdditive` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CTF`
+--
+
+DROP TABLE IF EXISTS `CTF`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CTF` (
+  `ctfId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `motionCorrectionId` int(11) unsigned DEFAULT NULL,
+  `autoProcProgramId` int(11) unsigned DEFAULT NULL,
+  `boxSizeX` float DEFAULT NULL COMMENT 'Box size in x, Units: pixels',
+  `boxSizeY` float DEFAULT NULL COMMENT 'Box size in y, Units: pixels',
+  `minResolution` float DEFAULT NULL COMMENT 'Minimum resolution for CTF, Units: A',
+  `maxResolution` float DEFAULT NULL COMMENT 'Units: A',
+  `minDefocus` float DEFAULT NULL COMMENT 'Units: A',
+  `maxDefocus` float DEFAULT NULL COMMENT 'Units: A',
+  `defocusStepSize` float DEFAULT NULL COMMENT 'Units: A',
+  `astigmatism` float DEFAULT NULL COMMENT 'Units: A',
+  `astigmatismAngle` float DEFAULT NULL COMMENT 'Units: deg?',
+  `estimatedResolution` float DEFAULT NULL COMMENT 'Units: A',
+  `estimatedDefocus` float DEFAULT NULL COMMENT 'Units: A',
+  `amplitudeContrast` float DEFAULT NULL COMMENT 'Units: %?',
+  `ccValue` float DEFAULT NULL COMMENT 'Correlation value',
+  `fftTheoreticalFullPath` varchar(255) DEFAULT NULL COMMENT 'Full path to the jpg image of the simulated FFT',
+  `comments` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ctfId`),
+  KEY `CTF_ibfk1` (`motionCorrectionId`),
+  KEY `CTF_ibfk2` (`autoProcProgramId`),
+  CONSTRAINT `CTF_ibfk1` FOREIGN KEY (`motionCorrectionId`) REFERENCES `MotionCorrection` (`motionCorrectionId`),
+  CONSTRAINT `CTF_ibfk2` FOREIGN KEY (`autoProcProgramId`) REFERENCES `AutoProcProgram` (`autoProcProgramId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CTF`
+--
+
+LOCK TABLES `CTF` WRITE;
+/*!40000 ALTER TABLE `CTF` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CTF` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1621,15 +1673,15 @@ CREATE TABLE `Container` (
   KEY `Container_ibfk2` (`screenId`),
   KEY `Container_ibfk3` (`scheduleId`),
   KEY `Container_ibfk4` (`imagerId`),
-  KEY `Container_ibfk6` (`sessionId`),
   KEY `Container_ibfk5` (`ownerId`),
   KEY `Container_ibfk7` (`requestedImagerId`),
   KEY `Container_ibfk8` (`containerRegistryId`),
+  KEY `Container_ibfk6` (`sessionId`),
   CONSTRAINT `Container_ibfk2` FOREIGN KEY (`screenId`) REFERENCES `Screen` (`screenId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Container_ibfk3` FOREIGN KEY (`scheduleId`) REFERENCES `Schedule` (`scheduleId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Container_ibfk4` FOREIGN KEY (`imagerId`) REFERENCES `Imager` (`imagerId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `Container_ibfk5` FOREIGN KEY (`ownerId`) REFERENCES `Person` (`personId`),
-  CONSTRAINT `Container_ibfk6` FOREIGN KEY (`sessionId`) REFERENCES `BLSession` (`sessionId`),
+  CONSTRAINT `Container_ibfk6` FOREIGN KEY (`sessionId`) REFERENCES `BLSession` (`sessionId`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `Container_ibfk7` FOREIGN KEY (`requestedImagerId`) REFERENCES `Imager` (`imagerId`),
   CONSTRAINT `Container_ibfk8` FOREIGN KEY (`containerRegistryId`) REFERENCES `ContainerRegistry` (`containerRegistryId`),
   CONSTRAINT `Container_ibfk_1` FOREIGN KEY (`dewarId`) REFERENCES `Dewar` (`dewarId`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2084,7 +2136,7 @@ CREATE TABLE `DataCollection` (
   `bestWilsonPlotPath` varchar(255) DEFAULT NULL,
   `processedDataFile` varchar(255) DEFAULT NULL,
   `datFullPath` varchar(255) DEFAULT NULL,
-  `magnification` int(11) DEFAULT NULL COMMENT 'Unit: X',
+  `magnification` float unsigned DEFAULT NULL COMMENT 'Calibrated magnification, Units: dimensionless',
   `totalAbsorbedDose` float DEFAULT NULL COMMENT 'Unit: e-/A^2 for EM',
   `binning` tinyint(1) DEFAULT '1' COMMENT '1 or 2. Number of pixels to process as 1. (Use mean value.)',
   `particleDiameter` float DEFAULT NULL COMMENT 'Unit: nm',
@@ -2104,6 +2156,13 @@ CREATE TABLE `DataCollection` (
   `c1lens` float DEFAULT NULL COMMENT 'Unit: %',
   `c2lens` float DEFAULT NULL COMMENT 'Unit: %',
   `c3lens` float DEFAULT NULL COMMENT 'Unit: %',
+  `totalExposedDose` float DEFAULT NULL COMMENT 'Units: e-/A^2',
+  `nominalMagnification` float unsigned DEFAULT NULL COMMENT 'Nominal magnification: Units: dimensionless',
+  `nominalDefocus` float unsigned DEFAULT NULL COMMENT 'Nominal defocus, Units: A',
+  `imageSizeX` mediumint(8) unsigned DEFAULT NULL COMMENT 'Image size in x, incase crop has been used, Units: pixels',
+  `imageSizeY` mediumint(8) unsigned DEFAULT NULL COMMENT 'Image size in y, Units: pixels',
+  `pixelSizeOnImage` float DEFAULT NULL COMMENT 'Pixel size on image, calculated from magnification, duplicate? Units: um?',
+  `phasePlate` tinyint(1) DEFAULT NULL COMMENT 'Whether the phase plate was used',
   PRIMARY KEY (`dataCollectionId`),
   KEY `blSubSampleId` (`blSubSampleId`),
   KEY `DataCollection_FKIndex1` (`dataCollectionGroupId`),
@@ -2117,12 +2176,12 @@ CREATE TABLE `DataCollection` (
   KEY `startPositionId` (`startPositionId`),
   KEY `DataCollection_FKIndex0` (`BLSAMPLEID`),
   KEY `DataCollection_FKIndex00` (`SESSIONID`),
+  CONSTRAINT `DataCollection_ibfk_1` FOREIGN KEY (`strategySubWedgeOrigId`) REFERENCES `ScreeningStrategySubWedge` (`screeningStrategySubWedgeId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `DataCollection_ibfk_2` FOREIGN KEY (`detectorId`) REFERENCES `Detector` (`detectorId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `DataCollection_ibfk_3` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_DataCollection_ibfk_1` FOREIGN KEY (`strategySubWedgeOrigId`) REFERENCES `ScreeningStrategySubWedge` (`screeningStrategySubWedgeId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_DataCollection_ibfk_2` FOREIGN KEY (`detectorId`) REFERENCES `Detector` (`detectorId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_DataCollection_ibfk_6` FOREIGN KEY (`startPositionId`) REFERENCES `MotorPosition` (`motorPositionId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_DataCollection_ibfk_7` FOREIGN KEY (`endPositionId`) REFERENCES `MotorPosition` (`motorPositionId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_DataCollection_ibfk_8` FOREIGN KEY (`blSubSampleId`) REFERENCES `BLSubSample` (`blSubSampleId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `DataCollection_ibfk_6` FOREIGN KEY (`startPositionId`) REFERENCES `MotorPosition` (`motorPositionId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `DataCollection_ibfk_7` FOREIGN KEY (`endPositionId`) REFERENCES `MotorPosition` (`motorPositionId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `DataCollection_ibfk_8` FOREIGN KEY (`blSubSampleId`) REFERENCES `BLSubSample` (`blSubSampleId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1066787 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2132,7 +2191,7 @@ CREATE TABLE `DataCollection` (
 
 LOCK TABLES `DataCollection` WRITE;
 /*!40000 ALTER TABLE `DataCollection` DISABLE KEYS */;
-INSERT INTO `DataCollection` VALUES (993677,374695,55167,NULL,1,'2016-01-14 12:40:34','2016-01-14 12:41:54','DataCollection Successful',45,0.1,0.1,0,3600,1,1,0.02,'/dls/i03/data/2016/cm14451-1/20160114/tlys_jan_4/','tlys_jan_4','cbf','tlys_jan_4_1_####.cbf',1.28255,1.6,193.087,215.62,208.978,'(-402,345,142) EDNAStrategy4: subWedge:1Aperture: Medium',1,NULL,0.059918,0.099937,40.1936,'User','/dls/i03/data/2016/cm14451-1/jpegs/20160114/tlys_jan_4/tlys_jan_4_1_1_315.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160114/tlys_jan_4/tlys_jan_4_1_1_225.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160114/tlys_jan_4/tlys_jan_4_1_1_135.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160114/tlys_jan_4/tlys_jan_4_1_1_45.0.png','Omega',NULL,NULL,45,NULL,NULL,NULL,NULL,5.685,NULL,NULL,0.05,0.02,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,988855,595236,NULL,80,NULL,20,6,NULL,NULL,NULL,833107367454.3083,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1002287,NULL,55167,NULL,2,'2016-01-22 11:25:18','2016-01-22 11:28:23','DataCollection Successful',0,0.1,0.1,0,7200,1,1,0.025,'/dls/i03/data/2016/cm14451-1/20160122/gw/ins2/001/','ins2','cbf','ins2_2_####.cbf',1.2,1.41777,175,215.618,209.102,'(-307,322,-184) Aperture: Large',1,NULL,0.059918,0.099937,0.999423,'User','/dls/i03/data/2016/cm14451-1/jpegs/20160122/gw/ins2/001/ins2_2_1_270.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160122/gw/ins2/001/ins2_2_1_180.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160122/gw/ins2/001/ins2_2_1_90.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160122/gw/ins2/001/ins2_2_1_0.0.png','Omega',NULL,NULL,0,NULL,NULL,NULL,NULL,6.1213,NULL,NULL,0.08,0.02,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,996311,602072,NULL,80,NULL,20,3752,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1052494,NULL,55168,NULL,1,'2016-04-13 12:18:12','2016-04-13 12:18:50','DataCollection Successful',0,0.4,0.4,-89.6,2,1,1,0.01,'/dls/i03/data/2016/cm14451-2/20160413/test_xtal/','xtal1','cbf','xtal1_1_####.cbf',0.976254,1.24362,200,214.33,208.71,'(-703,-47,-74) Aperture: Large',1,NULL,0.059918,0.099937,100,'User','/dls/i03/data/2016/cm14451-2/jpegs/20160413/test_xtal/xtal1_1_1_90.0.png','/dls/i03/data/2016/cm14451-2/jpegs/20160413/test_xtal/xtal1_1_1_0.0.png',NULL,NULL,'Omega',NULL,NULL,0,NULL,NULL,NULL,NULL,5.30095,NULL,NULL,0.08,0.02,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1040398,647536,NULL,80,NULL,20,3752,NULL,NULL,NULL,1959830505829.428,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1052503,NULL,55168,NULL,3,'2016-04-13 12:21:26','2016-04-13 12:21:54','DataCollection Successful',93,0.3,0.3,-44.7,3,1,1,0.01,'/dls/i03/data/2016/cm14451-2/20160413/test_xtal/','xtal1','cbf','xtal1_3_####.cbf',0.976253,1.5,266.693,214.372,208.299,'(-703,-47,-74) Aperture: Large',1,NULL,0.059918,0.099937,100,'User','/dls/i03/data/2016/cm14451-2/jpegs/20160413/test_xtal/xtal1_3_1_183.0.png','/dls/i03/data/2016/cm14451-2/jpegs/20160413/test_xtal/xtal1_3_1_93.0.png',NULL,NULL,'Omega',NULL,NULL,93,NULL,NULL,NULL,NULL,5.30095,NULL,NULL,0.08,0.02,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1040407,647545,NULL,80,NULL,20,3752,NULL,NULL,NULL,1972385107622.2878,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1066786,398810,55168,NULL,2,'2016-04-18 11:04:44','2016-04-18 11:04:57','DataCollection Successful',0,0.5,0.5,-44.5,3,1,1,0.1,'/dls/i03/data/2016/cm14451-2/gw/20160418/thau/edna_test/','thau','cbf','thau_2_####.cbf',0.976253,1.5,266.693,214.372,208.299,'(-345,-241,-185) Aperture: Large',1,NULL,0.059918,0.099937,5.00016,'User','/dls/i03/data/2016/cm14451-2/jpegs/gw/20160418/thau/edna_test/thau_2_1_90.0.png','/dls/i03/data/2016/cm14451-2/jpegs/gw/20160418/thau/edna_test/thau_2_1_0.0.png',NULL,NULL,'Omega',NULL,NULL,0,NULL,NULL,NULL,NULL,5.301,NULL,NULL,0.08,0.02,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1054243,661459,NULL,80,NULL,20,3752,NULL,NULL,NULL,57087013071.909134,NULL,2,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `DataCollection` VALUES (993677,374695,55167,NULL,1,'2016-01-14 12:40:34','2016-01-14 12:41:54','DataCollection Successful',45,0.1,0.1,0,3600,1,1,0.02,'/dls/i03/data/2016/cm14451-1/20160114/tlys_jan_4/','tlys_jan_4','cbf','tlys_jan_4_1_####.cbf',1.28255,1.6,193.087,215.62,208.978,'(-402,345,142) EDNAStrategy4: subWedge:1Aperture: Medium',1,NULL,0.059918,0.099937,40.1936,'User','/dls/i03/data/2016/cm14451-1/jpegs/20160114/tlys_jan_4/tlys_jan_4_1_1_315.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160114/tlys_jan_4/tlys_jan_4_1_1_225.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160114/tlys_jan_4/tlys_jan_4_1_1_135.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160114/tlys_jan_4/tlys_jan_4_1_1_45.0.png','Omega',NULL,NULL,45,NULL,NULL,NULL,NULL,5.685,NULL,NULL,0.05,0.02,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,988855,595236,NULL,80,NULL,20,6,NULL,NULL,NULL,833107367454.3083,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1002287,NULL,55167,NULL,2,'2016-01-22 11:25:18','2016-01-22 11:28:23','DataCollection Successful',0,0.1,0.1,0,7200,1,1,0.025,'/dls/i03/data/2016/cm14451-1/20160122/gw/ins2/001/','ins2','cbf','ins2_2_####.cbf',1.2,1.41777,175,215.618,209.102,'(-307,322,-184) Aperture: Large',1,NULL,0.059918,0.099937,0.999423,'User','/dls/i03/data/2016/cm14451-1/jpegs/20160122/gw/ins2/001/ins2_2_1_270.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160122/gw/ins2/001/ins2_2_1_180.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160122/gw/ins2/001/ins2_2_1_90.0.png','/dls/i03/data/2016/cm14451-1/jpegs/20160122/gw/ins2/001/ins2_2_1_0.0.png','Omega',NULL,NULL,0,NULL,NULL,NULL,NULL,6.1213,NULL,NULL,0.08,0.02,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,996311,602072,NULL,80,NULL,20,3752,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1052494,NULL,55168,NULL,1,'2016-04-13 12:18:12','2016-04-13 12:18:50','DataCollection Successful',0,0.4,0.4,-89.6,2,1,1,0.01,'/dls/i03/data/2016/cm14451-2/20160413/test_xtal/','xtal1','cbf','xtal1_1_####.cbf',0.976254,1.24362,200,214.33,208.71,'(-703,-47,-74) Aperture: Large',1,NULL,0.059918,0.099937,100,'User','/dls/i03/data/2016/cm14451-2/jpegs/20160413/test_xtal/xtal1_1_1_90.0.png','/dls/i03/data/2016/cm14451-2/jpegs/20160413/test_xtal/xtal1_1_1_0.0.png',NULL,NULL,'Omega',NULL,NULL,0,NULL,NULL,NULL,NULL,5.30095,NULL,NULL,0.08,0.02,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1040398,647536,NULL,80,NULL,20,3752,NULL,NULL,NULL,1959830505829.428,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1052503,NULL,55168,NULL,3,'2016-04-13 12:21:26','2016-04-13 12:21:54','DataCollection Successful',93,0.3,0.3,-44.7,3,1,1,0.01,'/dls/i03/data/2016/cm14451-2/20160413/test_xtal/','xtal1','cbf','xtal1_3_####.cbf',0.976253,1.5,266.693,214.372,208.299,'(-703,-47,-74) Aperture: Large',1,NULL,0.059918,0.099937,100,'User','/dls/i03/data/2016/cm14451-2/jpegs/20160413/test_xtal/xtal1_3_1_183.0.png','/dls/i03/data/2016/cm14451-2/jpegs/20160413/test_xtal/xtal1_3_1_93.0.png',NULL,NULL,'Omega',NULL,NULL,93,NULL,NULL,NULL,NULL,5.30095,NULL,NULL,0.08,0.02,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1040407,647545,NULL,80,NULL,20,3752,NULL,NULL,NULL,1972385107622.2878,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(1066786,398810,55168,NULL,2,'2016-04-18 11:04:44','2016-04-18 11:04:57','DataCollection Successful',0,0.5,0.5,-44.5,3,1,1,0.1,'/dls/i03/data/2016/cm14451-2/gw/20160418/thau/edna_test/','thau','cbf','thau_2_####.cbf',0.976253,1.5,266.693,214.372,208.299,'(-345,-241,-185) Aperture: Large',1,NULL,0.059918,0.099937,5.00016,'User','/dls/i03/data/2016/cm14451-2/jpegs/gw/20160418/thau/edna_test/thau_2_1_90.0.png','/dls/i03/data/2016/cm14451-2/jpegs/gw/20160418/thau/edna_test/thau_2_1_0.0.png',NULL,NULL,'Omega',NULL,NULL,0,NULL,NULL,NULL,NULL,5.301,NULL,NULL,0.08,0.02,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1054243,661459,NULL,80,NULL,20,3752,NULL,NULL,NULL,57087013071.909134,NULL,2,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `DataCollection` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2153,7 +2212,7 @@ CREATE TABLE `DataCollectionComment` (
   PRIMARY KEY (`dataCollectionCommentId`),
   KEY `dataCollectionComment_fk1` (`dataCollectionId`),
   KEY `dataCollectionComment_fk2` (`personId`),
-  CONSTRAINT `_dataCollectionComment_fk1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `dataCollectionComment_fk1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `dataCollectionComment_fk2` FOREIGN KEY (`personId`) REFERENCES `Person` (`personId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2181,8 +2240,8 @@ CREATE TABLE `DataCollectionFileAttachment` (
   `fileType` enum('snapshot','log','xy','recip') DEFAULT NULL COMMENT 'snapshot: image file, usually of the sample. \nlog: a text file with logging info. \nxy: x and y data in text format. \nrecip: a compressed csv file with reciprocal space coordinates.',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`dataCollectionFileAttachmentId`),
-  KEY `dataCollectionFileAttachmentId_fk1` (`dataCollectionId`),
-  CONSTRAINT `dataCollectionFileAttachmentId_fk1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `_dataCollectionFileAttachmentId_fk1` (`dataCollectionId`),
+  CONSTRAINT `_dataCollectionFileAttachmentId_fk1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2207,7 +2266,7 @@ CREATE TABLE `DataCollectionGroup` (
   `sessionId` int(10) unsigned NOT NULL COMMENT 'references Session table',
   `comments` varchar(1024) DEFAULT NULL COMMENT 'comments',
   `blSampleId` int(10) unsigned DEFAULT NULL COMMENT 'references BLSample table',
-  `experimentType` enum('SAD','SAD - Inverse Beam','OSC','Collect - Multiwedge','MAD','Helical','Multi-positional','Mesh','Burn','MAD - Inverse Beam','Characterization','Dehydration','tomo','experiment','EM','PDF','PDF+Bragg','Bragg') DEFAULT NULL,
+  `experimentType` enum('SAD','SAD - Inverse Beam','OSC','Collect - Multiwedge','MAD','Helical','Multi-positional','Mesh','Burn','MAD - Inverse Beam','Characterization','Dehydration','tomo','experiment','EM','PDF','PDF+Bragg','Bragg','single particle') DEFAULT NULL,
   `startTime` datetime DEFAULT NULL COMMENT 'Start time of the dataCollectionGroup',
   `endTime` datetime DEFAULT NULL COMMENT 'end time of the dataCollectionGroup',
   `crystalClass` varchar(20) DEFAULT NULL COMMENT 'Crystal Class for industrials users',
@@ -2222,9 +2281,9 @@ CREATE TABLE `DataCollectionGroup` (
   KEY `DataCollectionGroup_FKIndex1` (`blSampleId`),
   KEY `DataCollectionGroup_FKIndex2` (`sessionId`),
   KEY `workflowId` (`workflowId`),
-  CONSTRAINT `_DataCollectionGroup_ibfk_1` FOREIGN KEY (`blSampleId`) REFERENCES `BLSample` (`blSampleId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_DataCollectionGroup_ibfk_2` FOREIGN KEY (`sessionId`) REFERENCES `BLSession` (`sessionId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_DataCollectionGroup_ibfk_3` FOREIGN KEY (`workflowId`) REFERENCES `Workflow` (`workflowId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `DataCollectionGroup_ibfk_1` FOREIGN KEY (`blSampleId`) REFERENCES `BLSample` (`blSampleId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `DataCollectionGroup_ibfk_2` FOREIGN KEY (`sessionId`) REFERENCES `BLSession` (`sessionId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `DataCollectionGroup_ibfk_3` FOREIGN KEY (`workflowId`) REFERENCES `Workflow` (`workflowId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1054244 DEFAULT CHARSET=latin1 COMMENT='a dataCollectionGroup is a group of dataCollection for a spe';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2322,10 +2381,10 @@ CREATE TABLE `Detector` (
   `XGeoCorr` varchar(255) DEFAULT NULL,
   `YGeoCorr` varchar(255) DEFAULT NULL,
   `detectorMode` varchar(255) DEFAULT NULL,
-  `CS` float DEFAULT NULL COMMENT 'Unit: mm',
-  `detectorPixelSize` float DEFAULT NULL COMMENT 'Unit: um',
   `density` float DEFAULT NULL,
   `composition` varchar(16) DEFAULT NULL,
+  `numberOfPixelsX` mediumint(9) DEFAULT NULL COMMENT 'Detector number of pixels in x',
+  `numberOfPixelsY` mediumint(9) DEFAULT NULL COMMENT 'Detector number of pixels in y',
   PRIMARY KEY (`detectorId`),
   UNIQUE KEY `Detector_ibuk1` (`detectorSerialNumber`),
   KEY `Detector_FKIndex1` (`detectorType`,`detectorManufacturer`,`detectorModel`,`detectorPixelSizeHorizontal`,`detectorPixelSizeVertical`)
@@ -2338,7 +2397,7 @@ CREATE TABLE `Detector` (
 
 LOCK TABLES `Detector` WRITE;
 /*!40000 ALTER TABLE `Detector` DISABLE KEYS */;
-INSERT INTO `Detector` VALUES (4,'Photon counting','In-house','Excalibur',NULL,NULL,NULL,NULL,'1109-434',100,300,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,55,'CrO3Br5Sr10'),(8,'Diamond XPDF detector',NULL,NULL,NULL,NULL,NULL,NULL,'1109-761',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,10.4,'C+Br+He');
+INSERT INTO `Detector` VALUES (4,'Photon counting','In-house','Excalibur',NULL,NULL,NULL,NULL,'1109-434',100,300,NULL,NULL,NULL,NULL,NULL,NULL,NULL,55,'CrO3Br5Sr10',NULL,NULL),(8,'Diamond XPDF detector',NULL,NULL,NULL,NULL,NULL,NULL,'1109-761',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,10.4,'C+Br+He',NULL,NULL);
 /*!40000 ALTER TABLE `Detector` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2885,6 +2944,35 @@ LOCK TABLES `GeometryClassname` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `GridImageMap`
+--
+
+DROP TABLE IF EXISTS `GridImageMap`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `GridImageMap` (
+  `gridImageMapId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `dataCollectionId` int(11) unsigned DEFAULT NULL,
+  `imageNumber` int(11) unsigned DEFAULT NULL COMMENT 'Movie number, sequential 1-n in time order',
+  `outputFileId` varchar(80) DEFAULT NULL COMMENT 'File number, file 1 may not be movie 1',
+  `positionX` float DEFAULT NULL COMMENT 'X position of stage, Units: um',
+  `positionY` float DEFAULT NULL COMMENT 'Y position of stage, Units: um',
+  PRIMARY KEY (`gridImageMapId`),
+  KEY `_GridImageMap_ibfk1` (`dataCollectionId`),
+  CONSTRAINT `_GridImageMap_ibfk1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `GridImageMap`
+--
+
+LOCK TABLES `GridImageMap` WRITE;
+/*!40000 ALTER TABLE `GridImageMap` DISABLE KEYS */;
+/*!40000 ALTER TABLE `GridImageMap` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `GridInfo`
 --
 
@@ -2911,9 +2999,9 @@ CREATE TABLE `GridInfo` (
   `snaked` tinyint(1) DEFAULT '0' COMMENT 'True: The images associated with the DCG were collected in a snaked pattern',
   PRIMARY KEY (`gridInfoId`),
   KEY `workflowMeshId` (`workflowMeshId`),
-  KEY `_GridInfo_ibfk_2` (`dataCollectionGroupId`),
+  KEY `GridInfo_ibfk_2` (`dataCollectionGroupId`),
   CONSTRAINT `GridInfo_ibfk_1` FOREIGN KEY (`workflowMeshId`) REFERENCES `WorkflowMesh` (`workflowMeshId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_GridInfo_ibfk_2` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`)
+  CONSTRAINT `GridInfo_ibfk_2` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2955,8 +3043,8 @@ CREATE TABLE `Image` (
   KEY `Image_FKIndex2` (`imageNumber`),
   KEY `Image_Index3` (`fileLocation`,`fileName`),
   KEY `motorPositionId` (`motorPositionId`),
-  CONSTRAINT `Image_ibfk_2` FOREIGN KEY (`motorPositionId`) REFERENCES `MotorPosition` (`motorPositionId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_Image_ibfk_1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `Image_ibfk_1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Image_ibfk_2` FOREIGN KEY (`motorPositionId`) REFERENCES `MotorPosition` (`motorPositionId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=284718119 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2996,12 +3084,13 @@ CREATE TABLE `ImageQualityIndicators` (
   `dozor_score` double DEFAULT NULL COMMENT 'dozor_score',
   `dataCollectionId` int(11) unsigned DEFAULT NULL,
   `imageNumber` mediumint(8) unsigned DEFAULT NULL,
+  `driftFactor` float DEFAULT NULL COMMENT 'EM movie drift factor',
   PRIMARY KEY (`imageQualityIndicatorsId`),
   KEY `AutoProcProgramIdx1` (`autoProcProgramId`),
   KEY `ImageQualityIndicatorsIdx1` (`imageId`),
   KEY `ImageQualityIndicators_ibfk3` (`dataCollectionId`),
   CONSTRAINT `AutoProcProgramFK1` FOREIGN KEY (`autoProcProgramId`) REFERENCES `AutoProcProgram` (`autoProcProgramId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_ImageQualityIndicators_ibfk3` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
+  CONSTRAINT `ImageQualityIndicators_ibfk3` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=62328700 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3011,7 +3100,7 @@ CREATE TABLE `ImageQualityIndicators` (
 
 LOCK TABLES `ImageQualityIndicators` WRITE;
 /*!40000 ALTER TABLE `ImageQualityIndicators` DISABLE KEYS */;
-INSERT INTO `ImageQualityIndicators` VALUES (60845691,NULL,NULL,296,296,259,0,2.03,2.03,0,0,0,0,NULL,2.61,NULL,1052494,1),(60845694,NULL,NULL,239,239,224,0,2.12,2.12,0,0,0,0,NULL,2.95,NULL,1052494,2),(60845703,274837177,NULL,217,217,202,0,2.07,2.07,0,0,0,0,NULL,2.99,NULL,1052503,1),(60845706,NULL,NULL,257,257,236,0,2.06,2.06,0,0,0,0,NULL,3.02,NULL,1052503,2),(60845709,NULL,NULL,306,306,278,0,2.04,2.04,0,0,0,0,NULL,2.75,NULL,1052503,3),(62328693,284718055,NULL,848,848,652,0,1.56,1.56,0,0,0,0,NULL,2.03,NULL,1066786,2),(62328696,284718118,NULL,922,922,735,0,1.57,1.57,0,0,0,0,NULL,2.13,NULL,1066786,3),(62328699,284717989,NULL,1132,1132,872,0,1.63,1.63,0,0,0,0,NULL,2.09,NULL,1066786,1);
+INSERT INTO `ImageQualityIndicators` VALUES (60845691,NULL,NULL,296,296,259,0,2.03,2.03,0,0,0,0,NULL,2.61,NULL,1052494,1,NULL),(60845694,NULL,NULL,239,239,224,0,2.12,2.12,0,0,0,0,NULL,2.95,NULL,1052494,2,NULL),(60845703,274837177,NULL,217,217,202,0,2.07,2.07,0,0,0,0,NULL,2.99,NULL,1052503,1,NULL),(60845706,NULL,NULL,257,257,236,0,2.06,2.06,0,0,0,0,NULL,3.02,NULL,1052503,2,NULL),(60845709,NULL,NULL,306,306,278,0,2.04,2.04,0,0,0,0,NULL,2.75,NULL,1052503,3,NULL),(62328693,284718055,NULL,848,848,652,0,1.56,1.56,0,0,0,0,NULL,2.03,NULL,1066786,2,NULL),(62328696,284718118,NULL,922,922,735,0,1.57,1.57,0,0,0,0,NULL,2.13,NULL,1066786,3,NULL),(62328699,284717989,NULL,1132,1132,872,0,1.63,1.63,0,0,0,0,NULL,2.09,NULL,1066786,1,NULL);
 /*!40000 ALTER TABLE `ImageQualityIndicators` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3635,6 +3724,77 @@ LOCK TABLES `ModelToList` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `MotionCorrection`
+--
+
+DROP TABLE IF EXISTS `MotionCorrection`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `MotionCorrection` (
+  `motionCorrectionId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `dataCollectionId` int(11) unsigned DEFAULT NULL,
+  `autoProcProgramId` int(11) unsigned DEFAULT NULL,
+  `imageNumber` smallint(5) unsigned DEFAULT NULL COMMENT 'Movie number, sequential in time 1-n',
+  `firstFrame` smallint(5) unsigned DEFAULT NULL COMMENT 'First frame of movie used',
+  `lastFrame` smallint(5) unsigned DEFAULT NULL COMMENT 'Last frame of movie used',
+  `dosePerFrame` float DEFAULT NULL COMMENT 'Dose per frame, Units: e-/A^2',
+  `doseWeight` float DEFAULT NULL COMMENT 'Dose weight, Units: dimensionless',
+  `totalMotion` float DEFAULT NULL COMMENT 'Total motion, Units: A',
+  `averageMotionPerFrame` float DEFAULT NULL COMMENT 'Average motion per frame, Units: A',
+  `driftPlotFullPath` varchar(255) DEFAULT NULL COMMENT 'Full path to the drift plot',
+  `micrographFullPath` varchar(255) DEFAULT NULL COMMENT 'Full path to the micrograph',
+  `micrographSnapshotFullPath` varchar(255) DEFAULT NULL COMMENT 'Full path to a snapshot (jpg) of the micrograph',
+  `patchesUsedX` mediumint(8) unsigned DEFAULT NULL COMMENT 'Number of patches used in x (for motioncor2)',
+  `patchesUsedY` mediumint(8) unsigned DEFAULT NULL COMMENT 'Number of patches used in y (for motioncor2)',
+  `fftFullPath` varchar(255) DEFAULT NULL COMMENT 'Full path to the jpg image of the raw micrograph FFT',
+  `fftCorrectedFullPath` varchar(255) DEFAULT NULL COMMENT 'Full path to the jpg image of the drift corrected micrograph FFT',
+  `comments` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`motionCorrectionId`),
+  KEY `MotionCorrection_ibfk2` (`autoProcProgramId`),
+  KEY `_MotionCorrection_ibfk1` (`dataCollectionId`),
+  CONSTRAINT `MotionCorrection_ibfk2` FOREIGN KEY (`autoProcProgramId`) REFERENCES `AutoProcProgram` (`autoProcProgramId`),
+  CONSTRAINT `_MotionCorrection_ibfk1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `MotionCorrection`
+--
+
+LOCK TABLES `MotionCorrection` WRITE;
+/*!40000 ALTER TABLE `MotionCorrection` DISABLE KEYS */;
+/*!40000 ALTER TABLE `MotionCorrection` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `MotionCorrectionDrift`
+--
+
+DROP TABLE IF EXISTS `MotionCorrectionDrift`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `MotionCorrectionDrift` (
+  `motionCorrectionDriftId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `motionCorrectionId` int(11) unsigned DEFAULT NULL,
+  `frameNumber` smallint(5) unsigned DEFAULT NULL COMMENT 'Frame number of the movie these drift values relate to',
+  `deltaX` float DEFAULT NULL COMMENT 'Drift in x, Units: A',
+  `deltaY` float DEFAULT NULL COMMENT 'Drift in y, Units: A',
+  PRIMARY KEY (`motionCorrectionDriftId`),
+  KEY `MotionCorrectionDrift_ibfk1` (`motionCorrectionId`),
+  CONSTRAINT `MotionCorrectionDrift_ibfk1` FOREIGN KEY (`motionCorrectionId`) REFERENCES `MotionCorrection` (`motionCorrectionId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `MotionCorrectionDrift`
+--
+
+LOCK TABLES `MotionCorrectionDrift` WRITE;
+/*!40000 ALTER TABLE `MotionCorrectionDrift` DISABLE KEYS */;
+/*!40000 ALTER TABLE `MotionCorrectionDrift` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `MotorPosition`
 --
 
@@ -3803,7 +3963,7 @@ CREATE TABLE `Particle` (
   `y` float DEFAULT NULL,
   PRIMARY KEY (`particleId`),
   KEY `Particle_FKIND1` (`dataCollectionId`),
-  CONSTRAINT `_Particle_FK1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `Particle_FK1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4299,7 +4459,7 @@ CREATE TABLE `Project_has_DCGroup` (
   PRIMARY KEY (`projectId`,`dataCollectionGroupId`),
   KEY `Project_has_DCGroup_FK2` (`dataCollectionGroupId`),
   CONSTRAINT `Project_has_DCGroup_FK1` FOREIGN KEY (`projectId`) REFERENCES `Project` (`projectId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_Project_has_DCGroup_FK2` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `Project_has_DCGroup_FK2` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4630,6 +4790,93 @@ CREATE TABLE `Protein_has_PDB` (
 LOCK TABLES `Protein_has_PDB` WRITE;
 /*!40000 ALTER TABLE `Protein_has_PDB` DISABLE KEYS */;
 /*!40000 ALTER TABLE `Protein_has_PDB` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Reprocessing`
+--
+
+DROP TABLE IF EXISTS `Reprocessing`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Reprocessing` (
+  `reprocessingId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `dataCollectionId` int(11) unsigned DEFAULT NULL,
+  `displayName` varchar(80) DEFAULT NULL COMMENT 'xia2, fast_dp, dimple, etc',
+  `comments` varchar(255) DEFAULT NULL COMMENT 'For users to annotate the job and see the motivation for the job',
+  `recordTimestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When job was submitted',
+  `recipe` varchar(50) DEFAULT NULL COMMENT 'What we want to run (xia, dimple, etc) ',
+  `automatic` tinyint(1) DEFAULT NULL COMMENT 'Whether this processing was triggered automatically or not',
+  PRIMARY KEY (`reprocessingId`),
+  KEY `_Reprocessing_ibfk1` (`dataCollectionId`),
+  CONSTRAINT `_Reprocessing_ibfk1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='From this we get both job times and lag times';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Reprocessing`
+--
+
+LOCK TABLES `Reprocessing` WRITE;
+/*!40000 ALTER TABLE `Reprocessing` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Reprocessing` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ReprocessingImageSweep`
+--
+
+DROP TABLE IF EXISTS `ReprocessingImageSweep`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ReprocessingImageSweep` (
+  `reprocessingImageSweepId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `reprocessingId` int(11) unsigned DEFAULT NULL,
+  `dataCollectionId` int(11) unsigned DEFAULT NULL,
+  `startImage` mediumint(8) unsigned DEFAULT NULL,
+  `endImage` mediumint(8) unsigned DEFAULT NULL,
+  PRIMARY KEY (`reprocessingImageSweepId`),
+  KEY `ReprocessingImageSweep_ibfk1` (`reprocessingId`),
+  KEY `_ReprocessingImageSweep_ibfk2` (`dataCollectionId`),
+  CONSTRAINT `ReprocessingImageSweep_ibfk1` FOREIGN KEY (`reprocessingId`) REFERENCES `Reprocessing` (`reprocessingId`),
+  CONSTRAINT `_ReprocessingImageSweep_ibfk2` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This allows multiple sweeps per reprocessing for multi-xia2';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ReprocessingImageSweep`
+--
+
+LOCK TABLES `ReprocessingImageSweep` WRITE;
+/*!40000 ALTER TABLE `ReprocessingImageSweep` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ReprocessingImageSweep` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ReprocessingParameter`
+--
+
+DROP TABLE IF EXISTS `ReprocessingParameter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ReprocessingParameter` (
+  `reprocessingParameterId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `reprocessingId` int(11) unsigned DEFAULT NULL,
+  `parameterKey` varchar(80) DEFAULT NULL COMMENT 'E.g. resolution, spacegroup, pipeline',
+  `parameterValue` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`reprocessingParameterId`),
+  KEY `ReprocessingParameter_ibfk1` (`reprocessingId`),
+  CONSTRAINT `ReprocessingParameter_ibfk1` FOREIGN KEY (`reprocessingId`) REFERENCES `Reprocessing` (`reprocessingId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ReprocessingParameter`
+--
+
+LOCK TABLES `ReprocessingParameter` WRITE;
+/*!40000 ALTER TABLE `ReprocessingParameter` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ReprocessingParameter` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -4980,6 +5227,7 @@ CREATE TABLE `ScanParametersModel` (
   `stop` double DEFAULT NULL,
   `step` double DEFAULT NULL,
   `array` text,
+  `duration` mediumint(8) unsigned DEFAULT NULL COMMENT 'Duration for parameter change in seconds',
   PRIMARY KEY (`scanParametersModelId`),
   KEY `PDF_Model_ibfk1` (`scanParametersServiceId`),
   KEY `PDF_Model_ibfk2` (`dataCollectionPlanId`),
@@ -4994,7 +5242,7 @@ CREATE TABLE `ScanParametersModel` (
 
 LOCK TABLES `ScanParametersModel` WRITE;
 /*!40000 ALTER TABLE `ScanParametersModel` DISABLE KEYS */;
-INSERT INTO `ScanParametersModel` VALUES (4,4,197788,1,0,90,10,NULL),(7,4,197788,2,90,180,5,NULL),(10,4,197788,3,180,270,1,NULL),(13,4,197788,3,270,360,0.5,NULL),(16,7,197788,4,20,120,10,NULL),(20,7,197792,1,0,90,5,NULL),(23,7,197792,2,90,120,1,NULL);
+INSERT INTO `ScanParametersModel` VALUES (4,4,197788,1,0,90,10,NULL,NULL),(7,4,197788,2,90,180,5,NULL,NULL),(10,4,197788,3,180,270,1,NULL,NULL),(13,4,197788,3,270,360,0.5,NULL,NULL),(16,7,197788,4,20,120,10,NULL,NULL),(20,7,197792,1,0,90,5,NULL,NULL),(23,7,197792,2,90,120,1,NULL,NULL);
 /*!40000 ALTER TABLE `ScanParametersModel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5205,9 +5453,9 @@ CREATE TABLE `Screening` (
   PRIMARY KEY (`screeningId`),
   KEY `Screening_FKIndexDiffractionPlanId` (`diffractionPlanId`),
   KEY `dcgroupId` (`dataCollectionGroupId`),
-  KEY `Screening_ibfk2` (`dataCollectionId`),
-  CONSTRAINT `Screening_ibfk2` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `_Screening_ibfk_1` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `_Screening_ibfk2` (`dataCollectionId`),
+  CONSTRAINT `Screening_ibfk_1` FOREIGN KEY (`dataCollectionGroupId`) REFERENCES `DataCollectionGroup` (`dataCollectionGroupId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `_Screening_ibfk2` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1927991 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -5612,6 +5860,7 @@ CREATE TABLE `Shipping` (
   `deliveryAgent_readyByTime` time DEFAULT NULL COMMENT 'Confirmed ready-by time',
   `deliveryAgent_callinTime` time DEFAULT NULL COMMENT 'Confirmed courier call-in time',
   `deliveryAgent_productcode` varchar(10) DEFAULT NULL COMMENT 'A code that identifies which shipment service was used',
+  `deliveryAgent_flightCodePersonId` int(10) unsigned DEFAULT NULL COMMENT 'The person who created the AWB (for auditing)',
   PRIMARY KEY (`shippingId`),
   KEY `laboratoryId` (`laboratoryId`),
   KEY `Shipping_FKIndex1` (`proposalId`),
@@ -5620,9 +5869,11 @@ CREATE TABLE `Shipping` (
   KEY `Shipping_FKIndexCreationDate` (`creationDate`),
   KEY `Shipping_FKIndexName` (`shippingName`),
   KEY `Shipping_FKIndexStatus` (`shippingStatus`),
+  KEY `Shipping_ibfk_4` (`deliveryAgent_flightCodePersonId`),
   CONSTRAINT `Shipping_ibfk_1` FOREIGN KEY (`proposalId`) REFERENCES `Proposal` (`proposalId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Shipping_ibfk_2` FOREIGN KEY (`sendingLabContactId`) REFERENCES `LabContact` (`labContactId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Shipping_ibfk_3` FOREIGN KEY (`returnLabContactId`) REFERENCES `LabContact` (`labContactId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `Shipping_ibfk_3` FOREIGN KEY (`returnLabContactId`) REFERENCES `LabContact` (`labContactId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Shipping_ibfk_4` FOREIGN KEY (`deliveryAgent_flightCodePersonId`) REFERENCES `Person` (`personId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7228 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -5632,7 +5883,7 @@ CREATE TABLE `Shipping` (
 
 LOCK TABLES `Shipping` WRITE;
 /*!40000 ALTER TABLE `Shipping` DISABLE KEYS */;
-INSERT INTO `Shipping` VALUES (474,141666,'cm-0001 1 processing',NULL,NULL,NULL,NULL,NULL,'processing',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(477,141666,'cm-0001 2 processing',NULL,NULL,NULL,NULL,NULL,'processing',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(480,141666,'cm-0001 3 processing',NULL,NULL,NULL,NULL,NULL,'processing',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6988,37027,'Default Shipping:cm14451-1',NULL,NULL,NULL,NULL,NULL,'processing',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7227,37027,'cm14451-2_Shipment1',NULL,NULL,NULL,NULL,NULL,'processing','2016-02-10 13:03:07',NULL,0,'2016-02-10 13:03:07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `Shipping` VALUES (474,141666,'cm-0001 1 processing',NULL,NULL,NULL,NULL,NULL,'processing',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(477,141666,'cm-0001 2 processing',NULL,NULL,NULL,NULL,NULL,'processing',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(480,141666,'cm-0001 3 processing',NULL,NULL,NULL,NULL,NULL,'processing',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6988,37027,'Default Shipping:cm14451-1',NULL,NULL,NULL,NULL,NULL,'processing',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7227,37027,'cm14451-2_Shipment1',NULL,NULL,NULL,NULL,NULL,'processing','2016-02-10 13:03:07',NULL,0,'2016-02-10 13:03:07',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Shipping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -6045,6 +6296,7 @@ CREATE TABLE `Workflow` (
   `resultFilePath` varchar(255) DEFAULT NULL,
   `logFilePath` varchar(255) DEFAULT NULL,
   `recordTimeStamp` datetime DEFAULT NULL COMMENT 'Creation or last update date/time',
+  `workflowDescriptionFullPath` varchar(255) DEFAULT NULL COMMENT 'Full file path to a json description of the workflow',
   PRIMARY KEY (`workflowId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -6220,9 +6472,9 @@ CREATE TABLE `XRFFluorescenceMapping` (
   `counts` int(10) unsigned NOT NULL,
   PRIMARY KEY (`xrfFluorescenceMappingId`),
   KEY `XRFFluorescenceMapping_ibfk1` (`xrfFluorescenceMappingROIId`),
-  KEY `XRFFluorescenceMapping_ibfk2` (`dataCollectionId`),
+  KEY `_XRFFluorescenceMapping_ibfk2` (`dataCollectionId`),
   CONSTRAINT `XRFFluorescenceMapping_ibfk1` FOREIGN KEY (`xrfFluorescenceMappingROIId`) REFERENCES `XRFFluorescenceMappingROI` (`xrfFluorescenceMappingROIId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `XRFFluorescenceMapping_ibfk2` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `_XRFFluorescenceMapping_ibfk2` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -7677,6 +7929,179 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_processing_scaling` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `insert_processing_scaling`(
+     OUT p_id integer unsigned,
+     p_parentId integer unsigned,
+-- AutoProcScalingStatistics 1
+     p_Type1 enum('overall','innerShell','outerShell'),
+     p_Comments1 varchar(255), 
+     p_ResolutionLimitLow1 float ,
+     p_ResolutionLimitHigh1 float ,
+     p_rMerge1 float ,
+     p_rMeasWithinIPlusIMinus1 float ,
+     p_rMeasAllIPlusIMinus1 float,
+     p_rPimWithinIPlusIMinus1 float,
+     p_rPimAllIPlusIMinus1 float,
+     p_fractionalPartialBias1 float,
+     p_nTotalObservations1 integer,
+     p_nTotalUniqueObservations1 integer,
+     p_meanIOverSigI1 float,
+     p_completeness1 float,
+     p_multiplicity1 float,
+     p_anomalous1 boolean,
+     p_anomalousCompleteness1 float,
+     p_anomalousMultiplicity1 float,
+     p_ccHalf1 float,
+     p_ccAnomalous1 float,
+-- AutoProcScalingStatistics 2
+     p_Type2 enum('overall','innerShell','outerShell'),
+     p_Comments2 varchar(255), 
+     p_ResolutionLimitLow2 float,
+     p_ResolutionLimitHigh2 float,
+     p_rMerge2 float,
+     p_rMeasWithinIPlusIMinus2 float,
+     p_rMeasAllIPlusIMinus2 float,
+     p_rPimWithinIPlusIMinus2 float,
+     p_rPimAllIPlusIMinus2 float,
+     p_fractionalPartialBias2 float,
+     p_nTotalObservations2 integer,
+     p_nTotalUniqueObservations2 integer,
+     p_meanIOverSigI2 float,
+     p_completeness2 float,
+     p_multiplicity2 float,
+     p_anomalous2 boolean,
+     p_anomalousCompleteness2 float,
+     p_anomalousMultiplicity2 float,
+     p_ccHalf2 float,
+     p_ccAnomalous2 float,
+-- AutoProcScalingStatistics 3
+     p_Type3 enum('overall','innerShell','outerShell'),
+     p_Comments3 varchar(255), 
+     p_ResolutionLimitLow3 float,
+     p_ResolutionLimitHigh3 float,
+     p_rMerge3 float,
+     p_rMeasWithinIPlusIMinus3 float,
+     p_rMeasAllIPlusIMinus3 float,
+     p_rPimWithinIPlusIMinus3 float,
+     p_rPimAllIPlusIMinus3 float,
+     p_fractionalPartialBias3 float,
+     p_nTotalObservations3 integer,
+     p_nTotalUniqueObservations3 integer,
+     p_meanIOverSigI3 float,
+     p_completeness3 float,
+     p_multiplicity3 float,
+     p_anomalous3 boolean,
+     p_anomalousCompleteness3 float,
+     p_anomalousMultiplicity3 float,
+     p_ccHalf3 float,
+     p_ccAnomalous3 float
+  )
+    MODIFIES SQL DATA
+    COMMENT 'Inserts 1 row in AutoProcScaling, 3 rows in AutoProcScalingStatistics. Id for AutoProcScaling row is returned in p_id.'
+BEGIN
+    IF p_parentid IS NULL THEN
+      SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_program_id is NULL';
+	ELSE
+    
+	  START TRANSACTION;
+	  INSERT INTO AutoProcScaling (autoProcId, recordTimeStamp)
+        VALUES (p_parentId, now());
+      
+	  SET p_id = LAST_INSERT_ID();
+
+      INSERT INTO AutoProcScalingStatistics (autoProcScalingId, scalingStatisticsType, comments, resolutionLimitLow, resolutionLimitHigh, rMerge, 
+        rMeasWithinIPlusIMinus, rMeasAllIPlusIMinus, rPimWithinIPlusIMinus, rPimAllIPlusIMinus, fractionalPartialBias, nTotalObservations, nTotalUniqueObservations, 
+        meanIOverSigI, completeness, multiplicity, anomalous, anomalousCompleteness, anomalousMultiplicity, ccHalf, ccAnomalous, recordTimeStamp)
+        VALUES (p_id, p_Type1, p_Comments1, p_ResolutionLimitLow1, p_ResolutionLimitHigh1, p_rMerge1, p_rMeasWithinIPlusIMinus1, p_rMeasAllIPlusIMinus1, 
+          p_rPimWithinIPlusIMinus1, p_rPimAllIPlusIMinus1, p_fractionalPartialBias1, p_nTotalObservations1, p_nTotalUniqueObservations1, p_meanIOverSigI1, 
+          p_completeness1, p_multiplicity1, p_anomalous1, p_anomalousCompleteness1, p_anomalousMultiplicity1, p_ccHalf1, p_ccAnomalous1, now());
+
+      INSERT INTO AutoProcScalingStatistics (autoProcScalingId, scalingStatisticsType, comments, resolutionLimitLow, resolutionLimitHigh, rMerge, 
+        rMeasWithinIPlusIMinus, rMeasAllIPlusIMinus, rPimWithinIPlusIMinus, rPimAllIPlusIMinus, fractionalPartialBias, nTotalObservations, nTotalUniqueObservations, 
+        meanIOverSigI, completeness, multiplicity, anomalous, anomalousCompleteness, anomalousMultiplicity, ccHalf, ccAnomalous, recordTimeStamp)
+        VALUES (p_id, p_Type2, p_Comments2, p_ResolutionLimitLow2, p_ResolutionLimitHigh2, p_rMerge2, p_rMeasWithinIPlusIMinus2, p_rMeasAllIPlusIMinus2, 
+          p_rPimWithinIPlusIMinus2, p_rPimAllIPlusIMinus2, p_fractionalPartialBias2, p_nTotalObservations2, p_nTotalUniqueObservations2, p_meanIOverSigI2, 
+          p_completeness2, p_multiplicity2, p_anomalous2, p_anomalousCompleteness2, p_anomalousMultiplicity2, p_ccHalf2, p_ccAnomalous2, now());
+
+      INSERT INTO AutoProcScalingStatistics (autoProcScalingId, scalingStatisticsType, comments, resolutionLimitLow, resolutionLimitHigh, rMerge, 
+        rMeasWithinIPlusIMinus, rMeasAllIPlusIMinus, rPimWithinIPlusIMinus, rPimAllIPlusIMinus, fractionalPartialBias, nTotalObservations, nTotalUniqueObservations, 
+        meanIOverSigI, completeness, multiplicity, anomalous, anomalousCompleteness, anomalousMultiplicity, ccHalf, ccAnomalous, recordTimeStamp)
+        VALUES (p_id, p_Type3, p_Comments3, p_ResolutionLimitLow3, p_ResolutionLimitHigh3, p_rMerge3, p_rMeasWithinIPlusIMinus3, p_rMeasAllIPlusIMinus3, 
+          p_rPimWithinIPlusIMinus3, p_rPimAllIPlusIMinus3, p_fractionalPartialBias3, p_nTotalObservations3, p_nTotalUniqueObservations3, p_meanIOverSigI3, 
+          p_completeness3, p_multiplicity3, p_anomalous3, p_anomalousCompleteness3, p_anomalousMultiplicity3, p_ccHalf3, p_ccAnomalous3, now());
+	  COMMIT;
+
+    END IF; 
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `insert_quality_indicators` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `insert_quality_indicators`(
+  OUT p_id int(11) unsigned,
+  p_dataCollectionId int(11) unsigned, 
+  p_autoProcProgramId int(10) unsigned, 
+  p_imageNumber mediumint(8) unsigned,
+  p_spotTotal int(10),
+  p_inResTotal int(10),
+  p_goodBraggCandidates int(10),
+  p_iceRings int(10),
+  p_method1Res float,
+  p_method2Res float,
+  p_maxUnitCell float,
+  p_pctSaturationTop50Peaks float,
+  p_inResolutionOvrlSpots int(10),
+  p_binPopCutOffMethod2Res float,
+  p_totalIntegratedSignal double,
+  p_driftFactor float
+)
+    MODIFIES SQL DATA
+    COMMENT 'Inserts a row into the image quality indicators table'
+BEGIN
+
+  IF p_dataCollectionId IS NOT NULL AND p_imageNumber IS NOT NULL THEN
+    INSERT INTO ImageQualityIndicators (
+      dataCollectionId, autoProcProgramId, imageNumber, spotTotal, inResTotal, goodBraggCandidates, iceRings, 
+	  method1Res, method2Res, maxUnitCell, pctSaturationTop50Peaks,
+	  inResolutionOvrlSpots, binPopCutOffMethod2Res, totalIntegratedSignal, driftFactor) 
+      VALUES (
+        p_dataCollectionId, p_autoProcProgramId, p_imageNumber, p_spotTotal, p_inResTotal, p_goodBraggCandidates, p_iceRings,
+        p_method1Res, p_method2Res, p_maxUnitCell, p_pctSaturationTop50Peaks, 
+        p_inResolutionOvrlSpots, p_binPopCutOffMethod2Res, p_totalIntegratedSignal, p_driftFactor
+      );
+    IF p_id IS NULL THEN 
+      SET p_id = LAST_INSERT_ID();
+    END IF;      
+  ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument(s) p_dataCollectionId and/or p_imageNumber are NULL';  
+  END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `insert_screening` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -8753,6 +9178,48 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_reprocessing_by_dc` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_reprocessing_by_dc`(
+     p_dcId int(11) unsigned 
+)
+    READS SQL DATA
+    COMMENT 'Retrieves reprocessing requests for a data collection (p_dcId). Two result-sets are returned. \nThe first r.s. contains the main reprocessing joined with any parameters.\nThe second r.s. contains its sweeps, if any.'
+BEGIN
+	IF NOT p_dcId IS NULL THEN
+
+		SELECT r.reprocessingId "id", r.displayName, r.status, r.comments, r.recordTimestamp, 
+        r.startedTimestamp, r.lastUpdateTimestamp, r.lastUpdateMessage,
+		rp.reprocessingParameterId "paramId", rp.parameterKey, rp.parameterValue
+        FROM Reprocessing r
+          LEFT OUTER JOIN ReprocessingParameter rp ON rp.reprocessingId = r.reprocessingId
+        WHERE r.dataCollectionId = p_dcId
+        ORDER BY r.recordTimestamp;
+
+        SELECT ris.reprocessingId "id", ris.reprocessingImageSweepId "sweepId", ris.dataCollectionId "sweepDCId", 
+        ris.startImage, ris.endImage 
+        FROM Reprocessing r
+		  INNER JOIN ReprocessingImageSweep ris ON ris.reprocessingId = r.reprocessingId
+        WHERE r.dataCollectionId = p_dcId
+        ORDER BY r.recordTimestamp;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_dcId is NULL';
+    END IF;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `retrieve_samples_assigned_for_proposal` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -8902,37 +9369,41 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `update_container_assign`(IN p_beamline varchar(20), IN p_registry_barcode varchar(45), IN p_position int)
     MODIFIES SQL DATA
-    COMMENT 'Assigns a container with barcode = p_barcode by updating sampleChangerLocation, beamlineLocation, containerStatus'
+    COMMENT 'Toggles the assign status of a container with barcode = p_barcode by updating sampleChangerLocation, beamlineLocation, containerStatus'
 BEGIN
     DECLARE row_containerId int(10) unsigned DEFAULT NULL;
+    DECLARE row_containerStatus varchar(45) DEFAULT NULL;
 
-	IF NOT (p_beamline IS NULL OR p_registry_barcode IS NULL OR p_position IS NULL) THEN
-	  SELECT c.containerId INTO row_containerId
-	  FROM Container c
-        INNER JOIN ContainerRegistry cr ON c.containerRegistryId = cr.containerRegistryId
-	  WHERE cr.barcode = p_registry_barcode 
-	  ORDER BY c.containerId DESC 
-	  LIMIT 1;
+    IF NOT (p_registry_barcode IS NULL) THEN
+        START TRANSACTION;
 
-      IF NOT row_containerId IS NULL THEN
-      -- Assign the container
-        UPDATE Container
-        SET 
-          sampleChangerLocation = p_position, 
-          beamlineLocation = p_beamline, 
-          containerStatus = 'processing'
-        WHERE 
-          containerId = row_containerId;
+        SELECT c.containerId, c.containerStatus INTO row_containerId, row_containerStatus
+        FROM Container c
+            INNER JOIN ContainerRegistry cr ON c.containerRegistryId = cr.containerRegistryId
+        WHERE cr.barcode = p_registry_barcode
+        ORDER BY c.containerId DESC
+        LIMIT 1;
 
-	    -- Add to history 
-	    INSERT INTO ContainerHistory (containerId, location, status, beamlineName) 
-          VALUES (row_containerId, p_position, 'processing', p_beamline);
-      ELSE 
+        IF NOT row_containerId IS NULL THEN
+        -- Assign the container
+          UPDATE Container
+          SET
+            sampleChangerLocation = IF(row_containerStatus='processing', '', p_position),
+            beamlineLocation = p_beamline,
+            containerStatus = IF(row_containerStatus='processing', 'at DLS', 'processing')
+          WHERE
+            containerId = row_containerId;
+
+          -- Add to history
+          INSERT INTO ContainerHistory (containerId, location, status, beamlineName)
+            VALUES (row_containerId, p_position, IF(row_containerStatus='processing', 'at DLS', 'processing'), p_beamline);
+        ELSE
           SIGNAL SQLSTATE '02000' SET MYSQL_ERRNO=1643, MESSAGE_TEXT='Container with p_registry_barcode not found';
-	  END IF;
+        END IF;
 
+        COMMIT;
     ELSE
-        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument(s) p_beamline, p_registry_barcode and/or p_position are NULL';
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_registry_barcode is NULL';
     END IF;
 END ;;
 DELIMITER ;
@@ -9216,6 +9687,83 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_dc_position` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `update_dc_position`(
+     p_dcId int(11) unsigned, 
+     p_posX double,
+     p_posY double,
+     p_posZ double,
+     p_scale double
+)
+    MODIFIES SQL DATA
+    COMMENT 'Sets the Position for the data collection (p_id).'
+BEGIN
+	DECLARE row_position_id int(11) unsigned DEFAULT NULL;
+	IF p_dcId IS NOT NULL THEN
+		SELECT positionId INTO row_position_id FROM DataCollection WHERE dataCollectionId = p_dcId;
+        INSERT INTO Position (positionId, posX, posY, posZ, scale)
+          VALUES (row_position_id, p_posX, p_posY, p_posZ, p_scale)
+          ON DUPLICATE KEY UPDATE
+		  posX = IFNULL(p_posX, posX),
+		  posY = IFNULL(p_posY, posY),
+		  posZ = IFNULL(p_posZ, posZ),
+          scale = IFNULL(p_scale, scale);
+	    IF LAST_INSERT_ID() <> 0 THEN 
+          UPDATE DataCollection SET positionId = LAST_INSERT_ID() WHERE dataCollectionId = p_dcId;
+        END IF;
+	ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_dcId is NULL';  
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `update_reprocessing_status` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `update_reprocessing_status`(
+     p_id int(11) unsigned,
+	 p_status  enum('submitted', 'running', 'finished', 'failed'), 
+     p_startedTimeStamp timestamp, 
+     p_lastUpdateMessage varchar(80)
+)
+    MODIFIES SQL DATA
+    COMMENT 'Updates the reprocessing status'
+BEGIN
+	IF NOT p_id IS NULL THEN
+      UPDATE Reprocessing SET 
+	   `status` = p_status,
+       startedTimeStamp = p_startedTimeStamp, 
+       lastUpdateTimeStamp = current_timestamp, 
+       lastUpdateMessage = p_lastUpdateMessage
+      WHERE reprocessingId = p_id;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_id is NULL';
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `update_session_paths` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -9359,6 +9907,69 @@ BEGIN
       END IF;
   END IF;
 END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_ctf` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_ctf`(
+  INOUT p_ctfId int(11) unsigned,
+  p_motionCorrectionId int(11) unsigned,
+  p_autoProcProgramId int(11) unsigned,
+  p_boxSizeX float,
+  p_boxSizeY float,
+  p_minResolution float,
+  p_maxResolution float,
+  p_minDefocus float,
+  p_maxDefocus float,
+  p_defocusStepSize float,
+  p_astigmatism float,
+  p_astigmatismAngle float,
+  p_estimatedResolution float,
+  p_estimatedDefocus float,
+  p_amplitudeContrast float,
+  p_ccValue float,
+  p_fftTheoreticalFullPath varchar(255),
+  p_comments varchar(255)
+)
+    MODIFIES SQL DATA
+BEGIN
+    INSERT INTO CTF (ctfId, motionCorrectionId, autoProcProgramId, boxSizeX, boxSizeY, minResolution, maxResolution, minDefocus, maxDefocus, defocusStepSize, astigmatism, astigmatismAngle, estimatedResolution, estimatedDefocus, amplitudeContrast, ccValue, fftTheoreticalFullPath, comments)
+      VALUES (p_ctfId, p_motionCorrectionId, p_autoProcProgramId, p_boxSizeX, p_boxSizeY, p_minResolution, p_maxResolution, p_minDefocus, p_maxDefocus, p_defocusStepSize, p_astigmatism, p_astigmatismAngle, p_estimatedResolution, p_estimatedDefocus, p_amplitudeContrast, p_ccValue, p_fftTheoreticalFullPath, p_comments)
+      ON DUPLICATE KEY UPDATE
+        ctfId = IFNULL(p_ctfId, ctfId),
+        motionCorrectionId = IFNULL(p_motionCorrectionId, motionCorrectionId),
+        autoProcProgramId = IFNULL(p_autoProcProgramId, autoProcProgramId),
+        boxSizeX = IFNULL(p_boxSizeX, boxSizeX),
+        boxSizeY = IFNULL(p_boxSizeY, boxSizeY),
+        minResolution = IFNULL(p_minResolution, minResolution),
+        maxResolution = IFNULL(p_maxResolution, maxResolution),
+        minDefocus = IFNULL(p_minDefocus, minDefocus),
+        maxDefocus = IFNULL(p_maxDefocus, maxDefocus),
+        defocusStepSize = IFNULL(p_defocusStepSize, defocusStepSize),
+        astigmatism = IFNULL(p_astigmatism, astigmatism),
+        astigmatismAngle = IFNULL(p_astigmatismAngle, astigmatismAngle),
+        estimatedResolution = IFNULL(p_estimatedResolution, estimatedResolution),
+        estimatedDefocus = IFNULL(p_estimatedDefocus, estimatedDefocus),
+        amplitudeContrast = IFNULL(p_amplitudeContrast, amplitudeContrast),
+        ccValue = IFNULL(p_ccValue, ccValue),
+        fftTheoreticalFullPath = IFNULL(p_fftTheoreticalFullPath, fftTheoreticalFullPath),
+        comments = IFNULL(p_comments, comments);
+
+        IF p_ctfId IS NULL THEN
+            SET p_ctfId = LAST_INSERT_ID();
+        END IF;
+   END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -9578,7 +10189,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `upsert_dc_position` */;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_dc_main_v2` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -9588,32 +10199,386 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `upsert_dc_position`(
-     p_dcId int(11) unsigned, 
-     p_posX double,
-     p_posY double,
-     p_posZ double,
-     p_scale double
+CREATE PROCEDURE `upsert_dc_main_v2`(
+     INOUT p_id int(11) unsigned,
+     p_groupId int(11) unsigned,
+     p_detectorId int(11),
+     p_blSubSampleId int(11) unsigned,
+     p_dcNumber int(10) unsigned,
+     p_startTime datetime,                                          
+     p_endTime datetime,                                             
+     p_status varchar(45),                                          
+     p_noImages int(10) unsigned,                                     
+	 p_startImgNumber int(10) unsigned,                                     
+	 p_noPasses int(10) unsigned,                                     
+     p_imgDir varchar(255),                                      
+	 p_imgPrefix varchar(45),                                       
+     p_imgSuffix varchar(45),
+     p_fileTemplate varchar(255),
+     p_snapshot1 varchar(255),                                         
+     p_snapshot2 varchar(255),                                         
+     p_snapshot3 varchar(255),                                         
+     p_snapshot4 varchar(255),
+     p_comments varchar(1024)                                        
 )
     MODIFIES SQL DATA
-    COMMENT 'Inserts or updates a Position for the data collection (p_id).'
+    COMMENT 'Inserts (if p_id not provided) or updates a row in DataCollection, returns ID in p_id. '
 BEGIN
-	DECLARE row_position_id int(11) unsigned DEFAULT NULL;
-	IF p_dcId IS NOT NULL THEN
-		SELECT positionId INTO row_position_id FROM DataCollection WHERE dataCollectionId = p_dcId;
-        INSERT INTO Position (positionId, posX, posY, posZ, scale)
-          VALUES (row_position_id, p_posX, p_posY, p_posZ, p_scale)
-          ON DUPLICATE KEY UPDATE
-		  posX = IFNULL(p_posX, posX),
-		  posY = IFNULL(p_posY, posY),
-		  posZ = IFNULL(p_posZ, posZ),
-          scale = IFNULL(p_scale, scale);
-	    IF LAST_INSERT_ID() <> 0 THEN 
-          UPDATE DataCollection SET positionId = LAST_INSERT_ID() WHERE dataCollectionId = p_dcId;
-        END IF;
-	ELSE
-        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_dcId is NULL';  
+    INSERT INTO DataCollection (dataCollectionId, dataCollectionGroupId, sessionId, blSampleId, blSubSampleId, detectorId, datacollectionNumber, startTime, endTime, 
+        runStatus, numberOfImages, startImageNumber, numberOfPasses, imageDirectory, imagePrefix, imageSuffix, fileTemplate, 
+        xtalSnapshotFullPath1, xtalSnapshotFullPath2, xtalSnapshotFullPath3, xtalSnapshotFullPath4, comments) 
+      VALUES (p_id, p_groupId, 
+      (SELECT sessionId FROM DataCollectionGroup WHERE dataCollectionGroupId = p_groupId), 
+      (SELECT blSampleId FROM DataCollectionGroup WHERE dataCollectionGroupId = p_groupId), 
+      p_blSubSampleId,
+      p_detectorId, 
+      p_dcNumber, p_startTime, p_endTime, 
+      p_status, p_noImages, p_startImgNumber, p_noPasses, p_imgDir, p_imgPrefix, p_imgSuffix, p_fileTemplate, 
+      p_snapshot1, p_snapshot2, p_snapshot3, p_snapshot4, comments)
+      ON DUPLICATE KEY UPDATE
+		datacollectiongroupid = IFNULL(p_groupId, datacollectiongroupid),
+		blSubSampleId = IFNULL(p_blSubSampleId, blSubSampleId),
+        detectorId = IFNULL(p_detectorId, detectorId),
+        datacollectionNumber = IFNULL(p_dcNumber, datacollectionNumber),
+        starttime = IFNULL(p_starttime, starttime),
+        endtime = IFNULL(p_endtime, endtime),
+        runStatus = IFNULL(p_status, runStatus),
+        numberOfImages = IFNULL(p_noImages, numberOfImages),
+        startImageNumber = IFNULL(p_noImages, startImageNumber),
+        numberOfPasses = IFNULL(p_noPasses, numberOfPasses),
+        imagedirectory = IFNULL(p_imgDir, imagedirectory),
+        imageprefix = IFNULL(p_imgPrefix, imageprefix),
+        imagesuffix = IFNULL(p_imgSuffix, imagesuffix),
+        fileTemplate = IFNULL(p_fileTemplate, fileTemplate),
+        xtalSnapshotFullPath1 = IFNULL(p_snapshot1, xtalSnapshotFullPath1),
+        xtalSnapshotFullPath2 = IFNULL(p_snapshot2, xtalSnapshotFullPath2),
+        xtalSnapshotFullPath3 = IFNULL(p_snapshot3, xtalSnapshotFullPath3),
+        xtalSnapshotFullPath4 = IFNULL(p_snapshot4, xtalSnapshotFullPath4),
+        comments = IFNULL(p_comments, comments);
+	IF p_id IS NULL THEN 
+		SET p_id = LAST_INSERT_ID();
     END IF;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_motion_correction` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_motion_correction`(
+  INOUT p_motionCorrectionId int(11) unsigned,
+  p_dataCollectionId int(11) unsigned,
+  p_autoProcProgramId int(11) unsigned,
+  p_imageNumber smallint unsigned,
+  p_firstFrame smallint unsigned,
+  p_lastFrame smallint unsigned,
+  p_dosePerFrame float,
+  p_totalMotion float,
+  p_averageMotionPerFrame float,
+  p_driftPlotFullPath varchar(255),
+  p_micrographFullPath varchar(255),
+  p_micrographSnapshotFullPath varchar(255),
+  p_fftFullPath varchar(255),
+  p_fftCorrectedFullPath varchar(255),
+  p_patchesUsedX mediumint unsigned,
+  p_patchesUsedY mediumint unsigned,
+  p_comments varchar(255)
+)
+    MODIFIES SQL DATA
+BEGIN
+    INSERT INTO MotionCorrection (motionCorrectionId, dataCollectionId, autoProcProgramId, imageNumber, firstFrame, lastFrame, dosePerFrame, totalMotion, averageMotionPerFrame, driftPlotFullPath, micrographFullPath, micrographSnapshotFullPath, fftFullPath, fftCorrectedFullPath, patchesUsedX, patchesUsedY, comments) 
+      VALUES (p_motionCorrectionId, p_dataCollectionId, p_autoProcProgramId, p_imageNumber, p_firstFrame, p_lastFrame, p_dosePerFrame, p_totalMotion, p_averageMotionPerFrame, p_driftPlotFullPath, p_micrographFullPath, p_micrographSnapshotFullPath, p_fftFullPath, p_fftCorrectedFullPath, p_patchesUsedX, p_patchesUsedY, p_comments)
+      ON DUPLICATE KEY UPDATE
+        motionCorrectionId = IFNULL(p_motionCorrectionId, motionCorrectionId),
+	dataCollectionId = IFNULL(p_dataCollectionId, dataCollectionId),
+	autoProcProgramId = IFNULL(p_autoProcProgramId, autoProcProgramId), 
+	imageNumber = IFNULL(p_imageNumber, imageNumber), 
+	firstFrame = IFNULL(p_firstFrame, firstFrame), 
+	lastFrame = IFNULL(p_lastFrame, lastFrame), 
+	dosePerFrame= IFNULL(p_dosePerFrame, dosePerFrame), 
+	totalMotion = IFNULL(p_totalMotion, totalMotion), 
+	averageMotionPerFrame = IFNULL(p_averageMotionPerFrame, averageMotionPerFrame), 
+	driftPlotFullPath = IFNULL(p_driftPlotFullPath, driftPlotFullPath), 
+	micrographFullPath = IFNULL(p_micrographFullPath, micrographFullPath), 
+	micrographSnapshotFullPath = IFNULL(p_micrographSnapshotFullPath, micrographSnapshotFullPath), 
+	fftFullPath = IFNULL(p_fftFullPath, fftFullPath), 
+	fftCorrectedFullPath = IFNULL(p_fftCorrectedFullPath, fftCorrectedFullPath), 
+	patchesUsedX = IFNULL(p_patchesUsedX, patchesUsedX), 
+    patchesUsedY = IFNULL(p_patchesUsedY, patchesUsedY),    
+	comments = IFNULL(p_comments, comments);
+
+	IF p_motionCorrectionId IS NULL THEN
+	    SET p_motionCorrectionId = LAST_INSERT_ID();
+    	END IF;
+     END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_processing` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_processing`(
+     INOUT p_id int(10) unsigned,
+     p_parentId int(10) unsigned,
+     p_spacegroup varchar(45), 
+     p_refinedcell_a float, 
+     p_refinedcell_b float, 
+     p_refinedcell_c float, 
+     p_refinedcell_alpha float, 
+     p_refinedcell_beta float, 
+     p_refinedcell_gamma float 
+  )
+    MODIFIES SQL DATA
+    COMMENT 'Inserts or updates existing row in AutoProc.'
+BEGIN
+    INSERT INTO AutoProc (autoProcId, autoProcProgramId, spacegroup, refinedcell_a, refinedcell_b, refinedcell_c, refinedcell_alpha, refinedcell_beta, refinedcell_gamma, recordtimestamp) 
+      VALUES (p_id, p_parentId, p_spacegroup, p_refinedcell_a, p_refinedcell_b, p_refinedcell_c, p_refinedcell_alpha, p_refinedcell_beta, p_refinedcell_gamma, now())
+	  ON DUPLICATE KEY UPDATE
+		autoProcProgramId = IFNULL(p_parentId, autoProcProgramId), 
+		spacegroup = IFNULL(p_spacegroup, spacegroup), 
+        refinedcell_a = IFNULL(p_refinedcell_a, refinedcell_a), 
+        refinedcell_b = IFNULL(p_refinedcell_b, refinedcell_b), 
+        refinedcell_c = IFNULL(p_refinedcell_c, refinedcell_c), 
+        refinedcell_alpha = IFNULL(p_refinedcell_alpha, refinedcell_alpha),
+		refinedcell_beta = IFNULL(p_refinedcell_beta, refinedcell_beta),
+        refinedcell_gamma = IFNULL(p_refinedcell_gamma, refinedcell_gamma);
+
+	IF p_id IS NULL THEN 
+		SET p_id = LAST_INSERT_ID();
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_processing_integration` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_processing_integration`(
+     INOUT p_id integer unsigned,
+     p_parentId integer unsigned,
+     p_datacollectionId integer unsigned,
+     p_programRunId integer unsigned,
+     p_startImageNumber integer,
+     p_endImageNumber integer,
+     p_refinedDetectorDistance float,
+     p_refinedXBeam float,
+     p_refinedYBeam float,
+     p_rotationAxisX float,
+     p_rotationAxisY float,
+     p_rotationAxisZ float,
+     p_beamVectorX float,
+     p_beamVectorY float,
+     p_beamVectorZ float,
+     p_cell_a float,
+     p_cell_b float,
+     p_cell_c float,
+     p_cell_alpha float,
+     p_cell_beta float,
+     p_cell_gamma float,
+     p_anomalous float
+  )
+    MODIFIES SQL DATA
+    COMMENT 'Inserts/updates row in AutoProcIntegration, ID returned in p_id. Also creates/updates link to AutoProcScaling.'
+BEGIN
+      INSERT INTO AutoProcIntegration (autoProcIntegrationId, datacollectionId, autoProcProgramId, startImageNumber, endImageNumber, 
+        refinedDetectorDistance, refinedXBeam, refinedYBeam, rotationAxisX, rotationAxisY, rotationAxisZ, beamVectorX, beamVectorY, beamVectorZ, 
+        cell_a, cell_b, cell_c, cell_alpha, cell_beta, cell_gamma, anomalous, recordTimeStamp)
+        VALUES (p_id, p_datacollectionId, p_programRunId, p_startImageNumber, p_endImageNumber, 
+			p_refinedDetectorDistance, p_refinedXBeam, p_refinedYBeam, p_rotationAxisX, p_rotationAxisY, p_rotationAxisZ, 
+			p_beamVectorX, p_beamVectorY, p_beamVectorZ, p_cell_a, p_cell_b, p_cell_c, p_cell_alpha, p_cell_beta, p_cell_gamma, p_anomalous, now())
+	    ON DUPLICATE KEY UPDATE
+			datacollectionId = IFNULL(p_datacollectionId, datacollectionId), 
+			autoProcProgramId = IFNULL(p_programRunId, autoProcProgramId), 
+			startImageNumber = IFNULL(p_startImageNumber, startImageNumber), 
+			endImageNumber = IFNULL(p_endImageNumber, endImageNumber), 
+			refinedDetectorDistance = IFNULL(p_refinedDetectorDistance, refinedDetectorDistance), 
+			refinedXBeam = IFNULL(p_refinedXBeam, refinedXBeam), 
+			refinedYBeam = IFNULL(p_refinedYBeam, refinedYBeam), 
+			rotationAxisX = IFNULL(p_rotationAxisX, rotationAxisX), 
+			rotationAxisY = IFNULL(p_rotationAxisY, rotationAxisY),  
+			rotationAxisZ = IFNULL(p_rotationAxisZ, rotationAxisZ), 
+			beamVectorX = IFNULL(p_beamVectorX, beamVectorX), 
+			beamVectorY = IFNULL(p_beamVectorY, beamVectorY), 
+			beamVectorZ = IFNULL(p_beamVectorZ, beamVectorZ), 
+			cell_a = IFNULL(p_cell_a, cell_a), 
+			cell_b = IFNULL(p_cell_b, cell_b), 
+			cell_c = IFNULL(p_cell_c, cell_c), 
+			cell_alpha = IFNULL(p_cell_alpha, cell_alpha), 
+			cell_beta = IFNULL(p_cell_beta, cell_beta), 
+			cell_gamma = IFNULL(p_cell_gamma, cell_gamma), 
+			anomalous = IFNULL(p_anomalous, anomalous);
+
+	IF p_id IS NULL THEN 
+		SET p_id = LAST_INSERT_ID();
+    END IF;
+      
+    -- Link the integration to the scaling
+    IF p_parentId IS NOT NULL THEN
+	  IF p_id IS NULL THEN
+		INSERT INTO AutoProcScaling_has_Int (autoProcScalingId, autoProcIntegrationId, recordTimeStamp)
+			VALUES (p_parentId, p_id, now());
+	  ELSE 
+		DELETE FROM AutoProcScaling_has_Int WHERE autoProcIntegrationId = p_id;
+		INSERT INTO AutoProcScaling_has_Int (autoProcScalingId, autoProcIntegrationId, recordTimeStamp)
+			VALUES (p_parentId, p_id, now());
+	  END IF;
+	END IF;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_processing_program` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_processing_program`(
+     INOUT p_id int(11) unsigned,
+	 p_commandLine varchar(255),
+     p_programs varchar(255),
+     p_status int(11),
+     p_updateMessage varchar(80),
+     p_startTimestamp datetime,
+     p_updateTimestamp datetime,
+     p_environment varchar(255),
+	 p_reprocessingId int(11) unsigned,
+	 p_recordTimestamp datetime
+  )
+    MODIFIES SQL DATA
+    COMMENT 'If p_id is not provided, inserts new row. Otherwise updates existing row if uts processingStatus is NULL + other conditions.'
+BEGIN
+	DECLARE row_processingStatus tinyint(1) DEFAULT NULL;
+	DECLARE row_processingEndTime datetime DEFAULT NULL;
+	
+    -- DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+    
+	IF p_id IS NULL THEN
+        -- creates a new row in AutoProcProgram with reprocessingID set, and all the other values populated with the given values,
+	    INSERT INTO AutoProcProgram (processingStatus, processingStartTime, processingEndTime, processingMessage, reprocessingId,
+		  processingCommandLine, processingPrograms, processingEnvironment, recordTimestamp)
+		  VALUES (
+              p_status, 
+              p_startTimestamp,
+              p_updateTimestamp,
+              p_updateMessage, 
+              p_reprocessingId, 
+              p_commandLine,
+              p_programs,
+              p_environment,
+              -- apart from recordTimeStamp, which, if given as NULL, is populated with NOW()
+              IFNULL(p_recordTimestamp, NOW())
+		  );
+        SET p_id = LAST_INSERT_ID();
+	ELSE
+		START TRANSACTION;
+	    SELECT processingStatus, processingEndTime INTO row_processingStatus, row_processingEndTime 
+		FROM AutoProcProgram 
+        WHERE autoProcProgramId = p_id;
+
+          -- If the existing value in processingStatus is not NULL then the row must not be updated. Stop reading here.
+          -- If the existing value in processingEndTime is not NULL and update time is not NULL and 
+          -- processingEndTime is greater (>) than update time and the new status value is NULL then the row must not be 
+          -- updated. Stop reading here.
+		IF row_processingStatus IS NULL AND (
+            row_processingEndTime IS NULL OR p_updateTimestamp IS NULL OR 
+              row_processingEndTime <= p_updateTimestamp OR p_status IS NOT NULL) THEN 
+
+		    UPDATE AutoProcProgram 
+            SET 
+              -- Write status to processingStatus
+              processingStatus = p_status,
+			  --  If processingStartTime is NULL then write start time to processingStartTime. If start time is also NULL, 
+			  -- then write NOW() instead
+              processingStartTime = COALESCE(processingStartTime, p_startTimestamp, NOW()),
+              -- Write update time to processingEndTime. If update time is NULL then write NOW() to processingEndTime
+              processingEndTime = IFNULL(p_updateTimestamp, NOW()), 
+              -- If update message is not NULL then write update message to processingMessage.
+              processingMessage = IFNULL(p_updateMessage, processingMessage), 
+              reprocessingId = p_reprocessingId,
+              processingCommandLine = IFNULL(p_commandLine, processingCommandLine),
+              processingPrograms = IFNULL(p_programs, processingPrograms),
+			  processingEnvironment = IFNULL(p_environment, processingEnvironment)
+		    WHERE autoProcProgramId = p_id;
+        END IF;
+        COMMIT;
+    END IF;
+
+    COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_processing_program_attachment` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_processing_program_attachment`(
+     INOUT p_id int(10) unsigned,
+     p_parentid int(10) unsigned,
+     p_name varchar(255),
+     p_path varchar(255),
+     p_type enum('Log','Result','Graph')
+  )
+    MODIFIES SQL DATA
+    COMMENT 'Inserts or updates existing row in AutoProcProgramAttachment. Param p_parentid is mandatory.'
+BEGIN
+	IF NOT (p_parentid IS NULL) THEN
+      INSERT INTO AutoProcProgramAttachment (autoProcProgramAttachmentId, autoProcProgramId, filename, filepath, filetype, recordtimestamp)
+          VALUES (p_id, p_parentid, p_name, p_path, p_type, now())
+          ON DUPLICATE KEY UPDATE
+		autoProcProgramId = IFNULL(p_parentid, autoProcProgramId),
+        filename = IFNULL(p_name, filename),
+        filepath = IFNULL(p_path, filepath),
+        filetype = IFNULL(p_type, filetype);
+
+	  IF p_id IS NULL THEN 
+		SET p_id = LAST_INSERT_ID();
+      END IF;
+	ELSE 
+      SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument p_parentid is NULL';
+    END IF;      
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -10156,4 +11121,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-07 15:22:07
+-- Dump completed on 2017-09-07 15:46:07
