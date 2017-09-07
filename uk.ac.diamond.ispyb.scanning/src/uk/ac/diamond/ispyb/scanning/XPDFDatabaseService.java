@@ -13,10 +13,13 @@ package uk.ac.diamond.ispyb.scanning;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -27,6 +30,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.eclipse.scanning.api.database.Bean;
 import org.eclipse.scanning.api.database.CompositeBean;
 import org.eclipse.scanning.api.database.DatabaseOperation;
 import org.eclipse.scanning.api.database.IExperimentDatabaseService;
@@ -178,7 +182,9 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
     }
 
 	@SuppressWarnings("unchecked")
-	protected <T> DatabaseOperation<T> getOperation(Operation type, T bean) {
+	protected <T> DatabaseOperation<T> getOperation(Operation type, T bean) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		
+		bean = fromBean(bean);
 		Map<?,?> map  = operations.get(type);
 		if (map==null||!map.containsKey(bean.getClass())) throw new IllegalArgumentException("No operation for "+bean.getClass());
 		return (DatabaseOperation<T>)map.get(bean.getClass());
@@ -192,6 +198,9 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
      * @return
      */
 	protected <T> Future<Id> execute(DatabaseOperation<T> operation, Operation type, T entry, boolean blocking)  throws Exception {
+		
+		// If the entry is a Bean, we remake the concrete class using the classloader of this service.
+		entry = fromBean(entry);
 		
 		// Check that there is data for the required operation
 		if (type!=Operation.COMPOSITE && entry instanceof CompositeBean) {
@@ -213,7 +222,32 @@ public class XPDFDatabaseService implements IExperimentDatabaseService, Closeabl
 		return future;
 	}
 	
-	
+	<B> B fromBean(Object entry) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		
+		if (!(entry instanceof Bean)) return (B)entry;
+		
+		final Bean     bean      = (Bean)entry;
+		@SuppressWarnings("unchecked")
+		final Class<B> beanClass = (Class<B>)Class.forName(bean.getBeanClass());
+		final B ret      = beanClass.newInstance();
+		
+		bean.names().forEach(name->setField(name, bean.get(name), ret));		
+		return ret;
+	}
+
+	private <B> void setField(String name, Object value, B ret) {
+		String fieldName = getKeyWithLowerCaseFirstLetter(name);
+		try {
+			Method method = ret.getClass().getMethod(fieldName, value.getClass());
+			method.invoke(ret, value);
+		} catch (Exception e) {
+			logger.error("Cannot set value of "+fieldName+" to "+value);
+		}
+	}
+	public static String getKeyWithLowerCaseFirstLetter(final String fieldName) {
+		return fieldName.substring(0, 1).toLowerCase(Locale.US) + fieldName.substring(1);
+	}
+
 	private void createWorkerThead() {
 		queue.clear();
 		workerLatch = new CountDownLatch(1); // Latch for thread created before new thread (important order).

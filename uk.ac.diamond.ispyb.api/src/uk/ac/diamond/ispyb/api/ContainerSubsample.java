@@ -49,6 +49,7 @@ public class ContainerSubsample {
     private Float axisStart;
     private Float axisRange;
     private Integer numberOfImages;
+    private Integer numDCs;
 
     public String getBarcode() {
         return this.barcode;
@@ -256,6 +257,14 @@ public class ContainerSubsample {
 
     public void setNumberOfImages(Integer numberOfImages) {
         this.numberOfImages = numberOfImages;
+    }
+
+    public Integer getNumDCs() {
+        return numDCs;
+    }
+
+    public void setNumDCs(Integer numDCs) {
+        this.numDCs = numDCs;
     }
 
     public String toString() {

@@ -35,8 +35,12 @@ import uk.ac.diamond.ispyb.api.beans.composites.SampleInformation;
 public class SampleInformationTest extends ExperimentServiceTest {
 
 	@BeforeClass
-	public static void create() throws SQLException, IOException, InterruptedException {
+	public static void create() throws Exception {
+		boolean wasLocked = ExperimentServiceTest.isDisposedLocked();
+		ExperimentServiceTest.setDisposeLocked(false);
+		ExperimentServiceTest.dispose();
 		ExperimentServiceTest.create(true, false);
+		ExperimentServiceTest.setDisposeLocked(wasLocked);
 	}
 	
 	@AfterClass

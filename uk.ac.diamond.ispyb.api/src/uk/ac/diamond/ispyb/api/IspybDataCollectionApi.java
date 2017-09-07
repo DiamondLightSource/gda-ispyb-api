@@ -19,11 +19,12 @@ import java.util.Optional;
  * Database access methods for adding data to DataCollectionMain related fields
  */
 public interface IspybDataCollectionApi extends Closeable {
-     public Optional<Detector> retrieveDetector(String serialNumber) throws SQLException;
+        public Optional<Detector> retrieveDetector(String serialNumber) throws SQLException;
 	public Long upsertDataCollectionMain(DataCollectionMain dataCollectionMain);
 	public void updateDataCollectionExperiment(DataCollectionExperiment dataCollectionExperiment);
 	public void updateDataCollectionMachine(DataCollectionMachine dataCollectionMachine);
 	public Long upsertDataCollectionGroup(DataCollectionGroup dataCollectionGroup);
 	public Long upsertDataCollectionGroupGrid(DataCollectionGroupGrid dataCollectionGroupGrid);
+        public void updateDataCollectionPosition(Position position);
 	public Long insertBeamlineAction(BeamlineAction beamlineAction);
 }

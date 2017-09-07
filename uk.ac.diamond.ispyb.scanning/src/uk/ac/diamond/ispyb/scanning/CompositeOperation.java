@@ -45,10 +45,12 @@ class CompositeOperation implements DatabaseOperation<CompositeBean> {
 
 	private <T> void process(Operation type, T bean, Id id) {
 		
-		DatabaseOperation<T> operation = service.getOperation(type, bean);
 		try {
+			bean = service.fromBean(bean);
+			DatabaseOperation<T> operation = service.getOperation(type, bean);
 			Future<Id> child = service.execute(operation, type, bean, true);
 			id.put(bean.getClass().getSimpleName(), child.get());
+			
 		} catch (Exception e) {
 			id.put(bean.getClass().getSimpleName(), -1L);
 			id.putError(bean.getClass().getSimpleName(), e.getMessage());
