@@ -6,11 +6,11 @@
 	<parent>
 		<artifactId>uk.ac.diamond.ispyb</artifactId>
 		<groupId>uk.ac.diamond</groupId>
-	    <version>1.14.0</version>
+	    <version>1.14.1</version>
 	</parent>
 	<groupId>uk.ac.diamond</groupId>
 	<artifactId>uk.ac.diamond.ispyb.target</artifactId>
-	<version>1.14.0</version>
+	<version>1.14.1</version>
 	<packaging>eclipse-target-definition</packaging>
 	
 </project>
