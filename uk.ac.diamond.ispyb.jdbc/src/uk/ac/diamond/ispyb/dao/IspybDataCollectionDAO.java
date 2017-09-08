@@ -49,12 +49,12 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 
 	@Override
 	public Long upsertDataCollectionMain(DataCollectionMain dataCollectionMain) {
-		return beanTemplateWrapper.callIspybForKey("upsert_dc_main", Long.class, dataCollectionMain, "p_id").get();
+		return beanTemplateWrapper.callIspybForKey("upsert_dc_main_v2", Long.class, dataCollectionMain, "p_id").get();
 	}
 
 	@Override
 	public void updateDataCollectionExperiment(DataCollectionExperiment dataCollectionExperiment) {
-		beanTemplateWrapper.callIspyb("update_dc_experiment", dataCollectionExperiment);
+		beanTemplateWrapper.callIspyb("update_dc_experiment_v2", dataCollectionExperiment);
 	}
 
 	@Override
