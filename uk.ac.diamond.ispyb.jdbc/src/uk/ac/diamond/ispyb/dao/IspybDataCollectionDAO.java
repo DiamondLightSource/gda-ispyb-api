@@ -54,7 +54,7 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 
 	@Override
 	public void updateDataCollectionExperiment(DataCollectionExperiment dataCollectionExperiment) {
-		beanTemplateWrapper.callIspyb("update_dc_experiment", dataCollectionExperiment);
+		beanTemplateWrapper.callIspyb("update_dc_experiment_v2", dataCollectionExperiment);
 	}
 
 	@Override
