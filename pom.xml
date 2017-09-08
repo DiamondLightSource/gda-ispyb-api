@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>uk.ac.diamond</groupId>
 	<artifactId>uk.ac.diamond.ispyb</artifactId>
-	<version>1.14.0</version>
+	<version>1.15.0</version>
 	<packaging>pom</packaging>
 
 	<prerequisites>
@@ -79,7 +79,7 @@
 					 <artifact>
 	                     <groupId>uk.ac.diamond</groupId>
 	                     <artifactId>uk.ac.diamond.ispyb.target</artifactId>
-						<version>1.14.0</version>
+						<version>1.15.0</version>
 				  </artifact>
 				</target>
 			    <pomDependencies>consider</pomDependencies>
