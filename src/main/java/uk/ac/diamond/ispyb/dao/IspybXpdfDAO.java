@@ -21,11 +21,9 @@ import java.util.Map;
 
 public class IspybXpdfDAO implements IspybXpdfApi{
     private final TemplateWrapper templateWrapper;
-    private final BeanTemplateWrapper beanTemplateWrapper;
 
     public IspybXpdfDAO(TemplateWrapper templateWrapper, BeanTemplateWrapper beanTemplateWrapper){
         this.templateWrapper = templateWrapper;
-        this.beanTemplateWrapper = beanTemplateWrapper;
     }
 
     public List<Sample> retrieveSamplesAssignedForProposal(String proposalCode, Long proposalNumber){

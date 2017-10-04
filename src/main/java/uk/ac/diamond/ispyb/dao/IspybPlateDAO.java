@@ -19,7 +19,10 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public class IspybPlateDAO implements IspybPlateApi{
-	private final TemplateWrapper templateWrapper;
+    private static final String BARCODE = "barcode";
+	private static final String BEAMLINE = "beamline";
+	
+    private final TemplateWrapper templateWrapper;
 	private final BeanTemplateWrapper beanTemplateWrapper;
 
 	public IspybPlateDAO(TemplateWrapper templateWrapper, BeanTemplateWrapper beanTemplateWrapper) {
@@ -29,17 +32,17 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public Optional<String> retrieveContainerLSPosition(String barcode) throws SQLException {
-		return templateWrapper.callIspyb("retrieve_container_ls_position", String.class, map("barcode", barcode));
+		return templateWrapper.callIspyb("retrieve_container_ls_position", String.class, map(BARCODE, barcode));
 	}
 
 	@Override
 	public Optional<ContainerInfo> retrieveContainerInfo(String barcode) throws SQLException {
-		return templateWrapper.callIspybForBean("retrieve_container_info", ContainerInfo.class, map("barcode", barcode));
+		return templateWrapper.callIspybForBean("retrieve_container_info", ContainerInfo.class, map(BARCODE, barcode));
 	}
 
 	@Override
 	public List<ContainerInfo> retrieveContainerOnGonio(String beamline) throws SQLException{
-		return templateWrapper.callIspybForListBeans("retrieve_container_on_gonio", ContainerInfo.class, map("beamline", beamline));
+		return templateWrapper.callIspybForListBeans("retrieve_container_on_gonio", ContainerInfo.class, map(BEAMLINE, beamline));
 	}
 
 	@Override
@@ -54,36 +57,36 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public void finishContainer(String barcode) throws SQLException {
-		templateWrapper.updateIspyb("finish_container", map("barcode", barcode));
+		templateWrapper.updateIspyb("finish_container", map(BARCODE, barcode));
 	}
 
 	@Override
 	public List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws SQLException {
-		return templateWrapper.callIspybForListBeans("retrieve_container_ls_queue", ContainerLSQueueEntry.class, map("beamline", beamline));
+		return templateWrapper.callIspybForListBeans("retrieve_container_ls_queue", ContainerLSQueueEntry.class, map(BEAMLINE, beamline));
 	}
 
         @Override
         public List<ContainerForBeamlineAndStatusEntry> retrieveContainersOnBeamlineWithStatus(String beamline, ContainerStatus status) throws SQLException {
                 Map<String, Object> map = new HashMap<>();
-                map.put("beamline", beamline);
+                map.put(BEAMLINE, beamline);
                 map.put("status", status.getStatus());
                 return templateWrapper.callIspybForListBeans("retrieve_containers_on_beamline_with_status", ContainerForBeamlineAndStatusEntry.class, map);
         }
 
 	@Override
 	public Optional<Timestamp> retrieveContainerQueueWithMostRecentCompletedTimestamp(String barcode) throws SQLException{
-		return templateWrapper.callIspyb("retrieve_container_queue_most_recent_completed_timestamp", Timestamp.class, map("barcode", barcode));
+		return templateWrapper.callIspyb("retrieve_container_queue_most_recent_completed_timestamp", Timestamp.class, map(BARCODE, barcode));
 	}
 
 	@Override
 	public Optional<Date> retrieveContainerQueueTimestamp(String barcode) throws SQLException {
-		return templateWrapper.callIspyb("retrieve_container_queue_timestamp", Timestamp.class, map("barcode", barcode))
+		return templateWrapper.callIspyb("retrieve_container_queue_timestamp", Timestamp.class, map(BARCODE, barcode))
 				.map(ts -> (Date)ts);
 	}
 
 	@Override
 	public List<ContainerSubsample> retrieveContainerSubsamples(String barcode) throws SQLException {
-		return templateWrapper.callIspybForListBeans("retrieve_container_subsamples", ContainerSubsample.class, map("barcode", barcode));
+		return templateWrapper.callIspybForListBeans("retrieve_container_subsamples", ContainerSubsample.class, map(BARCODE, barcode));
 	}
 
 	@Override
@@ -98,7 +101,7 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public void clearContainerError(String barcode) throws SQLException {
-		templateWrapper.callIspybForList("clear_container_error", String.class, map("barcode", barcode));
+		templateWrapper.callIspybForList("clear_container_error", String.class, map(BARCODE, barcode));
 	}
 
 	@Override

@@ -11,7 +11,6 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.dao;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.SqlReturnResultSet;
@@ -88,8 +87,7 @@ public class TemplateWrapper {
 	private Map<String, Object> execute(String procedure, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
-		Map<String, Object> map = simpleJdbcCall.execute(in);
-		return map;
+		return simpleJdbcCall.execute(in);
 	}
 	
 	private MapSqlParameterSource createInParameters(Map<String, Object> params) {
@@ -101,20 +99,11 @@ public class TemplateWrapper {
 	}
 
 	SimpleJdbcCall createCall(String procedure) {
-		SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(template)
+		return new SimpleJdbcCall(template)
 			.withProcedureName(procedure)
 			.withCatalogName(schema);
-		return simpleJdbcCall;
 	}
-	
-	private <T> Optional<T> convertEmptyToOption(ErroringSupplier<T> supplier){
-		try {
-			return Optional.of(supplier.get());
-		} catch (EmptyResultDataAccessException ex) {
-			return Optional.empty();
-		}
-	}
-	
+		
 	@SuppressWarnings("unchecked")
 	<T> T firstValue(Map<String, Object> map){
 		return (T) map.values().iterator().next();
