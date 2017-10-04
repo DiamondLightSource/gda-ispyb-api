@@ -6,6 +6,10 @@ import uk.ac.diamond.ispyb.api.Component;
 import uk.ac.diamond.ispyb.api.ComponentLattice;
 import uk.ac.diamond.ispyb.api.DataCollectionPlan;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 /**
  * 
  * This composite assumes a 1:1 mapping between Component and Lattice as per
@@ -73,43 +77,17 @@ public class SampleInformation {
 	}
 
 	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
+	}
+	
+	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((components == null) ? 0 : components.hashCode());
-		result = prime * result + ((lattices == null) ? 0 : lattices.hashCode());
-		result = prime * result + ((plans == null) ? 0 : plans.hashCode());
-		result = prime * result + (int) (sampleId ^ (sampleId >>> 32));
-		return result;
+		return HashCodeBuilder.reflectionHashCode(this);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SampleInformation other = (SampleInformation) obj;
-		if (components == null) {
-			if (other.components != null)
-				return false;
-		} else if (!components.equals(other.components))
-			return false;
-		if (lattices == null) {
-			if (other.lattices != null)
-				return false;
-		} else if (!lattices.equals(other.lattices))
-			return false;
-		if (plans == null) {
-			if (other.plans != null)
-				return false;
-		} else if (!plans.equals(other.plans))
-			return false;
-		if (sampleId != other.sampleId)
-			return false;
-		return true;
+	public boolean equals(Object that) {
+		return EqualsBuilder.reflectionEquals(this, that);
 	}
-
 }
