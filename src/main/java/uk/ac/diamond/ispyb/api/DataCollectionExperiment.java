@@ -44,6 +44,7 @@ public class DataCollectionExperiment {
     private Float wavelength;
     private Float resolution;
     private Float detectorDistance;
+    private Float detector2Theta;
     private String bestWilsonPlotPath;
     private Float beamSizeAtSampleX;
     private Float beamSizeAtSampleY;
@@ -209,6 +210,14 @@ public class DataCollectionExperiment {
 
     public void setDetectorDistance(Float detectorDistance) {
         this.detectorDistance = detectorDistance;
+    }
+
+    public Float getDetector2Theta() {
+        return detector2Theta;
+    }
+
+    public void setDetector2Theta(Float detector2Theta) {
+        this.detector2Theta = detector2Theta;
     }
 
     public String getBestWilsonPlotPath() {
