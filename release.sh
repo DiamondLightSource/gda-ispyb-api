@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=$(grep version pom.xml | head -1 | sed 's/\s<version>//g' | sed 's/<\/version>//g')
+VERSION=$(grep \<version pom.xml | head -1 | sed 's/\s*<version>//g' | sed 's/<\/version>//g')
 
 if [[ $1 = "major" ]]; then 
     NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+)\.(\d+)\.(\d+)$/"${\($1+1)}.0.0"/e')
@@ -17,9 +17,7 @@ echo "setting up next version $NEW_VERSION"
 
 REPLACE_PATTERN=$(echo s/$VERSION/$NEW_VERSION/g | sed 's/\./\\\./g')
 
-find . -type f -name "*pom.xml" -exec sed -i "$REPLACE_PATTERN" {} +
-find . -type f -name "*feature.xml" -exec sed -i "$REPLACE_PATTERN" {} +
-find . -type f -name "*MANIFEST.MF" -exec sed -i "$REPLACE_PATTERN" {} +
+sed -i "$REPLACE_PATTERN" pom.xml
 
 git checkout -b $NEW_VERSION
 git add .
