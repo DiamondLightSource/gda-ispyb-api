@@ -34,9 +34,6 @@ public class ContainerInfo {
 	private Integer proposalNumber;
 	private Integer sessionNumber;
 
-	public ContainerInfo() {
-	}
-
 	/**
 	 * @return name of container
 	 */
