@@ -76,6 +76,6 @@ public class Position {
     @Override
     public boolean equals(Object that) {
         return EqualsBuilder.reflectionEquals(this, that);
-    };
+    }
 
 }
