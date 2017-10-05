@@ -13,6 +13,7 @@ package uk.ac.diamond.ispyb.api;
 
 import java.io.Closeable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Database access methods for XPDF specific sample handling 
@@ -23,5 +24,6 @@ public interface IspybXpdfApi extends Closeable {
     List<SampleGroup> retrieveSamplesForSampleGroup(Long sampleGroupId);
     List<Component> retrieveComponentsForSampleType(Long sampleTypeId);
     List<DataCollectionPlan> retrieveDataCollectionPlansForSample(Long sampleId);
+    Optional<DataCollectionPlanInfo> retrieveDataCollectionPlanInfoForSample(Long sampleId);
     List<ComponentLattice> retrieveComponentLatticesForComponent(Long componentId);
 }

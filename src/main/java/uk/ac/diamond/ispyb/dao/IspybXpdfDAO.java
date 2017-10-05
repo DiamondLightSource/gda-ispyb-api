@@ -15,9 +15,11 @@ import uk.ac.diamond.ispyb.api.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class IspybXpdfDAO implements IspybXpdfApi{
     private final TemplateWrapper templateWrapper;
@@ -57,6 +59,17 @@ public class IspybXpdfDAO implements IspybXpdfApi{
         return templateWrapper.callIspybForListBeans("retrieve_dc_plans_for_sample", DataCollectionPlan.class, map);
     }
 
+    public Optional<DataCollectionPlanInfo> retrieveDataCollectionPlanInfoForSample(Long sampleId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("sampleId", sampleId);
+        Collection<DataCollectionPlanInfo> infos = templateWrapper.callIspybForAllRows(
+                "retrieve_dc_plans_for_sample",
+                new DataCollectionPlanInfoListExtractor(),
+                map
+        );
+        return infos.stream().findFirst();
+    }
+    
     public List<ComponentLattice> retrieveComponentLatticesForComponent(Long componentId){
         Map<String, Object> map = new HashMap<>();
         map.put("componentId", componentId);
