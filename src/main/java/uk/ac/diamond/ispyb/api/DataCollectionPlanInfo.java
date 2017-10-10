@@ -11,9 +11,9 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.api;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -26,8 +26,8 @@ public class DataCollectionPlanInfo {
 	private Double preferredBeamSizeY;
 	private Double monoBandwidth;
 
-	private List<ScanParameters> scanParameters = new ArrayList<>();
-	private List<DetectorConfiguration> detectorConfigurations = new ArrayList<>();
+	private Set<ScanParameters> scanParameters = new HashSet<>();
+	private Set<DetectorConfiguration> detectorConfigurations = new HashSet<>();
 
 	public String getName() {
 		return name;
@@ -69,7 +69,7 @@ public class DataCollectionPlanInfo {
 		this.monoBandwidth = monoBandwidth;
 	}
 	
-	public List<ScanParameters> getScanParameters() {
+	public Set<ScanParameters> getScanParameters() {
 		return scanParameters;
 	}
 
@@ -77,7 +77,7 @@ public class DataCollectionPlanInfo {
 		this.scanParameters.addAll(Arrays.asList(scan));
 	};
 
-	public List<DetectorConfiguration> getDetectorConfigurations() {
+	public Set<DetectorConfiguration> getDetectorConfigurations() {
 		return detectorConfigurations;
 	}
 
