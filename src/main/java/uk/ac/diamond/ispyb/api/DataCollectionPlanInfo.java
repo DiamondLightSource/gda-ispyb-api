@@ -11,33 +11,32 @@
  *******************************************************************************/
 package uk.ac.diamond.ispyb.api;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 public class DataCollectionPlanInfo {
-	
+	private String name;
 	private Double energy;
 	private Double preferredBeamSizeX;
 	private Double preferredBeamSizeY;
-	private Double exposureTime;
-	private Double distance;
-	private Double orientation;
 	private Double monoBandwidth;
-	private String detectorType;
-	private String detectorManufacturer;
-	private String detectorModel;
-	private Double detectorDistanceMin;
-	private Double detectorDistanceMax;
-	private Double density;
-	private String composition; 
-	
-	private List<ScanParameters> scanParameters = new ArrayList<>();
-	
+
+	private Set<ScanParameters> scanParameters = new HashSet<>();
+	private Set<DetectorConfiguration> detectorConfigurations = new HashSet<>();
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Double getEnergy() {
 		return energy;
 	}
@@ -62,30 +61,6 @@ public class DataCollectionPlanInfo {
 		this.preferredBeamSizeY = preferredBeamSizeY;
 	}
 
-	public Double getExposureTime() {
-		return exposureTime;
-	}
-
-	public void setExposureTime(Double exposureTime) {
-		this.exposureTime = exposureTime;
-	}
-
-	public Double getDistance() {
-		return distance;
-	}
-
-	public void setDistance(Double distance) {
-		this.distance = distance;
-	}
-
-	public Double getOrientation() {
-		return orientation;
-	}
-
-	public void setOrientation(Double orientation) {
-		this.orientation = orientation;
-	}
-
 	public Double getMonoBandwidth() {
 		return monoBandwidth;
 	}
@@ -93,69 +68,21 @@ public class DataCollectionPlanInfo {
 	public void setMonoBandwidth(Double monoBandwidth) {
 		this.monoBandwidth = monoBandwidth;
 	}
-
-	public String getDetectorType() {
-		return detectorType;
-	}
-
-	public void setDetectorType(String detectorType) {
-		this.detectorType = detectorType;
-	}
-
-	public String getDetectorManufacturer() {
-		return detectorManufacturer;
-	}
-
-	public void setDetectorManufacturer(String detectorManufacturer) {
-		this.detectorManufacturer = detectorManufacturer;
-	}
-
-	public String getDetectorModel() {
-		return detectorModel;
-	}
-
-	public void setDetectorModel(String detectorModel) {
-		this.detectorModel = detectorModel;
-	}
-
-	public Double getDetectorDistanceMin() {
-		return detectorDistanceMin;
-	}
-
-	public void setDetectorDistanceMin(Double detectorDistanceMin) {
-		this.detectorDistanceMin = detectorDistanceMin;
-	}
-
-	public Double getDetectorDistanceMax() {
-		return detectorDistanceMax;
-	}
-
-	public void setDetectorDistanceMax(Double detectorDistanceMax) {
-		this.detectorDistanceMax = detectorDistanceMax;
-	}
-
-	public Double getDensity() {
-		return density;
-	}
-
-	public void setDensity(Double density) {
-		this.density = density;
-	}
-
-	public String getComposition() {
-		return composition;
-	}
-
-	public void setComposition(String composition) {
-		this.composition = composition;
-	}
-
-	public List<ScanParameters> getScanParameters() {
+	
+	public Set<ScanParameters> getScanParameters() {
 		return scanParameters;
 	}
 
 	public void addScanParameter(ScanParameters... scan) {
-		scanParameters.addAll(Arrays.asList(scan));
+		this.scanParameters.addAll(Arrays.asList(scan));
+	};
+
+	public Set<DetectorConfiguration> getDetectorConfigurations() {
+		return detectorConfigurations;
+	}
+
+	public void addDetectorConfiguration(DetectorConfiguration... detectorConfigurations) {
+		this.detectorConfigurations.addAll(Arrays.asList(detectorConfigurations));
 	};
 
 	@Override

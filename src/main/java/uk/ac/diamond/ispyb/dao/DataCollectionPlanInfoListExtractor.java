@@ -16,7 +16,9 @@ import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.JdbcUtils;
+
 import uk.ac.diamond.ispyb.api.DataCollectionPlanInfo;
+import uk.ac.diamond.ispyb.api.DetectorConfiguration;
 import uk.ac.diamond.ispyb.api.ScanParameters;
 
 import java.beans.PropertyDescriptor;
@@ -43,7 +45,11 @@ public class DataCollectionPlanInfoListExtractor implements ResultSetExtractor<C
 		
 		ScanParameters scan = new ScanParameters();
 		populateBean(resultSet, scan);
-		dataCollectionPlanInfo.addScanParameter(scan);
+		dataCollectionPlanInfo.addScanParameter(scan);  
+		
+		DetectorConfiguration detectorConfiguration = new DetectorConfiguration();
+		populateBean(resultSet, detectorConfiguration);
+		dataCollectionPlanInfo.addDetectorConfiguration(detectorConfiguration);
 	}
 
 	private <T> void populateBean(ResultSet resultSet, T bean) throws SQLException {
