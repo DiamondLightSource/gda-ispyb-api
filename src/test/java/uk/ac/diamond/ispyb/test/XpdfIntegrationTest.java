@@ -37,18 +37,19 @@ public class XpdfIntegrationTest {
 	public static void connect() throws Exception {
 		helper.setUp();
 	};
-	
+
 	@AfterClass
 	public static void disconnect() throws Exception {
 		helper.tearDown();
 	};
-	
+
 	@Test
 	public void testRetrieveSamplesAssignedForSession() throws SQLException, IOException, InterruptedException {
 		List<Sample> samples = helper.execute(api -> api.retrieveSamplesAssignedForProposal("cm", 14451L));
 
 		Sample sample1 = new Sample();
 		sample1.setSampleId(398824L);
+		sample1.setContainerId(34883L);
 		sample1.setSampleName("XPDF-1");
 		sample1.setSampleCode("XPDF-0001");
 		sample1.setSampleComments("Test sample for XPDF");
@@ -59,6 +60,7 @@ public class XpdfIntegrationTest {
 
 		Sample sample2 = new Sample();
 		sample2.setSampleId(398827L);
+		sample2.setContainerId(34883L);
 		sample2.setSampleName("XPDF-2");
 		sample2.setSampleCode("XPDF-0002");
 		sample2.setSampleComments("Test sample for XPDF");
@@ -77,7 +79,7 @@ public class XpdfIntegrationTest {
 		sampleGroup.setSampleGroupId(5L);
 		sampleGroup.setOrder(1L);
 		sampleGroup.setType(SampleGroupType.BACKGROUND.name());
-		
+
 		assertThat(samples , is(equalTo(Arrays.asList(sampleGroup))));
 	}
 
@@ -97,7 +99,7 @@ public class XpdfIntegrationTest {
 		sampleGroup2.setOrder(2L);
 		sampleGroup2.setType(SampleGroupType.SAMPLE.name());
 		sampleGroups.add(sampleGroup2);
-		
+
 		assertThat(groups , is(equalTo(sampleGroups)));
 	}
 

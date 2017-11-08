@@ -17,6 +17,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 public class Sample {
     private Long sampleId;
+    private Long containerId;
+    private Long sampleTypeId;
     private String sampleName;
     private String sampleCode;
     private String sampleComments;
@@ -26,7 +28,6 @@ public class Sample {
     private Double dimension2;
     private Double dimension3;
     private String shape;
-    private Long sampleTypeId;
     private String sampleTypeName;
     private String sampleTypeComments;
     private String sampleTypeSpaceGroup;
@@ -38,6 +39,22 @@ public class Sample {
 
     public void setSampleId(Long sampleId) {
         this.sampleId = sampleId;
+    }
+
+    public Long getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(Long containerId) {
+        this.containerId = containerId;
+    }
+
+    public Long getSampleTypeId() {
+        return sampleTypeId;
+    }
+
+    public void setSampleTypeId(Long sampleTypeId) {
+        this.sampleTypeId = sampleTypeId;
     }
 
     public String getSampleName() {
@@ -110,14 +127,6 @@ public class Sample {
 
     public void setShape(String shape) {
         this.shape = shape;
-    }
-
-    public Long getSampleTypeId() {
-        return sampleTypeId;
-    }
-
-    public void setSampleTypeId(Long sampleTypeId) {
-        this.sampleTypeId = sampleTypeId;
     }
 
     public String getSampleTypeName() {
