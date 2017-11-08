@@ -27,22 +27,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PlateIntegrationTest {
 	private final static IntegrationTestHelper<IspybPlateApi> helper = new IntegrationTestHelper<>(new IspybPlateDaoFactory());
-	
+
 	@BeforeClass
 	public static void connect() throws Exception {
 		helper.setUp();
 	};
-	
+
 	@AfterClass
 	public static void disconnect() throws Exception {
 		helper.tearDown();
 	};
 
-	
+
 	@Test
 	public void testRetrieve() throws SQLException, IOException, InterruptedException {
 		ContainerInfo containerInfo = helper.execute(api -> api.retrieveContainerInfo("test_plate3")).get();
-		
+
 		ContainerInfo expected = new ContainerInfo();
 		expected.setName("test_plate3");
 		expected.setType("CrystalQuickX");
@@ -61,14 +61,18 @@ public class PlateIntegrationTest {
 
 	@Test
 	public void testRetrieveLsPosition() throws SQLException, IOException{
+		helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_LOCALSTORAGE));
+
 		String position = helper.execute(api-> api.retrieveContainerLSPosition("test_plate2")).get();
 		assertThat(position, is(equalTo("3")));
 	}
 
 	@Test
 	public void testRetrieveLsQueue() throws SQLException, IOException{
+		helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_LOCALSTORAGE));
+
 		List<ContainerLSQueueEntry> entries = helper.execute(api-> api.retrieveContainerLSQueue("i03"));
-		
+
 		ContainerLSQueueEntry expected = new ContainerLSQueueEntry();
 		expected.setBarcode("test_plate2");
 		expected.setLocation("3");
@@ -77,12 +81,14 @@ public class PlateIntegrationTest {
 		c.clear(Calendar.MILLISECOND);
 		Date date = c.getTime();
 		expected.setAdded(new Timestamp(date.getTime()));
-		
+
 		assertThat(entries, is(equalTo(Arrays.asList(expected))));
 	}
 
         @Test
         public void testRetrieveContainersOnBeamlineWithStatus() throws SQLException, IOException{
+								helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_LOCALSTORAGE));
+
                 List<ContainerForBeamlineAndStatusEntry> entries = helper.execute(api-> api.retrieveContainersOnBeamlineWithStatus("i03", ContainerStatus.IN_LOCALSTORAGE));
 
                 ContainerForBeamlineAndStatusEntry expected = new ContainerForBeamlineAndStatusEntry();
@@ -96,7 +102,7 @@ public class PlateIntegrationTest {
 
                 assertThat(entries, is(equalTo(Arrays.asList(expected))));
         }
-	
+
 	@Test
 	public void testShouldRetrieveContainerOnGonio() throws Exception {
 		List<ContainerInfo> beans = helper.execute(api -> api.retrieveContainerOnGonio("notusedinthestoredprocedure!!!"));
@@ -120,7 +126,7 @@ public class PlateIntegrationTest {
 	@Test
 	public void testShouldRetrieveDataCollection() throws Exception {
 		List<DataCollectionInfo> info = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(2L));
-		
+
 		DataCollectionInfo expected = new DataCollectionInfo();
 		expected.setId(1066786L);
 		expected.setDcNumber(2);
@@ -162,14 +168,14 @@ public class PlateIntegrationTest {
 
 		assertThat(info, is(equalTo(Arrays.asList(expected))));
 	}
-	
+
 	@Test
 	public void testShouldRetrieveNoBean() throws Exception {
 		List<DataCollectionInfo> dataCollection = helper.execute(api -> api.retrieveDataCollectionInfosForSubsample(12345L));
 
 		assertThat(dataCollection, is(equalTo(Collections.emptyList())));
 	}
-	
+
 	@Test
 	public void testUpsertSampleImageAnalysis() throws SQLException, IOException, InterruptedException {
 		SampleImageAnalysis sampleImageAnalysis = new SampleImageAnalysis();
@@ -178,13 +184,13 @@ public class PlateIntegrationTest {
 
 		helper.run(api -> api.upsertSampleImageAnalysis(sampleImageAnalysis));
 	}
-	
+
 	@Test
 	public void testUpsertSampleImageAnalysisChangesId() throws SQLException, IOException, InterruptedException {
 		SampleImageAnalysis sampleImageAnalysis1 = new SampleImageAnalysis();
 		sampleImageAnalysis1.setContainerBarcode("test_plate3");
 		sampleImageAnalysis1.setSampleLocation("1");
-		
+
 		Long id1 = helper.execute(api -> api.upsertSampleImageAnalysis(sampleImageAnalysis1));
 
 		SampleImageAnalysis sampleImageAnalysis2 = new SampleImageAnalysis();
