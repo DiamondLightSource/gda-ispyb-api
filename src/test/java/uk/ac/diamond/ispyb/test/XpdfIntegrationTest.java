@@ -195,4 +195,26 @@ public class XpdfIntegrationTest {
 
 		assertThat(lattices , is(equalTo(Arrays.asList(componentLattice))));
 	}
+
+	@Test
+	public void testRetrieveContainerInfoForId()throws SQLException, IOException, InterruptedException {
+		ContainerInfo containerInfo = helper.execute(api -> api.retrieveContainerInfoForId(34877L)).get();
+
+		ContainerInfo expected = new ContainerInfo();
+    expected.setDewarId(8572L);
+		expected.setName("test_plate3");
+		expected.setType("CrystalQuickX");
+		expected.setBarcode("test_plate3");
+		expected.setBeamline("i03");
+		expected.setLocation("3");
+		expected.setImagerName("Imager1 20c");
+		expected.setImagerSerialNumber("Z125434");
+		expected.setStatus(ContainerStatus.IN_STORAGE.getStatus());
+		expected.setCapacity(192);
+		expected.setStorageTemperature(20.0f);
+		expected.setProposalCode(null);
+
+		assertThat(containerInfo, is(equalTo(expected)));
+  }
+
 }

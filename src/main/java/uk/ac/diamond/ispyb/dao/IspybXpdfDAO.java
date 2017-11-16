@@ -46,7 +46,7 @@ public class IspybXpdfDAO implements IspybXpdfApi{
         map.put("sampleGroupId", sampleGroupId);
         return templateWrapper.callIspybForListBeans("retrieve_samples_for_sample_group", SampleGroup.class, map);
     }
-    
+
     public List<Component> retrieveComponentsForSampleType(Long sampleTypeId){
         Map<String, Object> map = new HashMap<>();
         map.put("sampleTypeId", sampleTypeId);
@@ -69,12 +69,19 @@ public class IspybXpdfDAO implements IspybXpdfApi{
         );
         return infos.stream().findFirst();
     }
-    
+
     public List<ComponentLattice> retrieveComponentLatticesForComponent(Long componentId){
         Map<String, Object> map = new HashMap<>();
         map.put("componentId", componentId);
         return templateWrapper.callIspybForListBeans("retrieve_component_lattices_for_component", ComponentLattice.class, map);
     }
+
+    @Override
+  	public Optional<ContainerInfo> retrieveContainerInfoForId(Long containerId) throws SQLException {
+      Map<String, Object> map = new HashMap<>();
+      map.put("containerId", containerId);
+  		return templateWrapper.callIspybForBean("retrieve_container_info_for_id", ContainerInfo.class, map);
+  	}
 
     @Override
     public void close() throws IOException {
