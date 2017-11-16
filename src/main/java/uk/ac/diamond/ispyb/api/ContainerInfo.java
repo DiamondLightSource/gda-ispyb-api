@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  */
 public class ContainerInfo {
 
+	private Long dewarId;
 	private String name;
 	private String type;
 	private String barcode;
@@ -33,6 +34,24 @@ public class ContainerInfo {
 	private String proposalCode;
 	private Integer proposalNumber;
 	private Integer sessionNumber;
+	private String comments;
+	private String experimentType;
+
+	/**
+	 * @return dewarId of container
+	 */
+	public Long getDewarId() {
+		return dewarId;
+	}
+
+	/**
+	 * Set dewarId of container
+	 *
+	 * @param dewarId
+	 */
+	public void setDewarId(Long dewarId) {
+		this.dewarId = dewarId;
+	}
 
 	/**
 	 * @return name of container
@@ -43,7 +62,7 @@ public class ContainerInfo {
 
 	/**
 	 * Set name of container
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(String name) {
@@ -59,7 +78,7 @@ public class ContainerInfo {
 
 	/**
 	 * Set type of container
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setType(String type) {
@@ -75,7 +94,7 @@ public class ContainerInfo {
 
 	/**
 	 * Set barcode of container
-	 * 
+	 *
 	 * @param barcode
 	 */
 	public void setBarcode(String barcode) {
@@ -91,7 +110,7 @@ public class ContainerInfo {
 
 	/**
 	 * Set beamline for container
-	 * 
+	 *
 	 * @param beamline
 	 */
 	public void setBeamline(String beamline) {
@@ -107,7 +126,7 @@ public class ContainerInfo {
 
 	/**
 	 * Set location of container
-	 * 
+	 *
 	 * @param location
 	 */
 	public void setLocation(String location) {
@@ -123,7 +142,7 @@ public class ContainerInfo {
 
 	/**
 	 * Set imager name
-	 * 
+	 *
 	 * @param imagerName
 	 */
 	public void setImagerName(String imagerName) {
@@ -139,7 +158,7 @@ public class ContainerInfo {
 
 	/**
 	 * Set imager serial number
-	 * 
+	 *
 	 * @param imagerSerialNumber
 	 */
 	public void setImagerSerialNumber(String imagerSerialNumber) {
@@ -155,7 +174,7 @@ public class ContainerInfo {
 
 	/**
 	 * Set container status
-	 * 
+	 *
 	 * @param imagerName
 	 */
 	public void setStatus(String status) {
@@ -171,7 +190,7 @@ public class ContainerInfo {
 
 	/**
 	 * Set capacity of container
-	 * 
+	 *
 	 * @param capacity
 	 */
 	public void setCapacity(Integer capacity) {
@@ -187,13 +206,13 @@ public class ContainerInfo {
 
 	/**
 	 * Set storage temperature of container
-	 * 
+	 *
 	 * @param storageTemperature
 	 */
 	public void setStorageTemperature(Float storageTemperature) {
 		this.storageTemperature = storageTemperature;
 	}
-	
+
 	public String getProposalCode() {
 		return proposalCode;
 	}
@@ -217,6 +236,44 @@ public class ContainerInfo {
 	public void setSessionNumber(Integer sessionNumber) {
 		this.sessionNumber = sessionNumber;
 	}
+
+	/**
+	 * @return container comments
+	 */
+	public String getComments() {
+		return comments;
+	}
+
+	/**
+	 * Set container comments
+	 *
+	 * @param comments
+	 */
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	/**
+	 * @return experimentType of container
+	 */
+	public String getExperimentType() {
+		return experimentType;
+	}
+
+	/**
+	 * Set experimentType for container
+	 *
+	 * @param experimentType
+	 */
+	public void setExperimentType(String experimentType) {
+		this.experimentType = experimentType;
+	}
+
+
+
+
+
+
 
 	@Override
 	public String toString() {

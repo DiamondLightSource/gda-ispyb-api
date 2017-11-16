@@ -8765,6 +8765,39 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_container_info_for_id` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `retrieve_container_info_for_id`(IN p_containerId int unsigned)
+    READS SQL DATA
+    COMMENT 'Return single-row result set with info about a Container identified by p_containerId'
+BEGIN
+    IF NOT (p_containerId IS NULL) THEN
+	    SELECT c.dewarId "dewarId", c.code "name", c.barcode "barcode", c.containerStatus "status", c.containerType "type", c.capacity "capacity",
+	      c.sampleChangerLocation "location", c.beamlineLocation "beamline", c.comments "comments", c.experimentType "experimentType",
+          p.proposalCode "proposalCode", p.proposalNumber "proposalNumber", bs.visit_number "sessionNumber",
+          i.name "imagerName", i.serial "imagerSerialNumber", i.temperature "storageTemperature"
+      FROM Container c
+          LEFT OUTER JOIN Imager i on c.imagerId = i.imagerId
+          LEFT OUTER JOIN BLSession bs on bs.sessionId = c.sessionId 
+          LEFT OUTER JOIN Proposal p on p.proposalId = bs.proposalId
+        WHERE c.containerId = p_containerId;
+     ELSE
+        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument is NULL: p_containerId';
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `retrieve_container_ls_position` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -10620,6 +10653,48 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_motion_correction_drift` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_motion_correction_drift`(
+     INOUT p_id int(11) unsigned,
+	 p_motionCorrectionId int(11) unsigned,
+     p_frameNumber smallint unsigned,
+     p_deltaX float,
+     p_deltaY float
+  )
+    MODIFIES SQL DATA
+    COMMENT 'If p_id is not provided, inserts new row. Otherwise updates existing row.'
+BEGIN
+  IF p_id IS NOT NULL OR p_motionCorrectionId IS NOT NULL THEN
+    INSERT INTO MotionCorrectionDrift (
+      motionCorrectionDriftId, motionCorrectionId, frameNumber, deltaX, deltaY) 
+	VALUES (
+	  p_id, p_motionCorrectionId, p_frameNumber, p_deltaX, p_deltaY)
+	ON DUPLICATE KEY UPDATE
+      motionCorrectionId = IFNULL(p_motionCorrectionId, motionCorrectionId),
+      frameNumber = IFNULL(p_frameNumber, frameNumber),
+      deltaX = IFNULL(p_deltaX, deltaX),
+      deltaY = IFNULL(p_deltaY, deltaY);
+	IF p_id IS NULL THEN 
+      SET p_id = LAST_INSERT_ID();
+    END IF;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument(s) p_id and/or p_motionCorrectionId are NULL';  
+  END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `upsert_mrrun` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -11144,7 +11219,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `upsert_quality_indicators`(
-  OUT p_id int(11) unsigned,
+  INOUT p_id int(11) unsigned,
   p_dataCollectionId int(11) unsigned, 
   p_autoProcProgramId int(10) unsigned, 
   p_imageNumber mediumint(8) unsigned,
@@ -11742,4 +11817,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-08 11:57:40
+-- Dump completed on 2017-11-16  9:55:49
