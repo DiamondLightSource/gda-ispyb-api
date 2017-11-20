@@ -39,11 +39,15 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
+                            <Bundle-Name>${project.name} Source</Bundle-Name>
+                            <Bundle-SymbolicName>uk.ac.diamond.ispyb.api.source</Bundle-SymbolicName>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
                             <Eclipse-SourceBundle>uk.ac.diamond.ispyb.api;version="${project.version}"</Eclipse-SourceBundle>
                         </manifestEntries>
                     </archive>
                 </configuration>
-            </plugin>            
+            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
