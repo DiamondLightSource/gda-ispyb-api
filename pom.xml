@@ -50,9 +50,10 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>uk.ac.diamond.ispyb.api</Bundle-SymbolicName>
+                        <Bundle-SymbolicName>uk.ac.diamond.ispyb.api;singleton:=true</Bundle-SymbolicName>
                         <Bundle-Name>${project.name}</Bundle-Name>
                         <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
+                        <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
                         <Export-Package>uk.ac.diamond.ispyb.api</Export-Package>
                         <Require-Bundle>
                              org.apache.commons.lang3;bundle-version="3.1.0",
@@ -60,9 +61,7 @@
                              org.apache.commons.beanutils;bundle-version="1.8.0"
                         </Require-Bundle>
                         <Service-Component>
-                            OSGI-INF/ispybPlateApiService.xml,
-                            OSGI-INF/ispybDataCollectionApiService.xml,
-                            OSGI-INF/ispybXpdfApiService.xml
+                            OSGI-INF/*.xml
                         </Service-Component>
                         <Import-Package>
                             org.springframework.beans;version="4.0.6.RELEASE",
