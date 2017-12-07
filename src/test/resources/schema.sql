@@ -3069,7 +3069,7 @@ DROP TABLE IF EXISTS `ImageQualityIndicators`;
 CREATE TABLE `ImageQualityIndicators` (
   `imageQualityIndicatorsId` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key (auto-incremented)',
   `imageId` int(12) DEFAULT NULL,
-  `autoProcProgramId` int(10) unsigned DEFAULT NULL,
+  `autoProcProgramId` int(10) unsigned DEFAULT NULL COMMENT 'Foreign key to the AutoProcProgram table',
   `spotTotal` int(10) DEFAULT NULL COMMENT 'Total number of spots',
   `inResTotal` int(10) DEFAULT NULL COMMENT 'Total number of spots in resolution range',
   `goodBraggCandidates` int(10) DEFAULT NULL COMMENT 'Total number of Bragg diffraction spots',
@@ -3087,11 +3087,8 @@ CREATE TABLE `ImageQualityIndicators` (
   `imageNumber` mediumint(8) unsigned DEFAULT NULL,
   `driftFactor` float DEFAULT NULL COMMENT 'EM movie drift factor',
   PRIMARY KEY (`imageQualityIndicatorsId`),
-  KEY `AutoProcProgramIdx1` (`autoProcProgramId`),
-  KEY `ImageQualityIndicatorsIdx1` (`imageId`),
   KEY `ImageQualityIndicators_ibfk3` (`dataCollectionId`),
-  CONSTRAINT `AutoProcProgramFK1` FOREIGN KEY (`autoProcProgramId`) REFERENCES `AutoProcProgram` (`autoProcProgramId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ImageQualityIndicators_ibfk3` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
+  CONSTRAINT `_ImageQualityIndicators_ibfk3` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=62328700 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3750,10 +3747,13 @@ CREATE TABLE `MotionCorrection` (
   `fftFullPath` varchar(255) DEFAULT NULL COMMENT 'Full path to the jpg image of the raw micrograph FFT',
   `fftCorrectedFullPath` varchar(255) DEFAULT NULL COMMENT 'Full path to the jpg image of the drift corrected micrograph FFT',
   `comments` varchar(255) DEFAULT NULL,
+  `movieId` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`motionCorrectionId`),
   KEY `_MotionCorrection_ibfk1` (`dataCollectionId`),
   KEY `MotionCorrection_ibfk2` (`autoProcProgramId`),
+  KEY `MotionCorrection_ibfk3` (`movieId`),
   CONSTRAINT `MotionCorrection_ibfk2` FOREIGN KEY (`autoProcProgramId`) REFERENCES `AutoProcProgram` (`autoProcProgramId`),
+  CONSTRAINT `MotionCorrection_ibfk3` FOREIGN KEY (`movieId`) REFERENCES `Movie` (`movieId`),
   CONSTRAINT `_MotionCorrection_ibfk1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -3827,6 +3827,37 @@ CREATE TABLE `MotorPosition` (
 LOCK TABLES `MotorPosition` WRITE;
 /*!40000 ALTER TABLE `MotorPosition` DISABLE KEYS */;
 /*!40000 ALTER TABLE `MotorPosition` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Movie`
+--
+
+DROP TABLE IF EXISTS `Movie`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Movie` (
+  `movieId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `dataCollectionId` int(11) unsigned DEFAULT NULL,
+  `movieNumber` mediumint(8) unsigned DEFAULT NULL,
+  `movieFullPath` varchar(255) DEFAULT NULL,
+  `createdTimeStamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `positionX` float DEFAULT NULL,
+  `positionY` float DEFAULT NULL,
+  `nominalDefocus` float unsigned DEFAULT NULL COMMENT 'Nominal defocus, Units: A',
+  PRIMARY KEY (`movieId`),
+  KEY `Movie_ibfk1` (`dataCollectionId`),
+  CONSTRAINT `Movie_ibfk1` FOREIGN KEY (`dataCollectionId`) REFERENCES `DataCollection` (`dataCollectionId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Movie`
+--
+
+LOCK TABLES `Movie` WRITE;
+/*!40000 ALTER TABLE `Movie` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Movie` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -10604,7 +10635,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `upsert_motion_correction`(
   INOUT p_motionCorrectionId int(11) unsigned,
-  p_dataCollectionId int(11) unsigned,
+  p_movieId int(11) unsigned,
   p_autoProcProgramId int(11) unsigned,
   p_imageNumber smallint unsigned,
   p_firstFrame smallint unsigned,
@@ -10623,11 +10654,11 @@ CREATE PROCEDURE `upsert_motion_correction`(
 )
     MODIFIES SQL DATA
 BEGIN
-    INSERT INTO MotionCorrection (motionCorrectionId, dataCollectionId, autoProcProgramId, imageNumber, firstFrame, lastFrame, dosePerFrame, totalMotion, averageMotionPerFrame, driftPlotFullPath, micrographFullPath, micrographSnapshotFullPath, fftFullPath, fftCorrectedFullPath, patchesUsedX, patchesUsedY, comments) 
-      VALUES (p_motionCorrectionId, p_dataCollectionId, p_autoProcProgramId, p_imageNumber, p_firstFrame, p_lastFrame, p_dosePerFrame, p_totalMotion, p_averageMotionPerFrame, p_driftPlotFullPath, p_micrographFullPath, p_micrographSnapshotFullPath, p_fftFullPath, p_fftCorrectedFullPath, p_patchesUsedX, p_patchesUsedY, p_comments)
+    INSERT INTO MotionCorrection (motionCorrectionId, movieId, autoProcProgramId, imageNumber, firstFrame, lastFrame, dosePerFrame, totalMotion, averageMotionPerFrame, driftPlotFullPath, micrographFullPath, micrographSnapshotFullPath, fftFullPath, fftCorrectedFullPath, patchesUsedX, patchesUsedY, comments) 
+      VALUES (p_motionCorrectionId, p_movieId, p_autoProcProgramId, p_imageNumber, p_firstFrame, p_lastFrame, p_dosePerFrame, p_totalMotion, p_averageMotionPerFrame, p_driftPlotFullPath, p_micrographFullPath, p_micrographSnapshotFullPath, p_fftFullPath, p_fftCorrectedFullPath, p_patchesUsedX, p_patchesUsedY, p_comments)
       ON DUPLICATE KEY UPDATE
         motionCorrectionId = IFNULL(p_motionCorrectionId, motionCorrectionId),
-	dataCollectionId = IFNULL(p_dataCollectionId, dataCollectionId),
+	movieId = IFNULL(p_movieId, movieId),
 	autoProcProgramId = IFNULL(p_autoProcProgramId, autoProcProgramId), 
 	imageNumber = IFNULL(p_imageNumber, imageNumber), 
 	firstFrame = IFNULL(p_firstFrame, firstFrame), 
@@ -10689,6 +10720,48 @@ BEGIN
   ELSE
     SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument(s) p_id and/or p_motionCorrectionId are NULL';  
   END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `upsert_movie` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `upsert_movie`(
+  INOUT p_movieId int(11) unsigned,
+  p_dataCollectionId int(11) unsigned,
+  p_movieNumber mediumint unsigned,
+  p_movieFullPath varchar(255),
+  p_createdTimeStamp timestamp,
+  p_positionX float,
+  p_positionY float,
+  p_nominalDefocus float unsigned
+)
+    MODIFIES SQL DATA
+BEGIN
+    INSERT INTO Movie (movieId, dataCollectionId, movieNumber, movieFullPath, createdTimeStamp, positionX, positionY, nominalDefocus) 
+      VALUES (p_movieId, p_dataCollectionId, p_movieNumber, p_movieFullPath, p_createdTimeStamp, p_positionX, p_positionY, p_nominalDefocus)
+      ON DUPLICATE KEY UPDATE
+        dataCollectionId = IFNULL(p_dataCollectionId, dataCollectionId),
+        movieNumber = IFNULL(p_movieNumber, movieNumber),
+        movieFullPath = IFNULL(p_movieFullPath, movieFullPath),
+        createdTimeStamp = IFNULL(p_createdTimeStamp, createdTimeStamp),
+        positionX = IFNULL(p_positionX, positionX),
+        positionY = IFNULL(p_positionY, positionY),
+        nominalDefocus = IFNULL(p_nominalDefocus, nominalDefocus);
+
+	IF p_movieId IS NULL THEN
+	    SET p_movieId = LAST_INSERT_ID();
+	END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -11219,7 +11292,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `upsert_quality_indicators`(
-  INOUT p_id int(11) unsigned,
+  OUT p_id int(11) unsigned,
   p_dataCollectionId int(11) unsigned, 
   p_autoProcProgramId int(10) unsigned, 
   p_imageNumber mediumint(8) unsigned,
@@ -11240,40 +11313,35 @@ CREATE PROCEDURE `upsert_quality_indicators`(
     MODIFIES SQL DATA
     COMMENT 'Inserts into or updates a row in the image quality indicators table'
 BEGIN
-
-  IF p_id IS NOT NULL OR (p_id IS NULL AND p_dataCollectionId IS NOT NULL AND p_imageNumber IS NOT NULL) THEN
-    INSERT INTO ImageQualityIndicators (
-      imageQualityIndicatorsId, dataCollectionId, autoProcProgramId, imageNumber, spotTotal, inResTotal, goodBraggCandidates, iceRings, 
-	  method1Res, method2Res, maxUnitCell, pctSaturationTop50Peaks,
-	  inResolutionOvrlSpots, binPopCutOffMethod2Res, totalIntegratedSignal, dozor_score, driftFactor) 
-      VALUES (
-        p_id, p_dataCollectionId, p_autoProcProgramId, p_imageNumber, p_spotTotal, p_inResTotal, p_goodBraggCandidates, p_iceRings,
-        p_method1Res, p_method2Res, p_maxUnitCell, p_pctSaturationTop50Peaks, 
-        p_inResolutionOvrlSpots, p_binPopCutOffMethod2Res, p_totalIntegratedSignal, p_dozorScore, p_driftFactor
-      )
-      ON DUPLICATE KEY UPDATE
-        dataCollectionId = IFNULL(p_dataCollectionId, dataCollectionId),
-        autoProcProgramId = IFNULL(p_autoProcProgramId, autoProcProgramId),
-        imageNumber = IFNULL(p_imageNumber, imageNumber),
-        spotTotal = IFNULL(p_spotTotal, spotTotal),
-        inResTotal = IFNULL(p_inResTotal, inResTotal),
-        goodBraggCandidates = IFNULL(p_goodBraggCandidates, goodBraggCandidates),
-        iceRings = IFNULL(p_iceRings, iceRings),
-        method1Res = IFNULL(p_method1Res, method1Res),
-        method2Res = IFNULL(p_method2Res, method2Res),
-        maxUnitCell = IFNULL(p_maxUnitCell, maxUnitCell),
-        pctSaturationTop50Peaks = IFNULL(p_pctSaturationTop50Peaks, pctSaturationTop50Peaks),
-        inResolutionOvrlSpots = IFNULL(p_inResolutionOvrlSpots, inResolutionOvrlSpots),
-        binPopCutOffMethod2Res = IFNULL(p_binPopCutOffMethod2Res, binPopCutOffMethod2Res),
-        totalIntegratedSignal = IFNULL(p_totalIntegratedSignal, totalIntegratedSignal),
-        dozor_score = IFNULL(p_dozorScore, dozor_score),
-        driftFactor = IFNULL(p_driftFactor, driftFactor);
-      
-    IF p_id IS NULL THEN 
-      SET p_id = LAST_INSERT_ID();
-    END IF;      
+  DECLARE iqiId int(11) unsigned DEFAULT NULL;
+  IF (p_dataCollectionId IS NOT NULL AND p_imageNumber IS NOT NULL) THEN
+    SELECT MAX(imageQualityIndicatorsId) INTO iqiId FROM ImageQualityIndicators WHERE dataCollectionId = p_dataCollectionId AND imageNumber = p_imageNumber;
+    IF iqiId IS NULL THEN
+        INSERT INTO ImageQualityIndicators (
+          dataCollectionId, imageNumber, spotTotal, goodBraggCandidates,  
+	      method1Res, method2Res, totalIntegratedSignal, dozor_score, driftFactor) 
+        VALUES (
+          p_dataCollectionId, p_imageNumber, p_spotTotal, p_goodBraggCandidates, 
+          p_method1Res, p_method2Res, p_totalIntegratedSignal, p_dozorScore, p_driftFactor
+        );
+        SET p_id = LAST_INSERT_ID();
+    ELSE
+        -- Not setting dataCollectionId and imageNumber as they are sort of the "primary keys" here
+        -- and have already been used for looking up the row:
+        UPDATE ImageQualityIndicators 
+        SET
+          spotTotal = IFNULL(p_spotTotal, spotTotal),
+          goodBraggCandidates = IFNULL(p_goodBraggCandidates, goodBraggCandidates),
+          method1Res = IFNULL(p_method1Res, method1Res),
+          method2Res = IFNULL(p_method2Res, method2Res),
+          totalIntegratedSignal = IFNULL(p_totalIntegratedSignal, totalIntegratedSignal),
+          dozor_score = IFNULL(p_dozorScore, dozor_score),
+          driftFactor = IFNULL(p_driftFactor, driftFactor)
+		WHERE imageQualityIndicatorsId = iqiId;
+        SET p_id = iqiId;
+    END IF;
   ELSE
-        SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory argument(s) p_id or (p_dataCollectionId and p_imageNumber) are NULL';  
+	SIGNAL SQLSTATE '45000' SET MYSQL_ERRNO=1644, MESSAGE_TEXT='Mandatory arguments p_dataCollectionId and/or p_imageNumber are NULL';  
   END IF;
 END ;;
 DELIMITER ;
@@ -11817,4 +11885,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-16  9:55:49
+-- Dump completed on 2017-12-07 17:16:16
