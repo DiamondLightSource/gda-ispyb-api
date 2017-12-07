@@ -77,6 +77,7 @@ public class DataCollectionIntegrationTest{
 		DataCollectionMain main = new DataCollectionMain();
 		main.setDetectorId(4);
 		main.setGroupId(988855L);
+		main.setBlSubsampleId(2);
 		helper.run(api -> api.upsertDataCollectionMain(main));
 	}
 	
