@@ -28,4 +28,6 @@ public interface IspybXpdfApi extends Closeable {
     Optional<DataCollectionPlanInfo> retrieveDataCollectionPlanInfoForSample(Long sampleId);
     List<ComponentLattice> retrieveComponentLatticesForComponent(Long componentId);
     Optional<ContainerInfo> retrieveContainerInfoForId(Long containerId) throws SQLException;
+    Optional<SampleType> retrieveSampleTypeForSample(Long sampleId) throws SQLException;
+    List<PDB> retrievePDBsForComponent(Long componentId) throws SQLException;
 }

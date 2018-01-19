@@ -84,6 +84,20 @@ public class IspybXpdfDAO implements IspybXpdfApi{
   	}
 
     @Override
+  	public Optional<SampleType> retrieveSampleTypeForSample(Long sampleId) throws SQLException {
+      Map<String, Object> map = new HashMap<>();
+      map.put("sampleId", sampleId);
+  		return templateWrapper.callIspybForBean("retrieve_sample_type_for_sample", SampleType.class, map);
+  	}
+
+    @Override
+  	public List<PDB> retrievePDBsForComponent(Long componentId) throws SQLException {
+      Map<String, Object> map = new HashMap<>();
+      map.put("componentId", componentId);
+      return templateWrapper.callIspybForListBeans("retrieve_pdbs_for_component", PDB.class, map);
+  	}
+
+    @Override
     public void close() throws IOException {
         try {
             templateWrapper.closeConnection();
