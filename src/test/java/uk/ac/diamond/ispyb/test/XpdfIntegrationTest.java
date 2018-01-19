@@ -115,6 +115,31 @@ public class XpdfIntegrationTest {
 	}
 
 	@Test
+	public void testRetrieveSampleTypeForSample() throws SQLException, IOException, InterruptedException {
+		Optional<SampleType> sampleType = helper.execute(api -> api.retrieveSampleTypeForSample(398827L));
+
+		SampleType expected = new SampleType();
+		expected.setSampleTypeId(333308L);
+		expected.setComponentId(123497L);
+		expected.setName("SampleType01");
+		expected.setComments("sample type comments ...");
+
+		assertThat(sampleType.get(), is(equalTo(expected)));
+	}
+
+	// @Test
+	// public void testRetrievePDBsForComponent()throws SQLException, IOException, InterruptedException {
+	// 	List<Component> pdbs = helper.execute(api -> api.retrievePDBsForComponent(333308L));
+	//
+	// 	PDB pdb = new PDB();
+	// 	pdb.setComponentId(123497L);
+	// 	pdb.setComponentName("XPDF comp1");
+	//
+	// 	assertThat(pdbs, is(equalTo(Arrays.asList(pdb))));
+	// }
+
+
+	@Test
 	public void testRetrieveDataCollectionPlansForSample()throws SQLException, IOException, InterruptedException {
 		List<DataCollectionPlan> components = helper.execute(api -> api.retrieveDataCollectionPlansForSample(398824L));
 		DataCollectionPlan dataCollectionPlan1 = new DataCollectionPlan();
