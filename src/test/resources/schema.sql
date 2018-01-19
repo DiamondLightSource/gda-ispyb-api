@@ -9379,7 +9379,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `retrieve_pdb_for_component` */;
+/*!50003 DROP PROCEDURE IF EXISTS `retrieve_pdbs_for_component` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -9389,7 +9389,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `retrieve_pdb_for_component`(IN p_componentId int unsigned)
+CREATE PROCEDURE `retrieve_pdbs_for_component`(IN p_componentId int unsigned)
     READS SQL DATA
     COMMENT 'Return multi-row result set with PDB columns for component p_componentId'
 BEGIN
@@ -12042,4 +12042,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-17 15:37:37
+-- Dump completed on 2018-01-19 14:43:56
