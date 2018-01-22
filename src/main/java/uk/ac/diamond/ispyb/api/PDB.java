@@ -21,11 +21,11 @@ public class PDB {
     private String contents;
     private String code;
 
-    public Long getPDBId() {
+    public Long getPdbId() {
         return pdbId;
     }
 
-    public void setPDBId(Long pdbId) {
+    public void setPdbId(Long pdbId) {
         this.pdbId = pdbId;
     }
 
