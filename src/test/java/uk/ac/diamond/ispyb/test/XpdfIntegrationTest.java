@@ -27,6 +27,9 @@ import java.util.Optional;
 import java.util.List;
 import java.util.ArrayList;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import uk.ac.diamond.ispyb.api.*;
 import uk.ac.diamond.ispyb.dao.IspybXpdfDaoFactory;
 
@@ -127,16 +130,17 @@ public class XpdfIntegrationTest {
 		assertThat(sampleType.get(), is(equalTo(expected)));
 	}
 
-	// @Test
-	// public void testRetrievePDBsForComponent()throws SQLException, IOException, InterruptedException {
-	// 	List<Component> pdbs = helper.execute(api -> api.retrievePDBsForComponent(333308L));
-	//
-	// 	PDB pdb = new PDB();
-	// 	pdb.setComponentId(123497L);
-	// 	pdb.setComponentName("XPDF comp1");
-	//
-	// 	assertThat(pdbs, is(equalTo(Arrays.asList(pdb))));
-	// }
+	@Test
+	public void testRetrievePDBsForComponent()throws SQLException, IOException, InterruptedException {
+		List<PDB> pdbs = helper.execute(api -> api.retrievePDBsForComponent(123497L));
+
+		PDB pdb = new PDB();
+		pdb.setPdbId(6L);
+		pdb.setName("ceo2");
+		pdb.setContents(new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir").toString(), "src", "test", "resources", "ceo2.cif"))));
+
+		assertThat(pdbs, is(equalTo(Arrays.asList(pdb))));
+	}
 
 
 	@Test
