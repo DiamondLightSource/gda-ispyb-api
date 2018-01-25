@@ -87,23 +87,43 @@ public class XpdfIntegrationTest {
 	}
 
 	@Test
-	public void testRetrieveSamplesForSampleGroups()throws SQLException, IOException, InterruptedException {
-		List<SampleGroup> groups = helper.execute(api -> api.retrieveSamplesForSampleGroup(5L));
-		List<SampleGroup> sampleGroups = new ArrayList<SampleGroup>();
+	public void testRetrieveSamplesForSampleGroup()throws SQLException, IOException, InterruptedException {
+		List<Sample> samples = helper.execute(api -> api.retrieveSamplesForSampleGroup(5L));
+		List<Sample> expected = new ArrayList<Sample>();
 
-		SampleGroup sampleGroup1 = new SampleGroup();
-		sampleGroup1.setSampleId(398824L);
-		sampleGroup1.setOrder(1L);
-		sampleGroup1.setType(SampleGroupType.BACKGROUND.name());
-		sampleGroups.add(sampleGroup1);
+		Sample sample1 = new Sample();
+		sample1.setSampleId(398824L);
+		sample1.setContainerId(34883L);
+		sample1.setSampleTypeId(333308L);
+		sample1.setSampleName("XPDF-1");
+		sample1.setSampleCode("XPDF-0001");
+		sample1.setSampleComments("Test sample for XPDF");
 
-		SampleGroup sampleGroup2 = new SampleGroup();
-		sampleGroup2.setSampleId(398827L);
-		sampleGroup2.setOrder(2L);
-		sampleGroup2.setType(SampleGroupType.SAMPLE.name());
-		sampleGroups.add(sampleGroup2);
+		sample1.setSampleTypeName("SampleType01");
+		sample1.setSampleTypeComments("sample type comments ...");
+		sample1.setSampleTypeSpaceGroup("P12121");
 
-		assertThat(groups , is(equalTo(sampleGroups)));
+		sample1.setTypeInGroup("background");
+		sample1.setOrderInGroup(1L);
+		expected.add(sample1);
+
+		Sample sample2 = new Sample();
+		sample2.setSampleId(398827L);
+		sample2.setContainerId(34883L);
+		sample2.setSampleTypeId(333308L);
+		sample2.setSampleName("XPDF-2");
+		sample2.setSampleCode("XPDF-0002");
+		sample2.setSampleComments("Test sample for XPDF");
+
+		sample2.setSampleTypeName("SampleType01");
+		sample2.setSampleTypeComments("sample type comments ...");
+		sample2.setSampleTypeSpaceGroup("P12121");
+
+		sample2.setTypeInGroup("sample");
+		sample2.setOrderInGroup(2L);
+		expected.add(sample2);
+
+		assertThat(samples , is(equalTo(expected)));
 	}
 
 	@Test

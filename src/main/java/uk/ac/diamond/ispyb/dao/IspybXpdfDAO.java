@@ -41,10 +41,10 @@ public class IspybXpdfDAO implements IspybXpdfApi{
         return templateWrapper.callIspybForListBeans("retrieve_sample_groups_for_sample", SampleGroup.class, map);
     }
 
-    public List<SampleGroup> retrieveSamplesForSampleGroup(Long sampleGroupId){
+    public List<Sample> retrieveSamplesForSampleGroup(Long sampleGroupId){
         Map<String, Object> map = new HashMap<>();
         map.put("sampleGroupId", sampleGroupId);
-        return templateWrapper.callIspybForListBeans("retrieve_samples_for_sample_group", SampleGroup.class, map);
+        return templateWrapper.callIspybForListBeans("retrieve_samples_for_sample_group", Sample.class, map);
     }
 
     public List<Component> retrieveComponentsForSampleType(Long sampleTypeId){
