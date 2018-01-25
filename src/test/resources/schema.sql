@@ -9654,8 +9654,16 @@ CREATE PROCEDURE `retrieve_samples_for_sample_group`(IN p_sampleGroupId int unsi
     COMMENT 'Return multi-row result set with sample IDs, order in the group and type for sample group p_sampleGroupId'
 BEGIN
     IF NOT (p_sampleGroupId IS NULL) THEN
-		SELECT bhb.blSampleId "sampleId", bhb.type "type", bhb.groupOrder "order"
-        FROM BLSampleGroup_has_BLSample bhb
+		SELECT bls.blSampleId "sampleId", bls.containerId "containerId", bls.crystalId "sampleTypeId", bls.name "sampleName",
+		  bls.code "sampleCode", bls.comments "sampleComments", bls.location "sampleLocation", 
+          bls.packingFraction "samplePackingFraction", 
+          bls.dimension1 "dimension1", bls.dimension2 "dimension2", bls.dimension3 "dimension3", 
+          bls.shape "shape",
+          c.name "sampleTypeName", c.comments "sampleTypeComments", c.spaceGroup "sampleTypeSpaceGroup", c.proteinId "componentId",
+          bhb.type "typeInGroup", bhb.groupOrder "orderInGroup"
+        FROM BLSampleGroup_has_BLSample bhb 
+          INNER JOIN BLSample bls ON bls.blSampleId = bhb.blSampleId 
+          INNER JOIN Crystal c ON c.crystalId = bls.crystalId
         WHERE bhb.blSampleGroupId = p_sampleGroupId
         ORDER BY bhb.blSampleId;
     ELSE
@@ -12044,4 +12052,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-22 15:03:26
+-- Dump completed on 2018-01-22 16:53:05
