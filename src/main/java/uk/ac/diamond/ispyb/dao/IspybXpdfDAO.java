@@ -41,10 +41,10 @@ public class IspybXpdfDAO implements IspybXpdfApi{
         return templateWrapper.callIspybForListBeans("retrieve_sample_groups_for_sample", SampleGroup.class, map);
     }
 
-    public List<SampleGroup> retrieveSamplesForSampleGroup(Long sampleGroupId){
+    public List<Sample> retrieveSamplesForSampleGroup(Long sampleGroupId){
         Map<String, Object> map = new HashMap<>();
         map.put("sampleGroupId", sampleGroupId);
-        return templateWrapper.callIspybForListBeans("retrieve_samples_for_sample_group", SampleGroup.class, map);
+        return templateWrapper.callIspybForListBeans("retrieve_samples_for_sample_group", Sample.class, map);
     }
 
     public List<Component> retrieveComponentsForSampleType(Long sampleTypeId){
@@ -81,6 +81,20 @@ public class IspybXpdfDAO implements IspybXpdfApi{
       Map<String, Object> map = new HashMap<>();
       map.put("containerId", containerId);
   		return templateWrapper.callIspybForBean("retrieve_container_info_for_id", ContainerInfo.class, map);
+  	}
+
+    @Override
+  	public Optional<SampleType> retrieveSampleTypeForSample(Long sampleId) throws SQLException {
+      Map<String, Object> map = new HashMap<>();
+      map.put("sampleId", sampleId);
+  		return templateWrapper.callIspybForBean("retrieve_sample_type_for_sample", SampleType.class, map);
+  	}
+
+    @Override
+  	public List<PDB> retrievePDBsForComponent(Long componentId) throws SQLException {
+      Map<String, Object> map = new HashMap<>();
+      map.put("componentId", componentId);
+      return templateWrapper.callIspybForListBeans("retrieve_pdbs_for_component", PDB.class, map);
   	}
 
     @Override

@@ -31,7 +31,8 @@ public class Sample {
     private String sampleTypeName;
     private String sampleTypeComments;
     private String sampleTypeSpaceGroup;
-
+    private Long orderInGroup;
+    private String typeInGroup;
 
     public Long getSampleId() {
         return sampleId;
@@ -151,6 +152,22 @@ public class Sample {
 
     public void setSampleTypeSpaceGroup(String sampleTypeSpaceGroup) {
         this.sampleTypeSpaceGroup = sampleTypeSpaceGroup;
+    }
+
+    public Long getOrderInGroup() {
+        return orderInGroup;
+    }
+
+    public void setOrderInGroup(Long orderInGroup) {
+        this.orderInGroup = orderInGroup;
+    }
+
+    public String getTypeInGroup() {
+        return typeInGroup;
+    }
+
+    public void setTypeInGroup(String typeInGroup) {
+        this.typeInGroup = typeInGroup;
     }
 
     @Override

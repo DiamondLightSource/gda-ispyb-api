@@ -22,10 +22,12 @@ import java.util.Optional;
 public interface IspybXpdfApi extends Closeable {
     List<Sample> retrieveSamplesAssignedForProposal(String proposalCode, Long proposalNumber);
     List<SampleGroup> retrieveSampleGroupsForSample(Long sampleId);
-    List<SampleGroup> retrieveSamplesForSampleGroup(Long sampleGroupId);
+    List<Sample> retrieveSamplesForSampleGroup(Long sampleGroupId);
     List<Component> retrieveComponentsForSampleType(Long sampleTypeId);
     List<DataCollectionPlan> retrieveDataCollectionPlansForSample(Long sampleId);
     Optional<DataCollectionPlanInfo> retrieveDataCollectionPlanInfoForSample(Long sampleId);
     List<ComponentLattice> retrieveComponentLatticesForComponent(Long componentId);
     Optional<ContainerInfo> retrieveContainerInfoForId(Long containerId) throws SQLException;
+    Optional<SampleType> retrieveSampleTypeForSample(Long sampleId) throws SQLException;
+    List<PDB> retrievePDBsForComponent(Long componentId) throws SQLException;
 }
