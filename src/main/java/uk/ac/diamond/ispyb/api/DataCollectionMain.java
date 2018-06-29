@@ -40,6 +40,7 @@ public class DataCollectionMain {
     private String imgDir;
     private String imgPrefix;
     private String imgSuffix;
+    private String imgContainerSubPath;
     private String fileTemplate;
     private String snapshot1;
     private String snapshot2;
@@ -74,7 +75,7 @@ public class DataCollectionMain {
     public Integer getBlSubsampleId() {
         return blSubsampleId;
     }
-    
+
     public void setBlSubsampleId(Integer blSubsampleId) {
         this.blSubsampleId = blSubsampleId;
     }
@@ -157,6 +158,14 @@ public class DataCollectionMain {
 
     public void setImgSuffix(String imgSuffix) {
         this.imgSuffix = imgSuffix;
+    }
+
+    public String getImgContainerSubPath() {
+        return this.imgContainerSubPath;
+    }
+
+    public void setImgContainerSubPath(String imgContainerSubPath) {
+        this.imgContainerSubPath = imgContainerSubPath;
     }
 
     public String getFileTemplate() {
