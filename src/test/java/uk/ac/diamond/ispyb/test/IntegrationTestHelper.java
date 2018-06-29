@@ -53,8 +53,8 @@ public class IntegrationTestHelper<S extends Closeable> {
         Connection connection = connectToDatabase(data.getUrl(), data.getUser(), data.getPassword(), Optional.empty());
         try {
             JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection, true));
-            jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
-            jdbcTemplate.execute(String.format("create database %s;", data.getSchema()));
+            jdbcTemplate.execute(String.format("DROP DATABASE IF EXISTS %s;", data.getSchema()));
+            jdbcTemplate.execute(String.format("CREATE DATABASE %s;", data.getSchema()));
             try {
                 jdbcTemplate.execute("SET GLOBAL log_bin_trust_function_creators = 1;");
             } catch (Exception e) {
@@ -69,7 +69,8 @@ public class IntegrationTestHelper<S extends Closeable> {
             connection.close();
         }
 
-        executeScript("schema.sql", data.getSchema());
+        executeScript("tables.sql", data.getSchema());
+        executeScript("routines.sql", data.getSchema());
 
         this.api = factory.buildIspybApi(data.getUrl(), data.getUser(), data.getPassword(), Optional.of(data.getSchema()));
     }
@@ -79,7 +80,7 @@ public class IntegrationTestHelper<S extends Closeable> {
         Connection connection = connectToDatabase(data.getUrl(), data.getUser(), data.getPassword(), Optional.empty());
         try {
             JdbcTemplate jdbcTemplate = new JdbcTemplate(new SingleConnectionDataSource(connection,  true));
-            jdbcTemplate.execute(String.format("drop database if exists %s;", data.getSchema()));
+            jdbcTemplate.execute(String.format("DROP DATABASE IF EXISTS %s;", data.getSchema()));
         } finally {
             connection.close();
         }
