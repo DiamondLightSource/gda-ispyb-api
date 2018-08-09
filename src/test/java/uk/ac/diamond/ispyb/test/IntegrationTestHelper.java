@@ -71,6 +71,8 @@ public class IntegrationTestHelper<S extends Closeable> {
 
         executeScript("tables.sql", data.getSchema());
         executeScript("routines.sql", data.getSchema());
+        executeScript("lookups.sql", data.getSchema());
+        executeScript("data.sql", data.getSchema());
 
         this.api = factory.buildIspybApi(data.getUrl(), data.getUser(), data.getPassword(), Optional.of(data.getSchema()));
     }

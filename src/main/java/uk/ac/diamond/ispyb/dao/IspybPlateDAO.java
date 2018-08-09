@@ -21,7 +21,7 @@ import java.util.*;
 public class IspybPlateDAO implements IspybPlateApi{
     private static final String BARCODE = "barcode";
 	private static final String BEAMLINE = "beamline";
-	
+
     private final TemplateWrapper templateWrapper;
 	private final BeanTemplateWrapper beanTemplateWrapper;
 
@@ -86,14 +86,14 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public List<ContainerSubsample> retrieveContainerSubsamples(String barcode) throws SQLException {
-		return templateWrapper.callIspybForListBeans("retrieve_container_subsamples", ContainerSubsample.class, map(BARCODE, barcode));
+		return templateWrapper.callIspybForListBeans("retrieve_container_subsamples_v2", ContainerSubsample.class, map(BARCODE, barcode));
 	}
 
 	@Override
 	public void insertContainerError(String barcode, String error, int severity, String stackTrace) throws SQLException {
 		beanTemplateWrapper.updateIspyb("insert_container_error", new BarcodeQuery(barcode, error, severity, stackTrace));
 	}
-	
+
 	@Override
 	public List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(long id) {
 		return templateWrapper.callIspybForListBeans("retrieve_dc_infos_for_subsample", DataCollectionInfo.class, map("id", id));
@@ -108,7 +108,7 @@ public class IspybPlateDAO implements IspybPlateApi{
 	public Long upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis){
 		return beanTemplateWrapper.callIspybForKey("upsert_sample_image_analysis", Long.class, sampleImageAnalysis, "p_id").get();
 	}
-	
+
 	@Override
 	public void close() throws IOException {
 		try {
@@ -117,12 +117,12 @@ public class IspybPlateDAO implements IspybPlateApi{
 			throw new IOException(e);
 		}
 	}
-	
+
 	@Override
 	public boolean isConnected() {
 		return templateWrapper.connected();
 	}
-	
+
 	private Map<String, Object> map(String key, Object value) {
 		Map<String, Object> map = new HashMap<>();
 		map.put(key, value);
