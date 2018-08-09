@@ -209,7 +209,7 @@ public class PlateIntegrationTest {
 		ContainerSubsample expected = new ContainerSubsample();
 		expected.setId(2L);
 		expected.setSampleLocation("1");
-		expected.setLastImgFullPath("/dls/i03/data/2016/cm1234-5/something-else.jpg");
+		expected.setLastVisibleImgFullPath("/dls/i03/data/2016/cm1234-5/something-else.jpg");
 		expected.setExperimentKind("OSC");
 		expected.setExposureTime(0.2f);
 		expected.setPreferredBeamSizeX(10.5f);

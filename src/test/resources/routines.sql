@@ -2146,7 +2146,7 @@ CREATE PROCEDURE `retrieve_container_subsamples_v2`(IN p_barcode varchar(45))
 BEGIN
   IF NOT (p_barcode IS NULL) THEN
     SELECT blss.blSubSampleId "id", bls.location "sampleLocation", pos1.posX "ROIPos1x", pos1.posY "ROIPos1y", pos1.posZ "ROIPos1z", pos2.posX "ROIPos2x", pos2.posY "ROIPos2y", pos2.posZ "ROIPos2z",
-	  blsi.imageFullPath "lastImgFullPath", blss.imgFilePath "uploadedImgFilePath", blss.imgFileName "uploadedImgFileName",
+	  blsi.imageFullPath "lastVisibleImgFullPath", blss.imgFilePath "uploadedImgFilePath", blss.imgFileName "uploadedImgFileName",
       dp.experimentKind "experimentKind", dp.exposureTime "exposureTime",
       dp.preferredBeamSizeX "preferredBeamSizeX", dp.preferredBeamSizeY "preferredBeamSizeY", dp.requiredResolution "requiredResolution",
       dp.monochromator "monochromator", 12398.42 / dp.energy "wavelength", dp.transmission "transmission",
@@ -5709,4 +5709,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-09 14:58:03
+-- Dump completed on 2018-08-09 16:12:51
