@@ -32,7 +32,7 @@ public class ContainerSubsample {
     private Double ROIPos2x;
     private Double ROIPos2y;
     private Double ROIPos2z;
-    private String lastImgFullPath;
+    private String lastVisibleImgFullPath;
     private String uploadedImgFilePath;
     private String uploadedImgFileName;
     private String experimentKind;
@@ -123,12 +123,12 @@ public class ContainerSubsample {
         this.ROIPos2z = ROIPos2z;
     }
 
-    public String getLastImgFullPath() {
-        return this.lastImgFullPath;
+    public String getLastVisibleImgFullPath() {
+        return this.lastVisibleImgFullPath;
     }
 
-    public void setLastImgFullPath(String lastImgFullPath) {
-        this.lastImgFullPath = lastImgFullPath;
+    public void setLastVisibleImgFullPath(String lastVisibleImgFullPath) {
+        this.lastVisibleImgFullPath = lastVisibleImgFullPath;
     }
 
     public String getUploadedImgFilePath() {
