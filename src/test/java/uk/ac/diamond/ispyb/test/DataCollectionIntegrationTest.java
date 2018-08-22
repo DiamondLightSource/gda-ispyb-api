@@ -85,8 +85,8 @@ public class DataCollectionIntegrationTest{
 	public void testUpsertDataCollectionGroup() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
 		dataCollectionGroup.setProposalCode("cm");
-		dataCollectionGroup.setProposalNumber(14451);
-		dataCollectionGroup.setSessionNumber(1);
+		dataCollectionGroup.setProposalNumber(14451L);
+		dataCollectionGroup.setSessionNumber(1L);
 		dataCollectionGroup.setSampleId(11550L);
 		helper.run(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
 	}
@@ -94,8 +94,8 @@ public class DataCollectionIntegrationTest{
 	@Test
 	public void testUpsertDataCollectionGroupWithoutAllFields() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
-		dataCollectionGroup.setProposalNumber(14451);
-		dataCollectionGroup.setSessionNumber(1);
+		dataCollectionGroup.setProposalNumber(14451L);
+		dataCollectionGroup.setSessionNumber(1L);
 		dataCollectionGroup.setSampleId(11550L);
 		try{
 			Long id = helper.execute(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
@@ -109,8 +109,8 @@ public class DataCollectionIntegrationTest{
 	public void testUpsertDataCollectionGroupWithTimestamp() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
 		dataCollectionGroup.setProposalCode("cm");
-		dataCollectionGroup.setProposalNumber(14451);
-		dataCollectionGroup.setSessionNumber(1);
+		dataCollectionGroup.setProposalNumber(14451L);
+		dataCollectionGroup.setSessionNumber(1L);
 		dataCollectionGroup.setSampleId(11550L);
 		dataCollectionGroup.setStarttime(Timestamp.valueOf(LocalDateTime.now()));
 		dataCollectionGroup.setEndtime(Timestamp.valueOf(LocalDateTime.now()));
@@ -121,8 +121,8 @@ public class DataCollectionIntegrationTest{
 	public void testUpsertDataCollectionGroupGrid() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup group = new DataCollectionGroup();
 		group.setProposalCode("cm");
-		group.setProposalNumber(14451);
-		group.setSessionNumber(1);
+		group.setProposalNumber(14451L);
+		group.setSessionNumber(1L);
 		group.setSampleId(11550L);
 		
 		Long groupId = helper.execute(api -> api.upsertDataCollectionGroup(group));

@@ -27,8 +27,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 public class DataCollectionGroup {
     private Long id = null;
     private String proposalCode;
-    private Integer proposalNumber;
-    private Integer sessionNumber;
+    private Long proposalNumber;
+    private Long sessionNumber;
     private Long sampleId = null;
     private String sampleBarcode;
     private String experimenttype;
@@ -58,19 +58,19 @@ public class DataCollectionGroup {
         this.proposalCode = proposalCode;
     }
 
-    public Integer getProposalNumber() {
+    public Long getProposalNumber() {
         return this.proposalNumber;
     }
 
-    public void setProposalNumber(Integer proposalNumber) {
+    public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 
-    public Integer getSessionNumber() {
+    public Long getSessionNumber() {
         return this.sessionNumber;
     }
 
-    public void setSessionNumber(Integer sessionNumber) {
+    public void setSessionNumber(Long sessionNumber) {
         this.sessionNumber = sessionNumber;
     }
 
