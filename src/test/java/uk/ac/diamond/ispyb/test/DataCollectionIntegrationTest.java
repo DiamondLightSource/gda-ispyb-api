@@ -75,7 +75,7 @@ public class DataCollectionIntegrationTest{
 	@Test
 	public void testUpsertDataCollectionMain() throws SQLException, IOException, InterruptedException {
 		DataCollectionMain main = new DataCollectionMain();
-		main.setDetectorId(4);
+		main.setDetectorId(4L);
 		main.setGroupId(988855L);
 		main.setBlSubsampleId(2);
 		helper.run(api -> api.upsertDataCollectionMain(main));

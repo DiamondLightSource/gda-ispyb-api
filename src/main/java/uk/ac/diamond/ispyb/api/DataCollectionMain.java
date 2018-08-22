@@ -28,7 +28,7 @@ public class DataCollectionMain {
 
     private Long id;
     private Long groupId;
-    private Integer detectorId;
+    private Long detectorId;
     private Integer blSubsampleId;
     private Integer dcNumber;
     private Timestamp startTime;
@@ -64,11 +64,11 @@ public class DataCollectionMain {
         this.groupId = groupId;
     }
 
-    public Integer getDetectorId() {
+    public Long getDetectorId() {
         return this.detectorId;
     }
 
-    public void setDetectorId(Integer detectorId) {
+    public void setDetectorId(Long detectorId) {
         this.detectorId = detectorId;
     }
 
