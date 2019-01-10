@@ -9,7 +9,7 @@ elif [[ $1 = "minor" ]]; then
 elif [[ $1 = "bugfix" ]]; then 
     NEW_VERSION=$(echo $VERSION | perl -pe 's/^(\d+)\.(\d+)\.(\d+)$/"$1.$2.${\($3+1)}"/e')
 else
-    echo "usage: ./release (major|minor|bugfix)"
+    echo "usage: ./release.sh (major|minor|bugfix)"
     exit 1
 fi
 
