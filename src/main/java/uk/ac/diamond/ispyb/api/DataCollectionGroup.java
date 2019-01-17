@@ -26,6 +26,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 @Generated("uk.ac.diamond.ispyb.generator.BeanGenerator")
 public class DataCollectionGroup {
     private Long id = null;
+    private Long sessionId;
     private String proposalCode;
     private Long proposalNumber;
     private Long sessionNumber;
@@ -41,6 +42,8 @@ public class DataCollectionGroup {
     private String actualContainerBarcode;
     private Integer actualContainerSlotInSC = null;
     private String comments;
+    private String xtalSnapshotFullPath;
+    private String scanParameters;
 
     public Long getId() {
         return this.id;
@@ -48,6 +51,14 @@ public class DataCollectionGroup {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getSessionId() {
+        return this.sessionId;
+    }
+
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getProposalCode() {
@@ -168,6 +179,22 @@ public class DataCollectionGroup {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public String getXtalSnapshotFullPath() {
+        return this.xtalSnapshotFullPath;
+    }
+
+    public void setXtalSnapshotFullPath(String xtalSnapshotFullPath) {
+        this.xtalSnapshotFullPath = xtalSnapshotFullPath;
+    }
+
+    public String getScanParameters() {
+        return this.scanParameters;
+    }
+
+    public void setScanParameters(String scanParameters) {
+        this.scanParameters = scanParameters;
     }
 
     public String toString() {
