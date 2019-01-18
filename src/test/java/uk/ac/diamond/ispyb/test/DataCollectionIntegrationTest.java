@@ -143,6 +143,31 @@ public class DataCollectionIntegrationTest{
 	}
 
 	@Test
+	public void testRetrieveDataCollectionGroup() throws SQLException, IOException, InterruptedException {
+		DataCollectionGroup group = new DataCollectionGroup();
+		group.setProposalCode("cm");
+		group.setProposalNumber(14451L);
+		group.setSessionNumber(1L);
+		group.setSampleId(11550L);
+		Timestamp ts = Timestamp.valueOf(LocalDateTime.now().withNano(0));
+		group.setStarttime(ts);
+		group.setEndtime(ts);
+		group.setExperimenttype("OSC");
+		Long groupId = helper.execute(api -> api.upsertDataCollectionGroup(group));
+
+		DataCollectionGroup dcg = helper.execute(api -> api.retrieveDataCollectionGroup(groupId)).get();
+
+		DataCollectionGroup expected = new DataCollectionGroup();
+		expected.setSessionId(55167L);
+		expected.setSampleId(11550L);
+		expected.setStarttime(ts);
+		expected.setEndtime(ts);
+		expected.setExperimenttype("OSC");
+
+		assertThat(dcg, is(equalTo(expected)));
+	}
+
+	@Test
 	public void testUpsertDataCollectionGroupGrid() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup group = new DataCollectionGroup();
 		group.setProposalCode("cm");
