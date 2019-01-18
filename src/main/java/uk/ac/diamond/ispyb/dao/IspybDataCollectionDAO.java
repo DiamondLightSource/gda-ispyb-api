@@ -40,6 +40,11 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	}
 
 	@Override
+	public Optional<DataCollectionGroup> retrieveDataCollectionGroup(Long dcgId) throws SQLException {
+		return templateWrapper.callIspybForBean("retrieve_dc_group", DataCollectionGroup.class, map("id", dcgId));
+	}
+
+	@Override
 	public Long upsertDataCollectionMain(DataCollectionMain dataCollectionMain) {
 		return beanTemplateWrapper.callIspybForKey("upsert_dc_main_v3", Long.class, dataCollectionMain, "p_id").get();
 	}

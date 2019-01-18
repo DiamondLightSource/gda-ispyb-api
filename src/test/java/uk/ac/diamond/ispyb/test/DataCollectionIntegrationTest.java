@@ -120,6 +120,29 @@ public class DataCollectionIntegrationTest{
 	}
 
 	@Test
+	public void testUpsertDataCollectionGroupWithScanParameters() throws SQLException, IOException, InterruptedException {
+		DataCollectionGroup dataCollectionGroup = new DataCollectionGroup();
+		dataCollectionGroup.setProposalCode("cm");
+		dataCollectionGroup.setProposalNumber(14451L);
+		dataCollectionGroup.setSessionNumber(1L);
+		dataCollectionGroup.setSampleId(11550L);
+		String json = String.join("\n",
+	"{\"menu\": {",
+  "\"id\": \"file\",",
+  "\"value\": \"File\",",
+  "\"popup\": {",
+  "  \"menuitem\": [",
+  "    {\"value\": \"New\", \"onclick\": \"CreateNewDoc()\"},",
+  "    {\"value\": \"Open\", \"onclick\": \"OpenDoc()\"},",
+  "    {\"value\": \"Close\", \"onclick\": \"CloseDoc()\"}",
+  "  ]",
+  "}",
+  "}}");
+		dataCollectionGroup.setScanParameters(json);
+		helper.run(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
+	}
+
+	@Test
 	public void testUpsertDataCollectionGroupGrid() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup group = new DataCollectionGroup();
 		group.setProposalCode("cm");
