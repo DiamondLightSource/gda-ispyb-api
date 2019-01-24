@@ -9,7 +9,7 @@ script:
   - mvn -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=root -Dispyb.host=localhost package
   - sonar-scanner
 addons:
-  mariadb: '10.2'
+  mariadb: '10.3'
   sonarqube:
     token:
       secure: ei93Y9Nw5Jx8cfY92D5Xm/hBENmgnUOxAaIIEO0zkeDgTgSE884C/nCCD9fqxmeRdUFAAbGt8tXbDv0xEI1ucGLYicBE6Z5E7WT3ujsh7JJOnJ/FO8rT2hobMH27kA7a/vdXl4cPIPKXRf13CDgzRarPqqobW8b/VHNt1haRCuzJaFXzXgE0NNv+7kRUhZEr+jlR73RKzhTPnUiVYWXETD4uBBRW0wFBhu9SSFesI7Pef01QLEEunRmEy+XvD/e4UCQeCtTN5A+nm+il+emKxigH/iib+Vu/LQMuUJ9v31gzKwt2B2gjY9s/uLNiqiHwNWUtCqKzwLNIfmBahn8pdflSXLHq9eJs5anfGPYXpxouSTiB08zcsCJ07BAXnxHwkZk5ARLMIEke00MBREvH/cDKu7hygIbCGCpd8VFtID5CFzSHC3Nf+W8NUlZlDOTTyBiUKK54OMfsGzczKOP1tZECJfKuUkNNJn4lBRPEaGFqQhWXvu3MG4j1fp3E+LM0eQk9KfsBSUnHoPhIKC55eQ5B6EaU8VtMnzLsrryxqIDXYoOuCEjlEt7GoaXUWArQ2kpgT7ZUZhFLkGOagjW8fS+PS3IglpP6mf+yPKiwbHJazbQdwl6ZJ+W4QHMJ8eySjObSXAH3S2r3f/Ke+MZlsj3gRxCQMZPowUMNX3NPwms=
