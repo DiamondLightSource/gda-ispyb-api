@@ -1,10 +1,10 @@
-sudo: false # use containers
+dist: trusty
 language: java
 cache:
   directories:
     - "$HOME/.m2" # Maven dependencies
 jdk:
-  - oraclejdk9
+  - oraclejdk8
 script:
   - mvn -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=root -Dispyb.host=localhost package
   - sonar-scanner
