@@ -61,7 +61,7 @@
                         <Export-Package>uk.ac.diamond.ispyb.api</Export-Package>
                         <Require-Bundle>
                              org.apache.commons.lang3;bundle-version="3.1.0",
-                             org.mariadb.jdbc;bundle-version="2.3.0",
+                             org.mariadb.jdbc;bundle-version="2.4.3",
                              org.apache.commons.beanutils;bundle-version="1.8.0"
                         </Require-Bundle>
                         <Service-Component>

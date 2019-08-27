@@ -69,10 +69,11 @@ public class IntegrationTestHelper<S extends Closeable> {
             connection.close();
         }
 
-        executeScript("tables.sql", data.getSchema());
-        executeScript("routines.sql", data.getSchema());
-        executeScript("lookups.sql", data.getSchema());
-        executeScript("data.sql", data.getSchema());
+        downloadSchema();
+        executeScript("schema/tables.sql", data.getSchema());
+        executeScript("schema/routines.sql", data.getSchema());
+        executeScript("schema/lookups.sql", data.getSchema());
+        executeScript("schema/data.sql", data.getSchema());
 
         this.api = factory.buildIspybApi(data.getUrl(), data.getUser(), data.getPassword(), Optional.of(data.getSchema()));
     }
@@ -88,6 +89,12 @@ public class IntegrationTestHelper<S extends Closeable> {
         }
 
         api.close();
+    }
+
+    private void downloadSchema() throws IOException {
+        CommandLine commandLine = CommandLine.parse("./downloadschemascript.sh");
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.execute(commandLine);
     }
 
     private void executeScript(String filename, String database) throws IOException, SQLException, InterruptedException {

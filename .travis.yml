@@ -1,4 +1,4 @@
-sudo: false # use containers
+dist: trusty
 language: java
 cache:
   directories:
