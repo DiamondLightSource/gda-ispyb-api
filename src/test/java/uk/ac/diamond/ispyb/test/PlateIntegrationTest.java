@@ -229,4 +229,20 @@ public class PlateIntegrationTest {
 
 		assertThat(timestamp.isPresent(), is(true));
 	}
+
+	@Test
+	public void testUpsertRetrieveSleeves() throws IOException, SQLException{
+		List<Sleeve> sleeves = helper.execute(api -> {
+			Sleeve sleeve = new Sleeve();
+			sleeve.setId((byte) 1);
+			sleeve.setLocation((byte) 1);
+			sleeve.setLastMovedToFreezer(new Timestamp(119, 7, 28, 15, 16, 0, 0));
+
+			Byte id = api.upsertSleeve(sleeve);
+
+			return api.retrieveSleeves();
+		});
+
+		assertThat(sleeves.size(), is(equalTo(1)));
+	}
 }

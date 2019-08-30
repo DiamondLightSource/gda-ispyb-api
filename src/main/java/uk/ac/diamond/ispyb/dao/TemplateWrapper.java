@@ -36,48 +36,48 @@ public class TemplateWrapper {
 	public void updateIspyb(String procedure, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
-		
+
         simpleJdbcCall.execute(in);
 	}
 
 	<T> List<T> callIspybForList(String procedure, Class<T> clazz, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
-		
+
 		return parser.parse(simpleJdbcCall.execute(in), this::firstValue);
 	}
-	
+
 	<T> List<T> callIspybForListBeans(String procedure, Class<T> clazz, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
-		
+
 		return parser.parse(simpleJdbcCall.execute(in), new MapToBeanFunction<T>(clazz));
 	}
-	
+
 	<T> T callIspybForAllRows(String procedure, ResultSetExtractor<T> extractor, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
-		
+
 		SqlReturnResultSet resultSet = new SqlReturnResultSet("output", extractor);
 		simpleJdbcCall.addDeclaredParameter(resultSet);
         Object object = simpleJdbcCall.execute(in).get("output");
-        
+
 		return (T) object;
 	}
-	
+
 
 	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Map<String, Object> params) {
 		Map<String, Object> map = execute(procedure, params);
 		List<T> list = parser.parse(map, this::firstValue);
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
-	
+
 	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Map<String, Object> params) {
 		Map<String, Object> map = execute(procedure, params);
 		List<T> list = parser.parse(map, new MapToBeanFunction<T>(clazz));
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
-	
+
 	void callIspyb(String procedure, Map<String, Object> params) {
 		SimpleJdbcCall simpleJdbcCall = createCall(procedure);
 		MapSqlParameterSource in = createInParameters(params);
@@ -89,12 +89,13 @@ public class TemplateWrapper {
 		MapSqlParameterSource in = createInParameters(params);
 		return simpleJdbcCall.execute(in);
 	}
-	
+
 	private MapSqlParameterSource createInParameters(Map<String, Object> params) {
 		MapSqlParameterSource in = new MapSqlParameterSource();
-		for (String key: params.keySet()){
-       		in.addValue("p_" + key, params.get(key));        		
-		}
+		if (params != null)
+			for (String key: params.keySet()){
+       		in.addValue("p_" + key, params.get(key));
+			}
 		return in;
 	}
 
@@ -103,7 +104,7 @@ public class TemplateWrapper {
 			.withProcedureName(procedure)
 			.withCatalogName(schema);
 	}
-		
+
 	@SuppressWarnings("unchecked")
 	<T> T firstValue(Map<String, Object> map){
 		return (T) map.values().iterator().next();
@@ -112,7 +113,7 @@ public class TemplateWrapper {
 	void closeConnection() throws SQLException {
 		template.getDataSource().getConnection().close();
 	}
-	
+
 	boolean connected(){
 		try{
 			return template.getDataSource().getConnection().isValid(1);

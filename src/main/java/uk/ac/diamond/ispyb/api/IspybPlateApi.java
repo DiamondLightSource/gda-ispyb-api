@@ -47,10 +47,16 @@ public interface IspybPlateApi extends Closeable {
 	void insertContainerError(String barcode, String error, int severity, String stackTrace) throws SQLException;
 
 	List<DataCollectionInfo> retrieveDataCollectionInfosForSubsample(long id);
-	
+
 	void clearContainerError(String barcode) throws SQLException;
 
 	Long upsertSampleImageAnalysis(SampleImageAnalysis sampleImageAnalysis);
-	
+
+	List<Sleeve> retrieveSleeves() throws SQLException;
+
+	Byte upsertSleeve(Sleeve sleeve) throws SQLException;
+
+
+
 	boolean isConnected();
 }
