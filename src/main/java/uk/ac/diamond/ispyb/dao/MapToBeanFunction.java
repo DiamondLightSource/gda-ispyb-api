@@ -1,6 +1,7 @@
 package uk.ac.diamond.ispyb.dao;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +13,7 @@ public class MapToBeanFunction<T> implements Function<Map<String,Object>, T>{
 
     public MapToBeanFunction(Class<T> beanClass){
         this.beanClass = beanClass;
+        BeanUtilsBean.getInstance().getConvertUtils().register(false, false, 0);
     }
 
     @Override
