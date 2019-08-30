@@ -110,6 +110,16 @@ public class IspybPlateDAO implements IspybPlateApi{
 	}
 
 	@Override
+	public List<Sleeve> retrieveSleeves() throws SQLException {
+		return templateWrapper.callIspybForListBeans("retrieve_sleeves", Sleeve.class, null);
+	}
+
+	@Override
+	public Byte upsertSleeve(Sleeve sleeve) throws SQLException {
+		return (byte)((int)(beanTemplateWrapper.callIspybForKey("upsert_sleeve", Integer.class, sleeve, "p_id").get()));
+	}
+
+	@Override
 	public void close() throws IOException {
 		try {
 			templateWrapper.closeConnection();
