@@ -23,6 +23,8 @@ public enum ContainerStatus {
 	IN_TRANSIT_TO_STORAGE("in_transit_to_storage"),
 	IN_TRANSIT_LOADING("in_transit_loading"),
 	IN_TRANSIT_UNLOADING("in_transit_unloading"),
+  IN_LOADLOCK("in_loadlock"),
+  IN_TRANSIT_TO_LOADLOCK("in_transit_to_loadlock"),
 	INVALID("invalid")
 	;
 
