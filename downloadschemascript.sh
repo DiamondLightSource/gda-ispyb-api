@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=1.6.2
+version=1.13.0
 fname=ispyb-database-${version}.tar.gz
 
 cd target/test-classes

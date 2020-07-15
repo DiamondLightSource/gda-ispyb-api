@@ -103,6 +103,29 @@ public class PlateIntegrationTest {
                 assertThat(entries, is(equalTo(Arrays.asList(expected))));
         }
 
+        @Test
+        public void testUpdateContaineStatus() throws SQLException, IOException{
+                helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_TRANSIT_TO_LOADLOCK));
+                helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_LOADLOCK));
+
+		            ContainerInfo containerInfo = helper.execute(api -> api.retrieveContainerInfo("test_plate2")).get();
+
+                ContainerInfo expected = new ContainerInfo();
+                expected.setName("test_plate2");
+                expected.setType("CrystalQuickX");
+                expected.setBarcode("test_plate2");
+                expected.setBeamline("i03");
+                expected.setLocation("3");
+                expected.setImagerName("Imager1 20c");
+                expected.setImagerSerialNumber("Z125434");
+                expected.setStatus(ContainerStatus.IN_LOADLOCK.getStatus());
+                expected.setCapacity(192);
+                expected.setStorageTemperature(20.0f);
+                expected.setProposalCode(null);
+
+                assertThat(containerInfo, is(equalTo(expected)));
+        }
+
 	@Test
 	public void testShouldRetrieveContainerOnGonio() throws Exception {
 		List<ContainerInfo> beans = helper.execute(api -> api.retrieveContainerOnGonio("notusedinthestoredprocedure!!!"));
