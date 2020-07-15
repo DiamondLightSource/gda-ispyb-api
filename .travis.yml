@@ -1,18 +1,19 @@
-dist: trusty
+dist: xenial
 language: java
 cache:
   directories:
     - "$HOME/.m2" # Maven dependencies
 jdk:
-  - oraclejdk8
+  - oraclejdk11
 script:
   - mvn -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=root -Dispyb.host=localhost package
   - sonar-scanner
 addons:
   mariadb: '10.3'
-  sonarqube:
+  sonarcloud:
+    organization: "dbdemon"
     token:
-      secure: ei93Y9Nw5Jx8cfY92D5Xm/hBENmgnUOxAaIIEO0zkeDgTgSE884C/nCCD9fqxmeRdUFAAbGt8tXbDv0xEI1ucGLYicBE6Z5E7WT3ujsh7JJOnJ/FO8rT2hobMH27kA7a/vdXl4cPIPKXRf13CDgzRarPqqobW8b/VHNt1haRCuzJaFXzXgE0NNv+7kRUhZEr+jlR73RKzhTPnUiVYWXETD4uBBRW0wFBhu9SSFesI7Pef01QLEEunRmEy+XvD/e4UCQeCtTN5A+nm+il+emKxigH/iib+Vu/LQMuUJ9v31gzKwt2B2gjY9s/uLNiqiHwNWUtCqKzwLNIfmBahn8pdflSXLHq9eJs5anfGPYXpxouSTiB08zcsCJ07BAXnxHwkZk5ARLMIEke00MBREvH/cDKu7hygIbCGCpd8VFtID5CFzSHC3Nf+W8NUlZlDOTTyBiUKK54OMfsGzczKOP1tZECJfKuUkNNJn4lBRPEaGFqQhWXvu3MG4j1fp3E+LM0eQk9KfsBSUnHoPhIKC55eQ5B6EaU8VtMnzLsrryxqIDXYoOuCEjlEt7GoaXUWArQ2kpgT7ZUZhFLkGOagjW8fS+PS3IglpP6mf+yPKiwbHJazbQdwl6ZJ+W4QHMJ8eySjObSXAH3S2r3f/Ke+MZlsj3gRxCQMZPowUMNX3NPwms=
+      secure: "mU78WQH+0Ayk90ZU4iNRBMjzcUAl7Mo4Y68YNw77quDFZ9PWrEZf3xfE8hQv7FuYLcAdFgeewTatmsl4Nnfu5+ItE3irfRSxndJ9k0nTR0WIPxixrgYuJuRpmCWRtfcwQWmR/aXo9JCdSIPT4iEzRKpoemmsqLBWtbE0YFHMqPpgTYpzkNn/jsIaUx4wbEifC/13u46527aMgHQTGen4qwL7gi5h2R9d1FCJIH9VtbIFXH6d03MdORKhcJ2qmNXOAAx4rg7XOfMuVeCaSWdY7FkJKjtU/L5uR7xCE/+GE6o6zmsoAx6qeLRsoE7pK7wkT5auWhCfZ2ZjtsKB5SGpttu+JNoAPKcMhgU7kenjrdn+MQLI895m/53968pHmD2ITX6q/jfoAZB8HLKgGKhH1USFTnjwI7CXrP79xlyjpp7+tltzE+XNYztq5KWmgKT6Re6pOkCXu8IBAsOFwSGvyHJssKZfnUcKRBLHRrfMMxB5jGs/mQl4PHBmt177gsEXqPkLCP6l1QF9jrMrEE9rXWrkkVtvhpZU8/vwYMzdhsQvE1jWY7gbpInhpuG/oBaAHD7am2OYnado4vCtx4AfPe2oVVwFpoNw8iurPBHj93kgno/r211dLCTNdiCpTiq7cNSk8wsIXg4uVsrA/QsDZkeCUtA5W0iNx27D+LTnX18="
 deploy:
   provider: releases
   api_key:
