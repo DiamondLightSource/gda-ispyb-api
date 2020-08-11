@@ -6,7 +6,7 @@ cache:
 jdk:
   - oraclejdk8
 script:
-  - mvn -Dispyb.url=jdbc:mariadb://localhost:3306 -Dispyb.user=root -Dispyb.host=localhost package
+  - mvn -Dispyb.url='jdbc:mariadb://localhost:3306?useMysqlMetadata' -Dispyb.user=root -Dispyb.host=localhost package
 addons:
   mariadb: '10.3'
 deploy:
