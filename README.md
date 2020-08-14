@@ -32,6 +32,12 @@ mvn -Dispyb.url='jdbc:mariadb://localhost:3306?useMysqlMetadata' -Dispyb.user=ma
 
 We need the 'useMysqlMetadata' parameter so we can pretend it's a MySQL database so that Spring Framework will allow us to use stored procedures the same way it did with previous versions of the MariaDB Connector. For details, see the Connector [documentation page](https://mariadb.com/kb/en/about-mariadb-connector-j/#essential-parameters).
 
+To run a particular test class:
+
+```bash
+mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.host={host} -Dtest={TestClassName} test
+```
+
 Release
 -------
 
