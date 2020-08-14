@@ -43,7 +43,8 @@ public class BeanTemplateWrapper {
 			String message = "could not return parameter " + key + " from map with keys" + map.keySet();
 			throw new UnsupportedOperationException(message);
 		}
-		return Optional.of((T) map.get(key));
+		Integer i = (Integer)map.get(key);
+		return Optional.of((T)(Long)i.longValue());
 	}
 
 	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Object bean) {
