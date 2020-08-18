@@ -19,6 +19,7 @@ import uk.ac.diamond.ispyb.api.Schema;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.function.BiFunction;
@@ -60,7 +61,12 @@ public class IspybDaoFactory<T> implements IspybFactoryService<T>{
 		Connection connection = null;
 		if (url.contains("mariadb")) {
 			MariaDbDataSource source = new MariaDbDataSource();
-			source.setUrl(url);
+
+			if (url.toString().contains("?"))
+				source.setUrl(url + "&useMysqlMetadata=true");
+			else
+				source.setUrl(url + "?useMysqlMetadata=true");
+
 			username.ifPresent(t -> {
 				try {
 					source.setUserName(t);
