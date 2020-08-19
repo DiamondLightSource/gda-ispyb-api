@@ -19,7 +19,6 @@ import uk.ac.diamond.ispyb.api.Schema;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.function.BiFunction;
