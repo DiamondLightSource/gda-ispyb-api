@@ -23,11 +23,11 @@ public class BeanTemplateWrapper {
 	private TemplateWrapper templateWrapper;
 	private ResultMapParser parser;
 
-	public BeanTemplateWrapper(TemplateWrapper templateWrapper, ResultMapParser parser){
+	public BeanTemplateWrapper(TemplateWrapper templateWrapper, ResultMapParser parser) {
 		this.templateWrapper = templateWrapper;
 		this.parser = parser;
 	}
-	
+
 	public void updateIspyb(String procedure, Object bean) {
 		templateWrapper.updateIspyb(procedure, convertToMap(bean));
 	}
@@ -35,15 +35,42 @@ public class BeanTemplateWrapper {
 	<T> List<T> callIspybForList(String procedure, Class<T> clazz, Object bean) {
 		return templateWrapper.callIspybForList(procedure, clazz, convertToMap(bean));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	<T> Optional<T> callIspybForKey(String procedure, Class<T> clazz, Object bean, String key) {
 		Map<String, Object> map = execute(procedure, bean);
-		if (!map.containsKey(key) || map.get(key) == null){
+		if (!map.containsKey(key) || map.get(key) == null) {
 			String message = "could not return parameter " + key + " from map with keys" + map.keySet();
 			throw new UnsupportedOperationException(message);
 		}
-		return Optional.of((T) map.get(key));
+		Object o = map.get(key);
+
+		if (clazz.isInstance(new Long(0))) {
+			Long l = null;
+			if (o instanceof Integer)
+				l = ((Integer)o).longValue();
+			else if (o instanceof Byte)
+				l = ((Byte)o).longValue();
+			else if (o instanceof Long)
+				l = (Long)o;
+			return Optional.of((T)l);
+		}
+		else if (clazz.isInstance(new Integer(0))) {
+			Integer i = null;
+			if (o instanceof Integer)
+				i = (Integer)o;
+			else if (o instanceof Byte)
+				i = ((Byte)o).intValue();
+			return Optional.of((T)i);
+		}
+		else if (clazz.isInstance(new Byte((byte)0))) {
+			Byte b = null;
+			if (o instanceof Byte)
+				b = (Byte)o;
+			return Optional.of((T)b);
+		}
+		else
+			return null;
 	}
 
 	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Object bean) {

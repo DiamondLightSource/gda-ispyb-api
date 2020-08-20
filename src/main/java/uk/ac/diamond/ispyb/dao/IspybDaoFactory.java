@@ -23,6 +23,9 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.function.BiFunction;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class IspybDaoFactory<T> implements IspybFactoryService<T>{
 	private final BiFunction<TemplateWrapper, BeanTemplateWrapper, T> daoFactory;  
 	
@@ -57,9 +60,28 @@ public class IspybDaoFactory<T> implements IspybFactoryService<T>{
 		Connection connection = null;
 		if (url.contains("mariadb")) {
 			MariaDbDataSource source = new MariaDbDataSource();
-			source.setUrl(url);
-			username.ifPresent(source::setUserName);
-			password.ifPresent(source::setPassword);
+
+			if (url.toString().contains("?"))
+				source.setUrl(url + "&useMysqlMetadata=true");
+			else
+				source.setUrl(url + "?useMysqlMetadata=true");
+
+			username.ifPresent(t -> {
+				try {
+					source.setUserName(t);
+				} catch (SQLException e) {
+					Logger logger = Logger.getLogger(IspybDaoFactory.class.getName());
+					logger.log(Level.SEVERE, "Unable to set database username");
+				}
+			});
+			password.ifPresent(t -> {
+				try {
+					source.setPassword(t);
+				} catch (SQLException e) {
+					Logger logger = Logger.getLogger(IspybDaoFactory.class.getName());
+					logger.log(Level.SEVERE, "Unable to set database password");
+				}
+			});
 			connection = source.getConnection();
 		} else {
 			SingleConnectionDataSource ds = new SingleConnectionDataSource(url, false);

@@ -116,7 +116,7 @@ public class IspybPlateDAO implements IspybPlateApi{
 
 	@Override
 	public Byte upsertSleeve(Sleeve sleeve) throws SQLException {
-		return (byte)((int)(beanTemplateWrapper.callIspybForKey("upsert_sleeve", Integer.class, sleeve, "p_id").get()));
+		return beanTemplateWrapper.callIspybForKey("upsert_sleeve", Byte.class, sleeve, "p_id").get();
 	}
 
 	@Override

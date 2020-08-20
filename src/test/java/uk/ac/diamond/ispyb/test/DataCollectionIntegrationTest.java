@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import org.springframework.jdbc.UncategorizedSQLException;
+import org.springframework.dao.TransientDataAccessResourceException;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -102,7 +103,7 @@ public class DataCollectionIntegrationTest{
 		try{
 			Long id = helper.execute(api -> api.upsertDataCollectionGroup(dataCollectionGroup));
 			assertThat(id, notNullValue());
-		} catch (UnsupportedOperationException | UncategorizedSQLException e){
+		} catch (UnsupportedOperationException | UncategorizedSQLException | TransientDataAccessResourceException e){
 			// do nothing, expecting a sql exception
 		}
 	}

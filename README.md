@@ -27,7 +27,13 @@ mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.hos
 Example:
 
 ```bash
-mvn -Dispyb.url=jdbc:mariadb://localhost/ -Dispyb.user=maven -Dispyb.pw='password_here' -Dispyb.host=localhost package
+mvn -Dispyb.url='jdbc:mariadb://localhost:3306' -Dispyb.user=maven -Dispyb.pw='password_here' -Dispyb.host=localhost package
+```
+
+To run a particular test class:
+
+```bash
+mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.host={host} -Dtest={TestClassName} test
 ```
 
 Release
