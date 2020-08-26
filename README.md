@@ -6,6 +6,10 @@ This is a Java library for accessing a Diamond-flavour ISPyB database. It's desi
 
 The stored procedures are maintained in a separate repository: [ispyb-database](https://github.com/DiamondLightSource/ispyb-database).
 
+## Documentation
+
+The javadocs are currently hosted at [https://alfred.diamond.ac.uk/documentation/javadocs/gda-ispyb-api/](https://alfred.diamond.ac.uk/documentation/javadocs/gda-ispyb-api/).
+
 ## Examples
 
 For example usage, see the integration tests, e.g. [PlateIntegrationTest](https://github.com/DiamondLightSource/gda-ispyb-api/blob/master/src/test/java/uk/ac/diamond/ispyb/test/PlateIntegrationTest.java).
@@ -37,6 +41,14 @@ To run a particular test class:
 ```bash
 mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.host={host} -Dtest={TestClassName} test
 ```
+
+To generate javadocs:
+
+```bash
+mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.host={host} install
+```
+
+The javadocs will then appear in a folder called `target/apidocs/`.
 
 ## Release
 
