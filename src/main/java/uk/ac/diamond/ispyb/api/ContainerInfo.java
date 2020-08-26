@@ -47,7 +47,7 @@ public class ContainerInfo {
 	/**
 	 * Set dewarId of container
 	 *
-	 * @param dewarId
+	 * @param dewarId The database primary-key value of the Dewar row
 	 */
 	public void setDewarId(Long dewarId) {
 		this.dewarId = dewarId;
@@ -63,7 +63,7 @@ public class ContainerInfo {
 	/**
 	 * Set name of container
 	 *
-	 * @param name
+	 * @param name The name of the container
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -79,7 +79,7 @@ public class ContainerInfo {
 	/**
 	 * Set type of container
 	 *
-	 * @param type
+	 * @param type The type of container
 	 */
 	public void setType(String type) {
 		this.type = type;
@@ -95,7 +95,7 @@ public class ContainerInfo {
 	/**
 	 * Set barcode of container
 	 *
-	 * @param barcode
+	 * @param barcode The unique barcode of the container
 	 */
 	public void setBarcode(String barcode) {
 		this.barcode = barcode;
@@ -111,7 +111,7 @@ public class ContainerInfo {
 	/**
 	 * Set beamline for container
 	 *
-	 * @param beamline
+	 * @param beamline The beamline that the container is destined for
 	 */
 	public void setBeamline(String beamline) {
 		this.beamline = beamline;
@@ -127,7 +127,7 @@ public class ContainerInfo {
 	/**
 	 * Set location of container
 	 *
-	 * @param location
+	 * @param location The current location of the container
 	 */
 	public void setLocation(String location) {
 		this.location = location;
@@ -143,7 +143,7 @@ public class ContainerInfo {
 	/**
 	 * Set imager name
 	 *
-	 * @param imagerName
+	 * @param imagerName The name of the imager to which the container is associated
 	 */
 	public void setImagerName(String imagerName) {
 		this.imagerName = imagerName;
@@ -159,7 +159,7 @@ public class ContainerInfo {
 	/**
 	 * Set imager serial number
 	 *
-	 * @param imagerSerialNumber
+	 * @param imagerSerialNumber The serial number of the container to which the container is associated
 	 */
 	public void setImagerSerialNumber(String imagerSerialNumber) {
 		this.imagerSerialNumber = imagerSerialNumber;
@@ -175,7 +175,7 @@ public class ContainerInfo {
 	/**
 	 * Set container status
 	 *
-	 * @param imagerName
+	 * @param status The current status of the container 
 	 */
 	public void setStatus(String status) {
 		this.status = ContainerStatus.convert(status);
@@ -191,7 +191,7 @@ public class ContainerInfo {
 	/**
 	 * Set capacity of container
 	 *
-	 * @param capacity
+	 * @param capacity The capacity of the container (number of samples it can hold)
 	 */
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
@@ -207,7 +207,7 @@ public class ContainerInfo {
 	/**
 	 * Set storage temperature of container
 	 *
-	 * @param storageTemperature
+	 * @param storageTemperature The temperature at which the container should be stored
 	 */
 	public void setStorageTemperature(Float storageTemperature) {
 		this.storageTemperature = storageTemperature;
@@ -247,7 +247,7 @@ public class ContainerInfo {
 	/**
 	 * Set container comments
 	 *
-	 * @param comments
+	 * @param comments Free-text comments about the container
 	 */
 	public void setComments(String comments) {
 		this.comments = comments;
@@ -263,7 +263,7 @@ public class ContainerInfo {
 	/**
 	 * Set experimentType for container
 	 *
-	 * @param experimentType
+	 * @param experimentType The experiment type to be used on the samples in the container
 	 */
 	public void setExperimentType(String experimentType) {
 		this.experimentType = experimentType;

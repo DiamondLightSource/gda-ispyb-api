@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 /**
  * 
  * This composite assumes a 1:1 mapping between Component and Lattice as per
- * http://confluence.diamond.ac.uk/pages/viewpage.action?spaceKey=I151&title=GDA-Database+Communications+Specification
+ * https://confluence.diamond.ac.uk/x/uRSvAw
  * 
  * @author Matthew Gerring
  *
