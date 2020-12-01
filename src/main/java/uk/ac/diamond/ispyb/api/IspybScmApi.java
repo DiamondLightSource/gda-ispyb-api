@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Database access methods for MX
+ * Database access methods for SCM
  */
 public interface IspybScmApi extends Closeable {
 	public Optional<ScmSample> retrieveSample(Long sampleId, boolean useContainerSession, String authLogin) throws SQLException;
