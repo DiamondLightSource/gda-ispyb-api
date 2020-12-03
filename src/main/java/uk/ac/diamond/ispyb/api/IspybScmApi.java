@@ -21,9 +21,9 @@ import java.util.Optional;
  */
 public interface IspybScmApi extends Closeable {
 	public Optional<ScmSample> retrieveSample(Long sampleId, boolean useContainerSession, String authLogin) throws SQLException;
-	public Optional<ScmSample> retrieveSample(String barcode, boolean useContainerSession, String authLogin) throws SQLException;
+	public Optional<ScmSample> retrieveSample(String containerBarcode, String sampleLocation, boolean useContainerSession, String authLogin) throws SQLException;
 	public List<ScmSample> retrieveSamples(Long containerId, boolean useContainerSession, String authLogin) throws SQLException;
 	public Optional<ScmContainer> retrieveContainer(Long containerId, boolean useContainerSession, String authLogin) throws SQLException;
-	public Optional<ScmContainer> retrieveContainer(String barcode, boolean useContainerSession, String authLogin) throws SQLException;
-	public List<ScmContainer> retrieveContainers(String proposalCode, String proposalNumber, Long sessionNumber, String status, String authLogin) throws SQLException;
+	public Optional<ScmContainer> retrieveContainer(String containerBarcode, boolean useContainerSession, String authLogin) throws SQLException;
+	public List<ScmContainer> retrieveContainers(String proposalCode, String proposalNumber, Long sessionNumber, String containerStatus, String authLogin) throws SQLException;
 }
