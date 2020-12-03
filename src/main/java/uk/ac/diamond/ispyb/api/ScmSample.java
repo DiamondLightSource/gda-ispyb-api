@@ -27,8 +27,7 @@ public class ScmSample {
     private String sampleName;
     private String sampleCode;
     private Float sampleVolume;
-    private Double thickness;
-    private String samplePurificationColumn;
+    private Double sampleThickness;
     private String sampleComments;
     private String sampleLocation;
     private String sampleSubLocation;
@@ -183,20 +182,12 @@ public class ScmSample {
         this.sampleVolume = sampleVolume;
     }
 
-    public Double getThickness() {
-        return thickness;
+    public Double getSampleThickness() {
+        return sampleThickness;
     }
 
-    public void setThickness(Double thickness) {
-        this.thickness = thickness;
-    }
-
-    public String getSamplePurificationColumn() {
-        return samplePurificationColumn;
-    }
-
-    public void setSamplePurificationColumn(String samplePurificationColumn) {
-        this.samplePurificationColumn = samplePurificationColumn;
+    public void seSampleThickness(Double sampleThickness) {
+        this.sampleThickness = sampleThickness;
     }
 
     public String getMaterialName() {
