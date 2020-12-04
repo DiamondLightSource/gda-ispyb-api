@@ -24,6 +24,7 @@ public class ScmContainer {
     private Long sessionId;
 	private Long proposalId;
 	private Long ownerId;
+	private String ownerUsername;
 	private String name;
 	private String type;
 	private String barcode;
@@ -297,5 +298,13 @@ public class ScmContainer {
 	@Override
 	public boolean equals(Object that) {
 		return EqualsBuilder.reflectionEquals(this, that);
+	}
+
+	public String getOwnerUsername() {
+		return ownerUsername;
+	}
+
+	public void setOwnerUsername(String ownerUsername) {
+		this.ownerUsername = ownerUsername;
 	};
 }
