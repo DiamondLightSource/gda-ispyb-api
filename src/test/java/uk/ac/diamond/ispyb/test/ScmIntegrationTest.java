@@ -153,7 +153,7 @@ public class ScmIntegrationTest {
 		expected.setStatus(ContainerStatus.IN_STORAGE.getStatus());
 		expected.setCapacity(192);
 		expected.setProposalCode("cm");
-		expected.setProposalNumber(14451);
+		expected.setProposalNumber("14451");
 
 		ScmContainer scmContainer1 = helper.execute(api -> api.retrieveContainer(34888L, false, null)).get();
 		assertThat(scmContainer1, is(equalTo(expected)));
@@ -161,7 +161,7 @@ public class ScmIntegrationTest {
 		ScmContainer scmContainer2 = helper.execute(api -> api.retrieveContainer(34888L, false, "boaty")).get();
 		assertThat(scmContainer2, is(equalTo(expected)));
 
-		expected.setSessionNumber(99);
+		expected.setSessionNumber(99L);
 
 		ScmContainer scmContainer3 = helper.execute(api -> api.retrieveContainer(34888L, true, null)).get();
 		assertThat(scmContainer3, is(equalTo(expected)));
@@ -186,7 +186,7 @@ public class ScmIntegrationTest {
 		expected.setStatus(ContainerStatus.IN_STORAGE.getStatus());
 		expected.setCapacity(192);
 		expected.setProposalCode("cm");
-		expected.setProposalNumber(14451);
+		expected.setProposalNumber("14451");
 
 		ScmContainer scmContainer1 = helper.execute(api -> api.retrieveContainer("VMXiSim-001", false, null)).get();
 		assertThat(scmContainer1, is(equalTo(expected)));
@@ -194,7 +194,7 @@ public class ScmIntegrationTest {
 		ScmContainer scmContainer2 = helper.execute(api -> api.retrieveContainer("VMXiSim-001", false, "boaty")).get();
 		assertThat(scmContainer2, is(equalTo(expected)));
 
-		expected.setSessionNumber(99);
+		expected.setSessionNumber(99L);
 
 		ScmContainer scmContainer3 = helper.execute(api -> api.retrieveContainer("VMXiSim-001", true, null)).get();
 		assertThat(scmContainer3, is(equalTo(expected)));
@@ -231,7 +231,7 @@ public class ScmIntegrationTest {
 		expected.setStatus(ContainerStatus.IN_STORAGE.getStatus());
 		expected.setCapacity(192);
 		expected.setProposalCode("cm");
-		expected.setProposalNumber(14451);
+		expected.setProposalNumber("14451");
 
 		List<ScmContainer> scmContainerList1 = helper.execute(api -> api.retrieveContainers("cm", "14451", null, ContainerStatus.IN_STORAGE.getStatus(), null));
 		ScmContainer scmContainer1 = getScmContainerWithId(34888L, scmContainerList1);
@@ -241,7 +241,7 @@ public class ScmIntegrationTest {
 		ScmContainer scmContainer2 = getScmContainerWithId(34888L, scmContainerList2);
 		assertThat(scmContainer2, is(equalTo(expected)));
 
-		expected.setSessionNumber(99);
+		expected.setSessionNumber(99L);
 
 		List<ScmContainer> scmContainerList3 = helper.execute(api -> api.retrieveContainers("cm", "14451", 99L, ContainerStatus.IN_STORAGE.getStatus(), null));
 		ScmContainer scmContainer3 = getScmContainerWithId(34888L, scmContainerList3);

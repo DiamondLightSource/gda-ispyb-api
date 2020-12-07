@@ -34,8 +34,8 @@ public class ScmContainer {
 	private Integer capacity;
 	private Float storageTemperature;
 	private String proposalCode;
-	private Integer proposalNumber;
-	private Integer sessionNumber;
+	private String proposalNumber;
+	private Long sessionNumber;
 	private String comments;
 	private String experimentType;
 
@@ -231,19 +231,19 @@ public class ScmContainer {
 		this.proposalCode = proposalCode;
 	}
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 
-	public Integer getSessionNumber() {
+	public Long getSessionNumber() {
 		return sessionNumber;
 	}
 
-	public void setSessionNumber(Integer sessionNumber) {
+	public void setSessionNumber(Long sessionNumber) {
 		this.sessionNumber = sessionNumber;
 	}
 
