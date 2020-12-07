@@ -316,7 +316,7 @@ public class ScmSample {
 
     public void setPlanTransmission(Float planTransmission) {
         this.planTransmission = planTransmission;
-    };
+    }
 
     @Override
     public String toString() {

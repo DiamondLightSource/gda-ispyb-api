@@ -306,5 +306,5 @@ public class ScmContainer {
 
 	public void setOwnerUsername(String ownerUsername) {
 		this.ownerUsername = ownerUsername;
-	};
+	}
 }

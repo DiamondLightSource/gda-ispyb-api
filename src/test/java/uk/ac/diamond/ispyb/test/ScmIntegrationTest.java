@@ -31,12 +31,12 @@ public class ScmIntegrationTest {
 	@BeforeClass
 	public static void connect() throws Exception {
 		helper.setUp();
-	};
+	}
 
 	@AfterClass
 	public static void disconnect() throws Exception {
 		helper.tearDown();
-	};
+	}
 
 	@Test
 	public void testRetrieveSample1() throws SQLException, IOException, InterruptedException {
