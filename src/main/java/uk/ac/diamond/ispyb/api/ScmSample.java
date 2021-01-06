@@ -186,7 +186,7 @@ public class ScmSample {
         return sampleThickness;
     }
 
-    public void seSampleThickness(Double sampleThickness) {
+    public void setSampleThickness(Double sampleThickness) {
         this.sampleThickness = sampleThickness;
     }
 
