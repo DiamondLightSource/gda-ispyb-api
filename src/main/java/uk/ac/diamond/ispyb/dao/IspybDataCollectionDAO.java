@@ -75,6 +75,11 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 	}
 
 	@Override
+	public Long upsertRobotAction(RobotAction robotAction){
+		return beanTemplateWrapper.callIspybForKey("upsert_robot_action", Long.class, robotAction, "p_id").get();
+	}
+
+	@Override
 	public void close() throws IOException {
 		try {
 			templateWrapper.closeConnection();

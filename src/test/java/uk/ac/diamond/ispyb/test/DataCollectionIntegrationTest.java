@@ -218,4 +218,26 @@ public class DataCollectionIntegrationTest{
 		assertNotNull(id);
 	}
 
+	@Test
+	public void testUpsertRobotAction() throws SQLException, IOException, InterruptedException {
+		RobotAction robotAction = new RobotAction();
+
+		robotAction.setSessionId(339525L);
+		robotAction.setSampleId(398810L);
+		robotAction.setActionType("LOAD");
+		robotAction.setStartTimestamp(new Timestamp(System.currentTimeMillis()));
+		robotAction.setEndTimestamp(new Timestamp(System.currentTimeMillis()));
+		robotAction.setStatus("SUCCESS");
+		robotAction.setMessage("message");
+		robotAction.setContainerLocation(3);
+		robotAction.setDewarLocation(5);
+		robotAction.setSampleBarcode("");
+		robotAction.setSnapshotBefore("");
+		robotAction.setsnapshotAfter("");
+
+		Long id = helper.execute(api -> api.upsertRobotAction(robotAction));
+
+		assertNotNull(id);
+	}
+
 }
