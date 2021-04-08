@@ -12,5 +12,5 @@
 package uk.ac.diamond.ispyb.api;
 
 public enum SampleGroupType {
-    BACKGROUND, CONTAINER, SAMPLE, CALIBRANT;
+    BACKGROUND, CONTAINER, SAMPLE, CALIBRANT, CAPILLARY;
 }
