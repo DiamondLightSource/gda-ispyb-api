@@ -3,6 +3,7 @@ package uk.ac.diamond.ispyb.api;
 import java.sql.Timestamp;
 
 public class RobotAction {
+    private Long id;
     private Long sessionId;
     private Long sessionNumber;
     private Long sampleId;
@@ -16,6 +17,10 @@ public class RobotAction {
     private String sampleBarcode;
     private String snapshotBefore;
     private String snapshotAfter;
+
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
 
     public Long getSessionId() {
         return sessionId;
@@ -41,9 +46,7 @@ public class RobotAction {
         this.sampleId = sampleId;
     }
 
-    public String getActionType() {
-        return actionType.name();
-    }
+    public String getActionType() { return actionType.name(); }
 
     public void setActionType(String actionType) {
         this.actionType = RobotActionType.valueOf(actionType);
@@ -120,4 +123,5 @@ public class RobotAction {
     public void setsnapshotAfter(String xtalSnapshotAfter) {
         this.snapshotAfter = xtalSnapshotAfter;
     }
+
 }
