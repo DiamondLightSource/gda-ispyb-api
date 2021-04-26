@@ -70,10 +70,10 @@ public class IntegrationTestHelper<S extends Closeable> {
         }
 
         downloadSchema();
-        executeScript("schema/tables.sql", data.getSchema());
-        executeScript("schema/routines.sql", data.getSchema());
-        executeScript("schema/lookups.sql", data.getSchema());
-        executeScript("schema/data.sql", data.getSchema());
+        executeScript("schemas/ispyb/tables.sql", data.getSchema());
+        executeScript("schemas/ispyb/routines.sql", data.getSchema());
+        executeScript("schemas/ispyb/lookups.sql", data.getSchema());
+        executeScript("schemas/ispyb/data.sql", data.getSchema());
 
         this.api = factory.buildIspybApi(data.getUrl(), data.getUser(), data.getPassword(), Optional.of(data.getSchema()));
     }
