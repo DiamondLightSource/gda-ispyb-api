@@ -169,6 +169,7 @@ public class XpdfIntegrationTest {
 		DataCollectionPlan dataCollectionPlan1 = new DataCollectionPlan();
 		dataCollectionPlan1.setDcPlanId(197792L);
 		dataCollectionPlan1.setName("XPDF-1");
+		dataCollectionPlan1.setSampleOrderInPlan((short)1);
 		dataCollectionPlan1.setDetectorId(8L);
 		dataCollectionPlan1.setExposureTime(5.4);
 		dataCollectionPlan1.setDistance(136.86);
@@ -183,6 +184,7 @@ public class XpdfIntegrationTest {
 		DataCollectionPlan dataCollectionPlan2 = new DataCollectionPlan();
 		dataCollectionPlan2.setDcPlanId(197792L);
 		dataCollectionPlan2.setName("XPDF-1");
+		dataCollectionPlan2.setSampleOrderInPlan((short)1);
 		dataCollectionPlan2.setDetectorId(8L);
 		dataCollectionPlan2.setExposureTime(5.4);
 		dataCollectionPlan2.setDistance(136.86);
