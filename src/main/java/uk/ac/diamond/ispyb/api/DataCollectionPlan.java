@@ -18,6 +18,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 public class DataCollectionPlan {
     private Long dcPlanId;
     private String name;
+    private Short sampleOrderInPlan;
     private String experimentKind;
     private Double preferredBeamSizeX;
     private Double preferredBeamSizeY;
@@ -50,6 +51,14 @@ public class DataCollectionPlan {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Short getSampleOrderInPlan() {
+        return sampleOrderInPlan;
+    }
+
+    public void setSampleOrderInPlan(Short sampleOrderInPlan) {
+        this.sampleOrderInPlan = sampleOrderInPlan;
     }
 
     public String getExperimentKind() {
