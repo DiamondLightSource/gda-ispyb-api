@@ -13,7 +13,7 @@ public class Container {
     private long capacity;
     private String sampleChangerLocation;
     private String containerStatus;
-    private Timestamp bltimeStamp;
+    private Timestamp blTimeStamp;
     private String beamlineLocation;
     private long screenId;
     private long scheduleId;
@@ -31,6 +31,9 @@ public class Container {
     private long priorityPipelineId;
     private long experimentTypeId;
     private long containerTypeId;
+    private String proposalCode;
+    private String proposalNumber;
+    private String visitNumber;
 
     public long getContainerId() {
         return containerId;
@@ -88,12 +91,12 @@ public class Container {
         this.containerStatus = containerStatus;
     }
 
-    public Timestamp getBltimeStamp() {
-        return bltimeStamp;
+    public Timestamp getBlTimeStamp() {
+        return blTimeStamp;
     }
 
-    public void setBltimeStamp(Timestamp bltimeStamp) {
-        this.bltimeStamp = bltimeStamp;
+    public void setBlTimeStamp(Timestamp blTimeStamp) {
+        this.blTimeStamp = blTimeStamp;
     }
 
     public String getBeamlineLocation() {
@@ -230,5 +233,29 @@ public class Container {
 
     public void setContainerTypeId(long containerTypeId) {
         this.containerTypeId = containerTypeId;
+    }
+
+    public String getProposalCode() {
+        return proposalCode;
+    }
+
+    public void setProposalCode(String proposalCode) {
+        this.proposalCode = proposalCode;
+    }
+
+    public String getProposalNumber() {
+        return proposalNumber;
+    }
+
+    public void setProposalNumber(String proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
+
+    public String getVisitNumber() {
+        return visitNumber;
+    }
+
+    public void setVisitNumber(String visitNumber) {
+        this.visitNumber = visitNumber;
     }
 }
