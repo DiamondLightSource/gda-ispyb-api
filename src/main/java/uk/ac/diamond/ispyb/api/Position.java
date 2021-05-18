@@ -16,14 +16,23 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 public class Position {
-    
+
+	private Long positionId;
 	private Long dcId;
 	private Double posX;
 	private Double posY;
 	private Double posZ;
 	private Double scale;
-	
-    public Long getDCId() {
+
+	public Long getPositionId() {
+		return positionId;
+	}
+
+	public void setPositionId(Long positionId) {
+		this.positionId = positionId;
+	}
+
+	public Long getDCId() {
         return dcId;
     }
 

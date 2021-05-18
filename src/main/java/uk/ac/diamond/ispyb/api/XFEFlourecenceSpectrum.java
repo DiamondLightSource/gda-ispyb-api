@@ -3,17 +3,17 @@ package uk.ac.diamond.ispyb.api;
 import java.sql.Timestamp;
 
 public class XFEFlourecenceSpectrum {
-    private long xfeFluorescenceSpectrumId;
+    private long id;
     private long sessionId;
-    private long blSampleId;
+    private long sampleId;
     private String jpegScanFileFullPath;
     private Timestamp startTime;
     private Timestamp endTime;
-    private String filename;
+    private String fileName;
     private Double exposureTime;
     private Double axisPosition;
-    private  Double beamTransmission;
-    private String annotatedPymcaXfeSpectrum;
+    private  Double transmission;
+    private String annotatedPymcaSpectrum;
     private String fittedDataFileFullPath;
     private String scanFileFullPath;
     private Double energy;
@@ -21,17 +21,17 @@ public class XFEFlourecenceSpectrum {
     private Double beamSizeHorizontal;
     private String crystalClass;
     private String comments;
-    private long blSumSampleId;
+    private long subSampleId;
     private Double flux;
-    private Double flux_end;
+    private Double fluxEnd;
     private String workingDirectory;
 
-    public long getXfeFluorescenceSpectrumId() {
-        return xfeFluorescenceSpectrumId;
+    public long getId() {
+        return id;
     }
 
-    public void setXfeFluorescenceSpectrumId(long xfeFluorescenceSpectrumId) {
-        this.xfeFluorescenceSpectrumId = xfeFluorescenceSpectrumId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getSessionId() {
@@ -42,12 +42,12 @@ public class XFEFlourecenceSpectrum {
         this.sessionId = sessionId;
     }
 
-    public long getBlSampleId() {
-        return blSampleId;
+    public long getSampleId() {
+        return sampleId;
     }
 
-    public void setBlSampleId(long blSampleId) {
-        this.blSampleId = blSampleId;
+    public void setSampleId(long sampleId) {
+        this.sampleId = sampleId;
     }
 
     public String getJpegScanFileFullPath() {
@@ -74,12 +74,12 @@ public class XFEFlourecenceSpectrum {
         this.endTime = endTime;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public Double getExposureTime() {
@@ -98,20 +98,20 @@ public class XFEFlourecenceSpectrum {
         this.axisPosition = axisPosition;
     }
 
-    public Double getBeamTransmission() {
-        return beamTransmission;
+    public Double getTransmission() {
+        return transmission;
     }
 
-    public void setBeamTransmission(Double beamTransmission) {
-        this.beamTransmission = beamTransmission;
+    public void setTransmission(Double transmission) {
+        this.transmission = transmission;
     }
 
-    public String getAnnotatedPymcaXfeSpectrum() {
-        return annotatedPymcaXfeSpectrum;
+    public String getAnnotatedPymcaSpectrum() {
+        return annotatedPymcaSpectrum;
     }
 
-    public void setAnnotatedPymcaXfeSpectrum(String annotatedPymcaXfeSpectrum) {
-        this.annotatedPymcaXfeSpectrum = annotatedPymcaXfeSpectrum;
+    public void setAnnotatedPymcaSpectrum(String annotatedPymcaSpectrum) {
+        this.annotatedPymcaSpectrum = annotatedPymcaSpectrum;
     }
 
     public String getFittedDataFileFullPath() {
@@ -170,12 +170,12 @@ public class XFEFlourecenceSpectrum {
         this.comments = comments;
     }
 
-    public long getBlSumSampleId() {
-        return blSumSampleId;
+    public long getSubSampleId() {
+        return subSampleId;
     }
 
-    public void setBlSumSampleId(long blSumSampleId) {
-        this.blSumSampleId = blSumSampleId;
+    public void setSubSampleId(long subSampleId) {
+        this.subSampleId = subSampleId;
     }
 
     public Double getFlux() {
@@ -186,12 +186,12 @@ public class XFEFlourecenceSpectrum {
         this.flux = flux;
     }
 
-    public Double getFlux_end() {
-        return flux_end;
+    public Double getFluxEnd() {
+        return fluxEnd;
     }
 
-    public void setFlux_end(Double flux_end) {
-        this.flux_end = flux_end;
+    public void setFluxEnd(Double fluxEnd) {
+        this.fluxEnd = fluxEnd;
     }
 
     public String getWorkingDirectory() {

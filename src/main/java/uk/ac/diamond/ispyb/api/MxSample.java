@@ -19,14 +19,26 @@ public class MxSample {
     private Long sampleId;
     private Long containerId;
     private Long dataCollectionPlanId;
+    private Long crystalId;
+    private Long positionId;
     private Long sessionId;
     private Long proposalId;
     private String sampleName;
     private String sampleCode;
     private String sampleComments;
+    private String publicationComments;
     private String sampleLocation;
     private String sampleSubLocation;
+    private Boolean isInSampleChanger;
+    private String lastKnownCenteringPosition;
+    private Double holderLength;
+    private Double loopLength;
+    private String loopType;
+    private Double wireWidth;
     private String sampleStatus;
+    private String completionStage;
+    private String structureStage;
+    private String publicationStage;
     private String proposalCode;
     private String proposalNumber;
     private Long sessionNumber;
@@ -55,12 +67,20 @@ public class MxSample {
         this.dataCollectionPlanId = dataCollectionPlanId;
     }
 
-    public Long getProposalId() {
-        return proposalId;
+    public Long getCrystalId() {
+        return crystalId;
     }
 
-    public void setProposalId(Long proposalId) {
-        this.proposalId = proposalId;
+    public void setCrystalId(Long crystalId) {
+        this.crystalId = crystalId;
+    }
+
+    public Long getPositionId() {
+        return positionId;
+    }
+
+    public void setPositionId(Long positionId) {
+        this.positionId = positionId;
     }
 
     public Long getSessionId() {
@@ -69,6 +89,14 @@ public class MxSample {
 
     public void setSessionId(Long sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public Long getProposalId() {
+        return proposalId;
+    }
+
+    public void setProposalId(Long proposalId) {
+        this.proposalId = proposalId;
     }
 
     public String getSampleName() {
@@ -95,6 +123,14 @@ public class MxSample {
         this.sampleComments = sampleComments;
     }
 
+    public String getPublicationComments() {
+        return publicationComments;
+    }
+
+    public void setPublicationComments(String publicationComments) {
+        this.publicationComments = publicationComments;
+    }
+
     public String getSampleLocation() {
         return sampleLocation;
     }
@@ -111,12 +147,84 @@ public class MxSample {
         this.sampleSubLocation = sampleSubLocation;
     }
 
+    public Boolean getInSampleChanger() {
+        return isInSampleChanger;
+    }
+
+    public void setInSampleChanger(Boolean inSampleChanger) {
+        isInSampleChanger = inSampleChanger;
+    }
+
+    public String getLastKnownCenteringPosition() {
+        return lastKnownCenteringPosition;
+    }
+
+    public void setLastKnownCenteringPosition(String lastKnownCenteringPosition) {
+        this.lastKnownCenteringPosition = lastKnownCenteringPosition;
+    }
+
+    public Double getHolderLength() {
+        return holderLength;
+    }
+
+    public void setHolderLength(Double holderLength) {
+        this.holderLength = holderLength;
+    }
+
+    public Double getLoopLength() {
+        return loopLength;
+    }
+
+    public void setLoopLength(Double loopLength) {
+        this.loopLength = loopLength;
+    }
+
+    public String getLoopType() {
+        return loopType;
+    }
+
+    public void setLoopType(String loopType) {
+        this.loopType = loopType;
+    }
+
+    public Double getWireWidth() {
+        return wireWidth;
+    }
+
+    public void setWireWidth(Double wireWidth) {
+        this.wireWidth = wireWidth;
+    }
+
     public String getSampleStatus() {
         return sampleStatus;
     }
 
     public void setSampleStatus(String sampleStatus) {
         this.sampleStatus = sampleStatus;
+    }
+
+    public String getCompletionStage() {
+        return completionStage;
+    }
+
+    public void setCompletionStage(String completionStage) {
+        this.completionStage = completionStage;
+    }
+
+    public String getStructureStage() {
+        return structureStage;
+    }
+
+    public void setStructureStage(String structureStage) {
+        this.structureStage = structureStage;
+    }
+
+    public String getPublicationStage() {
+        return publicationStage;
+    }
+
+    public void setPublicationStage(String publicationStage) {
+        this.publicationStage = publicationStage;
     }
 
     public String getProposalCode() {

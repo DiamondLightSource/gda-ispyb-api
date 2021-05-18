@@ -1,136 +1,140 @@
 package uk.ac.diamond.ispyb.api;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 import java.sql.Timestamp;
 
 public class ImageQualityIndicators {
-    private long dataCollectionId;
-    private long imageNumber;
-    private long imageId;
-    private long autoProcProgramId;
-    private long spotTotal;
-    private long inResTotal;
-    private long goodBraggCandidates;
-    private long iceRings;
-    private double method1Res;
-    private double method2Res;
-    private double maxUnitCell;
-    private double pctSaturationTop50Peaks;
-    private long inResolutionOvrlSpots;
-    private long binPopCutOffMethod2Res;
+    private Long dataCollectionId;
+    private Long imageNumber;
+    private Long imageId;
+    private Long autoProcProgramId;
+    private Long spotTotal;
+    private Long inResTotal;
+    private Long goodBraggCandidates;
+    private Long iceRings;
+    private Double method1Res;
+    private Double method2Res;
+    private Double maxUnitCell;
+    private Double pctSaturationTop50Peaks;
+    private Long inResolutionOvrlSpots;
+    private Long binPopCutOffMethod2Res;
     private Timestamp recordTimeStamp;
-    private double totalIntegratedSignal;
-    private double dozor_score;
-    private double driftFactor;
+    private Double totalIntegratedSignal;
+    private Double dozor_score;
+    private Double driftFactor;
 
-    public long getDataCollectionId() {
+    public Long getDataCollectionId() {
         return dataCollectionId;
     }
 
-    public void setDataCollectionId(long dataCollectionId) {
+    public void setDataCollectionId(Long dataCollectionId) {
         this.dataCollectionId = dataCollectionId;
     }
 
-    public long getImageNumber() {
+    public Long getImageNumber() {
         return imageNumber;
     }
 
-    public void setImageNumber(long imageNumber) {
+    public void setImageNumber(Long imageNumber) {
         this.imageNumber = imageNumber;
     }
 
-    public long getImageId() {
+    public Long getImageId() {
         return imageId;
     }
 
-    public void setImageId(long imageId) {
+    public void setImageId(Long imageId) {
         this.imageId = imageId;
     }
 
-    public long getAutoProcProgramId() {
+    public Long getAutoProcProgramId() {
         return autoProcProgramId;
     }
 
-    public void setAutoProcProgramId(long autoProcProgramId) {
+    public void setAutoProcProgramId(Long autoProcProgramId) {
         this.autoProcProgramId = autoProcProgramId;
     }
 
-    public long getSpotTotal() {
+    public Long getSpotTotal() {
         return spotTotal;
     }
 
-    public void setSpotTotal(long spotTotal) {
+    public void setSpotTotal(Long spotTotal) {
         this.spotTotal = spotTotal;
     }
 
-    public long getInResTotal() {
+    public Long getInResTotal() {
         return inResTotal;
     }
 
-    public void setInResTotal(long inResTotal) {
+    public void setInResTotal(Long inResTotal) {
         this.inResTotal = inResTotal;
     }
 
-    public long getGoodBraggCandidates() {
+    public Long getGoodBraggCandidates() {
         return goodBraggCandidates;
     }
 
-    public void setGoodBraggCandidates(long goodBraggCandidates) {
+    public void setGoodBraggCandidates(Long goodBraggCandidates) {
         this.goodBraggCandidates = goodBraggCandidates;
     }
 
-    public long getIceRings() {
+    public Long getIceRings() {
         return iceRings;
     }
 
-    public void setIceRings(long iceRings) {
+    public void setIceRings(Long iceRings) {
         this.iceRings = iceRings;
     }
 
-    public double getMethod1Res() {
+    public Double getMethod1Res() {
         return method1Res;
     }
 
-    public void setMethod1Res(double method1Res) {
+    public void setMethod1Res(Double method1Res) {
         this.method1Res = method1Res;
     }
 
-    public double getMethod2Res() {
+    public Double getMethod2Res() {
         return method2Res;
     }
 
-    public void setMethod2Res(double method2Res) {
+    public void setMethod2Res(Double method2Res) {
         this.method2Res = method2Res;
     }
 
-    public double getMaxUnitCell() {
+    public Double getMaxUnitCell() {
         return maxUnitCell;
     }
 
-    public void setMaxUnitCell(double maxUnitCell) {
+    public void setMaxUnitCell(Double maxUnitCell) {
         this.maxUnitCell = maxUnitCell;
     }
 
-    public double getPctSaturationTop50Peaks() {
+    public Double getPctSaturationTop50Peaks() {
         return pctSaturationTop50Peaks;
     }
 
-    public void setPctSaturationTop50Peaks(double pctSaturationTop50Peaks) {
+    public void setPctSaturationTop50Peaks(Double pctSaturationTop50Peaks) {
         this.pctSaturationTop50Peaks = pctSaturationTop50Peaks;
     }
 
-    public long getInResolutionOvrlSpots() {
+    public Long getInResolutionOvrlSpots() {
         return inResolutionOvrlSpots;
     }
 
-    public void setInResolutionOvrlSpots(long inResolutionOvrlSpots) {
+    public void setInResolutionOvrlSpots(Long inResolutionOvrlSpots) {
         this.inResolutionOvrlSpots = inResolutionOvrlSpots;
     }
 
-    public long getBinPopCutOffMethod2Res() {
+    public Long getBinPopCutOffMethod2Res() {
         return binPopCutOffMethod2Res;
     }
 
-    public void setBinPopCutOffMethod2Res(long binPopCutOffMethod2Res) {
+    public void setBinPopCutOffMethod2Res(Long binPopCutOffMethod2Res) {
         this.binPopCutOffMethod2Res = binPopCutOffMethod2Res;
     }
 
@@ -142,27 +146,42 @@ public class ImageQualityIndicators {
         this.recordTimeStamp = recordTimeStamp;
     }
 
-    public double getTotalIntegratedSignal() {
+    public Double getTotalIntegratedSignal() {
         return totalIntegratedSignal;
     }
 
-    public void setTotalIntegratedSignal(double totalIntegratedSignal) {
+    public void setTotalIntegratedSignal(Double totalIntegratedSignal) {
         this.totalIntegratedSignal = totalIntegratedSignal;
     }
 
-    public double getDozor_score() {
+    public Double getDozor_score() {
         return dozor_score;
     }
 
-    public void setDozor_score(double dozor_score) {
+    public void setDozor_score(Double dozor_score) {
         this.dozor_score = dozor_score;
     }
 
-    public double getDriftFactor() {
+    public Double getDriftFactor() {
         return driftFactor;
     }
 
-    public void setDriftFactor(double driftFactor) {
+    public void setDriftFactor(Double driftFactor) {
         this.driftFactor = driftFactor;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        return EqualsBuilder.reflectionEquals(this, that);
     }
 }

@@ -1,6 +1,6 @@
 package uk.ac.diamond.ispyb.api;
 
-public enum CenteringMethod {
+public enum CentringMethod {
     XRAY("xray"),
     LOOP("loop"),
     DIFFRACTION("diffraction"),
@@ -8,7 +8,7 @@ public enum CenteringMethod {
     INVALID("INVALID");
 
     private final String centeringMethod;
-    CenteringMethod(String centeringMethod){
+    CentringMethod(String centeringMethod){
         this.centeringMethod = centeringMethod;
     }
 
@@ -16,8 +16,8 @@ public enum CenteringMethod {
         return centeringMethod;
     }
 
-    public static CenteringMethod convert(String centeringMethod){
-        for (CenteringMethod e : CenteringMethod.values()){
+    public static CentringMethod convert(String centeringMethod){
+        for (CentringMethod e : CentringMethod.values()){
             if (e.centeringMethod.equals(centeringMethod)){
                 return e;
             }

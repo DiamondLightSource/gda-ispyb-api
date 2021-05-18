@@ -1,53 +1,57 @@
 package uk.ac.diamond.ispyb.api;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 import java.sql.Timestamp;
 
 /**
  * Class containing fields from the Container table in ISpyB.
  */
 public class Container {
-    private long containerId;
-    private long dewarId;
+    private Long containerId;
+    private Long dewarId;
     private String code;
     private String containerType;
-    private long capacity;
+    private Long capacity;
     private String sampleChangerLocation;
     private String containerStatus;
     private Timestamp blTimeStamp;
     private String beamlineLocation;
-    private long screenId;
-    private long scheduleId;
+    private Long screenId;
+    private Long scheduleId;
     private String barcode;
-    private long imagerId;
-    private long sessionId;
-    private long ownerId;
-    private long requestedImagerId;
+    private Long imagerId;
+    private Long sessionId;
+    private Long ownerId;
+    private Long requestedImagerId;
     private int requestedReturn;
     private String comments;
     private String experimentType;
-    private double storageTemperature;
-    private long containerRegistry;
+    private Double storageTemperature;
+    private Long containerRegistry;
     private Timestamp scLocationUpdated;
-    private long priorityPipelineId;
-    private long experimentTypeId;
-    private long containerTypeId;
+    private Long priorityPipelineId;
+    private Long experimentTypeId;
+    private Long containerTypeId;
     private String proposalCode;
     private String proposalNumber;
     private String visitNumber;
 
-    public long getContainerId() {
+    public Long getContainerId() {
         return containerId;
     }
 
-    public void setContainerId(long containerId) {
+    public void setContainerId(Long containerId) {
         this.containerId = containerId;
     }
 
-    public long getDewarId() {
+    public Long getDewarId() {
         return dewarId;
     }
 
-    public void setDewarId(long dewarId) {
+    public void setDewarId(Long dewarId) {
         this.dewarId = dewarId;
     }
 
@@ -67,11 +71,11 @@ public class Container {
         this.containerType = containerType;
     }
 
-    public long getCapacity() {
+    public Long getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(long capacity) {
+    public void setCapacity(Long capacity) {
         this.capacity = capacity;
     }
 
@@ -107,19 +111,19 @@ public class Container {
         this.beamlineLocation = beamlineLocation;
     }
 
-    public long getScreenId() {
+    public Long getScreenId() {
         return screenId;
     }
 
-    public void setScreenId(long screenId) {
+    public void setScreenId(Long screenId) {
         this.screenId = screenId;
     }
 
-    public long getScheduleId() {
+    public Long getScheduleId() {
         return scheduleId;
     }
 
-    public void setScheduleId(long scheduleId) {
+    public void setScheduleId(Long scheduleId) {
         this.scheduleId = scheduleId;
     }
 
@@ -131,35 +135,35 @@ public class Container {
         this.barcode = barcode;
     }
 
-    public long getImagerId() {
+    public Long getImagerId() {
         return imagerId;
     }
 
-    public void setImagerId(long imagerId) {
+    public void setImagerId(Long imagerId) {
         this.imagerId = imagerId;
     }
 
-    public long getSessionId() {
+    public Long getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(long sessionId) {
+    public void setSessionId(Long sessionId) {
         this.sessionId = sessionId;
     }
 
-    public long getOwnerId() {
+    public Long getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(long ownerId) {
+    public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
     }
 
-    public long getRequestedImagerId() {
+    public Long getRequestedImagerId() {
         return requestedImagerId;
     }
 
-    public void setRequestedImagerId(long requestedImagerId) {
+    public void setRequestedImagerId(Long requestedImagerId) {
         this.requestedImagerId = requestedImagerId;
     }
 
@@ -187,19 +191,19 @@ public class Container {
         this.experimentType = experimentType;
     }
 
-    public double getStorageTemperature() {
+    public Double getStorageTemperature() {
         return storageTemperature;
     }
 
-    public void setStorageTemperature(double storageTemperature) {
+    public void setStorageTemperature(Double storageTemperature) {
         this.storageTemperature = storageTemperature;
     }
 
-    public long getContainerRegistry() {
+    public Long getContainerRegistry() {
         return containerRegistry;
     }
 
-    public void setContainerRegistry(long containerRegistry) {
+    public void setContainerRegistry(Long containerRegistry) {
         this.containerRegistry = containerRegistry;
     }
 
@@ -211,27 +215,27 @@ public class Container {
         this.scLocationUpdated = scLocationUpdated;
     }
 
-    public long getPriorityPipelineId() {
+    public Long getPriorityPipelineId() {
         return priorityPipelineId;
     }
 
-    public void setPriorityPipelineId(long priorityPipelineId) {
+    public void setPriorityPipelineId(Long priorityPipelineId) {
         this.priorityPipelineId = priorityPipelineId;
     }
 
-    public long getExperimentTypeId() {
+    public Long getExperimentTypeId() {
         return experimentTypeId;
     }
 
-    public void setExperimentTypeId(long experimentTypeId) {
+    public void setExperimentTypeId(Long experimentTypeId) {
         this.experimentTypeId = experimentTypeId;
     }
 
-    public long getContainerTypeId() {
+    public Long getContainerTypeId() {
         return containerTypeId;
     }
 
-    public void setContainerTypeId(long containerTypeId) {
+    public void setContainerTypeId(Long containerTypeId) {
         this.containerTypeId = containerTypeId;
     }
 
@@ -257,5 +261,20 @@ public class Container {
 
     public void setVisitNumber(String visitNumber) {
         this.visitNumber = visitNumber;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        return EqualsBuilder.reflectionEquals(this, that);
     }
 }

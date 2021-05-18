@@ -1,31 +1,35 @@
 package uk.ac.diamond.ispyb.api;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 import java.sql.Timestamp;
 
 public class Screening {
-    private long screeningId;
-    private long dataCollectionId;
+    private Long screeningId;
+    private Long dataCollectionId;
     private Timestamp bltimeStamp;
     private String programVersion;
     private String comments;
     private String shortComments;
-    private long diffractionPlanId;
-    private long dataCollectionGroupId;
+    private Long diffractionPlanId;
+    private Long dataCollectionGroupId;
     private String xmlSampleInformation;
 
-    public long getScreeningId() {
+    public Long getScreeningId() {
         return screeningId;
     }
 
-    public void setScreeningId(long screeningId) {
+    public void setScreeningId(Long screeningId) {
         this.screeningId = screeningId;
     }
 
-    public long getDataCollectionId() {
+    public Long getDataCollectionId() {
         return dataCollectionId;
     }
 
-    public void setDataCollectionId(long dataCollectionId) {
+    public void setDataCollectionId(Long dataCollectionId) {
         this.dataCollectionId = dataCollectionId;
     }
 
@@ -61,19 +65,19 @@ public class Screening {
         this.shortComments = shortComments;
     }
 
-    public long getDiffractionPlanId() {
+    public Long getDiffractionPlanId() {
         return diffractionPlanId;
     }
 
-    public void setDiffractionPlanId(long diffractionPlanId) {
+    public void setDiffractionPlanId(Long diffractionPlanId) {
         this.diffractionPlanId = diffractionPlanId;
     }
 
-    public long getDataCollectionGroupId() {
+    public Long getDataCollectionGroupId() {
         return dataCollectionGroupId;
     }
 
-    public void setDataCollectionGroupId(long dataCollectionGroupId) {
+    public void setDataCollectionGroupId(Long dataCollectionGroupId) {
         this.dataCollectionGroupId = dataCollectionGroupId;
     }
 
@@ -83,5 +87,20 @@ public class Screening {
 
     public void setXmlSampleInformation(String xmlSampleInformation) {
         this.xmlSampleInformation = xmlSampleInformation;
+    }
+
+    @Override
+    public String toString(){
+        return ReflectionToStringBuilder.toString(this);
+    }
+
+    @Override
+    public int hashCode(){
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object that){
+        return EqualsBuilder.reflectionEquals(this, that);
     }
 }

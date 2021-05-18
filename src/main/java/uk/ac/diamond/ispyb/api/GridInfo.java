@@ -3,13 +3,13 @@ package uk.ac.diamond.ispyb.api;
 import java.sql.Timestamp;
 
 public class GridInfo {
-    private long gridInfoId;
+    private long id;
     private double xOffset;
     private double yOffset;
-    private double dx_mm;
-    private double dy_mm;
-    private double steps_x;
-    private double steps_y;
+    private double dxInMm;
+    private double dyInMm;
+    private double stepsX;
+    private double stepsY;
     private double meshAngle;
     private Timestamp recordTimeStamp;
     private long workflowMeshId;
@@ -17,17 +17,17 @@ public class GridInfo {
     private long dataCollectionGroupId;
     private double pixelsPerMicronX;
     private double pixelsPerMicronY;
-    private double snapshot_offsetXPixel;
-    private double snapshot_offsetYPixel;
+    private double snapshotOffsetXPixel;
+    private double snapshotOffsetYPixel;
     private int snaked;
-    private long dataCollectionId;
+    private long dcId;
 
-    public long getGridInfoId() {
-        return gridInfoId;
+    public long getId() {
+        return id;
     }
 
-    public void setGridInfoId(long gridInfoId) {
-        this.gridInfoId = gridInfoId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public double getxOffset() {
@@ -46,36 +46,36 @@ public class GridInfo {
         this.yOffset = yOffset;
     }
 
-    public double getDx_mm() {
-        return dx_mm;
+    public double getDxInMm() {
+        return dxInMm;
     }
 
-    public void setDx_mm(double dx_mm) {
-        this.dx_mm = dx_mm;
+    public void setDxInMm(double dxInMm) {
+        this.dxInMm = dxInMm;
     }
 
-    public double getDy_mm() {
-        return dy_mm;
+    public double getDyInMm() {
+        return dyInMm;
     }
 
-    public void setDy_mm(double dy_mm) {
-        this.dy_mm = dy_mm;
+    public void setDyInMm(double dyInMm) {
+        this.dyInMm = dyInMm;
     }
 
-    public double getSteps_x() {
-        return steps_x;
+    public double getStepsX() {
+        return stepsX;
     }
 
-    public void setSteps_x(double steps_x) {
-        this.steps_x = steps_x;
+    public void setStepsX(double stepsX) {
+        this.stepsX = stepsX;
     }
 
-    public double getSteps_y() {
-        return steps_y;
+    public double getStepsY() {
+        return stepsY;
     }
 
-    public void setSteps_y(double steps_y) {
-        this.steps_y = steps_y;
+    public void setStepsY(double stepsY) {
+        this.stepsY = stepsY;
     }
 
     public double getMeshAngle() {
@@ -134,20 +134,20 @@ public class GridInfo {
         this.pixelsPerMicronY = pixelsPerMicronY;
     }
 
-    public double getSnapshot_offsetXPixel() {
-        return snapshot_offsetXPixel;
+    public double getSnapshotOffsetXPixel() {
+        return snapshotOffsetXPixel;
     }
 
-    public void setSnapshot_offsetXPixel(double snapshot_offsetXPixel) {
-        this.snapshot_offsetXPixel = snapshot_offsetXPixel;
+    public void setSnapshotOffsetXPixel(double snapshotOffsetXPixel) {
+        this.snapshotOffsetXPixel = snapshotOffsetXPixel;
     }
 
-    public double getSnapshot_offsetYPixel() {
-        return snapshot_offsetYPixel;
+    public double getSnapshotOffsetYPixel() {
+        return snapshotOffsetYPixel;
     }
 
-    public void setSnapshot_offsetYPixel(double snapshot_offsetYPixel) {
-        this.snapshot_offsetYPixel = snapshot_offsetYPixel;
+    public void setSnapshotOffsetYPixel(double snapshotOffsetYPixel) {
+        this.snapshotOffsetYPixel = snapshotOffsetYPixel;
     }
 
     public int getSnaked() {
@@ -158,11 +158,11 @@ public class GridInfo {
         this.snaked = snaked;
     }
 
-    public long getDataCollectionId() {
-        return dataCollectionId;
+    public long getDcId() {
+        return dcId;
     }
 
-    public void setDataCollectionId(long dataCollectionId) {
-        this.dataCollectionId = dataCollectionId;
+    public void setDcId(long dcId) {
+        this.dcId = dcId;
     }
 }

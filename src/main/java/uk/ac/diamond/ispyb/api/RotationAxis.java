@@ -12,20 +12,24 @@
 package uk.ac.diamond.ispyb.api;
 
 public enum RotationAxis {
-	OMEGA("Omega"),KAPPA("Kappa"),PHI("Phi");
+	OMEGA("Omega"),KAPPA("Kappa"),PHI("Phi"),INVALID("INVALID");
 	
-	private String value;
+	private final String value;
 
-	private RotationAxis(String value){
+	RotationAxis(String value){
 		this.value = value;
 	}
 	
 	public String getValue() {
 		return value;
 	}
-	
-	@Override
-	public String toString() {
-		return this.value;
+
+	public static RotationAxis convert(String rotationAxis){
+		for(RotationAxis e : RotationAxis.values()){
+			if (e.getValue().equals(rotationAxis)){
+				return e;
+			}
+		}
+		return INVALID;
 	}
 }

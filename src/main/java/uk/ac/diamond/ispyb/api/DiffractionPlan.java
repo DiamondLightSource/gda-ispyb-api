@@ -1,69 +1,71 @@
 package uk.ac.diamond.ispyb.api;
 
+import java.sql.Timestamp;
+
 public class DiffractionPlan {
-    private long diffractionPlanId;
+    private Long diffractionPlanId;
     private String name;
     private ExperimentKind experimentKind;
-    private double observedResolution;
-    private double minimalResolution;
-    private double exposureTime;
-    private double oscillationRange;
-    private double maximalResolution;
-    private double screeningResolution;
-    private double radiationSensitivity;
+    private Double observedResolution;
+    private Double minimalResolution;
+    private Double exposureTime;
+    private Double oscillationRange;
+    private Double maximalResolution;
+    private Double screeningResolution;
+    private Double radiationSensitivity;
     private String anomalousScatterer;
-    private double preferredBeamSizeX;
-    private double preferredBeamSizeY;
-    private double preferredBeamSizeDiameter;
+    private Double preferredBeamSizeX;
+    private Double preferredBeamSizeY;
+    private Double preferredBeamDiameter;
     private String comments;
-    private String DIFFRACTIONPLANUUID;
-    private double aimedCompleteness;
-    private double aimedIOverSigmaAtHighestRes;
-    private double aimedResolution;
+    private String DiffractionPlanUUID;
+    private Double aimedCompleteness;
+    private Double aimedIOverSigmaAtHighestRes;
+    private Double aimedMultiplicity;
+    private Double aimedResolution;
     private int anomalousData;
-    private String comlexity;
+    private String complexity;
     private int estimateRadiationDamage;
     private String forcedSpaceGroup;
-    private double requiredCompleteness;
-    private double requiredMultiplicity;
-    private double requiredResolution;
+    private Double requiredCompleteness;
+    private Double requiredMultiplicity;
+    private Double requiredResolution;
     private String strategyOption;
     private String kappaStrategyOption;
     private int numberOfPositions;
-    private double minDimAccrossSpindleAxis;
-    private double maxDimAccrossSpindleAxis;
-    private double radiationSensitivityBeta;
-    private double radiationSensitivityGamma;
-    private double minOscWidth;
+    private Double minDimAccrossSpindleAxis;
+    private Double maxDimAccrossSpindleAxis;
+    private Double radiationSensitivityBeta;
+    private Double radiationSensitivityGamma;
+    private Double minOscWidth;
+    private Timestamp recordTimeStamp;
     private String monochromator;
-    private double energy;
-    private double transmission;
-    private double boxSizeX;
-    private double boxSizeY;
-    private double kappaStart;
-    private double axisStart;
-    private double axisRange;
-    private long numberOfImages;
-    private long presetForProposalId;
+    private Double energy;
+    private Double transmission;
+    private Double boxSizeX;
+    private Double boxSizeY;
+    private Double kappaStart;
+    private Double axisStart;
+    private Double axisRange;
+    private Long numberOfImages;
+    private Long presetForProposalId;
     private String beamLineName;
-    private long detectorId;
-    private double distance;
-    private double orientation;
-    private double monoBandWidth;
-    private CenteringMethod centeringMethod;
+    private Long detectorId;
+    private Double distance;
+    private Double orientation;
+    private Double monoBandWidth;
+    private CentringMethod centringMethod;
     private String userPath;
-    private double robotPlateTemperature;
-    private double exposureTemperature;
-    private long experimentTypeId;
-    private long purificationColumnId;
+    private Double robotPlateTemperature;
+    private Double exposureTemperature;
     private CollectionMode collectionMode;
-    private long priority;
+    private Long priority;
 
-    public long getDiffractionPlanId() {
+    public Long getDiffractionPlanId() {
         return diffractionPlanId;
     }
 
-    public void setDiffractionPlanId(long diffractionPlanId) {
+    public void setDiffractionPlanId(Long diffractionPlanId) {
         this.diffractionPlanId = diffractionPlanId;
     }
 
@@ -83,59 +85,59 @@ public class DiffractionPlan {
         this.experimentKind = experimentKind;
     }
 
-    public double getObservedResolution() {
+    public Double getObservedResolution() {
         return observedResolution;
     }
 
-    public void setObservedResolution(double observedResolution) {
+    public void setObservedResolution(Double observedResolution) {
         this.observedResolution = observedResolution;
     }
 
-    public double getMinimalResolution() {
+    public Double getMinimalResolution() {
         return minimalResolution;
     }
 
-    public void setMinimalResolution(double minimalResolution) {
+    public void setMinimalResolution(Double minimalResolution) {
         this.minimalResolution = minimalResolution;
     }
 
-    public double getExposureTime() {
+    public Double getExposureTime() {
         return exposureTime;
     }
 
-    public void setExposureTime(double exposureTime) {
+    public void setExposureTime(Double exposureTime) {
         this.exposureTime = exposureTime;
     }
 
-    public double getOscillationRange() {
+    public Double getOscillationRange() {
         return oscillationRange;
     }
 
-    public void setOscillationRange(double oscillationRange) {
+    public void setOscillationRange(Double oscillationRange) {
         this.oscillationRange = oscillationRange;
     }
 
-    public double getMaximalResolution() {
+    public Double getMaximalResolution() {
         return maximalResolution;
     }
 
-    public void setMaximalResolution(double maximalResolution) {
+    public void setMaximalResolution(Double maximalResolution) {
         this.maximalResolution = maximalResolution;
     }
 
-    public double getScreeningResolution() {
+    public Double getScreeningResolution() {
         return screeningResolution;
     }
 
-    public void setScreeningResolution(double screeningResolution) {
+    public void setScreeningResolution(Double screeningResolution) {
         this.screeningResolution = screeningResolution;
     }
 
-    public double getRadiationSensitivity() {
+    public Double getRadiationSensitivity() {
         return radiationSensitivity;
     }
 
-    public void setRadiationSensitivity(double radiationSensitivity) {
+    public void setRadiationSensitivity(Double radiationSensitivity) {
         this.radiationSensitivity = radiationSensitivity;
     }
 
@@ -147,28 +149,28 @@ public class DiffractionPlan {
         this.anomalousScatterer = anomalousScatterer;
     }
 
-    public double getPreferredBeamSizeX() {
+    public Double getPreferredBeamSizeX() {
         return preferredBeamSizeX;
     }
 
-    public void setPreferredBeamSizeX(double preferredBeamSizeX) {
+    public void setPreferredBeamSizeX(Double preferredBeamSizeX) {
         this.preferredBeamSizeX = preferredBeamSizeX;
     }
 
-    public double getPreferredBeamSizeY() {
+    public Double getPreferredBeamSizeY() {
         return preferredBeamSizeY;
     }
 
-    public void setPreferredBeamSizeY(double preferredBeamSizeY) {
+    public void setPreferredBeamSizeY(Double preferredBeamSizeY) {
         this.preferredBeamSizeY = preferredBeamSizeY;
     }
 
-    public double getPreferredBeamSizeDiameter() {
-        return preferredBeamSizeDiameter;
+    public Double getPreferredBeamDiameter() {
+        return preferredBeamDiameter;
     }
 
-    public void setPreferredBeamSizeDiameter(double preferredBeamSizeDiameter) {
-        this.preferredBeamSizeDiameter = preferredBeamSizeDiameter;
+    public void setPreferredBeamDiameter(Double preferredBeamDiameter) {
+        this.preferredBeamDiameter = preferredBeamDiameter;
     }
 
     public String getComments() {
@@ -179,35 +181,43 @@ public class DiffractionPlan {
         this.comments = comments;
     }
 
-    public String getDIFFRACTIONPLANUUID() {
-        return DIFFRACTIONPLANUUID;
+    public String getDiffractionPlanUUID() {
+        return DiffractionPlanUUID;
     }
 
-    public void setDIFFRACTIONPLANUUID(String DIFFRACTIONPLANUUID) {
-        this.DIFFRACTIONPLANUUID = DIFFRACTIONPLANUUID;
+    public void setDiffractionPlanUUID(String diffractionPlanUUID) {
+        this.DiffractionPlanUUID = diffractionPlanUUID;
     }
 
-    public double getAimedCompleteness() {
+    public Double getAimedCompleteness() {
         return aimedCompleteness;
     }
 
-    public void setAimedCompleteness(double aimedCompleteness) {
+    public void setAimedCompleteness(Double aimedCompleteness) {
         this.aimedCompleteness = aimedCompleteness;
     }
 
-    public double getAimedIOverSigmaAtHighestRes() {
+    public Double getAimedIOverSigmaAtHighestRes() {
         return aimedIOverSigmaAtHighestRes;
     }
 
-    public void setAimedIOverSigmaAtHighestRes(double aimedIOverSigmaAtHighestRes) {
+    public void setAimedIOverSigmaAtHighestRes(Double aimedIOverSigmaAtHighestRes) {
         this.aimedIOverSigmaAtHighestRes = aimedIOverSigmaAtHighestRes;
     }
 
-    public double getAimedResolution() {
+    public Double getAimedMultiplicity() {
+        return aimedMultiplicity;
+    }
+
+    public void setAimedMultiplicity(Double aimedMultiplicity) {
+        this.aimedMultiplicity = aimedMultiplicity;
+    }
+
+    public Double getAimedResolution() {
         return aimedResolution;
     }
 
-    public void setAimedResolution(double aimedResolution) {
+    public void setAimedResolution(Double aimedResolution) {
         this.aimedResolution = aimedResolution;
     }
 
@@ -219,12 +229,12 @@ public class DiffractionPlan {
         this.anomalousData = anomalousData;
     }
 
-    public String getComlexity() {
-        return comlexity;
+    public String getComplexity() {
+        return complexity;
     }
 
-    public void setComlexity(String comlexity) {
-        this.comlexity = comlexity;
+    public void setComplexity(String complexity) {
+        this.complexity = complexity;
     }
 
     public int getEstimateRadiationDamage() {
@@ -243,27 +253,27 @@ public class DiffractionPlan {
         this.forcedSpaceGroup = forcedSpaceGroup;
     }
 
-    public double getRequiredCompleteness() {
+    public Double getRequiredCompleteness() {
         return requiredCompleteness;
     }
 
-    public void setRequiredCompleteness(double requiredCompleteness) {
+    public void setRequiredCompleteness(Double requiredCompleteness) {
         this.requiredCompleteness = requiredCompleteness;
     }
 
-    public double getRequiredMultiplicity() {
+    public Double getRequiredMultiplicity() {
         return requiredMultiplicity;
     }
 
-    public void setRequiredMultiplicity(double requiredMultiplicity) {
+    public void setRequiredMultiplicity(Double requiredMultiplicity) {
         this.requiredMultiplicity = requiredMultiplicity;
     }
 
-    public double getRequiredResolution() {
+    public Double getRequiredResolution() {
         return requiredResolution;
     }
 
-    public void setRequiredResolution(double requiredResolution) {
+    public void setRequiredResolution(Double requiredResolution) {
         this.requiredResolution = requiredResolution;
     }
 
@@ -291,44 +301,52 @@ public class DiffractionPlan {
         this.numberOfPositions = numberOfPositions;
     }
 
-    public double getMinDimAccrossSpindleAxis() {
+    public Double getMinDimAccrossSpindleAxis() {
         return minDimAccrossSpindleAxis;
     }
 
-    public void setMinDimAccrossSpindleAxis(double minDimAccrossSpindleAxis) {
+    public void setMinDimAccrossSpindleAxis(Double minDimAccrossSpindleAxis) {
         this.minDimAccrossSpindleAxis = minDimAccrossSpindleAxis;
     }
 
-    public double getMaxDimAccrossSpindleAxis() {
+    public Double getMaxDimAccrossSpindleAxis() {
         return maxDimAccrossSpindleAxis;
     }
 
-    public void setMaxDimAccrossSpindleAxis(double maxDimAccrossSpindleAxis) {
+    public void setMaxDimAccrossSpindleAxis(Double maxDimAccrossSpindleAxis) {
         this.maxDimAccrossSpindleAxis = maxDimAccrossSpindleAxis;
     }
 
-    public double getRadiationSensitivityBeta() {
+    public Double getRadiationSensitivityBeta() {
         return radiationSensitivityBeta;
     }
 
-    public void setRadiationSensitivityBeta(double radiationSensitivityBeta) {
+    public void setRadiationSensitivityBeta(Double radiationSensitivityBeta) {
         this.radiationSensitivityBeta = radiationSensitivityBeta;
     }
 
-    public double getRadiationSensitivityGamma() {
+    public Double getRadiationSensitivityGamma() {
         return radiationSensitivityGamma;
     }
 
-    public void setRadiationSensitivityGamma(double radiationSensitivityGamma) {
+    public void setRadiationSensitivityGamma(Double radiationSensitivityGamma) {
         this.radiationSensitivityGamma = radiationSensitivityGamma;
     }
 
-    public double getMinOscWidth() {
+    public Double getMinOscWidth() {
         return minOscWidth;
     }
 
-    public void setMinOscWidth(double minOscWidth) {
+    public void setMinOscWidth(Double minOscWidth) {
         this.minOscWidth = minOscWidth;
+    }
+
+    public Timestamp getRecordTimeStamp() {
+        return recordTimeStamp;
+    }
+
+    public void setRecordTimeStamp(Timestamp recordTimeStamp) {
+        this.recordTimeStamp = recordTimeStamp;
     }
 
     public String getMonochromator() {
@@ -339,75 +357,75 @@ public class DiffractionPlan {
         this.monochromator = monochromator;
     }
 
-    public double getEnergy() {
+    public Double getEnergy() {
         return energy;
     }
 
-    public void setEnergy(double energy) {
+    public void setEnergy(Double energy) {
         this.energy = energy;
     }
 
-    public double getTransmission() {
+    public Double getTransmission() {
         return transmission;
     }
 
-    public void setTransmission(double transmission) {
+    public void setTransmission(Double transmission) {
         this.transmission = transmission;
     }
 
-    public double getBoxSizeX() {
+    public Double getBoxSizeX() {
         return boxSizeX;
     }
 
-    public void setBoxSizeX(double boxSizeX) {
+    public void setBoxSizeX(Double boxSizeX) {
         this.boxSizeX = boxSizeX;
     }
 
-    public double getBoxSizeY() {
+    public Double getBoxSizeY() {
         return boxSizeY;
     }
 
-    public void setBoxSizeY(double boxSizeY) {
+    public void setBoxSizeY(Double boxSizeY) {
         this.boxSizeY = boxSizeY;
     }
 
-    public double getKappaStart() {
+    public Double getKappaStart() {
         return kappaStart;
     }
 
-    public void setKappaStart(double kappaStart) {
+    public void setKappaStart(Double kappaStart) {
         this.kappaStart = kappaStart;
     }
 
-    public double getAxisStart() {
+    public Double getAxisStart() {
         return axisStart;
     }
 
-    public void setAxisStart(double axisStart) {
+    public void setAxisStart(Double axisStart) {
         this.axisStart = axisStart;
     }
 
-    public double getAxisRange() {
+    public Double getAxisRange() {
         return axisRange;
     }
 
-    public void setAxisRange(double axisRange) {
+    public void setAxisRange(Double axisRange) {
         this.axisRange = axisRange;
     }
 
-    public long getNumberOfImages() {
+    public Long getNumberOfImages() {
         return numberOfImages;
     }
 
-    public void setNumberOfImages(long numberOfImages) {
+    public void setNumberOfImages(Long numberOfImages) {
         this.numberOfImages = numberOfImages;
     }
 
-    public long getPresetForProposalId() {
+    public Long getPresetForProposalId() {
         return presetForProposalId;
     }
 
-    public void setPresetForProposalId(long presetForProposalId) {
+    public void setPresetForProposalId(Long presetForProposalId) {
         this.presetForProposalId = presetForProposalId;
     }
 
@@ -419,44 +437,44 @@ public class DiffractionPlan {
         this.beamLineName = beamLineName;
     }
 
-    public long getDetectorId() {
+    public Long getDetectorId() {
         return detectorId;
     }
 
-    public void setDetectorId(long detectorId) {
+    public void setDetectorId(Long detectorId) {
         this.detectorId = detectorId;
     }
 
-    public double getDistance() {
+    public Double getDistance() {
         return distance;
     }
 
-    public void setDistance(double distance) {
+    public void setDistance(Double distance) {
         this.distance = distance;
     }
 
-    public double getOrientation() {
+    public Double getOrientation() {
         return orientation;
     }
 
-    public void setOrientation(double orientation) {
+    public void setOrientation(Double orientation) {
         this.orientation = orientation;
     }
 
-    public double getMonoBandWidth() {
+    public Double getMonoBandWidth() {
         return monoBandWidth;
     }
 
-    public void setMonoBandWidth(double monoBandWidth) {
+    public void setMonoBandWidth(Double monoBandWidth) {
         this.monoBandWidth = monoBandWidth;
     }
 
-    public CenteringMethod getCenteringMethod() {
-        return centeringMethod;
+    public CentringMethod getCentringMethod() {
+        return centringMethod;
     }
 
-    public void setCenteringMethod(CenteringMethod centeringMethod) {
-        this.centeringMethod = centeringMethod;
+    public void setCentringMethod(CentringMethod centringMethod) {
+        this.centringMethod = centringMethod;
     }
 
     public String getUserPath() {
@@ -467,36 +485,20 @@ public class DiffractionPlan {
         this.userPath = userPath;
     }
 
-    public double getRobotPlateTemperature() {
+    public Double getRobotPlateTemperature() {
         return robotPlateTemperature;
     }
 
-    public void setRobotPlateTemperature(double robotPlateTemperature) {
+    public void setRobotPlateTemperature(Double robotPlateTemperature) {
         this.robotPlateTemperature = robotPlateTemperature;
     }
 
-    public double getExposureTemperature() {
+    public Double getExposureTemperature() {
         return exposureTemperature;
     }
 
-    public void setExposureTemperature(double exposureTemperature) {
+    public void setExposureTemperature(Double exposureTemperature) {
         this.exposureTemperature = exposureTemperature;
-    }
-
-    public long getExperimentTypeId() {
-        return experimentTypeId;
-    }
-
-    public void setExperimentTypeId(long experimentTypeId) {
-        this.experimentTypeId = experimentTypeId;
-    }
-
-    public long getPurificationColumnId() {
-        return purificationColumnId;
-    }
-
-    public void setPurificationColumnId(long purificationColumnId) {
-        this.purificationColumnId = purificationColumnId;
     }
 
     public CollectionMode getCollectionMode() {
@@ -507,11 +509,11 @@ public class DiffractionPlan {
         this.collectionMode = collectionMode;
     }
 
-    public long getPriority() {
+    public Long getPriority() {
         return priority;
     }
 
-    public void setPriority(long priority) {
+    public void setPriority(Long priority) {
         this.priority = priority;
     }
 }

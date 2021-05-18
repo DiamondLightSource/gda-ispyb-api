@@ -3,16 +3,17 @@ package uk.ac.diamond.ispyb.api;
 import java.sql.Timestamp;
 
 public class EnergyScan {
-    private long energyScanId;
+    private long id;
     private long sessionId;
-    private long blSampleId;
+    private long sampleId;
     private String fluorescenceDetector;
     private String scanFileFullPath;
     private String jpegChoochFileFullPath;
     private String element;
     private double startEnergy;
     private double endEnergy;
-    private double transmissionFactor;
+    private String detector;
+    private double transmission;
     private double exposureTime;
     private double axisPosition;
     private double synchrotronCurrent;
@@ -33,16 +34,17 @@ public class EnergyScan {
     private String choochFileFullPath;
     private String crystalClass;
     private double flux;
-    private double flux_end;
+    private double fluxEnd;
     private String workingDirectory;
-    private long blSubSampleId;
+    private long subSampleId;
+    private String comments;
 
-    public long getEnergyScanId() {
-        return energyScanId;
+    public long getId() {
+        return id;
     }
 
-    public void setEnergyScanId(long energyScanId) {
-        this.energyScanId = energyScanId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getSessionId() {
@@ -53,12 +55,12 @@ public class EnergyScan {
         this.sessionId = sessionId;
     }
 
-    public long getBlSampleId() {
-        return blSampleId;
+    public long getSampleId() {
+        return sampleId;
     }
 
-    public void setBlSampleId(long blSampleId) {
-        this.blSampleId = blSampleId;
+    public void setSampleId(long sampleId) {
+        this.sampleId = sampleId;
     }
 
     public String getFluorescenceDetector() {
@@ -109,12 +111,20 @@ public class EnergyScan {
         this.endEnergy = endEnergy;
     }
 
-    public double getTransmissionFactor() {
-        return transmissionFactor;
+    public String getDetector() {
+        return detector;
     }
 
-    public void setTransmissionFactor(double transmissionFactor) {
-        this.transmissionFactor = transmissionFactor;
+    public void setDetector(String detector) {
+        this.detector = detector;
+    }
+
+    public double getTransmission() {
+        return transmission;
+    }
+
+    public void setTransmission(double transmission) {
+        this.transmission = transmission;
     }
 
     public double getExposureTime() {
@@ -277,12 +287,12 @@ public class EnergyScan {
         this.flux = flux;
     }
 
-    public double getFlux_end() {
-        return flux_end;
+    public double getFluxEnd() {
+        return fluxEnd;
     }
 
-    public void setFlux_end(double flux_end) {
-        this.flux_end = flux_end;
+    public void setFluxEnd(double fluxEnd) {
+        this.fluxEnd = fluxEnd;
     }
 
     public String getWorkingDirectory() {
@@ -293,11 +303,19 @@ public class EnergyScan {
         this.workingDirectory = workingDirectory;
     }
 
-    public long getBlSubSampleId() {
-        return blSubSampleId;
+    public long getSubSampleId() {
+        return subSampleId;
     }
 
-    public void setBlSubSampleId(long blSubSampleId) {
-        this.blSubSampleId = blSubSampleId;
+    public void setSubSampleId(long subSampleId) {
+        this.subSampleId = subSampleId;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }
