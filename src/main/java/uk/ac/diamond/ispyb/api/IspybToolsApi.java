@@ -18,7 +18,7 @@ public interface IspybToolsApi extends Closeable {
     Long insertDataCollectionGroup(DataCollectionGroup dataCollectionGroup) throws SQLException;
     Long insertDataCollection(DataCollectionMain dataCollectionMain) throws SQLException;
     Long updateSample(Sample sample) throws SQLException;
-    Long insertXFEFluorescenceSpectrum(XFEFlourecenceSpectrum xfeFlourecenceSpectrum) throws SQLException;
+    Long insertXFEFluorescenceSpectrum(XFEFluorescenceSpectrum xfeFlourecenceSpectrum) throws SQLException;
     Long insertEnergyScan(EnergyScan energyScan) throws SQLException;
     void insertPosition(Position position) throws SQLException;
     Long insertCrystal(Crystal crystal) throws SQLException;

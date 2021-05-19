@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.sql.Timestamp;
 
-public class XFEFlourecenceSpectrum {
+public class XFEFluorescenceSpectrum {
     private long id;
     private long sessionId;
     private long sampleId;
