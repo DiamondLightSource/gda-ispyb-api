@@ -25,8 +25,6 @@ public class Crystal {
     private double cell_beta;
     private double cell_gamma;
     private String comments;
-    private String pdbFileName;
-    private String pdbFilePath;
     private Timestamp recordTimeStamp;
     private double abundance;
     private double theoreticalDensity;
@@ -173,22 +171,6 @@ public class Crystal {
 
     public void setComments(String comments) {
         this.comments = comments;
-    }
-
-    public String getPdbFileName() {
-        return pdbFileName;
-    }
-
-    public void setPdbFileName(String pdbFileName) {
-        this.pdbFileName = pdbFileName;
-    }
-
-    public String getPdbFilePath() {
-        return pdbFilePath;
-    }
-
-    public void setPdbFilePath(String pdbFilePath) {
-        this.pdbFilePath = pdbFilePath;
     }
 
     public Timestamp getRecordTimeStamp() {
