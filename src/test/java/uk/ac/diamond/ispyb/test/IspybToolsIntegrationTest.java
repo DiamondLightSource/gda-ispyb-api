@@ -162,7 +162,7 @@ public class IspybToolsIntegrationTest {
         expected.setDcNumber(1L);
         expected.setStartTime(Timestamp.valueOf("2016-04-13 12:18:12"));
         expected.setEndTime(Timestamp.valueOf("2016-04-13 12:18:50"));
-        expected.setStatus("DataCollection Successful");
+        expected.setRunStatus("DataCollection Successful");
         expected.setAxisStart(0.0);
         expected.setAxisEnd(0.4000000059604645);
         expected.setAxisRange(0.4000000059604645);
