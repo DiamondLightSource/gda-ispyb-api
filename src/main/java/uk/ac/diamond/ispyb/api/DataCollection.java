@@ -15,7 +15,7 @@ public class DataCollection {
     private Long detectorId;
     private Long blSampleId;
     private Long positionId;
-    private String actualCenteringPosition;
+    private String actualCentringPosition;
     private Double apertureSizeX;
     private Double averageTemperature;
     private Double axisEnd;
@@ -134,12 +134,12 @@ public class DataCollection {
         this.positionId = positionId;
     }
 
-    public String getActualCenteringPosition() {
-        return actualCenteringPosition;
+    public String getActualCentringPosition() {
+        return actualCentringPosition;
     }
 
-    public void setActualCenteringPosition(String actualCenteringPosition) {
-        this.actualCenteringPosition = actualCenteringPosition;
+    public void setActualCentringPosition(String actualCentringPosition) {
+        this.actualCentringPosition = actualCentringPosition;
     }
 
     public Double getApertureSizeX() {
