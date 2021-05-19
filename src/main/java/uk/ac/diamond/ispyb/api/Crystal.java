@@ -1,9 +1,5 @@
 package uk.ac.diamond.ispyb.api;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 import java.sql.Timestamp;
 
 public class Crystal {
@@ -25,6 +21,8 @@ public class Crystal {
     private double cell_beta;
     private double cell_gamma;
     private String comments;
+    private String pdbFileName;
+    private String pdbFilePath;
     private Timestamp recordTimeStamp;
     private double abundance;
     private double theoreticalDensity;
@@ -173,6 +171,22 @@ public class Crystal {
         this.comments = comments;
     }
 
+    public String getPdbFileName() {
+        return pdbFileName;
+    }
+
+    public void setPdbFileName(String pdbFileName) {
+        this.pdbFileName = pdbFileName;
+    }
+
+    public String getPdbFilePath() {
+        return pdbFilePath;
+    }
+
+    public void setPdbFilePath(String pdbFilePath) {
+        this.pdbFilePath = pdbFilePath;
+    }
+
     public Timestamp getRecordTimeStamp() {
         return recordTimeStamp;
     }
@@ -195,20 +209,5 @@ public class Crystal {
 
     public void setTheoreticalDensity(double theoreticalDensity) {
         this.theoreticalDensity = theoreticalDensity;
-    }
-
-    @Override
-    public String toString(){
-        return ReflectionToStringBuilder.toString(this);
-    }
-
-    @Override
-    public int hashCode(){
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
-
-    @Override
-    public boolean equals(Object that){
-        return EqualsBuilder.reflectionEquals(this, that);
     }
 }

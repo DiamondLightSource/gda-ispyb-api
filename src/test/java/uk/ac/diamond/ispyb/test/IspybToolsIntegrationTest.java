@@ -162,7 +162,7 @@ public class IspybToolsIntegrationTest {
         expected.setDcNumber(1L);
         expected.setStartTime(Timestamp.valueOf("2016-04-13 12:18:12"));
         expected.setEndTime(Timestamp.valueOf("2016-04-13 12:18:50"));
-        expected.setRunStatus("DataCollection Successful");
+        expected.setStatus("DataCollection Successful");
         expected.setAxisStart(0.0);
         expected.setAxisEnd(0.4000000059604645);
         expected.setAxisRange(0.4000000059604645);
@@ -185,7 +185,7 @@ public class IspybToolsIntegrationTest {
         expected.setSlitGapHorizontal(0.09993699938058853);
         expected.setTransmission(100.0);
         expected.setSynchrotronMode("User");
-        expected.setRotationAxis(RotationAxis.OMEGA);
+        expected.setRotationAxis("Omega");
         expected.setOmegaStart(0.0);
         expected.setBeamSizeAtSampleX(0.07999999821186066);
         expected.setBeamSizeAtSampleY(0.019999999552965164);
@@ -266,11 +266,11 @@ public class IspybToolsIntegrationTest {
         helper.execute(api -> api.insertDataCollection(dataCollectionMain));
     }
 
-//    @Test
-//    public void testUpdateSample() throws SQLException, IOException, InterruptedException {
-//         where does this come from, I don't think I wrote this sproc.
-//
-//    }
+    @Test
+    public void testUpdateSample() throws SQLException, IOException, InterruptedException {
+        // where does this come from, I don't think I wrote this sproc.
+
+    }
 
     @Test
     public void testInsertXFEFluorescenceSpectrum() throws SQLException, IOException, InterruptedException {

@@ -11,9 +11,10 @@ public class DataCollection {
     private Long GroupId;
     private Long dcNumber;
     private Long apertureId;
-    private Long blSubSampleId;
+    private Long blSubSample;
     private Long detectorId;
-    private Long blSampleId;
+    private Double sampleId;
+    private Long polarisationId;
     private Long positionId;
     private String actualCenteringPosition;
     private Double apertureSizeX;
@@ -50,9 +51,9 @@ public class DataCollection {
     private Boolean printableForReport;
     private Double resolution;
     private Double resolutionAtCorner;
-    private RotationAxis rotationAxis;
-//    private String rotationAxis;
-    private String RunStatus;
+    //private RotationAxis rotationAxis;
+    private String rotationAxis;
+    private String status;
     private Long screeningOrigId;
     private Double slitGapHorizontal;
     private Double slitGapVertical;
@@ -103,12 +104,12 @@ public class DataCollection {
         this.apertureId = apertureId;
     }
 
-    public Long getBlSubSampleId() {
-        return blSubSampleId;
+    public Long getBlSubSample() {
+        return blSubSample;
     }
 
-    public void setBlSubSampleId(Long blSubSampleId) {
-        this.blSubSampleId = blSubSampleId;
+    public void setBlSubSample(Long blSubSample) {
+        this.blSubSample = blSubSample;
     }
 
     public Long getDetectorId() {
@@ -119,12 +120,20 @@ public class DataCollection {
         this.detectorId = detectorId;
     }
 
-    public Long getSampleId() {
-        return blSampleId;
+    public Double getSampleId() {
+        return sampleId;
     }
 
-    public void setSampleId(Long sampleId) {
-        this.blSampleId = sampleId;
+    public void setSampleId(Double sampleId) {
+        this.sampleId = sampleId;
+    }
+
+    public Long getPolarisationId() {
+        return polarisationId;
+    }
+
+    public void setPolarisationId(Long polarisationId) {
+        this.polarisationId = polarisationId;
     }
 
     public Long getPositionId() {
@@ -415,20 +424,20 @@ public class DataCollection {
         this.resolutionAtCorner = resolutionAtCorner;
     }
 
-    public RotationAxis getRotationAxis() {
+    public String getRotationAxis() {
         return rotationAxis;
     }
 
-    public void setRotationAxis(RotationAxis rotationAxis) {
+    public void setRotationAxis(String rotationAxis) {
         this.rotationAxis = rotationAxis;
     }
 
-    public String getRunStatus() {
-        return RunStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRunStatus(String runStatus) {
-        this.RunStatus = runStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getScreeningOrigId() {
