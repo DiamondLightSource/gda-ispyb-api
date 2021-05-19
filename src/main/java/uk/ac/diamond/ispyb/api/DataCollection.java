@@ -51,7 +51,7 @@ public class DataCollection {
     private Double resolution;
     private Double resolutionAtCorner;
     private String rotationAxis;
-    private String runStatus;
+    private String status;
     private Long screeningOrigId;
     private Double slitGapHorizontal;
     private Double slitGapVertical;
@@ -422,12 +422,12 @@ public class DataCollection {
         this.rotationAxis = rotationAxis;
     }
 
-    public String getRunStatus() {
-        return runStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRunStatus(String runStatus) {
-        this.runStatus = runStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getScreeningOrigId() {
