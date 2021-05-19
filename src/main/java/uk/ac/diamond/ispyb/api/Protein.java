@@ -1,5 +1,9 @@
 package uk.ac.diamond.ispyb.api;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 import java.sql.Timestamp;
 
 public class Protein {
@@ -201,4 +205,20 @@ public class Protein {
     public void setIsotropy(Isotropy isotropy) {
         this.isotropy = isotropy;
     }
+
+    @Override
+    public String toString(){
+        return ReflectionToStringBuilder.toString(this);
+    }
+
+    @Override
+    public int hashCode(){
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object that){
+        return EqualsBuilder.reflectionEquals(this, that);
+    }
+
 }

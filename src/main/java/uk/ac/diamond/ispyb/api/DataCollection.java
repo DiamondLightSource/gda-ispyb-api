@@ -13,8 +13,7 @@ public class DataCollection {
     private Long apertureId;
     private Long blSubSample;
     private Long detectorId;
-    private Double sampleId;
-    private Long polarisationId;
+    private Long blSampleId;
     private Long positionId;
     private String actualCenteringPosition;
     private Double apertureSizeX;
@@ -119,20 +118,12 @@ public class DataCollection {
         this.detectorId = detectorId;
     }
 
-    public Double getSampleId() {
-        return sampleId;
+    public Long getBlSampleId() {
+        return blSampleId;
     }
 
-    public void setSampleId(Double sampleId) {
-        this.sampleId = sampleId;
-    }
-
-    public Long getPolarisationId() {
-        return polarisationId;
-    }
-
-    public void setPolarisationId(Long polarisationId) {
-        this.polarisationId = polarisationId;
+    public void setBlSampleId(Long blSampleId) {
+        this.blSampleId = blSampleId;
     }
 
     public Long getPositionId() {
