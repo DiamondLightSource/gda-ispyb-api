@@ -74,7 +74,7 @@ public class IspybToolsIntegrationTest {
         Screening expected1 = new Screening();
         expected1.setScreeningId(1927968L);
         expected1.setDataCollectionId(1066786L);
-        expected1.setBltimeStamp(Timestamp.valueOf("2016-10-26 09:50:31"));
+        expected1.setBltimeStamp(_Timestamp.valueOf("2016-10-26 09:50:31"));
         expected1.setProgramVersion("mosflm");
         expected1.setShortComments("Mosflm native");
         expected1.setDataCollectionGroupId(1054243L);
@@ -82,7 +82,7 @@ public class IspybToolsIntegrationTest {
         Screening expected2 = new Screening();
         expected2.setScreeningId(1927987L);
         expected2.setDataCollectionId(1066786L);
-        expected2.setBltimeStamp(Timestamp.valueOf("2016-10-26 09:50:31"));
+        expected2.setBltimeStamp(_Timestamp.valueOf("2016-10-26 09:50:31"));
         expected2.setProgramVersion("EDNA MXv1");
         expected2.setComments("Standard Anomalous Dataset Multiplicity=3 I/sig=2 Maxlifespan=4034 s");
         expected2.setShortComments("EDNAStrategy2");

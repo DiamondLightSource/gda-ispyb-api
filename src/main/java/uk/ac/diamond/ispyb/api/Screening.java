@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 public class Screening {
     private Long screeningId;
     private Long dataCollectionId;
-    private Timestamp bltimeStamp;
+    private _Timestamp bltimeStamp;
     private String programVersion;
     private String comments;
     private String shortComments;
@@ -33,11 +33,11 @@ public class Screening {
         this.dataCollectionId = dataCollectionId;
     }
 
-    public Timestamp getBltimeStamp() {
+    public _Timestamp getBltimeStamp() {
         return bltimeStamp;
     }
 
-    public void setBltimeStamp(Timestamp bltimeStamp) {
+    public void setBltimeStamp(_Timestamp bltimeStamp) {
         this.bltimeStamp = bltimeStamp;
     }
 
