@@ -85,7 +85,7 @@ public class IspybToolsIntegrationTest {
         Screening expected2 = new Screening();
         expected2.setScreeningId(1927987L);
         expected2.setDataCollectionId(1066786L);
-        expected1.setBltimeStamp(new Timestamp(d.getTime()));
+        expected2.setBltimeStamp(new Timestamp(d.getTime()));
         expected2.setProgramVersion("EDNA MXv1");
         expected2.setComments("Standard Anomalous Dataset Multiplicity=3 I/sig=2 Maxlifespan=4034 s");
         expected2.setShortComments("EDNAStrategy2");
