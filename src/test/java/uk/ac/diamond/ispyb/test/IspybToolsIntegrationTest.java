@@ -9,8 +9,7 @@ import uk.ac.diamond.ispyb.dao.IspybToolsDaoFactory;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -74,7 +73,11 @@ public class IspybToolsIntegrationTest {
         Screening expected1 = new Screening();
         expected1.setScreeningId(1927968L);
         expected1.setDataCollectionId(1066786L);
-        expected1.setBltimeStamp(Timestamp.valueOf("2016-10-26 09:50:31"));
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        c.set(2016, 9, 26, 8, 50, 31);
+        c.clear(Calendar.MILLISECOND);
+        Date d = c.getTime();
+        expected1.setBltimeStamp(new Timestamp(d.getTime()));
         expected1.setProgramVersion("mosflm");
         expected1.setShortComments("Mosflm native");
         expected1.setDataCollectionGroupId(1054243L);
@@ -82,7 +85,7 @@ public class IspybToolsIntegrationTest {
         Screening expected2 = new Screening();
         expected2.setScreeningId(1927987L);
         expected2.setDataCollectionId(1066786L);
-        expected2.setBltimeStamp(Timestamp.valueOf("2016-10-26 09:50:31"));
+        expected2.setBltimeStamp(new Timestamp(d.getTime()));
         expected2.setProgramVersion("EDNA MXv1");
         expected2.setComments("Standard Anomalous Dataset Multiplicity=3 I/sig=2 Maxlifespan=4034 s");
         expected2.setShortComments("EDNAStrategy2");
