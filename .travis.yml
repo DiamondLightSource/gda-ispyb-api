@@ -6,7 +6,7 @@ cache:
 jdk:
   - oraclejdk8
 script:
-  - mysql -e "SET GLOBAL time_zone='+1:00'"
+    #- mysql -e "SET GLOBAL time_zone='+1:00'"
   - mvn -Dispyb.url='jdbc:mariadb://localhost:3306' -Dispyb.user=root -Dispyb.host=localhost package
 addons:
   mariadb: '10.3'
