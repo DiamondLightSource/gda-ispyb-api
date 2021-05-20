@@ -274,7 +274,7 @@ public class IspybToolsIntegrationTest {
 
     @Test
     public void testInsertXFEFluorescenceSpectrum() throws SQLException, IOException, InterruptedException {
-        XFEFlourecenceSpectrum xfeFlourecenceSpectrum = new XFEFlourecenceSpectrum();
+        XFEFluorescenceSpectrum xfeFlourecenceSpectrum = new XFEFluorescenceSpectrum();
         xfeFlourecenceSpectrum.setId(9999L);
         xfeFlourecenceSpectrum.setSessionId(339528L);
         xfeFlourecenceSpectrum.setSampleId(11577L);

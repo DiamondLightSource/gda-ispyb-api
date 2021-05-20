@@ -147,11 +147,11 @@ public class MxSample {
         this.sampleSubLocation = sampleSubLocation;
     }
 
-    public Boolean getInSampleChanger() {
+    public Boolean getIsInSampleChanger() {
         return isInSampleChanger;
     }
 
-    public void setInSampleChanger(Boolean inSampleChanger) {
+    public void setIsInSampleChanger(Boolean inSampleChanger) {
         isInSampleChanger = inSampleChanger;
     }
 

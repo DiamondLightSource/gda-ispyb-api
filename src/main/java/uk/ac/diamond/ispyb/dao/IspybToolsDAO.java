@@ -84,12 +84,12 @@ public class IspybToolsDAO implements IspybToolsApi {
     }
 
     @Override
-    public Long updateSample(Sample sample) throws SQLException {
-        return beanTemplateWrapper.callIspybForKey("upsert_sample", Long.class, sample, "p_id").get();
+    public Long updateSample(MxSample mxSample) throws SQLException {
+        return beanTemplateWrapper.callIspybForKey("upsert_mx_sample", Long.class, mxSample, "p_id").get();
     }
 
     @Override
-    public Long insertXFEFluorescenceSpectrum(XFEFlourecenceSpectrum xfeFlourecenceSpectrum) throws SQLException {
+    public Long insertXFEFluorescenceSpectrum(XFEFluorescenceSpectrum xfeFlourecenceSpectrum) throws SQLException {
         return beanTemplateWrapper.callIspybForKey("upsert_xfe_fluo_spectrum", Long.class, xfeFlourecenceSpectrum, "p_id").get();
     }
 

@@ -13,10 +13,9 @@ public class DataCollection {
     private Long apertureId;
     private Long blSubSample;
     private Long detectorId;
-    private Double sampleId;
-    private Long polarisationId;
+    private Long blSampleId;
     private Long positionId;
-    private String actualCenteringPosition;
+    private String actualCentringPosition;
     private Double apertureSizeX;
     private Double averageTemperature;
     private Double axisEnd;
@@ -51,7 +50,6 @@ public class DataCollection {
     private Boolean printableForReport;
     private Double resolution;
     private Double resolutionAtCorner;
-    //private RotationAxis rotationAxis;
     private String rotationAxis;
     private String status;
     private Long screeningOrigId;
@@ -120,20 +118,12 @@ public class DataCollection {
         this.detectorId = detectorId;
     }
 
-    public Double getSampleId() {
-        return sampleId;
+    public Long getBlSampleId() {
+        return blSampleId;
     }
 
-    public void setSampleId(Double sampleId) {
-        this.sampleId = sampleId;
-    }
-
-    public Long getPolarisationId() {
-        return polarisationId;
-    }
-
-    public void setPolarisationId(Long polarisationId) {
-        this.polarisationId = polarisationId;
+    public void setBlSampleId(Long blSampleId) {
+        this.blSampleId = blSampleId;
     }
 
     public Long getPositionId() {
@@ -144,12 +134,12 @@ public class DataCollection {
         this.positionId = positionId;
     }
 
-    public String getActualCenteringPosition() {
-        return actualCenteringPosition;
+    public String getActualCentringPosition() {
+        return actualCentringPosition;
     }
 
-    public void setActualCenteringPosition(String actualCenteringPosition) {
-        this.actualCenteringPosition = actualCenteringPosition;
+    public void setActualCentringPosition(String actualCentringPosition) {
+        this.actualCentringPosition = actualCentringPosition;
     }
 
     public Double getApertureSizeX() {
