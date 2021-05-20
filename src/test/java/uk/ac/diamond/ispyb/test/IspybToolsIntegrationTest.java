@@ -74,7 +74,7 @@ public class IspybToolsIntegrationTest {
         expected1.setScreeningId(1927968L);
         expected1.setDataCollectionId(1066786L);
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        c.set(2016, 10, 26, 9, 50, 31);
+        c.set(2016, Calendar.OCTOBER, 26, 8, 50, 31);
         c.clear(Calendar.MILLISECOND);
         Date d = c.getTime();
         expected1.setBltimeStamp(new Timestamp(d.getTime()));
