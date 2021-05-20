@@ -37,8 +37,12 @@ public class Screening {
         return bltimeStamp;
     }
 
-    public void setBltimeStamp(_Timestamp bltimeStamp) {
-        this.bltimeStamp = bltimeStamp;
+    public void setBltimeStamp(Timestamp bltimeStamp) {
+        this.bltimeStamp = (_Timestamp) bltimeStamp;
+    }
+
+    public void setBltimeStamp(_Timestamp blTimeStamp) {
+        this.bltimeStamp = blTimeStamp;
     }
 
     public String getProgramVersion() {
