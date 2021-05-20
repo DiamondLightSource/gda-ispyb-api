@@ -209,7 +209,7 @@ public class IspybToolsIntegrationTest {
         MxSample expected = new MxSample();
         expected.setSampleId(11550L);
         expected.setContainerId(1326L);
-//        expected.setCrystalId(3918L);
+        expected.setCrystalId(3918L);
         expected.setSampleName("Sample-001");
         expected.setSampleCode("SAM-011550");
         expected.setSampleLocation("1");
