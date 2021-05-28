@@ -97,9 +97,9 @@ public class TemplateWrapper {
 	}
 
 	private Map<String, Object> executeFunction(String function, Map<String, Object> params) {
-		SimpleJdbcCall simpleJdbcCall = createCall(function);
+		SimpleJdbcCall simpleJdbcCall = createFunctionCall(function);
 		MapSqlParameterSource in = createInParameters(params);
-		return simpleJdbcCall.withoutProcedureColumnMetaDataAccess().execute(in);
+		return simpleJdbcCall.execute(in);
 	}
 
 	private MapSqlParameterSource createInParameters(Map<String, Object> params) {
@@ -115,6 +115,12 @@ public class TemplateWrapper {
 		return new SimpleJdbcCall(template)
 			.withProcedureName(procedure)
 			.withCatalogName(schema);
+	}
+
+	SimpleJdbcCall createFunctionCall(String function) {
+		return new SimpleJdbcCall(template)
+				.withFunctionName(function)
+				.withCatalogName(schema);
 	}
 
 	@SuppressWarnings("unchecked")
