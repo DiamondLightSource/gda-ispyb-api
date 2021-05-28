@@ -271,8 +271,13 @@ public class IspybToolsIntegrationTest {
 
     @Test
     public void testUpdateSample() throws SQLException, IOException, InterruptedException {
-        // where does this come from, I don't think I wrote this sproc.
-
+        MxSample mxSample = new MxSample();
+        mxSample.setContainerId(33049L);
+        mxSample.setCrystalId(3954L);
+        mxSample.setDataCollectionPlanId(197792L);
+        mxSample.setSampleComments("Test sample");
+        Long id = helper.execute(api -> api.updateSample(mxSample, "boaty"));
+        assertThat(id, is(not(equalTo(null))));
     }
 
     @Test
