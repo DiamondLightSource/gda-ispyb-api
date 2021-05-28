@@ -73,6 +73,42 @@ public class BeanTemplateWrapper {
 			return null;
 	}
 
+	<T> Optional<T> callIspybForKey(String procedure, Class<T> clazz, Object bean, Map<String, Object> params, String key){
+		Map<String, Object> map = execute(procedure, bean, params);
+		if (!map.containsKey(key) || map.get(key) == null) {
+			String message = "could not return parameter " + key + " from map with keys" + map.keySet();
+			throw new UnsupportedOperationException(message);
+		}
+		Object o = map.get(key);
+
+		if (clazz.isInstance(new Long(0))) {
+			Long l = null;
+			if (o instanceof Integer)
+				l = ((Integer)o).longValue();
+			else if (o instanceof Byte)
+				l = ((Byte)o).longValue();
+			else if (o instanceof Long)
+				l = (Long)o;
+			return Optional.of((T)l);
+		}
+		else if (clazz.isInstance(new Integer(0))) {
+			Integer i = null;
+			if (o instanceof Integer)
+				i = (Integer)o;
+			else if (o instanceof Byte)
+				i = ((Byte)o).intValue();
+			return Optional.of((T)i);
+		}
+		else if (clazz.isInstance(new Byte((byte)0))) {
+			Byte b = null;
+			if (o instanceof Byte)
+				b = (Byte)o;
+			return Optional.of((T)b);
+		}
+		else
+			return null;
+	}
+
 	<T> Optional<T> callIspyb(String procedure, Class<T> clazz, Object bean) {
 		Map<String, Object> map = execute(procedure, bean);
 		List<T> list = parser.parse(map, templateWrapper::firstValue);
@@ -84,7 +120,7 @@ public class BeanTemplateWrapper {
 		List<T> list = parser.parse(map, new MapToBeanFunction<T>(clazz));
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
-	
+
 	void callIspyb(String procedure, Object bean) {
 		templateWrapper.callIspyb(procedure, convertToMap(bean));
 	}
@@ -101,6 +137,12 @@ public class BeanTemplateWrapper {
 		MapSqlParameterSource in = createInParameters(bean);
 		return simpleJdbcCall.execute(in);
 	}
+
+	private Map<String, Object> execute(String procedure, Object bean, Map<String, Object> params){
+		SimpleJdbcCall simpleJdbcCall = templateWrapper.createCall(procedure);
+		MapSqlParameterSource in = createInParameters(bean, params);
+		return simpleJdbcCall.execute(in);
+	}
 	
 	private MapSqlParameterSource createInParameters(Object bean) {
 		MapSqlParameterSource in = new MapSqlParameterSource();
@@ -109,6 +151,22 @@ public class BeanTemplateWrapper {
         	if (!"class".equals(propertyDescriptor.getName())){
            		in.addValue("p_" + propertyDescriptor.getName(), wrapper.getPropertyValue(propertyDescriptor.getName()));        		
         	}
+		}
+		return in;
+	}
+
+	private MapSqlParameterSource createInParameters(Object bean, Map<String, Object> params) {
+		MapSqlParameterSource in = new MapSqlParameterSource();
+		BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(bean);
+		for (PropertyDescriptor propertyDescriptor : wrapper.getPropertyDescriptors()) {
+			if (!"class".equals(propertyDescriptor.getName())){
+				in.addValue("p_" + propertyDescriptor.getName(), wrapper.getPropertyValue(propertyDescriptor.getName()));
+			}
+		}
+		if (params != null) {
+			for (String key : params.keySet()) {
+				in.addValue("p_" + key, params.get(key));
+			}
 		}
 		return in;
 	}
