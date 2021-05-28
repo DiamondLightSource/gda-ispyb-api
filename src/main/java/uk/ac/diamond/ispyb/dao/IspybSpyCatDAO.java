@@ -41,7 +41,7 @@ public class IspybSpyCatDAO implements IspybSpyCatApi {
         Map<String, Object> params = new HashMap<>();
         params.put("proposal_code", proposalCode);
         params.put("proposal_number", proposalNumber);
-        return templateWrapper.callIspybFunction("retrieve_proposal_title", String.class, params);
+        return templateWrapper.callIspybFunction("retrieve_proposal_title_v2", String.class, params);
     }
 
     @Override
