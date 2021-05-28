@@ -39,8 +39,8 @@ public class IspybSpyCatDAO implements IspybSpyCatApi {
     @Override
     public Optional<String> retrieveTitleForVisit(String proposalCode, Integer proposalNumber) {
         Map<String, Object> params = new HashMap<>();
-        params.put("proposal_code", proposalCode);
-        params.put("proposal_number", proposalNumber);
+        params.put("proposalCode", proposalCode);
+        params.put("proposalNumber", proposalNumber);
         return templateWrapper.callIspybFunction("retrieve_proposal_title_v2", String.class, params);
     }
 
