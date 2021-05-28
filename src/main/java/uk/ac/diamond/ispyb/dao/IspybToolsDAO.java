@@ -84,8 +84,10 @@ public class IspybToolsDAO implements IspybToolsApi {
     }
 
     @Override
-    public Long updateSample(MxSample mxSample) throws SQLException {
-        return beanTemplateWrapper.callIspybForKey("upsert_mx_sample", Long.class, mxSample, "p_id").get();
+    public Long updateSample(MxSample mxSample, String authLogin) throws SQLException {
+        Map<String, Object> params = new HashMap<>();
+        params.put("authLogin", authLogin);
+        return beanTemplateWrapper.callIspybForKey("upsert_mx_sample", Long.class, mxSample, params, "p_sampleId").get();
     }
 
     @Override
