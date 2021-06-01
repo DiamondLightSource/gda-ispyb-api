@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public interface IspybToolsApi extends Closeable {
+public interface IspybMxCxApi extends Closeable {
 
     List<Long> retrieveFluorescenceSpectrumIdsForSample(Long sampleId) throws SQLException;
     Optional<ImageQualityIndicators> retrieveImageQualityIndicators(Long dataCollectionId, Long imageNumber) throws SQLException;
@@ -17,7 +17,7 @@ public interface IspybToolsApi extends Closeable {
     Long insertAperture(Aperture aperture) throws SQLException;
     Long insertDataCollectionGroup(DataCollectionGroup dataCollectionGroup) throws SQLException;
     Long insertDataCollection(DataCollectionMain dataCollectionMain) throws SQLException;
-    Long updateSample(MxSample mxSample) throws SQLException;
+    Long updateSample(MxSample mxSample, String authLogin) throws SQLException;
     Long insertXFEFluorescenceSpectrum(XFEFluorescenceSpectrum xfeFlourecenceSpectrum) throws SQLException;
     Long insertEnergyScan(EnergyScan energyScan) throws SQLException;
     void insertPosition(Position position) throws SQLException;

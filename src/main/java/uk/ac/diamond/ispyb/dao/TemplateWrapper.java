@@ -72,6 +72,12 @@ public class TemplateWrapper {
 		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
 	}
 
+	<T> Optional<T> callIspybFunction(String function, Class<T> clazz, Map<String, Object> params) {
+		Map<String, Object> map = executeFunction(function, params);
+		List<T> list = parser.parse(map, this::firstValue);
+		return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
+	}
+
 	<T> Optional<T> callIspybForBean(String procedure, Class<T> clazz, Map<String, Object> params) {
 		Map<String, Object> map = execute(procedure, params);
 		List<T> list = parser.parse(map, new MapToBeanFunction<T>(clazz));
@@ -90,6 +96,12 @@ public class TemplateWrapper {
 		return simpleJdbcCall.execute(in);
 	}
 
+	private Map<String, Object> executeFunction(String function, Map<String, Object> params) {
+		SimpleJdbcCall simpleJdbcCall = createFunctionCall(function);
+		MapSqlParameterSource in = createInParameters(params);
+		return simpleJdbcCall.execute(in);
+	}
+
 	private MapSqlParameterSource createInParameters(Map<String, Object> params) {
 		MapSqlParameterSource in = new MapSqlParameterSource();
 		if (params != null)
@@ -103,6 +115,12 @@ public class TemplateWrapper {
 		return new SimpleJdbcCall(template)
 			.withProcedureName(procedure)
 			.withCatalogName(schema);
+	}
+
+	SimpleJdbcCall createFunctionCall(String function) {
+		return new SimpleJdbcCall(template)
+				.withFunctionName(function)
+				.withCatalogName(schema);
 	}
 
 	@SuppressWarnings("unchecked")
