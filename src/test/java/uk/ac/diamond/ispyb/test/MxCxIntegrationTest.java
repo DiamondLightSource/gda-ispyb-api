@@ -4,7 +4,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import uk.ac.diamond.ispyb.api.*;
-import uk.ac.diamond.ispyb.dao.IspybToolsDaoFactory;
+import uk.ac.diamond.ispyb.dao.IspybMxCxDaoFactory;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,8 +14,8 @@ import java.util.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class IspybToolsIntegrationTest {
-    private final static IntegrationTestHelper<IspybToolsApi> helper = new IntegrationTestHelper<>(new IspybToolsDaoFactory());
+public class MxCxIntegrationTest {
+    private final static IntegrationTestHelper<IspybMxCxApi> helper = new IntegrationTestHelper<>(new IspybMxCxDaoFactory());
 
     @BeforeClass
     public static void connect() throws Exception {

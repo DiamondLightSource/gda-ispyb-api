@@ -9,12 +9,12 @@ import java.util.Optional;
 import java.util.Map;
 import java.util.HashMap;
 
-public class IspybToolsDAO implements IspybToolsApi {
+public class IspybMxCxDAO implements IspybMxCxApi {
 
     private final TemplateWrapper templateWrapper;
     private final BeanTemplateWrapper beanTemplateWrapper;
 
-    public IspybToolsDAO(TemplateWrapper templateWrapper, BeanTemplateWrapper beanTemplateWrapper){
+    public IspybMxCxDAO(TemplateWrapper templateWrapper, BeanTemplateWrapper beanTemplateWrapper){
         this.templateWrapper = templateWrapper;
         this.beanTemplateWrapper = beanTemplateWrapper;
     }
