@@ -7,5 +7,5 @@ import java.util.Optional;
 public interface IspybSpyCatApi extends Closeable {
     public List<String> retrieveVisitsForUser(String beamline, String username, Integer tolerance);
     public Optional<String> retrieveLatestVisitWithPrefix(String beamline, String proposalCode);
-    public Optional<String> retrieveTitleForVisit(String proposalCode, Integer proposalNumber);
+    public Optional<String> retrieveTitleForProposal(String proposalCode, Integer proposalNumber);
 }

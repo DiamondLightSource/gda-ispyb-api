@@ -43,8 +43,8 @@ public class SpyCatIntegrationTest {
     }
 
     @Test
-    public void testRetrieveTitleForVisit() throws  SQLException, IOException, InterruptedException{
-        String title = helper.execute(api -> api.retrieveTitleForVisit("cm", 1)).get();
+    public void testRetrieveTitleForProposal() throws  SQLException, IOException, InterruptedException{
+        String title = helper.execute(api -> api.retrieveTitleForProposal("cm", 1)).get();
         String expected = "Test Proposal cm-0001";
 
         assertThat(title, is(equalTo(expected)));
