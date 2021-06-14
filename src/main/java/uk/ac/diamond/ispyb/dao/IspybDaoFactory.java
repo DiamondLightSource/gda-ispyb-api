@@ -94,7 +94,7 @@ public class IspybDaoFactory<T> implements IspybFactoryService<T>{
 	}
 
 	private static JdbcTemplate makeJdbcTemplateFromConnection(Connection connection) {
-		return new JdbcTemplate(new SingleConnectionDataSource(connection, true));
+		return new JdbcTemplate(new SingleConnectionDataSource(connection, false));
 	}
 
 }
