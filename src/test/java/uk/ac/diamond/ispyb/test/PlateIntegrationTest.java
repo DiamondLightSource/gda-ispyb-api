@@ -15,6 +15,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import uk.ac.diamond.ispyb.api.*;
+import uk.ac.diamond.ispyb.dao.IspybPlateDAO;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import java.util.concurrent.TimeUnit;
 
 public class PlateIntegrationTest {
 	private final static IntegrationTestHelper<IspybPlateApi> helper = new IntegrationTestHelper<>(new IspybPlateDaoFactory());
@@ -38,6 +41,18 @@ public class PlateIntegrationTest {
 		helper.tearDown();
 	};
 
+	@Test
+	public void testConnectionClose() throws Exception {
+		ConnectionData data = new ConnectionData();
+        IspybPlateDaoFactory factory = new IspybPlateDaoFactory();
+
+		for (int i = 0; i < 50; i++) {
+			IspybPlateApi api = factory.buildIspybApi(data.getUrl(), data.getUser(), data.getPassword(), Optional.empty());
+			api.close();
+		}
+
+		// TimeUnit.SECONDS.sleep(180);  // pause to allow diagnosing database status varibles
+	}
 
 	@Test
 	public void testRetrieve() throws SQLException, IOException, InterruptedException {
