@@ -37,7 +37,8 @@ stages:
     - task: Maven@3
       inputs:
         mavenPomFile: 'pom.xml'
-        mavenOptions: '-Xmx3072m -Dispyb.url="jdbc:mariadb://localhost:3306" -Dispyb.user=root -Dispyb.pw="$(MYSQL_ROOT_PASSWORD)" -Dispyb.host=localhost'
+        mavenOptions: '-Xmx3072m'
+        options: '-Dispyb.url="jdbc:mariadb://localhost:3306" -Dispyb.user=root -Dispyb.pw="$(MYSQL_ROOT_PASSWORD)" -Dispyb.host=localhost'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.8'
         jdkArchitectureOption: 'x64'
