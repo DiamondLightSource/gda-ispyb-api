@@ -3,20 +3,44 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
+variables:      # pipeline-level
+  MYSQL_ROOT_PASSWORD: mysql_root_pwd
+
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+resources:
+  containers:
+  - container: mariadb
+    image: mariadb:10.5
+    env:
+      MYSQL_DATABASE: ispybtest
+      MYSQL_ROOT_PASSWORD: $(MYSQL_ROOT_PASSWORD)
+    ports:
+    - 3306:3306
 
-steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+pool:
+  vmImage: ubuntu-20.04
+
+stages:
+- stage: build
+  displayName: Build
+  dependsOn:
+  jobs:
+  - job: build
+    displayName: build package
+    pool:
+      vmImage: ubuntu-20.04
+    services:
+      db: mariadb
+    steps:
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m -Dispyb.url="jdbc:mariadb://localhost:3306" -Dispyb.user=root -Dispyb.pw="$(MYSQL_ROOT_PASSWORD)" -Dispyb.host=localhost'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.8'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        goals: 'package'
