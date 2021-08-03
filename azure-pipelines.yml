@@ -7,7 +7,16 @@ variables:      # pipeline-level
   MYSQL_ROOT_PASSWORD: mysql_root_pwd
 
 trigger:
-- master
+  branches:
+    include:
+    - '*'
+  tags:
+    include:
+    - '*'
+  paths:
+    exclude:
+    - '*.md'
+    - LICENSE
 
 resources:
   containers:
