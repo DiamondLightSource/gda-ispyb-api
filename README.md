@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/DiamondLightSource/gda-ispyb-api.svg?branch=master)](https://travis-ci.org/DiamondLightSource/gda-ispyb-api)
+[![Build Status](https://dev.azure.com/diamond-lims/gda-ispyb-api/_apis/build/status/DiamondLightSource.gda-ispyb-api?branchName=master)](https://dev.azure.com/diamond-lims/gda-ispyb-api/_build/latest?definitionId=1&branchName=master)
 
 # GDA ISPyB API
 
