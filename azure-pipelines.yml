@@ -55,5 +55,5 @@ stages:
       displayName: ‘Create GitHub Release’
       condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
       inputs:
-        githubConnection: DiamondLightSource
+        githubConnection: KarlConnection
         repositoryName: DiamondLightSource/gda-ispyb-api
