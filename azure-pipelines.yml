@@ -1,9 +1,4 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
-variables:      # pipeline-level
+variables:
   MYSQL_ROOT_PASSWORD: mysql_root_pwd
 
 trigger:
@@ -35,6 +30,7 @@ stages:
 - stage: build
   displayName: Build
   dependsOn:
+
   jobs:
   - job: build
     displayName: build package
@@ -42,6 +38,7 @@ stages:
       vmImage: ubuntu-20.04
     services:
       db: mariadb
+
     steps:
     - task: Maven@3
       inputs:
@@ -54,3 +51,9 @@ stages:
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         goals: 'package'
+    - task: GithubRelease@0
+      displayName: ‘Create GitHub Release’
+      condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
+      inputs:
+        githubConnection: DiamondLightSource
+        repositoryName: DiamondLightSource/gda-ispyb-api
