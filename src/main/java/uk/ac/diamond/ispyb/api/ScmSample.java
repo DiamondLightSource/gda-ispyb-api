@@ -50,7 +50,7 @@ public class ScmSample {
     private Float planTransmission;
     private Float planQMin;
     private Float planQMax;
-    private String planreductionParametersAveraging;
+    private String planReductionParametersAveraging;
     private String proposalCode;
     private String proposalNumber;
     private Long sessionNumber;
@@ -337,12 +337,12 @@ public class ScmSample {
         this.planQMax = planQMax;
     }
 
-    public String getPlanreductionParametersAveraging() {
-        return planreductionParametersAveraging;
+    public String getPlanReductionParametersAveraging() {
+        return planReductionParametersAveraging;
     }
 
-    public void setPlanreductionParametersAveraging(String planreductionParametersAveraging) {
-        this.planreductionParametersAveraging = planreductionParametersAveraging;
+    public void setPlanReductionParametersAveraging(String planReductionParametersAveraging) {
+        this.planReductionParametersAveraging = planReductionParametersAveraging;
     }
 
     @Override
