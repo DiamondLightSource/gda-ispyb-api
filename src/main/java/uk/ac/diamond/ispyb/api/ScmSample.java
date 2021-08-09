@@ -48,6 +48,9 @@ public class ScmSample {
     private Float planRobotPlateTemperature;
     private Float planExposureTemperature;
     private Float planTransmission;
+    private Float planQMin;
+    private Float planQMax;
+    private String planreductionParametersAveraging;
     private String proposalCode;
     private String proposalNumber;
     private Long sessionNumber;
@@ -316,6 +319,30 @@ public class ScmSample {
 
     public void setPlanTransmission(Float planTransmission) {
         this.planTransmission = planTransmission;
+    }
+
+    public Float getPlanQMin() {
+        return planQMin;
+    }
+
+    public void setPlanQMin(Float planQMin) {
+        this.planQMin = planQMin;
+    }
+
+    public Float getPlanQMax() {
+        return planQMax;
+    }
+
+    public void setPlanQMax(Float planQMax) {
+        this.planQMax = planQMax;
+    }
+
+    public String getPlanreductionParametersAveraging() {
+        return planreductionParametersAveraging;
+    }
+
+    public void setPlanreductionParametersAveraging(String planreductionParametersAveraging) {
+        this.planreductionParametersAveraging = planreductionParametersAveraging;
     }
 
     @Override
