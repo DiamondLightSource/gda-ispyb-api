@@ -2,12 +2,6 @@ variables:
   MYSQL_ROOT_PASSWORD: mysql_root_pwd
 
 trigger:
-  branches:
-    include:
-    - '*'
-  tags:
-    include:
-    - '*'
   paths:
     exclude:
     - '*.md'
