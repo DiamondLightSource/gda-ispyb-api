@@ -19,12 +19,12 @@ REPLACE_PATTERN=$(echo s/$VERSION/$NEW_VERSION/g | sed 's/\./\\\./g')
 
 sed -i "$REPLACE_PATTERN" pom.xml
 
-git checkout -b $NEW_VERSION
+git checkout -b v$NEW_VERSION
 git add .
 git commit -m "updating version to $NEW_VERSION"
 
 echo "releasing version $NEW_VERSION" 
 git tag v$NEW_VERSION
-git push origin $NEW_VERSION --tag
+git push origin v$NEW_VERSION --tag
 
 echo "you currently need to manually merge back into master"
