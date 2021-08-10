@@ -2,7 +2,14 @@ variables:
   MYSQL_ROOT_PASSWORD: mysql_root_pwd
   MYSQL_HOST: '127.0.0.1'
   MYSQL_PORT: '3306'
+
 trigger:
+  branches:
+    exclude:
+    - master
+  tags:
+    include:
+    - '*'
   paths:
     exclude:
     - '*.md'
@@ -49,7 +56,7 @@ stages:
         goals: 'package'
     - task: GithubRelease@0
       displayName: ‘Create GitHub Release’
-      condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/v')
+      condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
       inputs:
         githubConnection: KarlConnection
         repositoryName: DiamondLightSource/gda-ispyb-api
