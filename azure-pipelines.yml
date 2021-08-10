@@ -1,6 +1,7 @@
 variables:
   MYSQL_ROOT_PASSWORD: mysql_root_pwd
-
+  MYSQL_HOST: '127.0.0.1'
+  MYSQL_PORT: '3306'
 trigger:
   paths:
     exclude:
@@ -15,7 +16,7 @@ resources:
       MYSQL_DATABASE: ispybtest
       MYSQL_ROOT_PASSWORD: $(MYSQL_ROOT_PASSWORD)
     ports:
-    - 3306:3306
+    - $(MYSQL_PORT):$(MYSQL_PORT)
 
 pool:
   vmImage: ubuntu-20.04
@@ -35,10 +36,11 @@ stages:
 
     steps:
     - task: Maven@3
+      displayName: ‘Maven package build’
       inputs:
         mavenPomFile: 'pom.xml'
         mavenOptions: '-Xmx3072m'
-        options: '-Dispyb.url="jdbc:mariadb://127.0.0.1:3306" -Dispyb.user=root -Dispyb.pw="$(MYSQL_ROOT_PASSWORD)" -Dispyb.host=127.0.0.1'
+        options: '-Dispyb.url="jdbc:mariadb://$(MYSQL_HOST):$(MYSQL_PORT)" -Dispyb.user=root -Dispyb.pw="$(MYSQL_ROOT_PASSWORD)" -Dispyb.host=$(MYSQL_HOST)'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.8'
         jdkArchitectureOption: 'x64'
@@ -47,7 +49,7 @@ stages:
         goals: 'package'
     - task: GithubRelease@0
       displayName: ‘Create GitHub Release’
-      condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
+      condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/v')
       inputs:
         githubConnection: KarlConnection
         repositoryName: DiamondLightSource/gda-ispyb-api
