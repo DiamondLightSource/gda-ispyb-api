@@ -24,7 +24,7 @@ git add .
 git commit -m "updating version to $NEW_VERSION"
 
 echo "releasing version $NEW_VERSION" 
-git tag v$NEW_VERSION
-git push origin v$NEW_VERSION --tag
+git tag refs/tags/v$NEW_VERSION
+git push origin refs/heads/v$NEW_VERSION --tag
 
 echo "you currently need to manually merge back into master"
