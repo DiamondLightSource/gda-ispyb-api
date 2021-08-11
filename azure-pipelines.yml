@@ -60,3 +60,4 @@ stages:
       inputs:
         githubConnection: KarlConnection
         repositoryName: DiamondLightSource/gda-ispyb-api
+        assets: '$(Build.StagingDirectory)/target/ispyb-api-*.jar'
