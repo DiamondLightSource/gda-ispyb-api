@@ -2,6 +2,7 @@ variables:
   MYSQL_ROOT_PASSWORD: mysql_root_pwd
   MYSQL_HOST: '127.0.0.1'
   MYSQL_PORT: '3306'
+  System.Debug: true
 
 trigger:
   branches:
@@ -9,7 +10,7 @@ trigger:
     - master
   tags:
     include:
-    - '*'
+    - 'v*'
   paths:
     exclude:
     - '*.md'
@@ -55,10 +56,16 @@ stages:
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         goals: 'package'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: $(System.DefaultWorkingDirectory)/target
+        artifactName: jars
+        artifactType: filepath
+        fileSharePath: '/jars'
     - task: GithubRelease@0
       displayName: ‘Create GitHub Release’
       condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
       inputs:
         githubConnection: KarlConnection
         repositoryName: DiamondLightSource/gda-ispyb-api
-        assets: '$(Build.StagingDirectory)/target/ispyb-api-*.jar'
+        assets: '/jars/ispyb-api-*.jar'
