@@ -47,6 +47,7 @@ stages:
       inputs:
         mavenPomFile: 'pom.xml'
         mavenOptions: '-Xmx3072m'
+        mavenAuthenticateFeed: true
         options: '-Dispyb.url="jdbc:mariadb://$(MYSQL_HOST):$(MYSQL_PORT)" -Dispyb.user=root -Dispyb.pw="$(MYSQL_ROOT_PASSWORD)" -Dispyb.host=$(MYSQL_HOST)'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.8'
