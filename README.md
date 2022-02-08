@@ -52,4 +52,4 @@ The javadocs will then appear in a folder called `target/apidocs/`.
 
 ## Release
 
-To release, use the script `release.sh`. You need to supply this with the argument `major`, `minor`, or `bugfix`, and this script will handle updating the version. The result will be added to GitHub as a release by Travis.
+To release, use the script `release.sh` with the argument `major`, `minor`, or `bugfix`. This script will handle updating the version. The result will be added to GitHub as a release by Azure Pipelines.
