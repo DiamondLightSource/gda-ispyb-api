@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import uk.ac.diamond.ispyb.api.Session;
+import uk.ac.diamond.ispyb.api.SessionPerson;
 
 public class IspybSpyCatDAO implements IspybSpyCatApi {
 
@@ -43,6 +45,24 @@ public class IspybSpyCatDAO implements IspybSpyCatApi {
         params.put("proposalNumber", proposalNumber);
         return templateWrapper.callIspybFunction("retrieve_proposal_title_v2", String.class, params);
     }
+
+    @Override
+    public List<Session> retrieveCurrentSessions(String beamline, Integer toleranceMinutes) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("beamline", beamline);
+        params.put("tolerance_minutes", toleranceMinutes);
+        return templateWrapper.callIspybForListBeans("retrieve_current_sessions", Session.class, params);
+    }
+
+    @Override
+    public List<SessionPerson> retrievePersonsForSession(String proposalCode, Integer proposalNumber, Integer visitNumber) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("proposal_code", proposalCode);
+        params.put("proposal_number", proposalNumber);
+        params.put("visit_number", visitNumber);
+        return templateWrapper.callIspybForListBeans("retrieve_persons_for_session", SessionPerson.class, params);
+    }
+
 
     @Override
     public void close() throws IOException {
