@@ -34,6 +34,8 @@ public interface IspybPlateApi extends Closeable {
 
 	void finishContainer(String barcode) throws SQLException;
 
+	void updateContainerUnqueue(String barcode) throws SQLException;
+
 	List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws SQLException;
 
         List<ContainerForBeamlineAndStatusEntry> retrieveContainersOnBeamlineWithStatus(String beamline, ContainerStatus status) throws SQLException;

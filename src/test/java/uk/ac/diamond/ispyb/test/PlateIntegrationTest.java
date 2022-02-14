@@ -269,6 +269,16 @@ public class PlateIntegrationTest {
 	}
 
 	@Test
+	public void testUpdateContainerUnqueue() throws SQLException, IOException, InterruptedException {
+		Optional<Date> date= helper.execute(api -> {
+			api.updateContainerUnqueue("test_plate3");
+			return api.retrieveContainerQueueTimestamp("test_plate3");
+		});
+
+		assertThat(date.isPresent(), is(false));
+	}
+
+	@Test
 	public void testUpsertRetrieveSleeves() throws IOException, SQLException{
 		List<Sleeve> sleeves = helper.execute(api -> {
 			Sleeve sleeve = new Sleeve();

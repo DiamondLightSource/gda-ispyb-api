@@ -61,6 +61,11 @@ public class IspybPlateDAO implements IspybPlateApi{
 	}
 
 	@Override
+	public void updateContainerUnqueue(String barcode) throws SQLException {
+		templateWrapper.updateIspyb("update_container_unqueue", map(BARCODE, barcode));
+	}
+
+	@Override
 	public List<ContainerLSQueueEntry> retrieveContainerLSQueue(String beamline) throws SQLException {
 		return templateWrapper.callIspybForListBeans("retrieve_container_ls_queue", ContainerLSQueueEntry.class, map(BEAMLINE, beamline));
 	}
