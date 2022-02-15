@@ -6,8 +6,8 @@ variables:
 
 trigger:
   branches:
-    exclude:
-    - master
+    include:
+    - '*'
   tags:
     include:
     - 'v*'
