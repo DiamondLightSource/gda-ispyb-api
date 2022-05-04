@@ -15,7 +15,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import uk.ac.diamond.ispyb.api.*;
-import uk.ac.diamond.ispyb.dao.IspybPlateDAO;
 import uk.ac.diamond.ispyb.dao.IspybPlateDaoFactory;
 
 import java.io.IOException;
@@ -25,8 +24,6 @@ import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.util.concurrent.TimeUnit;
 
 public class PlateIntegrationTest {
 	private final static IntegrationTestHelper<IspybPlateApi> helper = new IntegrationTestHelper<>(new IspybPlateDaoFactory());
@@ -91,55 +88,47 @@ public class PlateIntegrationTest {
 		ContainerLSQueueEntry expected = new ContainerLSQueueEntry();
 		expected.setBarcode("test_plate2");
 		expected.setLocation("3");
-		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		c.set(2016, 8, 30, 12, 56, 21);
-		c.clear(Calendar.MILLISECOND);
-		Date date = c.getTime();
-		expected.setAdded(new Timestamp(date.getTime()));
+		expected.setAdded(new Timestamp(2016-1900, 8, 30, 12, 56, 21, 0));
 
 		assertThat(entries, is(equalTo(Arrays.asList(expected))));
 	}
 
-        @Test
-        public void testRetrieveContainersOnBeamlineWithStatus() throws SQLException, IOException{
-								helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_LOCALSTORAGE));
+    @Test
+    public void testRetrieveContainersOnBeamlineWithStatus() throws SQLException, IOException{
+        helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_LOCALSTORAGE));
 
-                List<ContainerForBeamlineAndStatusEntry> entries = helper.execute(api-> api.retrieveContainersOnBeamlineWithStatus("i03", ContainerStatus.IN_LOCALSTORAGE));
+        List<ContainerForBeamlineAndStatusEntry> entries = helper.execute(api-> api.retrieveContainersOnBeamlineWithStatus("i03", ContainerStatus.IN_LOCALSTORAGE));
 
-                ContainerForBeamlineAndStatusEntry expected = new ContainerForBeamlineAndStatusEntry();
-                expected.setBarcode("test_plate2");
-                expected.setLocation("3");
-                Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-                c.set(2016, 8, 30, 12, 56, 21);
-                c.clear(Calendar.MILLISECOND);
-                Date date = c.getTime();
-                expected.setAdded(new Timestamp(date.getTime()));
+        ContainerForBeamlineAndStatusEntry expected = new ContainerForBeamlineAndStatusEntry();
+        expected.setBarcode("test_plate2");
+        expected.setLocation("3");
+        expected.setAdded(new Timestamp(2016-1900, 8, 30, 12, 56, 21, 0));
 
-                assertThat(entries, is(equalTo(Arrays.asList(expected))));
-        }
+        assertThat(entries, is(equalTo(Arrays.asList(expected))));
+    }
 
-        @Test
-        public void testUpdateContaineStatus() throws SQLException, IOException{
-                helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_TRANSIT_TO_LOADLOCK));
-                helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_LOADLOCK));
+    @Test
+    public void testUpdateContaineStatus() throws SQLException, IOException{
+        helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_TRANSIT_TO_LOADLOCK));
+        helper.run(api-> api.updateContainerStatus("test_plate2", ContainerStatus.IN_LOADLOCK));
 
-		            ContainerInfo containerInfo = helper.execute(api -> api.retrieveContainerInfo("test_plate2")).get();
+        ContainerInfo containerInfo = helper.execute(api -> api.retrieveContainerInfo("test_plate2")).get();
 
-                ContainerInfo expected = new ContainerInfo();
-                expected.setName("test_plate2");
-                expected.setType("CrystalQuickX");
-                expected.setBarcode("test_plate2");
-                expected.setBeamline("i03");
-                expected.setLocation("3");
-                expected.setImagerName("Imager1 20c");
-                expected.setImagerSerialNumber("Z125434");
-                expected.setStatus(ContainerStatus.IN_LOADLOCK.getStatus());
-                expected.setCapacity(192);
-                expected.setStorageTemperature(20.0f);
-                expected.setProposalCode(null);
+        ContainerInfo expected = new ContainerInfo();
+        expected.setName("test_plate2");
+        expected.setType("CrystalQuickX");
+        expected.setBarcode("test_plate2");
+        expected.setBeamline("i03");
+        expected.setLocation("3");
+        expected.setImagerName("Imager1 20c");
+        expected.setImagerSerialNumber("Z125434");
+        expected.setStatus(ContainerStatus.IN_LOADLOCK.getStatus());
+        expected.setCapacity(192);
+        expected.setStorageTemperature(20.0f);
+        expected.setProposalCode(null);
 
-                assertThat(containerInfo, is(equalTo(expected)));
-        }
+        assertThat(containerInfo, is(equalTo(expected)));
+    }
 
 	@Test
 	public void testShouldRetrieveContainerOnGonio() throws Exception {
