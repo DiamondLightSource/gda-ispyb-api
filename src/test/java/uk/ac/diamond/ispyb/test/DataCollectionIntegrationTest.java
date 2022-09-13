@@ -169,6 +169,22 @@ public class DataCollectionIntegrationTest{
 	}
 
 	@Test
+	public void testUpsertDataCollectionGrid() throws SQLException, IOException, InterruptedException {
+		DataCollectionMain main = new DataCollectionMain();
+		main.setDetectorId(4L);
+		main.setGroupId(988855L);
+		main.setBlSubsampleId(2);
+		Long dcId = helper.execute(api -> api.upsertDataCollectionMain(main));
+
+		DataCollectionGrid grid = new DataCollectionGrid();
+		grid.setDcId(dcId);
+		grid.setOrientation(Orientation.HORIZONTAL.name());
+
+		Long id = helper.execute(api -> api.upsertDataCollectionGrid(grid));
+		assertNotNull(id);
+	}
+
+	@Test
 	public void testUpsertDataCollectionGroupGrid() throws SQLException, IOException, InterruptedException {
 		DataCollectionGroup group = new DataCollectionGroup();
 		group.setProposalCode("cm");
