@@ -2,9 +2,15 @@
 
 # GDA ISPyB API
 
-This is a Java library for accessing a Diamond-flavour ISPyB database. It's designed for server-side-only usage, utilising stored procedures to access the database tables. A key benefit of this apporach is the ability to modify the behaviour of the library methods without downtime and without building and deploying a new version of the library itself. A simple change to a stored procedure is very quick and runs in a transaction without disrupting access to the database.
+This is a Java library for accessing a Diamond-flavour ISPyB database. It's designed for server-side-only usage, utilising stored procedures to access the database tables. A key benefit of this approach is the ability to modify the behaviour of the library methods without downtime and without building and deploying a new version of the library itself. A simple change to a stored procedure is very quick and runs in a transaction without disrupting access to the database.
 
 The stored procedures are maintained in a separate repository: [ispyb-database](https://github.com/DiamondLightSource/ispyb-database).
+
+## Build requirements
+
+* MariaDB 10.3 or later
+* JDK 1.8 (also appears to work with 11) JRE and development packages (e.g. on Fedora: java-1.8.0-openjdk java-1.8.0-openjdk-devel)
+* Maven
 
 ## Documentation
 
