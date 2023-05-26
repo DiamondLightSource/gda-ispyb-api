@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: gda-ispyb-api
+  title: GDA ISPyB API
+  description: Library for writing acquisition metadata into an ISPyB database 
+  annotations:
+    github.com/project-slug: DiamondLightSource/gda-ispyb-api
+    diamond.ac.uk/viewdocs-url: https://alfred.diamond.ac.uk/documentation/javadocs/gda-ispyb-api/
+  tags:
+    - java
+    - ispyb
+spec:
+  type: library
+  lifecycle: production
+  owner: group:lims
+  dependsOn:
+    - resource:ispyb-database
