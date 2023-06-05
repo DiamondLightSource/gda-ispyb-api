@@ -19,8 +19,8 @@ public class GridInfo {
     private long workflowMeshId;
     private Orientation orientation;
     private long dataCollectionGroupId;
-    private double pixelsPerMicronX;
-    private double pixelsPerMicronY;
+    private double micronsPerPixelX;
+    private double micronsPerPixelY;
     private double snapshotOffsetXPixel;
     private double snapshotOffsetYPixel;
     private int snaked;
@@ -122,20 +122,20 @@ public class GridInfo {
         this.dataCollectionGroupId = dataCollectionGroupId;
     }
 
-    public double getPixelsPerMicronX() {
-        return pixelsPerMicronX;
+    public double getMicronsPerPixelX() {
+        return this.micronsPerPixelX;
     }
 
-    public void setPixelsPerMicronX(double pixelsPerMicronX) {
-        this.pixelsPerMicronX = pixelsPerMicronX;
+    public void setMicronsPerPixelX(double micronsPerPixelX) {
+        this.micronsPerPixelX = micronsPerPixelX;
     }
 
-    public double getPixelsPerMicronY() {
-        return pixelsPerMicronY;
+    public double getMicronsPerPixelY() {
+        return this.micronsPerPixelY;
     }
 
-    public void setPixelsPerMicronY(double pixelsPerMicronY) {
-        this.pixelsPerMicronY = pixelsPerMicronY;
+    public void setMicronsPerPixelY(double micronsPerPixelY) {
+        this.micronsPerPixelY = micronsPerPixelY;
     }
 
     public double getSnapshotOffsetXPixel() {
