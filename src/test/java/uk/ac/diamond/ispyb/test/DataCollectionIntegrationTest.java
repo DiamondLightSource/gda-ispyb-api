@@ -159,6 +159,9 @@ public class DataCollectionIntegrationTest{
 		DataCollectionGroup dcg = helper.execute(api -> api.retrieveDataCollectionGroup(groupId)).get();
 
 		DataCollectionGroup expected = new DataCollectionGroup();
+		expected.setProposalCode("cm");
+		expected.setProposalNumber(14451L);
+		expected.setSessionNumber(1L);
 		expected.setSessionId(55167L);
 		expected.setSampleId(11550L);
 		expected.setStarttime(ts);
@@ -181,24 +184,6 @@ public class DataCollectionIntegrationTest{
 		grid.setOrientation(Orientation.HORIZONTAL.name());
 
 		Long id = helper.execute(api -> api.upsertDataCollectionGrid(grid));
-		assertNotNull(id);
-	}
-
-	@Test
-	public void testUpsertDataCollectionGroupGrid() throws SQLException, IOException, InterruptedException {
-		DataCollectionGroup group = new DataCollectionGroup();
-		group.setProposalCode("cm");
-		group.setProposalNumber(14451L);
-		group.setSessionNumber(1L);
-		group.setSampleId(11550L);
-
-		Long groupId = helper.execute(api -> api.upsertDataCollectionGroup(group));
-
-		DataCollectionGroupGrid grid = new DataCollectionGroupGrid();
-		grid.setDcgId(groupId);
-		grid.setOrientation(Orientation.HORIZONTAL.name());
-
-		Long id = helper.execute(api -> api.upsertDataCollectionGroupGrid(grid));
 		assertNotNull(id);
 	}
 
