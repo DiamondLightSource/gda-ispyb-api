@@ -117,7 +117,7 @@ public class IspybMxCxDAO implements IspybMxCxApi {
 
     @Override
     public Long insertGridInfo(GridInfo gridInfo) throws SQLException {
-        return beanTemplateWrapper.callIspybForKey("upsert_dc_grid", Long.class, gridInfo, "p_id").get();
+        return beanTemplateWrapper.callIspybForKey("upsert_dc_grid_v2", Long.class, gridInfo, "p_id").get();
     }
 
     private Map<String, Object> map(java.lang.String key, java.lang.Object value) {
