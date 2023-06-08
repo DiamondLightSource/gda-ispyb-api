@@ -67,6 +67,6 @@ stages:
       displayName: ‘Create GitHub Release’
       condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
       inputs:
-        githubConnection: DiamondLightSource
+        githubConnection: KarlLevik
         repositoryName: DiamondLightSource/gda-ispyb-api
         assets: '$(Pipeline.Workspace)/ispyb-api-*.jar'
