@@ -31,8 +31,8 @@ public class DataCollectionGrid {
     private Double stepsX;
     private Double stepsY;
     private Double meshAngle;
-    private Float pixelsPerMicronX;
-    private Float pixelsPerMicronY;
+    private Float micronsPerPixelX;
+    private Float micronsPerPixelY;
     private Float snapshotOffsetXPixel;
     private Float snapshotOffsetYPixel;
     private Orientation orientation;
@@ -94,20 +94,20 @@ public class DataCollectionGrid {
         this.meshAngle = meshAngle;
     }
 
-    public Float getPixelsPerMicronX() {
-        return this.pixelsPerMicronX;
+    public Float getMicronsPerPixelX() {
+        return this.micronsPerPixelX;
     }
 
-    public void setPixelsPerMicronX(Float pixelsPerMicronX) {
-        this.pixelsPerMicronX = pixelsPerMicronX;
+    public void setMicronsPerPixelX(Float micronsPerPixelX) {
+        this.micronsPerPixelX = micronsPerPixelX;
     }
 
-    public Float getPixelsPerMicronY() {
-        return this.pixelsPerMicronY;
+    public Float getMicronsPerPixelY() {
+        return this.micronsPerPixelY;
     }
 
-    public void setPixelsPerMicronY(Float pixelsPerMicronY) {
-        this.pixelsPerMicronY = pixelsPerMicronY;
+    public void setMicronsPerPixelY(Float micronsPerPixelY) {
+        this.micronsPerPixelY = micronsPerPixelY;
     }
 
     public Float getSnapshotOffsetXPixel() {

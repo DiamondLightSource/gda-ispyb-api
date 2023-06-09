@@ -26,7 +26,6 @@ public interface IspybDataCollectionApi extends Closeable {
 	public Optional<DataCollectionGroup> retrieveDataCollectionGroup(Long dcgId) throws SQLException;
 	public Long upsertDataCollectionGroup(DataCollectionGroup dataCollectionGroup);
   public Long upsertDataCollectionGrid(DataCollectionGrid dataCollectionGrid);
-  @Deprecated public Long upsertDataCollectionGroupGrid(DataCollectionGroupGrid dataCollectionGroupGrid);
 	public void updateDataCollectionPosition(Position position);
 	public Long insertBeamlineAction(BeamlineAction beamlineAction);
 	public Long upsertRobotAction(RobotAction robotAction);

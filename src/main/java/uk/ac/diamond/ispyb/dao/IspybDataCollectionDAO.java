@@ -61,13 +61,7 @@ public class IspybDataCollectionDAO implements IspybDataCollectionApi {
 
 	@Override
 	public Long upsertDataCollectionGrid(DataCollectionGrid dataCollectionGrid) {
-		return beanTemplateWrapper.callIspybForKey("upsert_dc_grid", Long.class, dataCollectionGrid, "p_id").get();
-	}
-
-  @Deprecated
-	@Override
-	public Long upsertDataCollectionGroupGrid(DataCollectionGroupGrid dataCollectionGroupGrid) {
-		return beanTemplateWrapper.callIspybForKey("upsert_dcg_grid", Long.class, dataCollectionGroupGrid, "p_id").get();
+		return beanTemplateWrapper.callIspybForKey("upsert_dc_grid_v2", Long.class, dataCollectionGrid, "p_id").get();
 	}
 
 	@Override
