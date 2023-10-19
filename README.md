@@ -33,25 +33,25 @@ GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CR
 To build and test the JARs:
 
 ```bash
-mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.host={host} package
+mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.host={host} -Dispyb.port={port} package
 ```
 
 Example:
 
 ```bash
-mvn -Dispyb.url='jdbc:mariadb://localhost:3306' -Dispyb.user=maven -Dispyb.pw='password_here' -Dispyb.host=localhost package
+mvn -Dispyb.url='jdbc:mariadb://localhost:3306' -Dispyb.user=maven -Dispyb.pw='password_here' -Dispyb.host=localhost -Dispyb.port=3306 package
 ```
 
 To run a particular test class:
 
 ```bash
-mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.host={host} -Dtest={TestClassName} test
+mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.host={host} -Dispyb.port={port} -Dtest={TestClassName} test
 ```
 
 To generate javadocs:
 
 ```bash
-mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.host={host} install
+mvn -Dispyb.url={jdbc_url} -Dispyb.user={user} -Dispyb.pw={password} -Dispyb.host={host} -Dispyb.port={port} install
 ```
 
 The javadocs will then appear in a folder called `target/apidocs/`.
