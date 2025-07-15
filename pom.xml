@@ -11,7 +11,7 @@
     <organization>
         <name>Diamond Light Source</name>
     </organization>
-    <version>3.1.0</version>
+    <version>3.1.1</version>
 
     <packaging>bundle</packaging>
 
@@ -94,7 +94,7 @@
                         <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
                         <Export-Package>uk.ac.diamond.ispyb.api</Export-Package>
                         <Require-Bundle>
-                             org.apache.commons.lang3;bundle-version="3.2.0",
+                             org.apache.commons.lang3;bundle-version="3.1.1",
                              org.mariadb.jdbc;bundle-version="2.6.2",
                              org.apache.commons.beanutils;bundle-version="1.8.0"
                         </Require-Bundle>
